@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_lava_eel",
+    "metalness_emissive_roughness": "kfv_lava_eel_mer",
+    "normal": "kfv_lava_eel_normal"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_net"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "S S",
+      " S ",
+      "S S"
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:string"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:fishing_net",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "minecraft:string"
+      }
+    ]
+  }
+}

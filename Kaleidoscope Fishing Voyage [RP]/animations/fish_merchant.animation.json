@@ -1,0 +1,52 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.fish_merchant.move": {
+      "loop": true,
+      "bones": {
+        "leg_l": {
+          "rotation": [
+            "math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed",
+            0,
+            0
+          ]
+        },
+        "leg_r": {
+          "rotation": [
+            "-(math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed)",
+            0,
+            0
+          ]
+        },
+        "arm_l": {
+          "rotation": [
+            "-(math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed) * 0.8",
+            0,
+            0
+          ]
+        },
+        "arm_r": {
+          "rotation": [
+            "-25",
+            0,
+            "8"
+          ]
+        },
+        "basket_f": {
+          "rotation": [
+            "math.sin(query.modified_distance_moved * 38) * 7 * query.modified_move_speed + math.sin(query.life_time * 90) * 1.5",
+            0,
+            0
+          ]
+        },
+        "basket_b": {
+          "rotation": [
+            "math.sin(query.modified_distance_moved * 38) * 7 * query.modified_move_speed + math.sin(query.life_time * 90) * 1.5",
+            0,
+            0
+          ]
+        }
+      }
+    }
+  }
+}

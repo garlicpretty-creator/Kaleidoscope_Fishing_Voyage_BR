@@ -1,0 +1,48 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "pack.name",
+    "description": "pack.description",
+    "uuid": "e1168f1a-83d6-4abc-8f4b-ecb86e0a91dd",
+    "version": [
+      1,
+      4,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      30
+    ]
+  },
+  "metadata": {
+    "product_type": "addon",
+    "authors": [
+      "Garliccute"
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "20185085-6318-4c9c-af87-d048d389f2f7",
+      "version": [
+        1,
+        4,
+        0
+      ]
+    }
+  ],
+  "capabilities": [
+    "pbr"
+  ],
+  "dependencies": [
+    {
+      "uuid": "5e121bf2-1d2d-4da4-be15-cffc5f216d94",
+      "version": [
+        1,
+        4,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_rainbow_trout",
+    "metalness_emissive_roughness": "kfv_rainbow_trout_mer",
+    "normal": "kfv_rainbow_trout_normal"
+  }
+}

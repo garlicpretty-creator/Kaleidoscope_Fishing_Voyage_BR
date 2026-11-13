@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_hemp_line",
+    "metalness_emissive_roughness": "kfv_hemp_line_mer",
+    "normal": "kfv_hemp_line_normal"
+  }
+}

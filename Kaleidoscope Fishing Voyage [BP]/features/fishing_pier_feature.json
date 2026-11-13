@@ -1,0 +1,28 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:structure_template_feature": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_pier_feature"
+    },
+    "structure_name": "kaleidoscope_fishing:fishing_pier",
+    "adjustment_radius": 2,
+    "facing_direction": "random",
+    "constraints": {
+      "unburied": {},
+      "block_intersection": {
+        "block_allowlist": [
+          "minecraft:air",
+          "minecraft:water",
+          "minecraft:flowing_water",
+          "minecraft:seagrass",
+          "minecraft:tall_seagrass",
+          "minecraft:kelp",
+          "minecraft:sand",
+          "minecraft:gravel",
+          "minecraft:clay",
+          "minecraft:dirt"
+        ]
+      }
+    }
+  }
+}

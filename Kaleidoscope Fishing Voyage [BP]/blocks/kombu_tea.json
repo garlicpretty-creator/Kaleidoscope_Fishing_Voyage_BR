@@ -1,0 +1,297 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:kombu_tea",
+      "states": {
+        "kaleidoscope_cookery:cup_count": {
+          "values": {
+            "min": 1,
+            "max": 4
+          }
+        },
+        "kaleidoscope_cookery:tea_count": {
+          "values": {
+            "min": 1,
+            "max": 4
+          }
+        }
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180.0
+        }
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.kombu_tea",
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          4,
+          14
+        ]
+      },
+      "minecraft:material_instances": {
+        "kc_barley_tea_1_1_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_2_1_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_2_2_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_1_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_2_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_3_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_4_1_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_4_2_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_4_3_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_4_4_barley_tea": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_1_barley_tea_r90": {
+          "texture": "kfv_kombu_tea_r90",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_1_barley_tea_r270": {
+          "texture": "kfv_kombu_tea_r270",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_2_barley_tea_r90": {
+          "texture": "kfv_kombu_tea_r90",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_2_barley_tea_r270": {
+          "texture": "kfv_kombu_tea_r270",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_3_barley_tea_r90": {
+          "texture": "kfv_kombu_tea_r90",
+          "render_method": "alpha_test"
+        },
+        "kc_barley_tea_3_3_barley_tea_r270": {
+          "texture": "kfv_kombu_tea_r270",
+          "render_method": "alpha_test"
+        },
+        "*": {
+          "texture": "kfv_kombu_tea",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.1
+      },
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:connection_rule": {
+        "accepts_connections_from": "none"
+      },
+      "kaleidoscope_cookery:cup_stack": {
+        "filled": true,
+        "item": "kaleidoscope_fishing:kombu_tea",
+        "max_count": 4
+      },
+      "minecraft:precipitation_interactions": {
+        "precipitation_behavior": "obstruct_rain"
+      },
+      "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_1_1",
+      "minecraft:destruction_particles": {
+        "texture": "kfv_kombu_tea",
+        "particle_count": 32,
+        "tint_method": "none"
+      },
+      "minecraft:map_color": "#6E8A6A",
+      "minecraft:loot": "loot_tables/kaleidoscope_cookery/blocks/empty.json",
+      "minecraft:light_dampening": 0,
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true
+          }
+        ]
+      },
+      "kaleidoscope_cookery:placeable_food_placement_guard": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 1 && q.block_state('kaleidoscope_cookery:tea_count') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 1 && q.block_state('kaleidoscope_cookery:tea_count') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 1 && q.block_state('kaleidoscope_cookery:tea_count') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 1 && q.block_state('kaleidoscope_cookery:tea_count') == 4",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 2 && q.block_state('kaleidoscope_cookery:tea_count') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_2_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 2 && q.block_state('kaleidoscope_cookery:tea_count') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_2_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 2 && q.block_state('kaleidoscope_cookery:tea_count') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_2_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 2 && q.block_state('kaleidoscope_cookery:tea_count') == 4",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_2_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 3 && q.block_state('kaleidoscope_cookery:tea_count') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_3_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 3 && q.block_state('kaleidoscope_cookery:tea_count') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_3_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 3 && q.block_state('kaleidoscope_cookery:tea_count') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_3_3"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 3 && q.block_state('kaleidoscope_cookery:tea_count') == 4",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_3_3"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 4 && q.block_state('kaleidoscope_cookery:tea_count') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_4_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 4 && q.block_state('kaleidoscope_cookery:tea_count') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_4_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 4 && q.block_state('kaleidoscope_cookery:tea_count') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_4_3"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_cookery:cup_count') == 4 && q.block_state('kaleidoscope_cookery:tea_count') == 4",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_cookery.barley_tea_4_4"
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

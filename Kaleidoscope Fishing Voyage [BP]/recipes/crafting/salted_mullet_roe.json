@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:salted_mullet_roe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:mullet_roe"
+      },
+      {
+        "item": "kaleidoscope_fishing:sea_salt"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:salted_mullet_roe",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:mullet_roe"
+      },
+      {
+        "item": "kaleidoscope_fishing:sea_salt"
+      }
+    ]
+  }
+}

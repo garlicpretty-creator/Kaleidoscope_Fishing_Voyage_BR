@@ -1,0 +1,366 @@
+[
+  {
+    "id": "kaleidoscope_fishing:carp",
+    "key": "carp",
+    "icon": "textures/items/kfv_carp",
+    "sized": true,
+    "group": "freshwater"
+  },
+  {
+    "id": "kaleidoscope_fishing:grass_carp",
+    "key": "grass_carp",
+    "icon": "textures/items/kfv_grass_carp",
+    "sized": true,
+    "group": "freshwater"
+  },
+  {
+    "id": "kaleidoscope_fishing:catfish",
+    "key": "catfish",
+    "icon": "textures/items/kfv_catfish",
+    "sized": true,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:sweetfish",
+    "key": "sweetfish",
+    "icon": "textures/items/kfv_sweetfish",
+    "sized": true,
+    "group": "freshwater"
+  },
+  {
+    "id": "kaleidoscope_fishing:mackerel",
+    "key": "mackerel",
+    "icon": "textures/items/kfv_mackerel",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:yellow_croaker",
+    "key": "yellow_croaker",
+    "icon": "textures/items/kfv_yellow_croaker",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bream",
+    "key": "sea_bream",
+    "icon": "textures/items/kfv_sea_bream",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:hairtail",
+    "key": "hairtail",
+    "icon": "textures/items/kfv_hairtail",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:grouper",
+    "key": "grouper",
+    "icon": "textures/items/kfv_grouper",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:tuna",
+    "key": "tuna",
+    "icon": "textures/items/kfv_tuna",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:anglerfish",
+    "key": "anglerfish",
+    "icon": "textures/items/kfv_anglerfish",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:octopus",
+    "key": "octopus",
+    "icon": "textures/items/kfv_octopus",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:eel",
+    "key": "eel",
+    "icon": "textures/items/kfv_eel",
+    "sized": true,
+    "group": "freshwater"
+  },
+  {
+    "id": "kaleidoscope_fishing:saury",
+    "key": "saury",
+    "icon": "textures/items/kfv_saury",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp",
+    "key": "shrimp",
+    "icon": "textures/items/kfv_shrimp",
+    "sized": false,
+    "group": "freshwater"
+  },
+  {
+    "id": "kaleidoscope_fishing:crab",
+    "key": "crab",
+    "icon": "textures/items/kfv_crab",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:oyster",
+    "key": "oyster",
+    "icon": "textures/items/kfv_oyster",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "minecraft:cod",
+    "key": "vanilla_cod",
+    "icon": "textures/items/fish_raw",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "minecraft:salmon",
+    "key": "vanilla_salmon",
+    "icon": "textures/items/fish_salmon_raw",
+    "sized": true,
+    "group": "freshwater"
+  },
+  {
+    "id": "minecraft:tropical_fish",
+    "key": "vanilla_tropical_fish",
+    "icon": "textures/items/fish_clownfish_raw",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "minecraft:pufferfish",
+    "key": "vanilla_pufferfish",
+    "icon": "textures/items/fish_pufferfish_raw",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:void_eel",
+    "key": "void_eel",
+    "icon": "textures/items/kfv_void_eel",
+    "sized": true,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:purpur_shrimp",
+    "key": "purpur_shrimp",
+    "icon": "textures/items/kfv_purpur_shrimp",
+    "sized": false,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:starfin",
+    "key": "starfin",
+    "icon": "textures/items/kfv_starfin",
+    "sized": true,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:smelt",
+    "key": "smelt",
+    "icon": "textures/items/kfv_smelt",
+    "sized": true,
+    "group": "ice"
+  },
+  {
+    "id": "kaleidoscope_fishing:rainbow_trout",
+    "key": "rainbow_trout",
+    "icon": "textures/items/kfv_rainbow_trout",
+    "sized": true,
+    "group": "ice"
+  },
+  {
+    "id": "kaleidoscope_fishing:arctic_char",
+    "key": "arctic_char",
+    "icon": "textures/items/kfv_arctic_char",
+    "sized": true,
+    "group": "ice"
+  },
+  {
+    "id": "kaleidoscope_fishing:skipjack",
+    "key": "skipjack",
+    "icon": "textures/items/kfv_skipjack",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:blazefin",
+    "key": "blazefin",
+    "icon": "textures/items/kfv_blazefin",
+    "sized": true,
+    "group": "lava"
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_eel",
+    "key": "lava_eel",
+    "icon": "textures/items/kfv_lava_eel",
+    "sized": true,
+    "group": "lava"
+  },
+  {
+    "id": "kaleidoscope_fishing:basalt_crab",
+    "key": "basalt_crab",
+    "icon": "textures/items/kfv_basalt_crab",
+    "sized": false,
+    "group": "lava"
+  },
+  {
+    "id": "kaleidoscope_fishing:magma_koi",
+    "key": "magma_koi",
+    "icon": "textures/items/kfv_magma_koi",
+    "sized": true,
+    "group": "lava"
+  },
+  {
+    "id": "kaleidoscope_fishing:golden_croaker",
+    "key": "golden_croaker",
+    "icon": "textures/items/kfv_golden_croaker",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:moon_jellyfish",
+    "key": "moon_jellyfish",
+    "icon": "textures/items/kfv_moon_jellyfish",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:glow_crab",
+    "key": "glow_crab",
+    "icon": "textures/items/kfv_glow_crab",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_carp",
+    "key": "chorus_carp",
+    "icon": "textures/items/kfv_chorus_carp",
+    "sized": true,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_jellyfish",
+    "key": "chorus_jellyfish",
+    "icon": "textures/items/kfv_chorus_jellyfish",
+    "sized": false,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:ender_angler",
+    "key": "ender_angler",
+    "icon": "textures/items/kfv_ender_angler",
+    "sized": true,
+    "group": "end"
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bass",
+    "key": "sea_bass",
+    "icon": "textures/items/kfv_sea_bass",
+    "sized": true,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:grey_mullet",
+    "key": "grey_mullet",
+    "icon": "textures/items/kfv_grey_mullet",
+    "sized": true,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:loach",
+    "key": "loach",
+    "icon": "textures/items/kfv_loach",
+    "sized": false,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:snakehead",
+    "key": "snakehead",
+    "icon": "textures/items/kfv_snakehead",
+    "sized": true,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:mudskipper",
+    "key": "mudskipper",
+    "icon": "textures/items/kfv_mudskipper",
+    "sized": false,
+    "group": "wetland"
+  },
+  {
+    "id": "kaleidoscope_fishing:flying_fish",
+    "key": "flying_fish",
+    "icon": "textures/items/kfv_flying_fish",
+    "sized": true,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:lobster",
+    "key": "lobster",
+    "icon": "textures/items/kfv_lobster",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:king_crab",
+    "key": "king_crab",
+    "icon": "textures/items/kfv_king_crab",
+    "sized": false,
+    "group": "sea"
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_blindfish",
+    "key": "cave_blindfish",
+    "icon": "textures/items/kfv_cave_blindfish",
+    "sized": true,
+    "group": "cave"
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_crayfish",
+    "key": "cave_crayfish",
+    "icon": "textures/items/kfv_cave_crayfish",
+    "sized": false,
+    "group": "cave"
+  },
+  {
+    "id": "kaleidoscope_fishing:river_lord_catfish",
+    "key": "river_lord_catfish",
+    "icon": "textures/items/kfv_river_lord_catfish",
+    "sized": true,
+    "group": "legend"
+  },
+  {
+    "id": "kaleidoscope_fishing:emperor_tuna",
+    "key": "emperor_tuna",
+    "icon": "textures/items/kfv_emperor_tuna",
+    "sized": true,
+    "group": "legend"
+  },
+  {
+    "id": "kaleidoscope_fishing:frostlake_char",
+    "key": "frostlake_char",
+    "icon": "textures/items/kfv_frostlake_char",
+    "sized": true,
+    "group": "legend"
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_dragon_koi",
+    "key": "lava_dragon_koi",
+    "icon": "textures/items/kfv_lava_dragon_koi",
+    "sized": true,
+    "group": "legend"
+  }
+]

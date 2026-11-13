@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:heron",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_heron"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.heron"
+      },
+      "animations": {
+        "move": "animation.kaleidoscope_fishing.heron.move"
+      },
+      "scripts": {
+        "animate": [
+          "move"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.kfv_heron"
+      ],
+      "spawn_egg": {
+        "texture": "kfv_spawn_egg_heron"
+      }
+    }
+  }
+}

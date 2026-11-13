@@ -1,0 +1,313 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:cormorant",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "kaleidoscope_fishing:ringed": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:carrying": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:diving": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "kaleidoscope_fishing:wild": {
+        "minecraft:tameable": {
+          "probability": 0.34,
+          "tame_items": [
+            "kaleidoscope_fishing:carp",
+            "kaleidoscope_fishing:sweetfish",
+            "kaleidoscope_fishing:mackerel",
+            "kaleidoscope_fishing:yellow_croaker",
+            "kaleidoscope_fishing:saury",
+            "minecraft:cod",
+            "minecraft:salmon"
+          ],
+          "tame_event": {
+            "event": "kaleidoscope_fishing:on_tame",
+            "target": "self"
+          }
+        },
+        "minecraft:behavior.tempt": {
+          "priority": 4,
+          "speed_multiplier": 1.1,
+          "items": [
+            "kaleidoscope_fishing:carp",
+            "kaleidoscope_fishing:sweetfish",
+            "kaleidoscope_fishing:mackerel",
+            "kaleidoscope_fishing:yellow_croaker",
+            "kaleidoscope_fishing:saury",
+            "minecraft:cod",
+            "minecraft:salmon"
+          ]
+        },
+        "minecraft:behavior.avoid_mob_type": {
+          "priority": 3,
+          "entity_types": [
+            {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "player"
+              },
+              "max_dist": 4,
+              "walk_speed_multiplier": 1.0,
+              "sprint_speed_multiplier": 1.2
+            }
+          ]
+        },
+        "minecraft:despawn": {
+          "despawn_from_distance": {
+            "min_distance": 48,
+            "max_distance": 96
+          }
+        }
+      },
+      "kaleidoscope_fishing:tamed": {
+        "minecraft:is_tamed": {},
+        "minecraft:type_family": {
+          "family": [
+            "kfv_cormorant",
+            "kfv_cormorant_tamed",
+            "mob"
+          ]
+        },
+        "minecraft:behavior.follow_owner": {
+          "priority": 4,
+          "speed_multiplier": 1.1,
+          "start_distance": 8,
+          "stop_distance": 2
+        },
+        "minecraft:sittable": {},
+        "minecraft:behavior.stay_while_sitting": {
+          "priority": 2
+        },
+        "minecraft:healable": {
+          "items": [
+            {
+              "item": "kaleidoscope_fishing:carp",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:sweetfish",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:mackerel",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:yellow_croaker",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:saury",
+              "heal_amount": 4
+            },
+            {
+              "item": "minecraft:cod",
+              "heal_amount": 4
+            },
+            {
+              "item": "minecraft:salmon",
+              "heal_amount": 4
+            }
+          ]
+        },
+        "minecraft:interact": {
+          "interactions": [
+            {
+              "on_interact": {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "hand",
+                      "value": "kaleidoscope_fishing:cormorant_ring"
+                    },
+                    {
+                      "test": "bool_property",
+                      "domain": "kaleidoscope_fishing:ringed",
+                      "value": false
+                    }
+                  ]
+                },
+                "event": "kaleidoscope_fishing:put_ring",
+                "target": "self"
+              },
+              "use_item": true,
+              "play_sounds": "armor.equip_generic",
+              "interact_text": "action.interact.kfv_put_ring"
+            },
+            {
+              "on_interact": {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "hand",
+                      "value": "minecraft:shears"
+                    },
+                    {
+                      "test": "bool_property",
+                      "domain": "kaleidoscope_fishing:ringed",
+                      "value": true
+                    }
+                  ]
+                },
+                "event": "kaleidoscope_fishing:remove_ring",
+                "target": "self"
+              },
+              "hurt_item": 1,
+              "play_sounds": "shear",
+              "interact_text": "action.interact.kfv_remove_ring",
+              "spawn_items": {
+                "table": "loot_tables/kaleidoscope_fishing/entities/cormorant_ring.json"
+              }
+            }
+          ]
+        }
+      },
+      "kaleidoscope_fishing:diving": {
+        "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": false
+        },
+        "minecraft:movement": {
+          "value": 0
+        }
+      }
+    },
+    "components": {
+      "minecraft:health": {
+        "value": 10,
+        "max": 10
+      },
+      "minecraft:collision_box": {
+        "width": 0.5,
+        "height": 0.9
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:movement": {
+        "value": 0.25
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "can_swim": true,
+        "avoid_damage_blocks": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:nameable": {},
+      "minecraft:leashable": {
+        "soft_distance": 4,
+        "hard_distance": 6,
+        "max_distance": 10
+      },
+      "minecraft:breathable": {
+        "total_supply": 60,
+        "suffocate_time": 0,
+        "breathes_water": true
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/kaleidoscope_fishing/entities/cormorant.json"
+      },
+      "minecraft:type_family": {
+        "family": [
+          "kfv_cormorant",
+          "mob"
+        ]
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.panic": {
+        "priority": 1,
+        "speed_multiplier": 1.3
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 6,
+        "speed_multiplier": 0.8
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 7,
+        "look_distance": 6
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 8
+      },
+      "minecraft:ambient_sound_interval": {
+        "value": 10,
+        "range": 14,
+        "event_name": "ambient"
+      },
+      "minecraft:conditional_bandwidth_optimization": {}
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:wild"
+          ]
+        }
+      },
+      "kaleidoscope_fishing:on_tame": {
+        "remove": {
+          "component_groups": [
+            "kaleidoscope_fishing:wild"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:tamed"
+          ]
+        }
+      },
+      "kaleidoscope_fishing:dive": {
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:diving"
+          ]
+        }
+      },
+      "kaleidoscope_fishing:surface": {
+        "remove": {
+          "component_groups": [
+            "kaleidoscope_fishing:diving"
+          ]
+        }
+      },
+      "kaleidoscope_fishing:put_ring": {
+        "set_property": {
+          "kaleidoscope_fishing:ringed": true
+        }
+      },
+      "kaleidoscope_fishing:remove_ring": {
+        "set_property": {
+          "kaleidoscope_fishing:ringed": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:starry_spring_rule",
+      "places_feature": "kaleidoscope_fishing:starry_spring_feature"
+    },
+    "conditions": {
+      "placement_pass": "surface_pass",
+      "minecraft:biome_filter": [
+        {
+          "test": "has_biome_tag",
+          "operator": "==",
+          "value": "the_end"
+        }
+      ]
+    },
+    "distribution": {
+      "iterations": "(variable.originx * variable.originx + variable.originz * variable.originz) > 1000000 ? 1 : 0",
+      "scatter_chance": {
+        "numerator": 1,
+        "denominator": 24
+      },
+      "x": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          15
+        ]
+      },
+      "y": "query.heightmap(variable.worldx, variable.worldz) - 3",
+      "z": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          15
+        ]
+      }
+    }
+  }
+}

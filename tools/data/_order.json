@@ -1,0 +1,114 @@
+[
+  {
+    "name": "ADDON_VERSION",
+    "ascii": true
+  },
+  {
+    "name": "KC_RECIPES",
+    "ascii": true
+  },
+  {
+    "name": "STOCKPOT_BASES",
+    "ascii": true
+  },
+  {
+    "name": "FOOD_EFFECTS",
+    "ascii": true
+  },
+  {
+    "name": "CATCHES",
+    "ascii": true
+  },
+  {
+    "name": "RODS",
+    "ascii": true
+  },
+  {
+    "name": "PARTS",
+    "ascii": true
+  },
+  {
+    "name": "LINE_STYLE",
+    "ascii": true
+  },
+  {
+    "name": "DRYING",
+    "ascii": true
+  },
+  {
+    "name": "TIP_UP_LIMIT",
+    "ascii": true
+  },
+  {
+    "name": "MERCHANT_PRICES",
+    "ascii": true
+  },
+  {
+    "name": "MERCHANT_BUDGET",
+    "ascii": true
+  },
+  {
+    "name": "BUILD_PROFILE",
+    "ascii": true
+  },
+  {
+    "name": "TRAP_BAITS",
+    "ascii": true
+  },
+  {
+    "name": "BASKET_ITEMS",
+    "ascii": true
+  },
+  {
+    "name": "CLEANING",
+    "ascii": true
+  },
+  {
+    "name": "TANK_FISH",
+    "ascii": true
+  },
+  {
+    "name": "FISH_ALIAS",
+    "ascii": true
+  },
+  {
+    "name": "RECIPE_HINTS",
+    "ascii": true
+  },
+  {
+    "name": "FEASTS",
+    "ascii": true
+  },
+  {
+    "name": "JOURNAL_SPECIES",
+    "ascii": true
+  },
+  {
+    "name": "SAUCE_FISH",
+    "ascii": true
+  },
+  {
+    "name": "LEGENDS",
+    "ascii": true
+  },
+  {
+    "name": "WANT_LIST",
+    "ascii": true
+  },
+  {
+    "name": "KEEPSAKES",
+    "ascii": true
+  },
+  {
+    "name": "PRINT_BASE",
+    "ascii": true
+  },
+  {
+    "name": "PRINT_EXTRA",
+    "ascii": true
+  },
+  {
+    "name": "GUIDEBOOK_JSON",
+    "ascii": true
+  }
+]

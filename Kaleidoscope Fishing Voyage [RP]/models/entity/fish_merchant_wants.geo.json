@@ -1,0 +1,140 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.kaleidoscope_fishing.fish_merchant_wants",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 3,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "cubes": []
+        },
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "parent": "root",
+          "cubes": []
+        },
+        {
+          "name": "pole",
+          "pivot": [
+            -6.5,
+            24.5,
+            0
+          ],
+          "parent": "body",
+          "cubes": []
+        },
+        {
+          "name": "want_a",
+          "pivot": [
+            -6.5,
+            24,
+            -5.0
+          ],
+          "parent": "pole",
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                16.5,
+                -8.5
+              ],
+              "size": [
+                0.0,
+                7.0,
+                7.0
+              ],
+              "uv": {
+                "east": {
+                  "uv": [
+                    0.0,
+                    0.0
+                  ],
+                  "uv_size": [
+                    16.0,
+                    16.0
+                  ]
+                },
+                "west": {
+                  "uv": [
+                    16.0,
+                    0.0
+                  ],
+                  "uv_size": [
+                    -16.0,
+                    16.0
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "want_b",
+          "pivot": [
+            -6.5,
+            24,
+            5.0
+          ],
+          "parent": "pole",
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                16.5,
+                1.5
+              ],
+              "size": [
+                0.0,
+                7.0,
+                7.0
+              ],
+              "uv": {
+                "east": {
+                  "uv": [
+                    0.0,
+                    0.0
+                  ],
+                  "uv_size": [
+                    16.0,
+                    16.0
+                  ]
+                },
+                "west": {
+                  "uv": [
+                    16.0,
+                    0.0
+                  ],
+                  "uv_size": [
+                    -16.0,
+                    16.0
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

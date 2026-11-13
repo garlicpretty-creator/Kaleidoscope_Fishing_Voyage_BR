@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_dim_sum_steamer",
+    "metalness_emissive_roughness": "kfv_dim_sum_steamer_mer",
+    "normal": "kfv_dim_sum_steamer_normal"
+  }
+}

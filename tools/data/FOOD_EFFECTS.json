@@ -1,0 +1,391 @@
+{
+  "kaleidoscope_fishing:lava_eel": [
+    {
+      "effect": "fire_resistance",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:blazefin": [
+    {
+      "effect": "fire_resistance",
+      "duration": 400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:magma_koi": [
+    {
+      "effect": "fire_resistance",
+      "duration": 1200,
+      "amplifier": 0
+    },
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:tuna_sashimi": [
+    {
+      "effect": "night_vision",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:oyster_omelette": [
+    {
+      "effect": "saturation",
+      "duration": 2,
+      "amplifier": 1
+    }
+  ],
+  "kaleidoscope_fishing:salt_pepper_shrimp": [
+    {
+      "effect": "speed",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:spicy_clams": [
+    {
+      "effect": "haste",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:seafood_congee": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:steamed_sea_bream": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:salt_grilled_sweetfish": [
+    {
+      "effect": "saturation",
+      "duration": 2,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:steamed_grouper": [
+    {
+      "effect": "resistance",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:anglerfish_hot_pot": [
+    {
+      "effect": "conduit_power",
+      "duration": 6000,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:fish_and_chips": [
+    {
+      "effect": "absorption",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:paella": [
+    {
+      "effect": "health_boost",
+      "duration": 2400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:seafood_hot_pot": [
+    {
+      "effect": "water_breathing",
+      "duration": 3600,
+      "amplifier": 0
+    },
+    {
+      "effect": "night_vision",
+      "duration": 3600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:dried_shrimp_congee": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:pickled_cabbage_fish": [
+    {
+      "effect": "fire_resistance",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:sashimi_boat": [
+    {
+      "effect": "water_breathing",
+      "duration": 2400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:seafood_platter": [
+    {
+      "effect": "absorption",
+      "duration": 2400,
+      "amplifier": 1
+    }
+  ],
+  "kaleidoscope_fishing:sushi_platter": [
+    {
+      "effect": "water_breathing",
+      "duration": 1800,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:whole_tuna": [
+    {
+      "effect": "strength",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:seafood_feast_pot": [
+    {
+      "effect": "night_vision",
+      "duration": 2400,
+      "amplifier": 0
+    },
+    {
+      "effect": "water_breathing",
+      "duration": 2400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:fish_skewer_grill": [
+    {
+      "effect": "fire_resistance",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:dim_sum_steamer": [
+    {
+      "effect": "regeneration",
+      "duration": 300,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:grilled_fish_plank": [
+    {
+      "effect": "strength",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:temaki_stand": [
+    {
+      "effect": "water_breathing",
+      "duration": 1800,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:fish_scale_jelly": [
+    {
+      "effect": "resistance",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:roe_don": [
+    {
+      "effect": "night_vision",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:lava_eel_don": [
+    {
+      "effect": "fire_resistance",
+      "duration": 2400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:blazefin_soup": [
+    {
+      "effect": "fire_resistance",
+      "duration": 3600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:basalt_crab_pot": [
+    {
+      "effect": "resistance",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:salmon_ochazuke": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:unagi_don": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:fried_calamari": [
+    {
+      "effect": "speed",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:nori_egg_soup": [
+    {
+      "effect": "water_breathing",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:kombu_tea": [
+    {
+      "effect": "water_breathing",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:oden": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:smelt_tempura": [
+    {
+      "effect": "haste",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:char_rice": [
+    {
+      "effect": "resistance",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:salted_fish_fried_rice": [
+    {
+      "effect": "strength",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:grilled_dried_squid": [
+    {
+      "effect": "speed",
+      "duration": 400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:starfin_soup": [
+    {
+      "effect": "slow_falling",
+      "duration": 2400,
+      "amplifier": 0
+    },
+    {
+      "effect": "night_vision",
+      "duration": 2400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:steamed_purpur_shrimp": [
+    {
+      "effect": "slow_falling",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:oden_pot": [
+    {
+      "effect": "regeneration",
+      "duration": 300,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:ice_catch_platter": [
+    {
+      "effect": "haste",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:void_eel": [
+    {
+      "effect": "slow_falling",
+      "duration": 300,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:starfin": [
+    {
+      "effect": "slow_falling",
+      "duration": 600,
+      "amplifier": 0
+    },
+    {
+      "effect": "night_vision",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:void_seafood_soup": [
+    {
+      "effect": "slow_falling",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:sea_bass_soup": [
+    {
+      "effect": "regeneration",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:lobster_congee": [
+    {
+      "effect": "regeneration",
+      "duration": 300,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:crab_leg_hot_pot": [
+    {
+      "effect": "resistance",
+      "duration": 400,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:blindfish_clear_soup": [
+    {
+      "effect": "night_vision",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ]
+}

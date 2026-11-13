@@ -1,0 +1,2427 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_print",
+      "states": {
+        "kaleidoscope_fishing:fish": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "kaleidoscope_fishing:fish_bank": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "kaleidoscope_fishing:tier": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180.0
+        }
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.fish_print",
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_print",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_print_frame_wood",
+          "render_method": "opaque"
+        },
+        "paper": {
+          "texture": "kfv_print_paper",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          2,
+          6
+        ],
+        "size": [
+          14,
+          12,
+          2
+        ]
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.3
+      },
+      "minecraft:map_color": "#EEE4CC",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/fish_print.json",
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true
+          }
+        ]
+      },
+      "minecraft:connection_rule": {
+        "accepts_connections_from": "none"
+      },
+      "kaleidoscope_fishing:fish_print": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 1 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 1 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 1 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 1 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_carp_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 2 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grass_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 2 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grass_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 2 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grass_carp",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 2 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grass_carp_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 3 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 3 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 3 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 3 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_catfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 4 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sweetfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 4 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sweetfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 4 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sweetfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 4 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sweetfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 5 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mackerel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 5 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mackerel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 5 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mackerel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 5 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mackerel_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 6 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_yellow_croaker",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 6 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_yellow_croaker",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 6 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_yellow_croaker",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 6 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_yellow_croaker_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 7 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bream",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 7 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bream",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 7 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bream",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 7 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bream_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 8 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tropical_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 8 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tropical_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 8 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tropical_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 8 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tropical_fish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 9 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 9 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 9 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 9 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_tuna_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 10 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 10 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 10 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 10 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_eel_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 11 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_hairtail",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 11 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_hairtail",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 11 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_hairtail",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 11 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_hairtail_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 12 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grouper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 12 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grouper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 12 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grouper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 12 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grouper_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 13 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cod",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 13 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cod",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 13 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cod",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 13 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cod_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 14 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_salmon",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 14 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_salmon",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 14 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_salmon",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 14 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_salmon_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 15 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_saury",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 15 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_saury",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 15 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_saury",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 15 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_saury_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 16 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_anglerfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 16 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_anglerfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 16 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_anglerfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 16 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_anglerfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 17 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_octopus",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 17 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_octopus",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 17 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_octopus",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 17 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_octopus_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 18 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_pufferfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 18 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_pufferfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 18 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_pufferfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 18 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_pufferfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 19 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_skipjack",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 19 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_skipjack",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 19 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_skipjack",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 19 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_skipjack_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 20 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_smelt",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 20 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_smelt",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 20 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_smelt",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 20 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_smelt_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 21 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_rainbow_trout",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 21 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_rainbow_trout",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 21 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_rainbow_trout",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 21 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_rainbow_trout_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 22 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_arctic_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 22 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_arctic_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 22 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_arctic_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 22 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_arctic_char_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 23 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_void_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 23 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_void_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 23 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_void_eel",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 23 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_void_eel_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 24 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_starfin",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 24 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_starfin",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 24 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_starfin",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 24 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_starfin_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bass",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bass",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bass",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_sea_bass_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grey_mullet",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grey_mullet",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grey_mullet",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_grey_mullet_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_loach",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_loach",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_loach",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_loach_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 44 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_snakehead",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 44 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_snakehead",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 44 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_snakehead",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 44 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_snakehead_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 45 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mudskipper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 45 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mudskipper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 45 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mudskipper",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 45 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_mudskipper_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_flying_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_flying_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_flying_fish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_flying_fish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lobster",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lobster",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lobster",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lobster_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_king_crab",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_king_crab",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_king_crab",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_king_crab_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_blindfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_blindfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_blindfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_blindfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 50 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_crayfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 50 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_crayfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 50 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_crayfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 50 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_cave_crayfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 51 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_river_lord_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 51 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_river_lord_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 51 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_river_lord_catfish",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 51 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_river_lord_catfish_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 52 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_emperor_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 52 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_emperor_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 52 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_emperor_tuna",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 52 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_emperor_tuna_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 53 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_frostlake_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 53 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_frostlake_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 53 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_frostlake_char",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 53 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_frostlake_char_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 54 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lava_dragon_koi",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 54 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lava_dragon_koi",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 54 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lava_dragon_koi",
+              "render_method": "opaque"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 54 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "opaque"
+            },
+            "paper": {
+              "texture": "kfv_print_lava_dragon_koi_seal",
+              "render_method": "opaque"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

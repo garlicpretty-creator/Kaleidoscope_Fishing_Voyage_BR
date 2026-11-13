@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tackle_rack"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "B B",
+      "SSS",
+      "B B"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bamboo"
+      },
+      "S": {
+        "item": "minecraft:stick"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:tackle_rack",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "minecraft:stick"
+      }
+    ]
+  }
+}

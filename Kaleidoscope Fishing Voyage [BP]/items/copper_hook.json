@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:copper_hook",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.tools"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.copper_hook"
+      },
+      "minecraft:icon": "kfv_copper_hook",
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

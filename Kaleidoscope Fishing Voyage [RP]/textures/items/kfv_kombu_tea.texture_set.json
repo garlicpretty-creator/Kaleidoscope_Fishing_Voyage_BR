@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_kombu_tea",
+    "metalness_emissive_roughness": "kfv_kombu_tea_mer",
+    "normal": "kfv_kombu_tea_normal"
+  }
+}

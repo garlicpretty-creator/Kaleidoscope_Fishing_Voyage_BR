@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_oden_pot",
+    "metalness_emissive_roughness": "kfv_oden_pot_mer",
+    "heightmap": "kfv_oden_pot_height"
+  }
+}

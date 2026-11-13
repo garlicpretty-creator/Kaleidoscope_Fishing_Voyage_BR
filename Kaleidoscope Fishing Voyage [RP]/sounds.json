@@ -1,0 +1,90 @@
+{
+  "entity_sounds": {
+    "entities": {
+      "kaleidoscope_fishing:seagull": {
+        "volume": 0.8,
+        "pitch": [
+          0.9,
+          1.15
+        ],
+        "events": {
+          "ambient": "kaleidoscope_fishing.gull",
+          "hurt": {
+            "sound": "kaleidoscope_fishing.gull",
+            "pitch": [
+              1.3,
+              1.5
+            ]
+          },
+          "death": {
+            "sound": "kaleidoscope_fishing.gull",
+            "pitch": [
+              0.7,
+              0.8
+            ]
+          }
+        }
+      },
+      "kaleidoscope_fishing:cormorant": {
+        "volume": 0.7,
+        "pitch": [
+          0.85,
+          1.1
+        ],
+        "events": {
+          "ambient": "kaleidoscope_fishing.cormorant",
+          "hurt": {
+            "sound": "kaleidoscope_fishing.cormorant",
+            "pitch": [
+              1.2,
+              1.4
+            ]
+          },
+          "death": {
+            "sound": "kaleidoscope_fishing.cormorant",
+            "pitch": [
+              0.7,
+              0.8
+            ]
+          }
+        }
+      },
+      "kaleidoscope_fishing:fish_merchant": {
+        "volume": 0.8,
+        "pitch": [
+          0.95,
+          1.05
+        ],
+        "events": {
+          "ambient": "mob.wanderingtrader.idle",
+          "hurt": "mob.wanderingtrader.hurt",
+          "death": "mob.wanderingtrader.death"
+        }
+      },
+      "kaleidoscope_fishing:heron": {
+        "volume": 0.8,
+        "pitch": [
+          0.9,
+          1.1
+        ],
+        "events": {
+          "ambient": "kaleidoscope_fishing.heron",
+          "hurt": {
+            "sound": "kaleidoscope_fishing.heron",
+            "pitch": [
+              1.3,
+              1.5
+            ]
+          },
+          "death": {
+            "sound": "kaleidoscope_fishing.heron",
+            "pitch": [
+              0.7,
+              0.8
+            ]
+          }
+        }
+      }
+    }
+  }
+}

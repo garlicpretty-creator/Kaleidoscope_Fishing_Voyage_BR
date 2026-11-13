@@ -1,0 +1,18 @@
+[
+  {
+    "filled": "kaleidoscope_fishing:fish_stock_bucket",
+    "base": "kaleidoscope_fishing:fish_stock",
+    "empty": "minecraft:bucket",
+    "visualBase": "kaleidoscope_fishing:stockpot_fish_stock",
+    "visualCooking": "kaleidoscope_fishing:stockpot_fish_stock_cooking",
+    "visualFinished": "kaleidoscope_fishing:stockpot_fish_stock_cooking"
+  },
+  {
+    "filled": "kaleidoscope_fishing:dashi_bucket",
+    "base": "kaleidoscope_fishing:dashi",
+    "empty": "minecraft:bucket",
+    "visualBase": "kaleidoscope_fishing:stockpot_dashi",
+    "visualCooking": "kaleidoscope_fishing:stockpot_dashi_cooking",
+    "visualFinished": "kaleidoscope_fishing:stockpot_dashi_cooking"
+  }
+]

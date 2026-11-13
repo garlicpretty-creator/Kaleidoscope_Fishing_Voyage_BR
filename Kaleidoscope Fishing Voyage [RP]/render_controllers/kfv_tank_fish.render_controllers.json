@@ -1,0 +1,73 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.kaleidoscope_fishing.tank_fish": {
+      "arrays": {
+        "geometries": {
+          "Array.geos": [
+            "Geometry.carp",
+            "Geometry.grass_carp",
+            "Geometry.catfish",
+            "Geometry.sweetfish",
+            "Geometry.mackerel",
+            "Geometry.yellow_croaker",
+            "Geometry.sea_bream",
+            "Geometry.tropical_fish",
+            "Geometry.tuna",
+            "Geometry.eel",
+            "Geometry.hairtail",
+            "Geometry.grouper",
+            "Geometry.cod",
+            "Geometry.salmon",
+            "Geometry.saury",
+            "Geometry.anglerfish",
+            "Geometry.octopus",
+            "Geometry.pufferfish",
+            "Geometry.skipjack",
+            "Geometry.smelt",
+            "Geometry.rainbow_trout",
+            "Geometry.arctic_char",
+            "Geometry.void_eel",
+            "Geometry.starfin",
+            "Geometry.golden_croaker",
+            "Geometry.chorus_carp",
+            "Geometry.ender_angler",
+            "Geometry.moon_jellyfish",
+            "Geometry.chorus_jellyfish",
+            "Geometry.glow_crab",
+            "Geometry.crab",
+            "Geometry.sea_bass",
+            "Geometry.grey_mullet",
+            "Geometry.loach",
+            "Geometry.snakehead",
+            "Geometry.mudskipper",
+            "Geometry.flying_fish",
+            "Geometry.lobster",
+            "Geometry.king_crab",
+            "Geometry.cave_blindfish",
+            "Geometry.cave_crayfish",
+            "Geometry.river_lord_catfish",
+            "Geometry.emperor_tuna",
+            "Geometry.frostlake_char",
+            "Geometry.lava_dragon_koi"
+          ]
+        }
+      },
+      "geometry": "Array.geos[q.property('kaleidoscope_fishing:species')]",
+      "materials": [
+        {
+          "*": "Material.default"
+        },
+        {
+          "bell": "Material.blend"
+        },
+        {
+          "jt*": "Material.blend"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ]
+    }
+  }
+}

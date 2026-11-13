@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_steamed_lobster",
+    "metalness_emissive_roughness": "kfv_steamed_lobster_mer",
+    "normal": "kfv_steamed_lobster_normal"
+  }
+}

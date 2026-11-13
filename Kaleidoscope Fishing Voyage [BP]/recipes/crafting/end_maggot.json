@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:end_maggot"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:chorus_fruit"
+      },
+      {
+        "item": "minecraft:rotten_flesh"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:end_maggot",
+      "count": 4
+    },
+    "unlock": [
+      {
+        "item": "minecraft:chorus_fruit"
+      },
+      {
+        "item": "minecraft:rotten_flesh"
+      }
+    ]
+  }
+}

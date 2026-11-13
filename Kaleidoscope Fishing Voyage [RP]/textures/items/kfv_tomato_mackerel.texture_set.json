@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_tomato_mackerel",
+    "metalness_emissive_roughness": "kfv_tomato_mackerel_mer",
+    "normal": "kfv_tomato_mackerel_normal"
+  }
+}

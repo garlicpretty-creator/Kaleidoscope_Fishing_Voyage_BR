@@ -1,0 +1,49 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:sushi_platter"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:nigiri_sushi"
+      },
+      {
+        "item": "kaleidoscope_fishing:nigiri_sushi"
+      },
+      {
+        "item": "kaleidoscope_fishing:nigiri_sushi"
+      },
+      {
+        "item": "kaleidoscope_fishing:maki_roll"
+      },
+      {
+        "item": "kaleidoscope_fishing:maki_roll"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_roe"
+      },
+      {
+        "tag": "minecraft:wooden_slabs"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:sushi_platter",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:nigiri_sushi"
+      },
+      {
+        "item": "kaleidoscope_fishing:maki_roll"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_roe"
+      }
+    ]
+  }
+}

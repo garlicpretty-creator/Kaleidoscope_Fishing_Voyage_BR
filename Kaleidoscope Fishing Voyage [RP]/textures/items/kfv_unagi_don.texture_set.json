@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_unagi_don",
+    "metalness_emissive_roughness": "kfv_unagi_don_mer",
+    "normal": "kfv_unagi_don_normal"
+  }
+}

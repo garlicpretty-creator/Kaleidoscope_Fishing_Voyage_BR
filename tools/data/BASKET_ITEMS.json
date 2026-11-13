@@ -1,0 +1,257 @@
+[
+  {
+    "id": "kaleidoscope_fishing:carp",
+    "nameKey": "kaleidoscope_fishing.name.carp",
+    "icon": "textures/items/kfv_carp"
+  },
+  {
+    "id": "kaleidoscope_fishing:grass_carp",
+    "nameKey": "kaleidoscope_fishing.name.grass_carp",
+    "icon": "textures/items/kfv_grass_carp"
+  },
+  {
+    "id": "kaleidoscope_fishing:catfish",
+    "nameKey": "kaleidoscope_fishing.name.catfish",
+    "icon": "textures/items/kfv_catfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:mackerel",
+    "nameKey": "kaleidoscope_fishing.name.mackerel",
+    "icon": "textures/items/kfv_mackerel"
+  },
+  {
+    "id": "kaleidoscope_fishing:yellow_croaker",
+    "nameKey": "kaleidoscope_fishing.name.yellow_croaker",
+    "icon": "textures/items/kfv_yellow_croaker"
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bream",
+    "nameKey": "kaleidoscope_fishing.name.sea_bream",
+    "icon": "textures/items/kfv_sea_bream"
+  },
+  {
+    "id": "kaleidoscope_fishing:tuna",
+    "nameKey": "kaleidoscope_fishing.name.tuna",
+    "icon": "textures/items/kfv_tuna"
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp",
+    "nameKey": "kaleidoscope_fishing.name.shrimp",
+    "icon": "textures/items/kfv_shrimp"
+  },
+  {
+    "id": "kaleidoscope_fishing:crab",
+    "nameKey": "kaleidoscope_fishing.name.crab",
+    "icon": "textures/items/kfv_crab"
+  },
+  {
+    "id": "kaleidoscope_fishing:clam",
+    "nameKey": "kaleidoscope_fishing.name.clam",
+    "icon": "textures/items/kfv_clam"
+  },
+  {
+    "id": "kaleidoscope_fishing:oyster",
+    "nameKey": "kaleidoscope_fishing.name.oyster",
+    "icon": "textures/items/kfv_oyster"
+  },
+  {
+    "id": "kaleidoscope_fishing:sweetfish",
+    "nameKey": "kaleidoscope_fishing.name.sweetfish",
+    "icon": "textures/items/kfv_sweetfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:hairtail",
+    "nameKey": "kaleidoscope_fishing.name.hairtail",
+    "icon": "textures/items/kfv_hairtail"
+  },
+  {
+    "id": "kaleidoscope_fishing:grouper",
+    "nameKey": "kaleidoscope_fishing.name.grouper",
+    "icon": "textures/items/kfv_grouper"
+  },
+  {
+    "id": "kaleidoscope_fishing:anglerfish",
+    "nameKey": "kaleidoscope_fishing.name.anglerfish",
+    "icon": "textures/items/kfv_anglerfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_eel",
+    "nameKey": "kaleidoscope_fishing.name.lava_eel",
+    "icon": "textures/items/kfv_lava_eel"
+  },
+  {
+    "id": "kaleidoscope_fishing:blazefin",
+    "nameKey": "kaleidoscope_fishing.name.blazefin",
+    "icon": "textures/items/kfv_blazefin"
+  },
+  {
+    "id": "kaleidoscope_fishing:magma_koi",
+    "nameKey": "kaleidoscope_fishing.name.magma_koi",
+    "icon": "textures/items/kfv_magma_koi"
+  },
+  {
+    "id": "kaleidoscope_fishing:basalt_crab",
+    "nameKey": "kaleidoscope_fishing.name.basalt_crab",
+    "icon": "textures/items/kfv_basalt_crab"
+  },
+  {
+    "id": "kaleidoscope_fishing:octopus",
+    "nameKey": "kaleidoscope_fishing.name.octopus",
+    "icon": "textures/items/kfv_octopus"
+  },
+  {
+    "id": "kaleidoscope_fishing:eel",
+    "nameKey": "kaleidoscope_fishing.name.eel",
+    "icon": "textures/items/kfv_eel"
+  },
+  {
+    "id": "kaleidoscope_fishing:saury",
+    "nameKey": "kaleidoscope_fishing.name.saury",
+    "icon": "textures/items/kfv_saury"
+  },
+  {
+    "id": "kaleidoscope_fishing:squid_tube",
+    "nameKey": "kaleidoscope_fishing.name.squid_tube",
+    "icon": "textures/items/kfv_squid_tube"
+  },
+  {
+    "id": "kaleidoscope_fishing:raw_laver",
+    "nameKey": "kaleidoscope_fishing.name.raw_laver",
+    "icon": "textures/items/kfv_raw_laver"
+  },
+  {
+    "id": "kaleidoscope_fishing:skipjack",
+    "nameKey": "kaleidoscope_fishing.name.skipjack",
+    "icon": "textures/items/kfv_skipjack"
+  },
+  {
+    "id": "kaleidoscope_fishing:smelt",
+    "nameKey": "kaleidoscope_fishing.name.smelt",
+    "icon": "textures/items/kfv_smelt"
+  },
+  {
+    "id": "kaleidoscope_fishing:rainbow_trout",
+    "nameKey": "kaleidoscope_fishing.name.rainbow_trout",
+    "icon": "textures/items/kfv_rainbow_trout"
+  },
+  {
+    "id": "kaleidoscope_fishing:arctic_char",
+    "nameKey": "kaleidoscope_fishing.name.arctic_char",
+    "icon": "textures/items/kfv_arctic_char"
+  },
+  {
+    "id": "kaleidoscope_fishing:void_eel",
+    "nameKey": "kaleidoscope_fishing.name.void_eel",
+    "icon": "textures/items/kfv_void_eel"
+  },
+  {
+    "id": "kaleidoscope_fishing:purpur_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.purpur_shrimp",
+    "icon": "textures/items/kfv_purpur_shrimp"
+  },
+  {
+    "id": "kaleidoscope_fishing:starfin",
+    "nameKey": "kaleidoscope_fishing.name.starfin",
+    "icon": "textures/items/kfv_starfin"
+  },
+  {
+    "id": "minecraft:cod",
+    "nameKey": "kaleidoscope_fishing.name.vanilla_cod",
+    "icon": "textures/items/fish_raw"
+  },
+  {
+    "id": "minecraft:salmon",
+    "nameKey": "kaleidoscope_fishing.name.vanilla_salmon",
+    "icon": "textures/items/fish_salmon_raw"
+  },
+  {
+    "id": "minecraft:tropical_fish",
+    "nameKey": "kaleidoscope_fishing.name.vanilla_tropical_fish",
+    "icon": "textures/items/fish_clownfish_raw"
+  },
+  {
+    "id": "minecraft:pufferfish",
+    "nameKey": "kaleidoscope_fishing.name.vanilla_pufferfish",
+    "icon": "textures/items/fish_pufferfish_raw"
+  },
+  {
+    "id": "kaleidoscope_fishing:golden_croaker",
+    "nameKey": "kaleidoscope_fishing.name.golden_croaker",
+    "icon": "textures/items/kfv_golden_croaker"
+  },
+  {
+    "id": "kaleidoscope_fishing:moon_jellyfish",
+    "nameKey": "kaleidoscope_fishing.name.moon_jellyfish",
+    "icon": "textures/items/kfv_moon_jellyfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:glow_crab",
+    "nameKey": "kaleidoscope_fishing.name.glow_crab",
+    "icon": "textures/items/kfv_glow_crab"
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_carp",
+    "nameKey": "kaleidoscope_fishing.name.chorus_carp",
+    "icon": "textures/items/kfv_chorus_carp"
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_jellyfish",
+    "nameKey": "kaleidoscope_fishing.name.chorus_jellyfish",
+    "icon": "textures/items/kfv_chorus_jellyfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:ender_angler",
+    "nameKey": "kaleidoscope_fishing.name.ender_angler",
+    "icon": "textures/items/kfv_ender_angler"
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bass",
+    "nameKey": "kaleidoscope_fishing.name.sea_bass",
+    "icon": "textures/items/kfv_sea_bass"
+  },
+  {
+    "id": "kaleidoscope_fishing:grey_mullet",
+    "nameKey": "kaleidoscope_fishing.name.grey_mullet",
+    "icon": "textures/items/kfv_grey_mullet"
+  },
+  {
+    "id": "kaleidoscope_fishing:loach",
+    "nameKey": "kaleidoscope_fishing.name.loach",
+    "icon": "textures/items/kfv_loach"
+  },
+  {
+    "id": "kaleidoscope_fishing:snakehead",
+    "nameKey": "kaleidoscope_fishing.name.snakehead",
+    "icon": "textures/items/kfv_snakehead"
+  },
+  {
+    "id": "kaleidoscope_fishing:mudskipper",
+    "nameKey": "kaleidoscope_fishing.name.mudskipper",
+    "icon": "textures/items/kfv_mudskipper"
+  },
+  {
+    "id": "kaleidoscope_fishing:flying_fish",
+    "nameKey": "kaleidoscope_fishing.name.flying_fish",
+    "icon": "textures/items/kfv_flying_fish"
+  },
+  {
+    "id": "kaleidoscope_fishing:lobster",
+    "nameKey": "kaleidoscope_fishing.name.lobster",
+    "icon": "textures/items/kfv_lobster"
+  },
+  {
+    "id": "kaleidoscope_fishing:king_crab",
+    "nameKey": "kaleidoscope_fishing.name.king_crab",
+    "icon": "textures/items/kfv_king_crab"
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_blindfish",
+    "nameKey": "kaleidoscope_fishing.name.cave_blindfish",
+    "icon": "textures/items/kfv_cave_blindfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_crayfish",
+    "nameKey": "kaleidoscope_fishing.name.cave_crayfish",
+    "icon": "textures/items/kfv_cave_crayfish"
+  }
+]

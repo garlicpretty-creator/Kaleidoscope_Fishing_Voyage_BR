@@ -1,0 +1,35 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_cleaning_board"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "SKS",
+      "PPP"
+    ],
+    "key": {
+      "S": {
+        "tag": "minecraft:wooden_slabs"
+      },
+      "K": {
+        "item": "minecraft:iron_ingot"
+      },
+      "P": {
+        "tag": "minecraft:planks"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:fish_cleaning_board",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ]
+  }
+}

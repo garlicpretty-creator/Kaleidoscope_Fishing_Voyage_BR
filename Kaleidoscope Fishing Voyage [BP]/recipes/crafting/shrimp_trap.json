@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:shrimp_trap"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "BSB",
+      "B B",
+      "BBB"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bamboo"
+      },
+      "S": {
+        "item": "minecraft:string"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:shrimp_trap",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "minecraft:string"
+      }
+    ]
+  }
+}

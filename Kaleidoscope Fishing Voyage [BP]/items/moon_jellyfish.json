@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:moon_jellyfish",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_fishing:itemGroup.name.catches"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.moon_jellyfish"
+      },
+      "minecraft:icon": "kfv_moon_jellyfish",
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

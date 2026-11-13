@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:net_wall"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "SSS",
+      "SBS",
+      "SSS"
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:string"
+      },
+      "B": {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:net_wall",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "minecraft:string"
+      },
+      {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      }
+    ]
+  }
+}

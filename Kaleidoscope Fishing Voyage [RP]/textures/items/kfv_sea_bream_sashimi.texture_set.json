@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_sea_bream_sashimi",
+    "metalness_emissive_roughness": "kfv_sea_bream_sashimi_mer",
+    "normal": "kfv_sea_bream_sashimi_normal"
+  }
+}

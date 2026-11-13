@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:dried_fish_string"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "S",
+      "D",
+      "D"
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:string"
+      },
+      "D": {
+        "item": "kaleidoscope_fishing:dried_fish"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:dried_fish_string",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:string"
+      },
+      {
+        "item": "kaleidoscope_fishing:dried_fish"
+      }
+    ]
+  }
+}

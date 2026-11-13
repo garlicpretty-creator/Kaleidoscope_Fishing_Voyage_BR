@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_stock_bucket",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.ingredients"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.fish_stock_bucket"
+      },
+      "minecraft:icon": "kfv_fish_stock_bucket",
+      "minecraft:max_stack_size": 1
+    }
+  }
+}

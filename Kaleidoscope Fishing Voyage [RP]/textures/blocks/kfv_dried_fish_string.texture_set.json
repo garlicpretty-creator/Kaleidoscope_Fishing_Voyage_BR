@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_dried_fish_string",
+    "metalness_emissive_roughness": "kfv_dried_fish_string_mer",
+    "heightmap": "kfv_dried_fish_string_height"
+  }
+}

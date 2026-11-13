@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_glow_bobber",
+    "metalness_emissive_roughness": "kfv_glow_bobber_mer",
+    "normal": "kfv_glow_bobber_normal"
+  }
+}

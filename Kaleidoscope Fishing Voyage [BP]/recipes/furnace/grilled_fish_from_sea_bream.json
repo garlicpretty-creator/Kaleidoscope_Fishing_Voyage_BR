@@ -1,0 +1,16 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:grilled_fish_from_sea_bream"
+    },
+    "tags": [
+      "furnace",
+      "smoker",
+      "campfire",
+      "soul_campfire"
+    ],
+    "input": "kaleidoscope_fishing:sea_bream",
+    "output": "kaleidoscope_fishing:grilled_fish"
+  }
+}

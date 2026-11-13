@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_karasumi_fried_rice",
+    "metalness_emissive_roughness": "kfv_karasumi_fried_rice_mer",
+    "normal": "kfv_karasumi_fried_rice_normal"
+  }
+}

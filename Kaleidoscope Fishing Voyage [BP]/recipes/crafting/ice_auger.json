@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:ice_auger"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "SIS",
+      " S ",
+      " I "
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:stick"
+      },
+      "I": {
+        "item": "minecraft:iron_ingot"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:ice_auger",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ]
+  }
+}

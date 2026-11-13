@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_sea_bass_soup",
+    "metalness_emissive_roughness": "kfv_sea_bass_soup_mer",
+    "normal": "kfv_sea_bass_soup_normal"
+  }
+}

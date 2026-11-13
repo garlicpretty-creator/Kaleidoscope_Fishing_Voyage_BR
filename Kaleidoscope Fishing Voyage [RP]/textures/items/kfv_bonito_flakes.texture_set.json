@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_bonito_flakes",
+    "metalness_emissive_roughness": "kfv_bonito_flakes_mer",
+    "normal": "kfv_bonito_flakes_normal"
+  }
+}

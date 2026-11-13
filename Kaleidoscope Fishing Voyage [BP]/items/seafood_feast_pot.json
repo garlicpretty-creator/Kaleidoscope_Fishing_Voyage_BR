@@ -1,0 +1,24 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:seafood_feast_pot",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.placeable_foods"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.seafood_feast_pot"
+      },
+      "minecraft:icon": "kfv_seafood_feast_pot",
+      "minecraft:max_stack_size": 16,
+      "minecraft:tags": {
+        "tags": [
+          "kaleidoscope_cookery:placeable_food"
+        ]
+      }
+    }
+  }
+}

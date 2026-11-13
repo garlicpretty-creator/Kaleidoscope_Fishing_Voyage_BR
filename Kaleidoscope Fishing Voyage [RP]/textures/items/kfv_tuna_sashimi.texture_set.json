@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_tuna_sashimi",
+    "metalness_emissive_roughness": "kfv_tuna_sashimi_mer",
+    "normal": "kfv_tuna_sashimi_normal"
+  }
+}

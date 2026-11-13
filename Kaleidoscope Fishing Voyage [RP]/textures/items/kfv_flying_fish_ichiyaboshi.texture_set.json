@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_flying_fish_ichiyaboshi",
+    "metalness_emissive_roughness": "kfv_flying_fish_ichiyaboshi_mer",
+    "normal": "kfv_flying_fish_ichiyaboshi_normal"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:grilled_fish_from_hairtail"
+    },
+    "tags": [
+      "furnace",
+      "smoker",
+      "campfire",
+      "soul_campfire"
+    ],
+    "input": "kaleidoscope_fishing:hairtail",
+    "output": "kaleidoscope_fishing:grilled_fish"
+  }
+}

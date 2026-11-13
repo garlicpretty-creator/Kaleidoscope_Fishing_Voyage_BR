@@ -1,0 +1,42 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_lantern"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "BPB",
+      "PTP",
+      "BPB"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bamboo"
+      },
+      "P": {
+        "item": "minecraft:paper"
+      },
+      "T": {
+        "item": "minecraft:torch"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:fishing_lantern",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:torch"
+      }
+    ]
+  }
+}

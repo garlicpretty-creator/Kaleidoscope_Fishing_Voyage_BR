@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_sauce_jar"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "B B",
+      "BSB",
+      "BBB"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:brick"
+      },
+      "S": {
+        "item": "kaleidoscope_fishing:sea_salt"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:fish_sauce_jar",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:brick"
+      },
+      {
+        "item": "kaleidoscope_fishing:sea_salt"
+      }
+    ]
+  }
+}

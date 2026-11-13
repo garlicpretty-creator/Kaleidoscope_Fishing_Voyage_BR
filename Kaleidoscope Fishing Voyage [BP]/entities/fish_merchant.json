@@ -1,0 +1,136 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_merchant",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "kaleidoscope_fishing:want_a": {
+          "type": "int",
+          "range": [
+            0,
+            36
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:want_b": {
+          "type": "int",
+          "range": [
+            0,
+            36
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "kaleidoscope_fishing:leaving": {
+        "minecraft:instant_despawn": {}
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "kfv_fish_merchant",
+          "mob"
+        ]
+      },
+      "minecraft:health": {
+        "value": 20,
+        "max": 20
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.9
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:movement": {
+        "value": 0.5
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": false,
+        "avoid_water": true,
+        "avoid_damage_blocks": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:nameable": {},
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0
+      },
+      "minecraft:trade_table": {
+        "display_name": "entity.kaleidoscope_fishing:fish_merchant.name",
+        "table": "trading/kfv_fish_merchant.json",
+        "new_screen": true,
+        "persist_trades": true
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.trade_with_player": {
+        "priority": 1
+      },
+      "minecraft:behavior.panic": {
+        "priority": 2,
+        "speed_multiplier": 0.6
+      },
+      "minecraft:behavior.look_at_trading_player": {
+        "priority": 3
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 0.5
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 8,
+        "look_distance": 8,
+        "probability": 0.02
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:timer": {
+        "looping": false,
+        "time": [
+          2400,
+          2400
+        ],
+        "time_down_event": {
+          "event": "kaleidoscope_fishing:leave",
+          "target": "self"
+        }
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {
+          "min_distance": 96,
+          "max_distance": 128
+        }
+      },
+      "minecraft:ambient_sound_interval": {
+        "value": 8,
+        "range": 12,
+        "event_name": "ambient"
+      },
+      "minecraft:conditional_bandwidth_optimization": {}
+    },
+    "events": {
+      "kaleidoscope_fishing:leave": {
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:leaving"
+          ]
+        }
+      }
+    }
+  }
+}

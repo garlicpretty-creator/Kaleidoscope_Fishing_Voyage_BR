@@ -1,0 +1,76 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_merchant",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_fish_merchant",
+        "w1": "textures/items/kfv_carp",
+        "w2": "textures/items/kfv_grass_carp",
+        "w3": "textures/items/kfv_catfish",
+        "w4": "textures/items/kfv_mackerel",
+        "w5": "textures/items/kfv_yellow_croaker",
+        "w6": "textures/items/kfv_sweetfish",
+        "w7": "textures/items/kfv_saury",
+        "w8": "textures/items/kfv_smelt",
+        "w9": "textures/items/kfv_sea_bream",
+        "w10": "textures/items/kfv_hairtail",
+        "w11": "textures/items/kfv_eel",
+        "w12": "textures/items/kfv_skipjack",
+        "w13": "textures/items/kfv_rainbow_trout",
+        "w14": "textures/items/kfv_octopus",
+        "w15": "textures/items/kfv_grouper",
+        "w16": "textures/items/kfv_arctic_char",
+        "w17": "textures/items/kfv_tuna",
+        "w18": "textures/items/kfv_anglerfish",
+        "w19": "textures/items/kfv_void_eel",
+        "w20": "textures/items/kfv_starfin",
+        "w21": "textures/items/kfv_blazefin",
+        "w22": "textures/items/kfv_lava_eel",
+        "w23": "textures/items/kfv_magma_koi",
+        "w24": "textures/items/kfv_golden_croaker",
+        "w25": "textures/items/kfv_moon_jellyfish",
+        "w26": "textures/items/kfv_glow_crab",
+        "w27": "textures/items/kfv_chorus_carp",
+        "w28": "textures/items/kfv_chorus_jellyfish",
+        "w29": "textures/items/kfv_ender_angler",
+        "w30": "textures/items/kfv_sea_bass",
+        "w31": "textures/items/kfv_grey_mullet",
+        "w32": "textures/items/kfv_snakehead",
+        "w33": "textures/items/kfv_flying_fish",
+        "w34": "textures/items/kfv_lobster",
+        "w35": "textures/items/kfv_king_crab",
+        "w36": "textures/items/kfv_cave_blindfish"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.fish_merchant",
+        "wants": "geometry.kaleidoscope_fishing.fish_merchant_wants"
+      },
+      "animations": {
+        "move": "animation.kaleidoscope_fishing.fish_merchant.move",
+        "look_at_target": "animation.common.look_at_target"
+      },
+      "scripts": {
+        "animate": [
+          "move",
+          "look_at_target"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.default",
+        {
+          "controller.render.kfv_merchant_want_a": "query.property('kaleidoscope_fishing:want_a') > 0"
+        },
+        {
+          "controller.render.kfv_merchant_want_b": "query.property('kaleidoscope_fishing:want_b') > 0"
+        }
+      ],
+      "spawn_egg": {
+        "texture": "kfv_spawn_egg_fish_merchant"
+      }
+    }
+  }
+}

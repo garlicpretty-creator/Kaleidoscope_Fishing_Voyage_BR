@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:glass_float"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " S ",
+      "SGS",
+      " S "
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:string"
+      },
+      "G": {
+        "item": "minecraft:green_stained_glass"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:glass_float",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "minecraft:string"
+      },
+      {
+        "item": "minecraft:green_stained_glass"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:glass_float",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.glass_float"
+      },
+      "minecraft:icon": "kfv_glass_float",
+      "minecraft:max_stack_size": 64,
+      "minecraft:block_placer": {
+        "block": "kaleidoscope_fishing:glass_float",
+        "replace_block_item": true
+      }
+    }
+  }
+}

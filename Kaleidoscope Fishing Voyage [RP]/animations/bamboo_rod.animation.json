@@ -1,0 +1,29 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.bamboo_rod.hold_first_person": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "rotation": [
+            -80.9,
+            -77.1,
+            -79.9
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bamboo_rod.hold_third_person": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "rotation": [
+            67.2,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_snakehead",
+    "metalness_emissive_roughness": "kfv_snakehead_mer",
+    "normal": "kfv_snakehead_normal"
+  }
+}

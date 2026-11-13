@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:seasoned_grouper"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:grouper"
+      },
+      {
+        "item": "kaleidoscope_cookery:oil"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:seasoned_grouper",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:grouper"
+      },
+      {
+        "item": "kaleidoscope_cookery:oil"
+      }
+    ]
+  }
+}

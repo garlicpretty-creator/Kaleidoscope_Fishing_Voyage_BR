@@ -1,0 +1,33 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_tank"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "G G",
+      "G G",
+      "PPP"
+    ],
+    "key": {
+      "G": {
+        "item": "minecraft:glass"
+      },
+      "P": {
+        "tag": "minecraft:planks"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:fish_tank",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:glass"
+      }
+    ]
+  }
+}

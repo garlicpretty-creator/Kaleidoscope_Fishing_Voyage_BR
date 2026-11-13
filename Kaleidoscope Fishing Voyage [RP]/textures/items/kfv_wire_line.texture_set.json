@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_wire_line",
+    "metalness_emissive_roughness": "kfv_wire_line_mer",
+    "normal": "kfv_wire_line_normal"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_salted_mullet_roe",
+    "metalness_emissive_roughness": "kfv_salted_mullet_roe_mer",
+    "normal": "kfv_salted_mullet_roe_normal"
+  }
+}

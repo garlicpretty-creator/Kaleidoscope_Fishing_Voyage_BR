@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:seagull",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_seagull"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.seagull"
+      },
+      "animations": {
+        "fly": "animation.kaleidoscope_fishing.seagull.fly"
+      },
+      "scripts": {
+        "animate": [
+          "fly"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.kfv_seagull"
+      ],
+      "spawn_egg": {
+        "texture": "kfv_spawn_egg_seagull"
+      }
+    }
+  }
+}

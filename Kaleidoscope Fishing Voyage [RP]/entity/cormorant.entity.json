@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:cormorant",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_cormorant"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.cormorant"
+      },
+      "animations": {
+        "move": "animation.kaleidoscope_fishing.cormorant.move"
+      },
+      "scripts": {
+        "animate": [
+          "move"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.kfv_cormorant"
+      ],
+      "spawn_egg": {
+        "texture": "kfv_spawn_egg_cormorant"
+      }
+    }
+  }
+}

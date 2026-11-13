@@ -1,0 +1,16 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:flying_fish_ichiyaboshi"
+    },
+    "tags": [
+      "furnace",
+      "smoker",
+      "campfire",
+      "soul_campfire"
+    ],
+    "input": "kaleidoscope_fishing:dried_flying_fish",
+    "output": "kaleidoscope_fishing:flying_fish_ichiyaboshi"
+  }
+}

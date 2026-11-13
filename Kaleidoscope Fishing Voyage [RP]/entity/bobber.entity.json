@@ -1,0 +1,26 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:bobber",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_bobber",
+        "bamboo": "textures/entity/kfv_bobber_bamboo",
+        "glow": "textures/entity/kfv_bobber_glow",
+        "weighted": "textures/entity/kfv_bobber_weighted",
+        "ender": "textures/entity/kfv_bobber_ender",
+        "feather": "textures/entity/kfv_bobber_feather",
+        "legend": "textures/entity/kfv_bobber_legend"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.bobber"
+      },
+      "render_controllers": [
+        "controller.render.kfv_bobber"
+      ]
+    }
+  }
+}

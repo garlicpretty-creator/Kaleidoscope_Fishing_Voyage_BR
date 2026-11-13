@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_recipe_scrap",
+    "metalness_emissive_roughness": "kfv_recipe_scrap_mer",
+    "normal": "kfv_recipe_scrap_normal"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_har_gow",
+    "metalness_emissive_roughness": "kfv_har_gow_mer",
+    "normal": "kfv_har_gow_normal"
+  }
+}

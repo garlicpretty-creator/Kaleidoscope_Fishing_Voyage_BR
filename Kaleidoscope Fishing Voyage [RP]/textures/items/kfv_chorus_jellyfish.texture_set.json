@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_chorus_jellyfish",
+    "metalness_emissive_roughness": "kfv_chorus_jellyfish_mer",
+    "normal": "kfv_chorus_jellyfish_normal"
+  }
+}

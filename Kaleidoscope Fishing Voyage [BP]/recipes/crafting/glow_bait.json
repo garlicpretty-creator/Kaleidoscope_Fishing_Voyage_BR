@@ -1,0 +1,40 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:glow_bait"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:glow_ink_sac"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_meal_bait"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_meal_bait"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_meal_bait"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_meal_bait"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:glow_bait",
+      "count": 4
+    },
+    "unlock": [
+      {
+        "item": "minecraft:glow_ink_sac"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_meal_bait"
+      }
+    ]
+  }
+}

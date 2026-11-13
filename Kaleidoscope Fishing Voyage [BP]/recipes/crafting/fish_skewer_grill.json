@@ -1,0 +1,43 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_skewer_grill"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:salt_grilled_sweetfish"
+      },
+      {
+        "item": "kaleidoscope_fishing:salt_grilled_sweetfish"
+      },
+      {
+        "item": "kaleidoscope_fishing:grilled_fish"
+      },
+      {
+        "item": "kaleidoscope_fishing:grilled_fish"
+      },
+      {
+        "item": "minecraft:campfire"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:fish_skewer_grill",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:salt_grilled_sweetfish"
+      },
+      {
+        "item": "kaleidoscope_fishing:grilled_fish"
+      },
+      {
+        "item": "minecraft:campfire"
+      }
+    ]
+  }
+}

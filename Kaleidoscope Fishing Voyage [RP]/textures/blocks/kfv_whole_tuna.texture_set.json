@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_whole_tuna",
+    "metalness_emissive_roughness": "kfv_whole_tuna_mer",
+    "heightmap": "kfv_whole_tuna_height"
+  }
+}

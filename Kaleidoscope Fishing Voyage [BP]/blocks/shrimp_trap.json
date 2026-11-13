@@ -1,0 +1,236 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:shrimp_trap",
+      "states": {
+        "kaleidoscope_fishing:catch": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "kaleidoscope_fishing:bait": [
+          0,
+          1
+        ],
+        "kaleidoscope_fishing:crab": [
+          0,
+          1
+        ]
+      },
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180.0
+        }
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.shrimp_trap",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_shrimp_trap",
+          "render_method": "alpha_test"
+        },
+        "kfv_shrimp_trap": {
+          "texture": "kfv_shrimp_trap",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true
+          }
+        ]
+      },
+      "minecraft:connection_rule": {
+        "accepts_connections_from": "none"
+      },
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_0_0_0",
+      "minecraft:collision_box": {
+        "origin": [
+          -6,
+          0,
+          -7
+        ],
+        "size": [
+          12,
+          9,
+          14
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -6,
+          0,
+          -7
+        ],
+        "size": [
+          12,
+          9,
+          14
+        ]
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          50,
+          110
+        ],
+        "looping": true
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:map_color": "#8FB050",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/shrimp_trap.json",
+      "kaleidoscope_fishing:fish_trap": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 0 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_0_0_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 0 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_0_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 1 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_1_0_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 1 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_1_0_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 1 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_1_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 1 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_1_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 2 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_2_0_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 2 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_2_0_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 2 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_2_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 2 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_2_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 3 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_3_0_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 3 && q.block_state('kaleidoscope_fishing:bait') == 0 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_3_0_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 3 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_3_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:catch') == 3 && q.block_state('kaleidoscope_fishing:bait') == 1 && q.block_state('kaleidoscope_fishing:crab') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.shrimp_trap_3_1_1"
+        }
+      }
+    ]
+  }
+}

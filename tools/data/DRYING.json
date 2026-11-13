@@ -1,0 +1,56 @@
+{
+  "kinds": {
+    "1": {
+      "name": "fish",
+      "product": "kaleidoscope_fishing:air_dried_fish",
+      "ticks": 48000
+    },
+    "2": {
+      "name": "salted",
+      "product": "kaleidoscope_fishing:salted_fish",
+      "ticks": 48000
+    },
+    "3": {
+      "name": "squid",
+      "product": "kaleidoscope_fishing:dried_squid",
+      "ticks": 48000
+    },
+    "4": {
+      "name": "skipjack",
+      "product": "kaleidoscope_fishing:katsuobushi",
+      "ticks": 72000
+    },
+    "5": {
+      "name": "roe",
+      "product": "kaleidoscope_fishing:karasumi",
+      "ticks": 72000
+    },
+    "6": {
+      "name": "flying_fish",
+      "product": "kaleidoscope_fishing:dried_flying_fish",
+      "ticks": 24000
+    }
+  },
+  "inputs": {
+    "kaleidoscope_fishing:carp": 1,
+    "kaleidoscope_fishing:grass_carp": 1,
+    "kaleidoscope_fishing:catfish": 1,
+    "kaleidoscope_fishing:sweetfish": 1,
+    "kaleidoscope_fishing:mackerel": 1,
+    "kaleidoscope_fishing:yellow_croaker": 1,
+    "kaleidoscope_fishing:sea_bream": 1,
+    "kaleidoscope_fishing:hairtail": 1,
+    "kaleidoscope_fishing:grouper": 1,
+    "kaleidoscope_fishing:saury": 1,
+    "minecraft:cod": 1,
+    "minecraft:salmon": 1,
+    "kaleidoscope_fishing:squid_tube": 3,
+    "kaleidoscope_fishing:skipjack": 4,
+    "kaleidoscope_fishing:salted_mullet_roe": 5,
+    "kaleidoscope_fishing:flying_fish": 6
+  },
+  "salt": [
+    "kaleidoscope_fishing:sea_salt"
+  ],
+  "max": 3
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_squid_tube",
+    "metalness_emissive_roughness": "kfv_squid_tube_mer",
+    "normal": "kfv_squid_tube_normal"
+  }
+}

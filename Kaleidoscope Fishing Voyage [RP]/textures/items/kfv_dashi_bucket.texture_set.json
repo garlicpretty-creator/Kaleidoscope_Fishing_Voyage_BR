@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_dashi_bucket",
+    "metalness_emissive_roughness": "kfv_dashi_bucket_mer",
+    "normal": "kfv_dashi_bucket_normal"
+  }
+}

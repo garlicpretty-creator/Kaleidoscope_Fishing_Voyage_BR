@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_salt_bucket",
+    "metalness_emissive_roughness": "kfv_salt_bucket_mer",
+    "normal": "kfv_salt_bucket_normal"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:voyage_fishing_rod",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.tools"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.voyage_fishing_rod"
+      },
+      "minecraft:icon": "kfv_voyage_fishing_rod",
+      "minecraft:max_stack_size": 1,
+      "minecraft:durability": {
+        "max_durability": 192
+      },
+      "minecraft:hand_equipped": true,
+      "minecraft:enchantable": {
+        "slot": "fishing_rod",
+        "value": 1
+      },
+      "minecraft:tags": {
+        "tags": [
+          "minecraft:transformable_items"
+        ]
+      },
+      "minecraft:use_modifiers": {
+        "use_duration": 3600,
+        "movement_modifier": 0.6
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_cormorant_ring",
+    "metalness_emissive_roughness": "kfv_cormorant_ring_mer",
+    "normal": "kfv_cormorant_ring_normal"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:feather_bobber"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      },
+      {
+        "item": "minecraft:feather"
+      },
+      {
+        "item": "minecraft:feather"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:feather_bobber",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      },
+      {
+        "item": "minecraft:feather"
+      },
+      {
+        "item": "minecraft:feather"
+      }
+    ]
+  }
+}

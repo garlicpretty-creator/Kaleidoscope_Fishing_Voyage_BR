@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_oyster_omelette",
+    "metalness_emissive_roughness": "kfv_oyster_omelette_mer",
+    "normal": "kfv_oyster_omelette_normal"
+  }
+}

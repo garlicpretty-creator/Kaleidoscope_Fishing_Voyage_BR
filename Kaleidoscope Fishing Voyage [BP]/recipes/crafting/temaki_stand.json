@@ -1,0 +1,58 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:temaki_stand"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:nori"
+      },
+      {
+        "item": "kaleidoscope_fishing:nori"
+      },
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      },
+      {
+        "item": "kaleidoscope_fishing:tuna_sashimi"
+      },
+      {
+        "item": "kaleidoscope_fishing:sea_bream_sashimi"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_roe"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:temaki_stand",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:nori"
+      },
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      },
+      {
+        "item": "kaleidoscope_fishing:tuna_sashimi"
+      },
+      {
+        "item": "kaleidoscope_fishing:sea_bream_sashimi"
+      },
+      {
+        "item": "kaleidoscope_fishing:fish_roe"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ]
+  }
+}

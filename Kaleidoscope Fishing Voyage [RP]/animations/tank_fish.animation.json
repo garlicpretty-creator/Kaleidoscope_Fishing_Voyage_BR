@@ -1,0 +1,283 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.tank_fish.swim": {
+      "loop": true,
+      "bones": {
+        "spin": {
+          "rotation": [
+            0,
+            "180 + q.property('kaleidoscope_fishing:turn') * 90 - q.body_y_rotation",
+            0
+          ]
+        },
+        "fish": {
+          "position": [
+            "-v.span * math.sin(v.tt)",
+            "v.yb + math.sin(q.life_time * 70 + v.ph) * 0.5",
+            "v.lane + math.sin(v.tt * 0.5 + v.ph) * 0.5"
+          ],
+          "rotation": [
+            0,
+            "-90 + 90 * v.dir",
+            "math.sin(q.life_time * 140 + v.ph) * 3"
+          ],
+          "scale": "v.sc"
+        },
+        "tail": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * (v.kind == 3 ? 300 : 520) + v.ph) * 24",
+            0
+          ]
+        },
+        "lure": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 90 + v.ph) * 10"
+          ]
+        },
+        "seg1": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * 320 - 60 + v.ph) * 6",
+            0
+          ]
+        },
+        "seg2": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * 320 - 120 + v.ph) * 16",
+            0
+          ]
+        },
+        "seg3": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * 320 - 180 + v.ph) * 16",
+            0
+          ]
+        },
+        "seg4": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * 320 - 240 + v.ph) * 16",
+            0
+          ]
+        },
+        "seg5": {
+          "rotation": [
+            0,
+            "math.sin(q.life_time * 320 - 300 + v.ph) * 16",
+            0
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.tank_fish.drift": {
+      "loop": true,
+      "bones": {
+        "spin": {
+          "rotation": [
+            0,
+            "180 + q.property('kaleidoscope_fishing:turn') * 90 - q.body_y_rotation",
+            0
+          ]
+        },
+        "fish": {
+          "position": [
+            "v.span * math.sin(q.life_time * (v.kind == 4 ? 7 : 9) + v.ph)",
+            "v.yb + (v.kind == 4 ? math.sin(q.life_time * 40 + v.ph) * (q.property('kaleidoscope_fishing:tank') ? 0.9 : 0.6) : 0.15 + math.sin(q.life_time * 60 + v.ph) * 0.15)",
+            "v.lane"
+          ],
+          "rotation": [
+            0,
+            "v.kind == 4 ? q.life_time * 8 + v.ph : math.sin(q.life_time * 20 + v.ph) * 25",
+            0
+          ],
+          "scale": "v.sc"
+        },
+        "bell": {
+          "scale": [
+            "1 + math.sin(q.life_time * 160 + v.ph) * 0.07",
+            "1 - math.sin(q.life_time * 160 + v.ph) * 0.09",
+            "1 + math.sin(q.life_time * 160 + v.ph) * 0.07"
+          ]
+        },
+        "t1": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 45 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 45 + v.ph) * 12"
+          ]
+        },
+        "jt1": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 45 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 45 + v.ph) * 12"
+          ]
+        },
+        "t2": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 90 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 90 + v.ph) * 12"
+          ]
+        },
+        "jt2": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 90 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 90 + v.ph) * 12"
+          ]
+        },
+        "t3": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 135 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 135 + v.ph) * 12"
+          ]
+        },
+        "jt3": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 135 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 135 + v.ph) * 12"
+          ]
+        },
+        "t4": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 180 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 180 + v.ph) * 12"
+          ]
+        },
+        "jt4": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 180 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 180 + v.ph) * 12"
+          ]
+        },
+        "t5": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 225 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 225 + v.ph) * 12"
+          ]
+        },
+        "jt5": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 225 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 225 + v.ph) * 12"
+          ]
+        },
+        "t6": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 270 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 270 + v.ph) * 12"
+          ]
+        },
+        "jt6": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 270 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 270 + v.ph) * 12"
+          ]
+        },
+        "t7": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 315 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 315 + v.ph) * 12"
+          ]
+        },
+        "jt7": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 315 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 315 + v.ph) * 12"
+          ]
+        },
+        "t8": {
+          "rotation": [
+            "math.sin(q.life_time * 110 + 360 + v.ph) * 12",
+            0,
+            "math.cos(q.life_time * 110 + 360 + v.ph) * 12"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.tank_fish.walk": {
+      "loop": true,
+      "bones": {
+        "spin": {
+          "rotation": [
+            0,
+            "180 + q.property('kaleidoscope_fishing:turn') * 90 - q.body_y_rotation",
+            0
+          ]
+        },
+        "fish": {
+          "position": [
+            "v.span * math.sin(q.life_time * 14 + v.ph)",
+            "v.yb",
+            "v.lane"
+          ],
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720) * 2"
+          ],
+          "scale": "v.sc"
+        },
+        "legl1": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 120) * 18"
+          ]
+        },
+        "legl2": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 240) * 18"
+          ]
+        },
+        "legl3": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 360) * 18"
+          ]
+        },
+        "legr1": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 180) * 18"
+          ]
+        },
+        "legr2": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 300) * 18"
+          ]
+        },
+        "legr3": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(q.life_time * 720 + 420) * 18"
+          ]
+        }
+      }
+    }
+  }
+}

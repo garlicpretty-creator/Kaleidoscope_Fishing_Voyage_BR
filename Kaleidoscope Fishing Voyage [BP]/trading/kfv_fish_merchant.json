@@ -1,0 +1,275 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "groups": [
+        {
+          "num_to_select": 3,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:copper_hook",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 6
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:gold_hook",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:bone_hook",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:hemp_line",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:wire_line",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:clear_line",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:bamboo_bobber",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:glow_bobber",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:weighted_bobber",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 3,
+              "reward_exp": false
+            }
+          ]
+        },
+        {
+          "num_to_select": 3,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:fish_meal_bait",
+                  "quantity": 8
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:glow_bait",
+                  "quantity": 4
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:recipe_scrap",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 2,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:tip_up",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:salted_fish",
+                  "quantity": 3
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:katsuobushi",
+                  "quantity": 1
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 2
+                }
+              ],
+              "gives": [
+                {
+                  "item": "kaleidoscope_fishing:dried_squid",
+                  "quantity": 3
+                }
+              ],
+              "max_uses": 4,
+              "reward_exp": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

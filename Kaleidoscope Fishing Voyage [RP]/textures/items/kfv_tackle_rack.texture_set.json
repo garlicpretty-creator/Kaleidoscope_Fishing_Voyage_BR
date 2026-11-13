@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_tackle_rack",
+    "metalness_emissive_roughness": "kfv_tackle_rack_mer",
+    "normal": "kfv_tackle_rack_normal"
+  }
+}

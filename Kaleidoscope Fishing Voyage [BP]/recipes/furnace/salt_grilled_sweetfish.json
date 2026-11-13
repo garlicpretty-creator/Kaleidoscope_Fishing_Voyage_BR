@@ -1,0 +1,16 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:salt_grilled_sweetfish"
+    },
+    "tags": [
+      "furnace",
+      "smoker",
+      "campfire",
+      "soul_campfire"
+    ],
+    "input": "kaleidoscope_fishing:skewered_sweetfish",
+    "output": "kaleidoscope_fishing:salt_grilled_sweetfish"
+  }
+}

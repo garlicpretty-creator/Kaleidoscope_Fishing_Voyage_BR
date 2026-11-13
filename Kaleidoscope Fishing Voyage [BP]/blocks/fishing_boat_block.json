@@ -1,0 +1,130 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_boat_block",
+      "states": {
+        "kaleidoscope_fishing:part": [
+          0,
+          1,
+          2
+        ],
+        "kaleidoscope_fishing:dir": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "menu_category": {
+        "category": "none"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.fishing_boat",
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_boat_0",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_fishing_boat",
+          "render_method": "alpha_test"
+        },
+        "kfv_fishing_boat": {
+          "texture": "kfv_fishing_boat",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          3,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          5,
+          16
+        ]
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.2
+      },
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:map_color": "#C6B6AB",
+      "minecraft:light_emission": 9,
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/empty.json",
+      "kaleidoscope_fishing:feast": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_boat_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_boat_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_boat_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 2",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 3",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

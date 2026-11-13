@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_bamboo_hat",
+    "metalness_emissive_roughness": "kfv_bamboo_hat_mer",
+    "normal": "kfv_bamboo_hat_normal"
+  }
+}

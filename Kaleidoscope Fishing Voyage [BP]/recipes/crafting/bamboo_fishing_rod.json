@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:bamboo_fishing_rod"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "  B",
+      " BS",
+      "B S"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bamboo"
+      },
+      "S": {
+        "item": "minecraft:string"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:bamboo_fishing_rod",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "minecraft:string"
+      }
+    ]
+  }
+}

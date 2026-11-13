@@ -1,0 +1,103 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:ice_hole",
+      "menu_category": {
+        "category": "none"
+      },
+      "states": {
+        "kaleidoscope_fishing:tipup": [
+          0,
+          1,
+          2
+        ],
+        "kaleidoscope_fishing:age": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.ice_hole",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_ice_hole",
+          "render_method": "alpha_test"
+        },
+        "kfv_ice_hole": {
+          "texture": "kfv_ice_hole",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.ice_hole_0",
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:map_color": "#A8D0EC",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/empty.json",
+      "minecraft:tick": {
+        "interval_range": [
+          100,
+          100
+        ],
+        "looping": true
+      },
+      "kaleidoscope_fishing:ice_hole": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:tipup') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.ice_hole_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:tipup') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.ice_hole_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:tipup') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.ice_hole_2"
+        }
+      }
+    ]
+  }
+}

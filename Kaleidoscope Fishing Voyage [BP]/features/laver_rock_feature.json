@@ -1,0 +1,24 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:laver_rock_feature"
+    },
+    "places_block": "kaleidoscope_fishing:laver_rock",
+    "enforce_placement_rules": false,
+    "enforce_survivability_rules": false,
+    "may_attach_to": {
+      "min_sides_must_attach": 1,
+      "auto_rotate": false,
+      "bottom": [
+        "minecraft:sand",
+        "minecraft:gravel",
+        "minecraft:stone",
+        "minecraft:clay"
+      ]
+    },
+    "may_replace": [
+      "minecraft:air"
+    ]
+  }
+}

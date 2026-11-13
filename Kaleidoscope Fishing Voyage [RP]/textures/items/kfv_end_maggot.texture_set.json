@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_end_maggot",
+    "metalness_emissive_roughness": "kfv_end_maggot_mer",
+    "normal": "kfv_end_maggot_normal"
+  }
+}

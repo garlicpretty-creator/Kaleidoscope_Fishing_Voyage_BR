@@ -1,0 +1,114 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_lantern",
+      "states": {},
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      },
+      "traits": {
+        "minecraft:placement_position": {
+          "enabled_states": [
+            "minecraft:block_face"
+          ]
+        }
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.fishing_lantern",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_fishing_lantern",
+          "render_method": "alpha_test"
+        },
+        "kfv_fishing_lantern": {
+          "texture": "kfv_fishing_lantern",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true
+          }
+        ]
+      },
+      "minecraft:connection_rule": {
+        "accepts_connections_from": "none"
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -3,
+          0,
+          -3
+        ],
+        "size": [
+          6,
+          10,
+          6
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -3,
+          0,
+          -3
+        ],
+        "size": [
+          6,
+          10,
+          6
+        ]
+      },
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_lantern_0",
+      "minecraft:light_emission": 14,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.2
+      },
+      "minecraft:map_color": "#F6C27A",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/fishing_lantern.json",
+      "minecraft:tags": [
+        "aww:home_decor"
+      ]
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:block_face') == 'down'",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fishing_lantern_1",
+          "minecraft:collision_box": {
+            "origin": [
+              -3,
+              5,
+              -3
+            ],
+            "size": [
+              6,
+              11,
+              6
+            ]
+          },
+          "minecraft:selection_box": {
+            "origin": [
+              -3,
+              5,
+              -3
+            ],
+            "size": [
+              6,
+              11,
+              6
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

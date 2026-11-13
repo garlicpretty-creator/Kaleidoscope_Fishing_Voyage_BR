@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:angler_journal"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:book"
+      },
+      {
+        "item": "minecraft:kelp"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:angler_journal",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:book"
+      },
+      {
+        "item": "minecraft:kelp"
+      }
+    ]
+  }
+}

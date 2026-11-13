@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_fried_calamari",
+    "metalness_emissive_roughness": "kfv_fried_calamari_mer",
+    "normal": "kfv_fried_calamari_normal"
+  }
+}

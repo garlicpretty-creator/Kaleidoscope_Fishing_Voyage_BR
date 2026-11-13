@@ -1,0 +1,27 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.kfv_cormorant": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "part_visibility": [
+        {
+          "*": true
+        },
+        {
+          "ring": "query.property('kaleidoscope_fishing:ringed')"
+        },
+        {
+          "fish": "query.property('kaleidoscope_fishing:carrying')"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,666 @@
+{
+  "resource_pack_name": "Kaleidoscope Fishing Voyage",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "kfv_carp": {
+      "textures": "textures/items/kfv_carp"
+    },
+    "kfv_grass_carp": {
+      "textures": "textures/items/kfv_grass_carp"
+    },
+    "kfv_catfish": {
+      "textures": "textures/items/kfv_catfish"
+    },
+    "kfv_mackerel": {
+      "textures": "textures/items/kfv_mackerel"
+    },
+    "kfv_yellow_croaker": {
+      "textures": "textures/items/kfv_yellow_croaker"
+    },
+    "kfv_sea_bream": {
+      "textures": "textures/items/kfv_sea_bream"
+    },
+    "kfv_tuna": {
+      "textures": "textures/items/kfv_tuna"
+    },
+    "kfv_shrimp": {
+      "textures": "textures/items/kfv_shrimp"
+    },
+    "kfv_crab": {
+      "textures": "textures/items/kfv_crab"
+    },
+    "kfv_clam": {
+      "textures": "textures/items/kfv_clam"
+    },
+    "kfv_oyster": {
+      "textures": "textures/items/kfv_oyster"
+    },
+    "kfv_sweetfish": {
+      "textures": "textures/items/kfv_sweetfish"
+    },
+    "kfv_hairtail": {
+      "textures": "textures/items/kfv_hairtail"
+    },
+    "kfv_grouper": {
+      "textures": "textures/items/kfv_grouper"
+    },
+    "kfv_anglerfish": {
+      "textures": "textures/items/kfv_anglerfish"
+    },
+    "kfv_lava_eel": {
+      "textures": "textures/items/kfv_lava_eel"
+    },
+    "kfv_blazefin": {
+      "textures": "textures/items/kfv_blazefin"
+    },
+    "kfv_magma_koi": {
+      "textures": "textures/items/kfv_magma_koi"
+    },
+    "kfv_basalt_crab": {
+      "textures": "textures/items/kfv_basalt_crab"
+    },
+    "kfv_octopus": {
+      "textures": "textures/items/kfv_octopus"
+    },
+    "kfv_white_fish_fillet": {
+      "textures": "textures/items/kfv_white_fish_fillet"
+    },
+    "kfv_sea_bream_sashimi": {
+      "textures": "textures/items/kfv_sea_bream_sashimi"
+    },
+    "kfv_tuna_sashimi": {
+      "textures": "textures/items/kfv_tuna_sashimi"
+    },
+    "kfv_fish_ball": {
+      "textures": "textures/items/kfv_fish_ball"
+    },
+    "kfv_sea_salt": {
+      "textures": "textures/items/kfv_sea_salt"
+    },
+    "kfv_salt_bucket": {
+      "textures": "textures/items/kfv_salt_bucket"
+    },
+    "kfv_octopus_slices": {
+      "textures": "textures/items/kfv_octopus_slices"
+    },
+    "kfv_skewered_sweetfish": {
+      "textures": "textures/items/kfv_skewered_sweetfish"
+    },
+    "kfv_dried_fish": {
+      "textures": "textures/items/kfv_dried_fish"
+    },
+    "kfv_dried_shrimp": {
+      "textures": "textures/items/kfv_dried_shrimp"
+    },
+    "kfv_seasoned_grouper": {
+      "textures": "textures/items/kfv_seasoned_grouper"
+    },
+    "kfv_seasoned_sea_bream": {
+      "textures": "textures/items/kfv_seasoned_sea_bream"
+    },
+    "kfv_raw_har_gow": {
+      "textures": "textures/items/kfv_raw_har_gow"
+    },
+    "kfv_fish_stock_bucket": {
+      "textures": "textures/items/kfv_fish_stock_bucket"
+    },
+    "kfv_grilled_fish": {
+      "textures": "textures/items/kfv_grilled_fish"
+    },
+    "kfv_oyster_omelette": {
+      "textures": "textures/items/kfv_oyster_omelette"
+    },
+    "kfv_salt_pepper_shrimp": {
+      "textures": "textures/items/kfv_salt_pepper_shrimp"
+    },
+    "kfv_spicy_clams": {
+      "textures": "textures/items/kfv_spicy_clams"
+    },
+    "kfv_shrimp_scrambled_eggs": {
+      "textures": "textures/items/kfv_shrimp_scrambled_eggs"
+    },
+    "kfv_sweet_sour_fish": {
+      "textures": "textures/items/kfv_sweet_sour_fish"
+    },
+    "kfv_fish_ball_soup": {
+      "textures": "textures/items/kfv_fish_ball_soup"
+    },
+    "kfv_seafood_congee": {
+      "textures": "textures/items/kfv_seafood_congee"
+    },
+    "kfv_steamed_sea_bream": {
+      "textures": "textures/items/kfv_steamed_sea_bream"
+    },
+    "kfv_har_gow": {
+      "textures": "textures/items/kfv_har_gow"
+    },
+    "kfv_steamed_crab": {
+      "textures": "textures/items/kfv_steamed_crab"
+    },
+    "kfv_salt_grilled_sweetfish": {
+      "textures": "textures/items/kfv_salt_grilled_sweetfish"
+    },
+    "kfv_pan_fried_hairtail": {
+      "textures": "textures/items/kfv_pan_fried_hairtail"
+    },
+    "kfv_steamed_grouper": {
+      "textures": "textures/items/kfv_steamed_grouper"
+    },
+    "kfv_anglerfish_hot_pot": {
+      "textures": "textures/items/kfv_anglerfish_hot_pot"
+    },
+    "kfv_spicy_octopus": {
+      "textures": "textures/items/kfv_spicy_octopus"
+    },
+    "kfv_fish_and_chips": {
+      "textures": "textures/items/kfv_fish_and_chips"
+    },
+    "kfv_seafood_chow_mein": {
+      "textures": "textures/items/kfv_seafood_chow_mein"
+    },
+    "kfv_paella": {
+      "textures": "textures/items/kfv_paella"
+    },
+    "kfv_oyster_vermicelli": {
+      "textures": "textures/items/kfv_oyster_vermicelli"
+    },
+    "kfv_seafood_hot_pot": {
+      "textures": "textures/items/kfv_seafood_hot_pot"
+    },
+    "kfv_dried_shrimp_congee": {
+      "textures": "textures/items/kfv_dried_shrimp_congee"
+    },
+    "kfv_pickled_cabbage_fish": {
+      "textures": "textures/items/kfv_pickled_cabbage_fish"
+    },
+    "kfv_sashimi_boat": {
+      "textures": "textures/items/kfv_sashimi_boat"
+    },
+    "kfv_seafood_platter": {
+      "textures": "textures/items/kfv_seafood_platter"
+    },
+    "kfv_sushi_platter": {
+      "textures": "textures/items/kfv_sushi_platter"
+    },
+    "kfv_whole_tuna": {
+      "textures": "textures/items/kfv_whole_tuna"
+    },
+    "kfv_seafood_feast_pot": {
+      "textures": "textures/items/kfv_seafood_feast_pot"
+    },
+    "kfv_fish_skewer_grill": {
+      "textures": "textures/items/kfv_fish_skewer_grill"
+    },
+    "kfv_dim_sum_steamer": {
+      "textures": "textures/items/kfv_dim_sum_steamer"
+    },
+    "kfv_grilled_fish_plank": {
+      "textures": "textures/items/kfv_grilled_fish_plank"
+    },
+    "kfv_temaki_stand": {
+      "textures": "textures/items/kfv_temaki_stand"
+    },
+    "kfv_fishing_boat": {
+      "textures": "textures/items/kfv_fishing_boat"
+    },
+    "kfv_bamboo_fishing_rod": {
+      "textures": "textures/items/kfv_bamboo_fishing_rod"
+    },
+    "kfv_voyage_fishing_rod": {
+      "textures": "textures/items/kfv_voyage_fishing_rod"
+    },
+    "kfv_lava_fishing_rod": {
+      "textures": "textures/items/kfv_lava_fishing_rod"
+    },
+    "kfv_shrimp_trap": {
+      "textures": "textures/items/kfv_shrimp_trap"
+    },
+    "kfv_angler_journal": {
+      "textures": "textures/items/kfv_angler_journal"
+    },
+    "kfv_bamboo_hat": {
+      "textures": "textures/items/kfv_bamboo_hat"
+    },
+    "kfv_straw_raincoat": {
+      "textures": "textures/items/kfv_straw_raincoat"
+    },
+    "kfv_oyster_bed": {
+      "textures": "textures/items/kfv_oyster_bed"
+    },
+    "kfv_eel": {
+      "textures": "textures/items/kfv_eel"
+    },
+    "kfv_saury": {
+      "textures": "textures/items/kfv_saury"
+    },
+    "kfv_squid_tube": {
+      "textures": "textures/items/kfv_squid_tube"
+    },
+    "kfv_raw_laver": {
+      "textures": "textures/items/kfv_raw_laver"
+    },
+    "kfv_laver_rock": {
+      "textures": "textures/items/kfv_laver_rock"
+    },
+    "kfv_eel_fillet": {
+      "textures": "textures/items/kfv_eel_fillet"
+    },
+    "kfv_raw_calamari": {
+      "textures": "textures/items/kfv_raw_calamari"
+    },
+    "kfv_nori": {
+      "textures": "textures/items/kfv_nori"
+    },
+    "kfv_fish_meal": {
+      "textures": "textures/items/kfv_fish_meal"
+    },
+    "kfv_fish_scales": {
+      "textures": "textures/items/kfv_fish_scales"
+    },
+    "kfv_fish_offal": {
+      "textures": "textures/items/kfv_fish_offal"
+    },
+    "kfv_fish_bones": {
+      "textures": "textures/items/kfv_fish_bones"
+    },
+    "kfv_fish_roe": {
+      "textures": "textures/items/kfv_fish_roe"
+    },
+    "kfv_fish_scale_jelly": {
+      "textures": "textures/items/kfv_fish_scale_jelly"
+    },
+    "kfv_roe_don": {
+      "textures": "textures/items/kfv_roe_don"
+    },
+    "kfv_lava_eel_don": {
+      "textures": "textures/items/kfv_lava_eel_don"
+    },
+    "kfv_blazefin_soup": {
+      "textures": "textures/items/kfv_blazefin_soup"
+    },
+    "kfv_basalt_crab_pot": {
+      "textures": "textures/items/kfv_basalt_crab_pot"
+    },
+    "kfv_tomato_mackerel": {
+      "textures": "textures/items/kfv_tomato_mackerel"
+    },
+    "kfv_salmon_ochazuke": {
+      "textures": "textures/items/kfv_salmon_ochazuke"
+    },
+    "kfv_pan_seared_cod": {
+      "textures": "textures/items/kfv_pan_seared_cod"
+    },
+    "kfv_raw_crab_roe_bun": {
+      "textures": "textures/items/kfv_raw_crab_roe_bun"
+    },
+    "kfv_unagi_don": {
+      "textures": "textures/items/kfv_unagi_don"
+    },
+    "kfv_pan_fried_saury": {
+      "textures": "textures/items/kfv_pan_fried_saury"
+    },
+    "kfv_fried_calamari": {
+      "textures": "textures/items/kfv_fried_calamari"
+    },
+    "kfv_nigiri_sushi": {
+      "textures": "textures/items/kfv_nigiri_sushi"
+    },
+    "kfv_maki_roll": {
+      "textures": "textures/items/kfv_maki_roll"
+    },
+    "kfv_crab_roe_bun": {
+      "textures": "textures/items/kfv_crab_roe_bun"
+    },
+    "kfv_nori_egg_soup": {
+      "textures": "textures/items/kfv_nori_egg_soup"
+    },
+    "kfv_kombu_tea": {
+      "textures": "textures/items/kfv_kombu_tea"
+    },
+    "kfv_fishing_knife": {
+      "textures": "textures/items/kfv_fishing_knife"
+    },
+    "kfv_fish_basket": {
+      "textures": "textures/items/kfv_fish_basket"
+    },
+    "kfv_fish_meal_bait": {
+      "textures": "textures/items/kfv_fish_meal_bait"
+    },
+    "kfv_glow_bait": {
+      "textures": "textures/items/kfv_glow_bait"
+    },
+    "kfv_recipe_scrap": {
+      "textures": "textures/items/kfv_recipe_scrap"
+    },
+    "kfv_fish_cleaning_board": {
+      "textures": "textures/items/kfv_fish_cleaning_board"
+    },
+    "kfv_fish_scale": {
+      "textures": "textures/items/kfv_fish_scale"
+    },
+    "kfv_fishing_lantern": {
+      "textures": "textures/items/kfv_fishing_lantern"
+    },
+    "kfv_tackle_rack": {
+      "textures": "textures/items/kfv_tackle_rack"
+    },
+    "kfv_fish_tank": {
+      "textures": "textures/items/kfv_fish_tank"
+    },
+    "kfv_fishing_net": {
+      "textures": "textures/items/kfv_fishing_net"
+    },
+    "kfv_fish_print": {
+      "textures": "textures/items/kfv_fish_print"
+    },
+    "kfv_cormorant_ring": {
+      "textures": "textures/items/kfv_cormorant_ring"
+    },
+    "kfv_copper_hook": {
+      "textures": "textures/items/kfv_copper_hook"
+    },
+    "kfv_gold_hook": {
+      "textures": "textures/items/kfv_gold_hook"
+    },
+    "kfv_bone_hook": {
+      "textures": "textures/items/kfv_bone_hook"
+    },
+    "kfv_hemp_line": {
+      "textures": "textures/items/kfv_hemp_line"
+    },
+    "kfv_wire_line": {
+      "textures": "textures/items/kfv_wire_line"
+    },
+    "kfv_clear_line": {
+      "textures": "textures/items/kfv_clear_line"
+    },
+    "kfv_bamboo_bobber": {
+      "textures": "textures/items/kfv_bamboo_bobber"
+    },
+    "kfv_glow_bobber": {
+      "textures": "textures/items/kfv_glow_bobber"
+    },
+    "kfv_weighted_bobber": {
+      "textures": "textures/items/kfv_weighted_bobber"
+    },
+    "kfv_skipjack": {
+      "textures": "textures/items/kfv_skipjack"
+    },
+    "kfv_drying_rack": {
+      "textures": "textures/items/kfv_drying_rack"
+    },
+    "kfv_air_dried_fish": {
+      "textures": "textures/items/kfv_air_dried_fish"
+    },
+    "kfv_salted_fish": {
+      "textures": "textures/items/kfv_salted_fish"
+    },
+    "kfv_dried_squid": {
+      "textures": "textures/items/kfv_dried_squid"
+    },
+    "kfv_katsuobushi": {
+      "textures": "textures/items/kfv_katsuobushi"
+    },
+    "kfv_bonito_flakes": {
+      "textures": "textures/items/kfv_bonito_flakes"
+    },
+    "kfv_smelt": {
+      "textures": "textures/items/kfv_smelt"
+    },
+    "kfv_rainbow_trout": {
+      "textures": "textures/items/kfv_rainbow_trout"
+    },
+    "kfv_arctic_char": {
+      "textures": "textures/items/kfv_arctic_char"
+    },
+    "kfv_ice_auger": {
+      "textures": "textures/items/kfv_ice_auger"
+    },
+    "kfv_tip_up": {
+      "textures": "textures/items/kfv_tip_up"
+    },
+    "kfv_dashi_bucket": {
+      "textures": "textures/items/kfv_dashi_bucket"
+    },
+    "kfv_oden": {
+      "textures": "textures/items/kfv_oden"
+    },
+    "kfv_smelt_tempura": {
+      "textures": "textures/items/kfv_smelt_tempura"
+    },
+    "kfv_pan_fried_trout": {
+      "textures": "textures/items/kfv_pan_fried_trout"
+    },
+    "kfv_char_rice": {
+      "textures": "textures/items/kfv_char_rice"
+    },
+    "kfv_salted_fish_fried_rice": {
+      "textures": "textures/items/kfv_salted_fish_fried_rice"
+    },
+    "kfv_grilled_dried_squid": {
+      "textures": "textures/items/kfv_grilled_dried_squid"
+    },
+    "kfv_okaka_rice": {
+      "textures": "textures/items/kfv_okaka_rice"
+    },
+    "kfv_starfin_soup": {
+      "textures": "textures/items/kfv_starfin_soup"
+    },
+    "kfv_steamed_purpur_shrimp": {
+      "textures": "textures/items/kfv_steamed_purpur_shrimp"
+    },
+    "kfv_oden_pot": {
+      "textures": "textures/items/kfv_oden_pot"
+    },
+    "kfv_ice_catch_platter": {
+      "textures": "textures/items/kfv_ice_catch_platter"
+    },
+    "kfv_ender_fishing_rod": {
+      "textures": "textures/items/kfv_ender_fishing_rod"
+    },
+    "kfv_void_eel": {
+      "textures": "textures/items/kfv_void_eel"
+    },
+    "kfv_purpur_shrimp": {
+      "textures": "textures/items/kfv_purpur_shrimp"
+    },
+    "kfv_starfin": {
+      "textures": "textures/items/kfv_starfin"
+    },
+    "kfv_golden_croaker": {
+      "textures": "textures/items/kfv_golden_croaker"
+    },
+    "kfv_moon_jellyfish": {
+      "textures": "textures/items/kfv_moon_jellyfish"
+    },
+    "kfv_glow_crab": {
+      "textures": "textures/items/kfv_glow_crab"
+    },
+    "kfv_chorus_carp": {
+      "textures": "textures/items/kfv_chorus_carp"
+    },
+    "kfv_chorus_jellyfish": {
+      "textures": "textures/items/kfv_chorus_jellyfish"
+    },
+    "kfv_ender_angler": {
+      "textures": "textures/items/kfv_ender_angler"
+    },
+    "kfv_chorus_sashimi": {
+      "textures": "textures/items/kfv_chorus_sashimi"
+    },
+    "kfv_void_seafood_soup": {
+      "textures": "textures/items/kfv_void_seafood_soup"
+    },
+    "kfv_end_maggot": {
+      "textures": "textures/items/kfv_end_maggot"
+    },
+    "kfv_large_fish_tank": {
+      "textures": "textures/items/kfv_large_fish_tank"
+    },
+    "kfv_spawn_egg_seagull": {
+      "textures": "textures/items/kfv_spawn_egg_seagull"
+    },
+    "kfv_spawn_egg_cormorant": {
+      "textures": "textures/items/kfv_spawn_egg_cormorant"
+    },
+    "kfv_spawn_egg_fish_merchant": {
+      "textures": "textures/items/kfv_spawn_egg_fish_merchant"
+    },
+    "kfv_sea_bass": {
+      "textures": "textures/items/kfv_sea_bass"
+    },
+    "kfv_grey_mullet": {
+      "textures": "textures/items/kfv_grey_mullet"
+    },
+    "kfv_loach": {
+      "textures": "textures/items/kfv_loach"
+    },
+    "kfv_snakehead": {
+      "textures": "textures/items/kfv_snakehead"
+    },
+    "kfv_mudskipper": {
+      "textures": "textures/items/kfv_mudskipper"
+    },
+    "kfv_flying_fish": {
+      "textures": "textures/items/kfv_flying_fish"
+    },
+    "kfv_lobster": {
+      "textures": "textures/items/kfv_lobster"
+    },
+    "kfv_king_crab": {
+      "textures": "textures/items/kfv_king_crab"
+    },
+    "kfv_cave_blindfish": {
+      "textures": "textures/items/kfv_cave_blindfish"
+    },
+    "kfv_cave_crayfish": {
+      "textures": "textures/items/kfv_cave_crayfish"
+    },
+    "kfv_seasoned_sea_bass": {
+      "textures": "textures/items/kfv_seasoned_sea_bass"
+    },
+    "kfv_flying_fish_roe": {
+      "textures": "textures/items/kfv_flying_fish_roe"
+    },
+    "kfv_steamed_sea_bass": {
+      "textures": "textures/items/kfv_steamed_sea_bass"
+    },
+    "kfv_sea_bass_soup": {
+      "textures": "textures/items/kfv_sea_bass_soup"
+    },
+    "kfv_grilled_mullet": {
+      "textures": "textures/items/kfv_grilled_mullet"
+    },
+    "kfv_loach_soup": {
+      "textures": "textures/items/kfv_loach_soup"
+    },
+    "kfv_stir_fried_snakehead": {
+      "textures": "textures/items/kfv_stir_fried_snakehead"
+    },
+    "kfv_spicy_mudskipper": {
+      "textures": "textures/items/kfv_spicy_mudskipper"
+    },
+    "kfv_flying_fish_roe_temaki": {
+      "textures": "textures/items/kfv_flying_fish_roe_temaki"
+    },
+    "kfv_steamed_lobster": {
+      "textures": "textures/items/kfv_steamed_lobster"
+    },
+    "kfv_lobster_congee": {
+      "textures": "textures/items/kfv_lobster_congee"
+    },
+    "kfv_steamed_king_crab": {
+      "textures": "textures/items/kfv_steamed_king_crab"
+    },
+    "kfv_crab_leg_hot_pot": {
+      "textures": "textures/items/kfv_crab_leg_hot_pot"
+    },
+    "kfv_blindfish_clear_soup": {
+      "textures": "textures/items/kfv_blindfish_clear_soup"
+    },
+    "kfv_spicy_crayfish": {
+      "textures": "textures/items/kfv_spicy_crayfish"
+    },
+    "kfv_spawn_egg_heron": {
+      "textures": "textures/items/kfv_spawn_egg_heron"
+    },
+    "kfv_lure_hook": {
+      "textures": "textures/items/kfv_lure_hook"
+    },
+    "kfv_glow_line": {
+      "textures": "textures/items/kfv_glow_line"
+    },
+    "kfv_feather_bobber": {
+      "textures": "textures/items/kfv_feather_bobber"
+    },
+    "kfv_live_shrimp": {
+      "textures": "textures/items/kfv_live_shrimp"
+    },
+    "kfv_earthworm": {
+      "textures": "textures/items/kfv_earthworm"
+    },
+    "kfv_mullet_roe": {
+      "textures": "textures/items/kfv_mullet_roe"
+    },
+    "kfv_salted_mullet_roe": {
+      "textures": "textures/items/kfv_salted_mullet_roe"
+    },
+    "kfv_karasumi": {
+      "textures": "textures/items/kfv_karasumi"
+    },
+    "kfv_karasumi_slices": {
+      "textures": "textures/items/kfv_karasumi_slices"
+    },
+    "kfv_dried_flying_fish": {
+      "textures": "textures/items/kfv_dried_flying_fish"
+    },
+    "kfv_fish_sauce": {
+      "textures": "textures/items/kfv_fish_sauce"
+    },
+    "kfv_shrimp_paste": {
+      "textures": "textures/items/kfv_shrimp_paste"
+    },
+    "kfv_karasumi_fried_rice": {
+      "textures": "textures/items/kfv_karasumi_fried_rice"
+    },
+    "kfv_flying_fish_ichiyaboshi": {
+      "textures": "textures/items/kfv_flying_fish_ichiyaboshi"
+    },
+    "kfv_shrimp_paste_fried_rice": {
+      "textures": "textures/items/kfv_shrimp_paste_fried_rice"
+    },
+    "kfv_river_lord_catfish": {
+      "textures": "textures/items/kfv_river_lord_catfish"
+    },
+    "kfv_emperor_tuna": {
+      "textures": "textures/items/kfv_emperor_tuna"
+    },
+    "kfv_frostlake_char": {
+      "textures": "textures/items/kfv_frostlake_char"
+    },
+    "kfv_lava_dragon_koi": {
+      "textures": "textures/items/kfv_lava_dragon_koi"
+    },
+    "kfv_river_lord_whisker": {
+      "textures": "textures/items/kfv_river_lord_whisker"
+    },
+    "kfv_dragon_scale": {
+      "textures": "textures/items/kfv_dragon_scale"
+    },
+    "kfv_emperor_whole_tuna": {
+      "textures": "textures/items/kfv_emperor_whole_tuna"
+    },
+    "kfv_frostlake_platter": {
+      "textures": "textures/items/kfv_frostlake_platter"
+    },
+    "kfv_glass_float": {
+      "textures": "textures/items/kfv_glass_float"
+    },
+    "kfv_net_wall": {
+      "textures": "textures/items/kfv_net_wall"
+    },
+    "kfv_dried_fish_string": {
+      "textures": "textures/items/kfv_dried_fish_string"
+    }
+  }
+}

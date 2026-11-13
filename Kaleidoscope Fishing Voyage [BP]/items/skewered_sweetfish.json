@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:skewered_sweetfish",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.ingredients"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.skewered_sweetfish"
+      },
+      "minecraft:icon": "kfv_skewered_sweetfish",
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

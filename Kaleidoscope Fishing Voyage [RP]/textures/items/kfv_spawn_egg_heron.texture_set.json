@@ -1,0 +1,8 @@
+{
+  "format_version": "1.21.30",
+  "minecraft:texture_set": {
+    "color": "kfv_spawn_egg_heron",
+    "metalness_emissive_roughness": "kfv_spawn_egg_heron_mer",
+    "normal": "kfv_spawn_egg_heron_normal"
+  }
+}

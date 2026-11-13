@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_maki_roll",
+    "metalness_emissive_roughness": "kfv_maki_roll_mer",
+    "normal": "kfv_maki_roll_normal"
+  }
+}

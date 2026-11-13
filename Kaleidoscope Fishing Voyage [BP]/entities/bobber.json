@@ -1,0 +1,108 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:bobber",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "kaleidoscope_fishing:style": {
+          "type": "int",
+          "range": [
+            0,
+            7
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "kaleidoscope_fishing:flying": {
+        "minecraft:physics": {},
+        "minecraft:projectile": {
+          "on_hit": {
+            "impact_damage": {
+              "damage": 0,
+              "knockback": false
+            },
+            "stick_in_ground": {
+              "shake_time": 0
+            }
+          },
+          "power": 1.1,
+          "gravity": 0.045,
+          "inertia": 0.94,
+          "liquid_inertia": 0.4,
+          "uncertainty_base": 0,
+          "uncertainty_multiplier": 0
+        }
+      },
+      "kaleidoscope_fishing:floating": {
+        "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": false
+        }
+      }
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "width": 0.2,
+        "height": 0.2
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:health": {
+        "value": 20,
+        "max": 20,
+        "min": 20
+      },
+      "minecraft:damage_sensor": {
+        "triggers": {
+          "cause": "all",
+          "deals_damage": false
+        }
+      },
+      "minecraft:fire_immune": true,
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {
+          "min_distance": 48,
+          "max_distance": 64
+        }
+      },
+      "minecraft:type_family": {
+        "family": [
+          "kfv_bobber",
+          "inanimate"
+        ]
+      }
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:flying"
+          ]
+        }
+      },
+      "kaleidoscope_fishing:float": {
+        "remove": {
+          "component_groups": [
+            "kaleidoscope_fishing:flying"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:floating"
+          ]
+        }
+      }
+    }
+  }
+}

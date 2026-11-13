@@ -1,0 +1,18 @@
+# Built packages (publish them as GitHub Releases instead)
+*.mcaddon
+*.mcpack
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# Icon touch-up working copies
+*.orig.png
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

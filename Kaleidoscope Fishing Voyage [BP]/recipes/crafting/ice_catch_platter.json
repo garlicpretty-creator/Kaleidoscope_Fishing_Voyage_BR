@@ -1,0 +1,46 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:ice_catch_platter"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:smelt_tempura"
+      },
+      {
+        "item": "kaleidoscope_fishing:smelt_tempura"
+      },
+      {
+        "item": "kaleidoscope_fishing:pan_fried_trout"
+      },
+      {
+        "item": "kaleidoscope_fishing:pan_fried_trout"
+      },
+      {
+        "item": "minecraft:ice"
+      },
+      {
+        "tag": "minecraft:wooden_slabs"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:ice_catch_platter",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:smelt_tempura"
+      },
+      {
+        "item": "kaleidoscope_fishing:pan_fried_trout"
+      },
+      {
+        "item": "minecraft:ice"
+      }
+    ]
+  }
+}

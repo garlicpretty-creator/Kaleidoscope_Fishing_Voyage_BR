@@ -1,0 +1,144 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tank_fish",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "kaleidoscope_fishing:species": {
+          "type": "int",
+          "range": [
+            0,
+            63
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:kind": {
+          "type": "int",
+          "range": [
+            0,
+            7
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:seed": {
+          "type": "int",
+          "range": [
+            0,
+            7
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:turn": {
+          "type": "int",
+          "range": [
+            0,
+            3
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:tank": {
+          "type": "int",
+          "range": [
+            0,
+            1
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:scale": {
+          "type": "int",
+          "range": [
+            0,
+            100
+          ],
+          "default": 60,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:span": {
+          "type": "int",
+          "range": [
+            0,
+            200
+          ],
+          "default": 20,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:level": {
+          "type": "int",
+          "range": [
+            0,
+            160
+          ],
+          "default": 70,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:lane": {
+          "type": "int",
+          "range": [
+            0,
+            120
+          ],
+          "default": 60,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "kfv_tank_fish",
+          "inanimate"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.01,
+        "height": 0.01
+      },
+      "minecraft:custom_hit_test": {
+        "hitboxes": [
+          {
+            "width": 0,
+            "height": 0,
+            "pivot": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:health": {
+        "value": 1,
+        "max": 1
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:conditional_bandwidth_optimization": {}
+    }
+  }
+}

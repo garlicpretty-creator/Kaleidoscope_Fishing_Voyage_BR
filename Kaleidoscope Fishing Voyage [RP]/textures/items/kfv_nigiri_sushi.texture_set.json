@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_nigiri_sushi",
+    "metalness_emissive_roughness": "kfv_nigiri_sushi_mer",
+    "normal": "kfv_nigiri_sushi_normal"
+  }
+}

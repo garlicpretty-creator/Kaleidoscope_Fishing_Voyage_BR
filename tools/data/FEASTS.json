@@ -1,0 +1,415 @@
+{
+  "kaleidoscope_fishing:sashimi_boat_block": {
+    "item": "kaleidoscope_fishing:sashimi_boat",
+    "parts": [
+      [
+        0,
+        0,
+        -1
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 2,
+    "nutrition": 3,
+    "saturation": 0.6,
+    "remains": [
+      "minecraft:bowl"
+    ]
+  },
+  "kaleidoscope_fishing:seafood_platter_block": {
+    "item": "kaleidoscope_fishing:seafood_platter",
+    "parts": [
+      [
+        0,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        -1
+      ],
+      [
+        2,
+        1,
+        -1
+      ],
+      [
+        3,
+        -1,
+        0
+      ],
+      [
+        4,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0
+      ],
+      [
+        6,
+        -1,
+        1
+      ],
+      [
+        7,
+        0,
+        1
+      ],
+      [
+        8,
+        1,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 2,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [],
+    "face": true
+  },
+  "kaleidoscope_fishing:sushi_platter_block": {
+    "item": "kaleidoscope_fishing:sushi_platter",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 2,
+    "saturation": 0.6,
+    "remains": []
+  },
+  "kaleidoscope_fishing:whole_tuna_block": {
+    "item": "kaleidoscope_fishing:whole_tuna",
+    "parts": [
+      [
+        0,
+        0,
+        -1
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 3,
+    "saturation": 0.8,
+    "remains": [
+      "kaleidoscope_fishing:fish_bones",
+      "kaleidoscope_fishing:fish_bones"
+    ]
+  },
+  "kaleidoscope_fishing:seafood_feast_pot_block": {
+    "item": "kaleidoscope_fishing:seafood_feast_pot",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 4,
+    "nutrition": 4,
+    "saturation": 0.8,
+    "remains": [
+      "minecraft:cauldron"
+    ],
+    "face": true
+  },
+  "kaleidoscope_fishing:fish_skewer_grill_block": {
+    "item": "kaleidoscope_fishing:fish_skewer_grill",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 4,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:campfire"
+    ],
+    "light": 10,
+    "face": true
+  },
+  "kaleidoscope_fishing:dim_sum_steamer_block": {
+    "item": "kaleidoscope_fishing:dim_sum_steamer",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 4,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:bamboo"
+    ],
+    "face": true
+  },
+  "kaleidoscope_fishing:grilled_fish_plank_block": {
+    "item": "kaleidoscope_fishing:grilled_fish_plank",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:oak_slab"
+    ]
+  },
+  "kaleidoscope_fishing:temaki_stand_block": {
+    "item": "kaleidoscope_fishing:temaki_stand",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 4,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:bamboo"
+    ],
+    "face": true
+  },
+  "kaleidoscope_fishing:fishing_boat_block": {
+    "item": "kaleidoscope_fishing:fishing_boat",
+    "parts": [
+      [
+        0,
+        0,
+        -1
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 0,
+    "nutrition": 0,
+    "saturation": 0,
+    "remains": [],
+    "decor": true,
+    "light": 9
+  },
+  "kaleidoscope_fishing:oden_pot_block": {
+    "item": "kaleidoscope_fishing:oden_pot",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 4,
+    "nutrition": 4,
+    "saturation": 0.8,
+    "remains": [
+      "minecraft:cauldron"
+    ],
+    "face": true
+  },
+  "kaleidoscope_fishing:ice_catch_platter_block": {
+    "item": "kaleidoscope_fishing:ice_catch_platter",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:oak_slab"
+    ]
+  },
+  "kaleidoscope_fishing:emperor_whole_tuna_block": {
+    "item": "kaleidoscope_fishing:emperor_whole_tuna",
+    "parts": [
+      [
+        0,
+        0,
+        -1
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 3,
+    "saturation": 0.8,
+    "remains": [
+      "kaleidoscope_fishing:fish_bones",
+      "kaleidoscope_fishing:fish_bones"
+    ]
+  },
+  "kaleidoscope_fishing:frostlake_platter_block": {
+    "item": "kaleidoscope_fishing:frostlake_platter",
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bites": 3,
+    "nutrition": 3,
+    "saturation": 0.7,
+    "remains": [
+      "minecraft:oak_slab"
+    ]
+  }
+}

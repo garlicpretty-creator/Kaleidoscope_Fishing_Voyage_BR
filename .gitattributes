@@ -1,0 +1,5 @@
+# Keep text files LF (the pack was normalized to LF); never touch binaries
+* text=auto eol=lf
+*.png binary
+*.ogg binary
+*.mcstructure binary

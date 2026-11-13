@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_white_fish_fillet",
+    "metalness_emissive_roughness": "kfv_white_fish_fillet_mer",
+    "normal": "kfv_white_fish_fillet_normal"
+  }
+}

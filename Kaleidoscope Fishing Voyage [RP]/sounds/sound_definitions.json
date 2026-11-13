@@ -1,0 +1,141 @@
+{
+  "format_version": "1.20.20",
+  "sound_definitions": {
+    "kaleidoscope_fishing.bite": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/bite1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/bite2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/bite3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.reel": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/reel1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/reel2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/reel3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.strain": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/strain1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/strain2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/strain3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.record": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/record1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/record2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/record3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.trap_catch": {
+      "category": "player",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/trap_catch1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/trap_catch2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/trap_catch3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.gull": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/gull1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/gull2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/gull3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.cormorant": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/cormorant1",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/cormorant2",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/cormorant3",
+          "volume": 1.0
+        }
+      ]
+    },
+    "kaleidoscope_fishing.heron": {
+      "category": "neutral",
+      "sounds": [
+        {
+          "name": "sounds/kaleidoscope_fishing/heron1",
+          "volume": 0.9
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/heron2",
+          "volume": 0.9
+        },
+        {
+          "name": "sounds/kaleidoscope_fishing/heron3",
+          "volume": 0.9
+        }
+      ]
+    }
+  }
+}

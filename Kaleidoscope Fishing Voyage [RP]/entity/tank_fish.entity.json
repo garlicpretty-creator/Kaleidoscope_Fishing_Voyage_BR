@@ -1,0 +1,95 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tank_fish",
+      "materials": {
+        "default": "entity_alphatest",
+        "blend": "entity_alphablend"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_tank_fish"
+      },
+      "geometry": {
+        "carp": "geometry.kaleidoscope_fishing.tank_fish.carp",
+        "grass_carp": "geometry.kaleidoscope_fishing.tank_fish.grass_carp",
+        "catfish": "geometry.kaleidoscope_fishing.tank_fish.catfish",
+        "sweetfish": "geometry.kaleidoscope_fishing.tank_fish.sweetfish",
+        "mackerel": "geometry.kaleidoscope_fishing.tank_fish.mackerel",
+        "yellow_croaker": "geometry.kaleidoscope_fishing.tank_fish.yellow_croaker",
+        "sea_bream": "geometry.kaleidoscope_fishing.tank_fish.sea_bream",
+        "tropical_fish": "geometry.kaleidoscope_fishing.tank_fish.tropical_fish",
+        "tuna": "geometry.kaleidoscope_fishing.tank_fish.tuna",
+        "eel": "geometry.kaleidoscope_fishing.tank_fish.eel",
+        "hairtail": "geometry.kaleidoscope_fishing.tank_fish.hairtail",
+        "grouper": "geometry.kaleidoscope_fishing.tank_fish.grouper",
+        "cod": "geometry.kaleidoscope_fishing.tank_fish.cod",
+        "salmon": "geometry.kaleidoscope_fishing.tank_fish.salmon",
+        "saury": "geometry.kaleidoscope_fishing.tank_fish.saury",
+        "anglerfish": "geometry.kaleidoscope_fishing.tank_fish.anglerfish",
+        "octopus": "geometry.kaleidoscope_fishing.tank_fish.octopus",
+        "pufferfish": "geometry.kaleidoscope_fishing.tank_fish.pufferfish",
+        "skipjack": "geometry.kaleidoscope_fishing.tank_fish.skipjack",
+        "smelt": "geometry.kaleidoscope_fishing.tank_fish.smelt",
+        "rainbow_trout": "geometry.kaleidoscope_fishing.tank_fish.rainbow_trout",
+        "arctic_char": "geometry.kaleidoscope_fishing.tank_fish.arctic_char",
+        "void_eel": "geometry.kaleidoscope_fishing.tank_fish.void_eel",
+        "starfin": "geometry.kaleidoscope_fishing.tank_fish.starfin",
+        "golden_croaker": "geometry.kaleidoscope_fishing.tank_fish.golden_croaker",
+        "chorus_carp": "geometry.kaleidoscope_fishing.tank_fish.chorus_carp",
+        "ender_angler": "geometry.kaleidoscope_fishing.tank_fish.ender_angler",
+        "moon_jellyfish": "geometry.kaleidoscope_fishing.tank_fish.moon_jellyfish",
+        "chorus_jellyfish": "geometry.kaleidoscope_fishing.tank_fish.chorus_jellyfish",
+        "glow_crab": "geometry.kaleidoscope_fishing.tank_fish.glow_crab",
+        "crab": "geometry.kaleidoscope_fishing.tank_fish.crab",
+        "sea_bass": "geometry.kaleidoscope_fishing.tank_fish.sea_bass",
+        "grey_mullet": "geometry.kaleidoscope_fishing.tank_fish.grey_mullet",
+        "loach": "geometry.kaleidoscope_fishing.tank_fish.loach",
+        "snakehead": "geometry.kaleidoscope_fishing.tank_fish.snakehead",
+        "mudskipper": "geometry.kaleidoscope_fishing.tank_fish.mudskipper",
+        "flying_fish": "geometry.kaleidoscope_fishing.tank_fish.flying_fish",
+        "lobster": "geometry.kaleidoscope_fishing.tank_fish.lobster",
+        "king_crab": "geometry.kaleidoscope_fishing.tank_fish.king_crab",
+        "cave_blindfish": "geometry.kaleidoscope_fishing.tank_fish.cave_blindfish",
+        "cave_crayfish": "geometry.kaleidoscope_fishing.tank_fish.cave_crayfish",
+        "river_lord_catfish": "geometry.kaleidoscope_fishing.tank_fish.river_lord_catfish",
+        "emperor_tuna": "geometry.kaleidoscope_fishing.tank_fish.emperor_tuna",
+        "frostlake_char": "geometry.kaleidoscope_fishing.tank_fish.frostlake_char",
+        "lava_dragon_koi": "geometry.kaleidoscope_fishing.tank_fish.lava_dragon_koi"
+      },
+      "animations": {
+        "swim": "animation.kaleidoscope_fishing.tank_fish.swim",
+        "drift": "animation.kaleidoscope_fishing.tank_fish.drift",
+        "walk": "animation.kaleidoscope_fishing.tank_fish.walk"
+      },
+      "scripts": {
+        "pre_animation": [
+          "v.kind = q.property('kaleidoscope_fishing:kind');",
+          "v.seed = q.property('kaleidoscope_fishing:seed');",
+          "v.sc = q.property('kaleidoscope_fishing:scale') / 100;",
+          "v.span = q.property('kaleidoscope_fishing:span') / 10;",
+          "v.yb = q.property('kaleidoscope_fishing:level') / 10;",
+          "v.lane = q.property('kaleidoscope_fishing:lane') / 10 - 6;",
+          "v.ph = v.seed * 83 + q.property('kaleidoscope_fishing:species') * 37;",
+          "v.speed = (v.kind == 3 ? 0.65 : (v.kind == 6 ? 0.75 : 1)) * (3.2 + v.seed * 0.25) * (q.property('kaleidoscope_fishing:tank') ? 1.3 : 1) * 57.3 / math.max(v.span, 1.2);",
+          "v.tt = q.life_time * v.speed + v.ph;",
+          "v.dir = math.clamp(math.cos(v.tt) * 3, -1, 1);"
+        ],
+        "animate": [
+          {
+            "swim": "v.kind == 0 || v.kind == 1 || v.kind == 3 || v.kind == 6"
+          },
+          {
+            "drift": "v.kind == 2 || v.kind == 4"
+          },
+          {
+            "walk": "v.kind == 5"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.kaleidoscope_fishing.tank_fish"
+      ]
+    }
+  }
+}

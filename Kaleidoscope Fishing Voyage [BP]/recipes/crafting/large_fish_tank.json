@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:large_fish_tank"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "TT"
+    ],
+    "key": {
+      "T": {
+        "item": "kaleidoscope_fishing:fish_tank"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:large_fish_tank",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:fish_tank"
+      }
+    ]
+  }
+}

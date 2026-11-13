@@ -1,0 +1,49 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:emperor_whole_tuna"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:emperor_tuna"
+      },
+      {
+        "item": "minecraft:kelp"
+      },
+      {
+        "item": "minecraft:kelp"
+      },
+      {
+        "item": "minecraft:oak_slab"
+      },
+      {
+        "item": "minecraft:oak_slab"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:emperor_whole_tuna",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:emperor_tuna"
+      },
+      {
+        "item": "minecraft:kelp"
+      },
+      {
+        "item": "minecraft:kelp"
+      },
+      {
+        "item": "minecraft:oak_slab"
+      },
+      {
+        "item": "minecraft:oak_slab"
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_seagull",
+    "metalness_emissive_roughness": "kfv_seagull_mer",
+    "heightmap": "kfv_seagull_height"
+  }
+}

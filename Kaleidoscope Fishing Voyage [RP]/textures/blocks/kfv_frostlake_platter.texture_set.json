@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_frostlake_platter",
+    "metalness_emissive_roughness": "kfv_frostlake_platter_mer",
+    "heightmap": "kfv_frostlake_platter_height"
+  }
+}

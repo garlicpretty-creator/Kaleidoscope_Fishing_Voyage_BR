@@ -1,0 +1,42 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tip_up"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "SRS",
+      " S ",
+      " T "
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:stick"
+      },
+      "R": {
+        "item": "minecraft:red_wool"
+      },
+      "T": {
+        "item": "minecraft:string"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:tip_up",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "minecraft:red_wool"
+      },
+      {
+        "item": "minecraft:string"
+      }
+    ]
+  }
+}

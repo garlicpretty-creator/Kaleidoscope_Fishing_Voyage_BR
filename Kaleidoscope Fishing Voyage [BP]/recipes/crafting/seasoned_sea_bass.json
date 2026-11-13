@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:seasoned_sea_bass"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:sea_bass"
+      },
+      {
+        "item": "kaleidoscope_cookery:oil"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:seasoned_sea_bass",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:sea_bass"
+      },
+      {
+        "item": "kaleidoscope_cookery:oil"
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.seagull.fly": {
+      "loop": true,
+      "bones": {
+        "wing_l": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            0,
+            "-(math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6)"
+          ]
+        },
+        "head": {
+          "rotation": [
+            "math.sin(query.life_time * 90) * 4",
+            0,
+            0
+          ]
+        },
+        "legs": {
+          "rotation": [
+            "(1 - query.is_on_ground) * 60",
+            0,
+            0
+          ]
+        }
+      }
+    }
+  }
+}

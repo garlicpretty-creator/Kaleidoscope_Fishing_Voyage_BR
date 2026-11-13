@@ -1,0 +1,60 @@
+{
+  "kaleidoscope_fishing:copper_hook": {
+    "slot": "hook",
+    "rare": 1.25
+  },
+  "kaleidoscope_fishing:gold_hook": {
+    "slot": "hook",
+    "rare": 1.5,
+    "wear": 1
+  },
+  "kaleidoscope_fishing:bone_hook": {
+    "slot": "hook",
+    "size": 1
+  },
+  "kaleidoscope_fishing:hemp_line": {
+    "slot": "line",
+    "strain": 1
+  },
+  "kaleidoscope_fishing:wire_line": {
+    "slot": "line",
+    "strain": 2,
+    "bite": 1.15
+  },
+  "kaleidoscope_fishing:clear_line": {
+    "slot": "line",
+    "strain": -1,
+    "bite": 0.85
+  },
+  "kaleidoscope_fishing:bamboo_bobber": {
+    "slot": "bobber",
+    "bite": 0.9,
+    "window": 10,
+    "style": 1
+  },
+  "kaleidoscope_fishing:glow_bobber": {
+    "slot": "bobber",
+    "night": 0.75,
+    "style": 2
+  },
+  "kaleidoscope_fishing:weighted_bobber": {
+    "slot": "bobber",
+    "depth": 6,
+    "style": 3
+  },
+  "kaleidoscope_fishing:lure_hook": {
+    "slot": "hook",
+    "lure": true,
+    "rare": 0.8
+  },
+  "kaleidoscope_fishing:glow_line": {
+    "slot": "line",
+    "night": 0.8
+  },
+  "kaleidoscope_fishing:feather_bobber": {
+    "slot": "bobber",
+    "depth": -1,
+    "shallow": 1.5,
+    "style": 5
+  }
+}

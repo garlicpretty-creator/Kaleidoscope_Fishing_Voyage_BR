@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_print",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.fish_print"
+      },
+      "minecraft:icon": "kfv_fish_print",
+      "minecraft:max_stack_size": 16,
+      "minecraft:block_placer": {
+        "block": "kaleidoscope_fishing:fish_print",
+        "replace_block_item": true
+      }
+    }
+  }
+}

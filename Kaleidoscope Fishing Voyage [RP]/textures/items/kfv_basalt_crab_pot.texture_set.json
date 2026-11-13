@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_basalt_crab_pot",
+    "metalness_emissive_roughness": "kfv_basalt_crab_pot_mer",
+    "normal": "kfv_basalt_crab_pot_normal"
+  }
+}

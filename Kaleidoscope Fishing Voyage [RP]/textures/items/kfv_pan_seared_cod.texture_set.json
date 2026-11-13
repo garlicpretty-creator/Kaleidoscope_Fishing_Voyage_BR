@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_pan_seared_cod",
+    "metalness_emissive_roughness": "kfv_pan_seared_cod_mer",
+    "normal": "kfv_pan_seared_cod_normal"
+  }
+}

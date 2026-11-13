@@ -1,0 +1,417 @@
+{
+  "kaleidoscope_fishing:carp": {
+    "index": 1,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.25
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:grass_carp": {
+    "index": 2,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:catfish": {
+    "index": 3,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:yellow_croaker": {
+    "index": 4,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.3
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:mackerel": {
+    "index": 5,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:sea_bream": {
+    "index": 6,
+    "out": [
+      "kaleidoscope_fishing:sea_bream_sashimi",
+      4
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:tuna": {
+    "index": 7,
+    "out": [
+      "kaleidoscope_fishing:tuna_sashimi",
+      6
+    ],
+    "scales": true,
+    "bones": 2,
+    "extra": []
+  },
+  "kaleidoscope_fishing:eel": {
+    "index": 8,
+    "out": [
+      "kaleidoscope_fishing:eel_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:hairtail": {
+    "index": 9,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:grouper": {
+    "index": 10,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      4
+    ],
+    "scales": true,
+    "bones": 2,
+    "extra": []
+  },
+  "kaleidoscope_fishing:sweetfish": {
+    "index": 11,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": []
+  },
+  "minecraft:cod": {
+    "index": 12,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.25
+      ]
+    ]
+  },
+  "minecraft:salmon": {
+    "index": 13,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.5
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:saury": {
+    "index": 14,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:anglerfish": {
+    "index": 15,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      4
+    ],
+    "scales": false,
+    "bones": 2,
+    "extra": []
+  },
+  "kaleidoscope_fishing:octopus": {
+    "index": 16,
+    "out": [
+      "kaleidoscope_fishing:octopus_slices",
+      4
+    ],
+    "scales": false,
+    "bones": 0,
+    "extra": [
+      [
+        "minecraft:ink_sac",
+        0.6
+      ]
+    ]
+  },
+  "minecraft:tropical_fish": {
+    "index": 17,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      1
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": []
+  },
+  "minecraft:pufferfish": {
+    "index": 18,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:skipjack": {
+    "index": 19,
+    "out": [
+      "kaleidoscope_fishing:tuna_sashimi",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:smelt": {
+    "index": 20,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      1
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:rainbow_trout": {
+    "index": 21,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.4
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:arctic_char": {
+    "index": 22,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 2,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.3
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:void_eel": {
+    "index": 23,
+    "out": [
+      "kaleidoscope_fishing:eel_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:starfin": {
+    "index": 24,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.3
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:sea_bass": {
+    "index": 25,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:grey_mullet": {
+    "index": 26,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:mullet_roe",
+        1.0
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:snakehead": {
+    "index": 27,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.2
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:flying_fish": {
+    "index": 28,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:flying_fish_roe",
+        0.6
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:cave_blindfish": {
+    "index": 29,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      1
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:river_lord_catfish": {
+    "index": 30,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      6
+    ],
+    "scales": false,
+    "bones": 3,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.5
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:emperor_tuna": {
+    "index": 31,
+    "out": [
+      "kaleidoscope_fishing:tuna_sashimi",
+      8
+    ],
+    "scales": true,
+    "bones": 3,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.5
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:frostlake_char": {
+    "index": 32,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      5
+    ],
+    "scales": true,
+    "bones": 2,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.5
+      ]
+    ]
+  }
+}

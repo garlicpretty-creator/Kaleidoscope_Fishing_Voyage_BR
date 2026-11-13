@@ -1,0 +1,1196 @@
+[
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/carp_fillet",
+      "input": "kaleidoscope_fishing:carp",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/grass_carp_fillet",
+      "input": "kaleidoscope_fishing:grass_carp",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/catfish_fillet",
+      "input": "kaleidoscope_fishing:catfish",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/yellow_croaker_fillet",
+      "input": "kaleidoscope_fishing:yellow_croaker",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/mackerel_fillet",
+      "input": "kaleidoscope_fishing:mackerel",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/sea_bream_sashimi",
+      "input": "kaleidoscope_fishing:sea_bream",
+      "result": "kaleidoscope_fishing:sea_bream_sashimi",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/tuna_sashimi",
+      "input": "kaleidoscope_fishing:tuna",
+      "result": "kaleidoscope_fishing:tuna_sashimi",
+      "count": 4,
+      "cuts": 4
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/oyster_omelette",
+      "ingredients": [
+        "kaleidoscope_fishing:oyster",
+        "kaleidoscope_fishing:oyster",
+        "minecraft:egg",
+        "kaleidoscope_cookery:lettuce",
+        "kaleidoscope_cookery:flour"
+      ],
+      "result": "kaleidoscope_fishing:oyster_omelette",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/salt_pepper_shrimp",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_cookery:red_chili",
+        [
+          "kaleidoscope_fishing:sea_salt",
+          "kaleidoscope_fishing:fish_sauce"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:salt_pepper_shrimp",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/spicy_clams",
+      "ingredients": [
+        "kaleidoscope_fishing:clam",
+        "kaleidoscope_fishing:clam",
+        "kaleidoscope_cookery:red_chili",
+        "kaleidoscope_cookery:green_chili"
+      ],
+      "result": "kaleidoscope_fishing:spicy_clams",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/shrimp_scrambled_eggs",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp",
+        "minecraft:egg",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:shrimp_scrambled_eggs",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/sweet_sour_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_cookery:tomato",
+        "minecraft:sugar"
+      ],
+      "result": "kaleidoscope_fishing:sweet_sour_fish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 240
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/fish_stock",
+      "ingredients": [
+        [
+          "kaleidoscope_fishing:mackerel",
+          "minecraft:cod",
+          "kaleidoscope_fishing:dried_fish",
+          "kaleidoscope_fishing:fish_bones",
+          "kaleidoscope_fishing:bonito_flakes",
+          "kaleidoscope_fishing:air_dried_fish"
+        ],
+        [
+          "kaleidoscope_fishing:mackerel",
+          "minecraft:cod",
+          "kaleidoscope_fishing:dried_fish",
+          "kaleidoscope_fishing:fish_bones",
+          "kaleidoscope_fishing:bonito_flakes",
+          "kaleidoscope_fishing:air_dried_fish"
+        ],
+        "minecraft:kelp"
+      ],
+      "result": "kaleidoscope_fishing:fish_stock_bucket",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bucket",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/fish_ball_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:fish_ball",
+        "kaleidoscope_fishing:fish_ball",
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:fish_ball_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/seafood_congee",
+      "ingredients": [
+        "kaleidoscope_cookery:rice",
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_fishing:white_fish_fillet"
+      ],
+      "result": "kaleidoscope_fishing:seafood_congee",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_sea_bream",
+      "input": "kaleidoscope_fishing:seasoned_sea_bream",
+      "result": "kaleidoscope_fishing:steamed_sea_bream",
+      "count": 1,
+      "time": 400
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/har_gow",
+      "input": "kaleidoscope_fishing:raw_har_gow",
+      "result": "kaleidoscope_fishing:har_gow",
+      "count": 1,
+      "time": 240
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_crab",
+      "input": "kaleidoscope_fishing:crab",
+      "result": "kaleidoscope_fishing:steamed_crab",
+      "count": 1,
+      "time": 300
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/octopus_slices",
+      "input": "kaleidoscope_fishing:octopus",
+      "result": "kaleidoscope_fishing:octopus_slices",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/pan_fried_hairtail",
+      "ingredients": [
+        "kaleidoscope_fishing:hairtail",
+        "kaleidoscope_fishing:hairtail",
+        [
+          "kaleidoscope_fishing:sea_salt",
+          "kaleidoscope_fishing:fish_sauce"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:pan_fried_hairtail",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/spicy_octopus",
+      "ingredients": [
+        "kaleidoscope_fishing:octopus_slices",
+        "kaleidoscope_fishing:octopus_slices",
+        "kaleidoscope_cookery:red_chili",
+        "kaleidoscope_cookery:green_chili"
+      ],
+      "result": "kaleidoscope_fishing:spicy_octopus",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_grouper",
+      "input": "kaleidoscope_fishing:seasoned_grouper",
+      "result": "kaleidoscope_fishing:steamed_grouper",
+      "count": 1,
+      "time": 400
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/anglerfish_hot_pot",
+      "ingredients": [
+        "kaleidoscope_fishing:anglerfish",
+        "minecraft:carrot",
+        "minecraft:kelp"
+      ],
+      "result": "kaleidoscope_fishing:anglerfish_hot_pot",
+      "count": 1,
+      "time": 400,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_fish_mackerel",
+      "input": "kaleidoscope_fishing:mackerel",
+      "result": "kaleidoscope_fishing:dried_fish",
+      "process": "dry",
+      "duration": 1800
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_fish_croaker",
+      "input": "kaleidoscope_fishing:yellow_croaker",
+      "result": "kaleidoscope_fishing:dried_fish",
+      "process": "dry",
+      "duration": 1800
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_fish_sweetfish",
+      "input": "kaleidoscope_fishing:sweetfish",
+      "result": "kaleidoscope_fishing:dried_fish",
+      "process": "dry",
+      "duration": 1800
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_shrimp",
+      "input": "kaleidoscope_fishing:shrimp",
+      "result": "kaleidoscope_fishing:dried_shrimp",
+      "process": "dry",
+      "duration": 1200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/fish_and_chips",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "minecraft:potato",
+        "minecraft:potato",
+        "kaleidoscope_cookery:flour"
+      ],
+      "result": "kaleidoscope_fishing:fish_and_chips",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/seafood_chow_mein",
+      "ingredients": [
+        "kaleidoscope_cookery:raw_noodles",
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_fishing:octopus_slices",
+        "kaleidoscope_cookery:green_chili"
+      ],
+      "result": "kaleidoscope_fishing:seafood_chow_mein",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/paella",
+      "ingredients": [
+        "kaleidoscope_cookery:rice",
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_fishing:clam",
+        "kaleidoscope_cookery:tomato",
+        "kaleidoscope_fishing:octopus_slices"
+      ],
+      "result": "kaleidoscope_fishing:paella",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 260
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/oyster_vermicelli",
+      "ingredients": [
+        "kaleidoscope_fishing:oyster",
+        "kaleidoscope_fishing:oyster",
+        "kaleidoscope_cookery:raw_noodles"
+      ],
+      "result": "kaleidoscope_fishing:oyster_vermicelli",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/seafood_hot_pot",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp",
+        "kaleidoscope_fishing:crab",
+        "kaleidoscope_fishing:clam",
+        "kaleidoscope_fishing:fish_ball",
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:seafood_hot_pot",
+      "count": 1,
+      "time": 400,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/dried_shrimp_congee",
+      "ingredients": [
+        "kaleidoscope_cookery:rice",
+        "kaleidoscope_fishing:dried_shrimp",
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:dried_shrimp_congee",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/pickled_cabbage_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_chinesefood:chinese_sauerkraut",
+        "kaleidoscope_cookery:red_chili"
+      ],
+      "result": "kaleidoscope_fishing:pickled_cabbage_fish",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/eel_fillet",
+      "input": "kaleidoscope_fishing:eel",
+      "result": "kaleidoscope_fishing:eel_fillet",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/raw_calamari",
+      "input": "kaleidoscope_fishing:squid_tube",
+      "result": "kaleidoscope_fishing:raw_calamari",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/unagi_don",
+      "ingredients": [
+        "kaleidoscope_fishing:eel_fillet",
+        "kaleidoscope_fishing:eel_fillet",
+        "kaleidoscope_cookery:cooked_rice",
+        "minecraft:sugar"
+      ],
+      "result": "kaleidoscope_fishing:unagi_don",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 240
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/pan_fried_saury",
+      "ingredients": [
+        "kaleidoscope_fishing:saury",
+        "kaleidoscope_fishing:saury",
+        [
+          "kaleidoscope_fishing:sea_salt",
+          "kaleidoscope_fishing:fish_sauce"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:pan_fried_saury",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/fried_calamari",
+      "ingredients": [
+        "kaleidoscope_fishing:raw_calamari",
+        "kaleidoscope_fishing:raw_calamari",
+        "kaleidoscope_cookery:flour",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:fried_calamari",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/crab_roe_bun",
+      "input": "kaleidoscope_fishing:raw_crab_roe_bun",
+      "result": "kaleidoscope_fishing:crab_roe_bun",
+      "count": 1,
+      "time": 240
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/nori",
+      "input": "kaleidoscope_fishing:raw_laver",
+      "result": "kaleidoscope_fishing:nori",
+      "process": "dry",
+      "duration": 1200
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/bonito_flakes",
+      "input": "kaleidoscope_fishing:katsuobushi",
+      "result": "kaleidoscope_fishing:bonito_flakes",
+      "count": 4,
+      "cuts": 4
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/dashi",
+      "ingredients": [
+        "kaleidoscope_fishing:bonito_flakes",
+        "kaleidoscope_fishing:bonito_flakes",
+        "minecraft:kelp"
+      ],
+      "result": "kaleidoscope_fishing:dashi_bucket",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bucket",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/oden",
+      "ingredients": [
+        "kaleidoscope_fishing:fish_ball",
+        "minecraft:potato",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:oden",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:dashi",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/smelt_tempura",
+      "ingredients": [
+        "kaleidoscope_fishing:smelt",
+        "kaleidoscope_fishing:smelt",
+        "kaleidoscope_cookery:flour",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:smelt_tempura",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/pan_fried_trout",
+      "ingredients": [
+        "kaleidoscope_fishing:rainbow_trout",
+        [
+          "kaleidoscope_fishing:sea_salt",
+          "kaleidoscope_fishing:fish_sauce"
+        ],
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:pan_fried_trout",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/char_rice",
+      "ingredients": [
+        "kaleidoscope_fishing:arctic_char",
+        "kaleidoscope_cookery:rice",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:char_rice",
+      "count": 1,
+      "time": 400,
+      "base": "kaleidoscope_fishing:dashi",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/salted_fish_fried_rice",
+      "ingredients": [
+        "kaleidoscope_fishing:salted_fish",
+        "kaleidoscope_cookery:cooked_rice",
+        "minecraft:egg",
+        "kaleidoscope_cookery:green_chili"
+      ],
+      "result": "kaleidoscope_fishing:salted_fish_fried_rice",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/starfin_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:starfin",
+        "minecraft:chorus_fruit",
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:starfin_soup",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_purpur_shrimp",
+      "input": "kaleidoscope_fishing:purpur_shrimp",
+      "result": "kaleidoscope_fishing:steamed_purpur_shrimp",
+      "count": 1,
+      "time": 240
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/lava_eel_don",
+      "ingredients": [
+        "kaleidoscope_fishing:lava_eel",
+        "kaleidoscope_fishing:lava_eel",
+        "kaleidoscope_cookery:cooked_rice",
+        "minecraft:sugar"
+      ],
+      "result": "kaleidoscope_fishing:lava_eel_don",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 240
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/blazefin_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:blazefin",
+        "kaleidoscope_fishing:blazefin",
+        "kaleidoscope_cookery:red_chili"
+      ],
+      "result": "kaleidoscope_fishing:blazefin_soup",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/basalt_crab_pot",
+      "ingredients": [
+        "kaleidoscope_fishing:basalt_crab",
+        "kaleidoscope_fishing:basalt_crab",
+        [
+          "minecraft:crimson_fungus",
+          "minecraft:warped_fungus"
+        ],
+        "minecraft:potato"
+      ],
+      "result": "kaleidoscope_fishing:basalt_crab_pot",
+      "count": 1,
+      "time": 400,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/tomato_mackerel",
+      "ingredients": [
+        "kaleidoscope_fishing:mackerel",
+        "kaleidoscope_fishing:mackerel",
+        "kaleidoscope_cookery:tomato",
+        "kaleidoscope_cookery:tomato"
+      ],
+      "result": "kaleidoscope_fishing:tomato_mackerel",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/salmon_ochazuke",
+      "ingredients": [
+        "minecraft:cooked_salmon",
+        "kaleidoscope_fishing:nori",
+        "kaleidoscope_cookery:cooked_rice"
+      ],
+      "result": "kaleidoscope_fishing:salmon_ochazuke",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/pan_seared_cod",
+      "ingredients": [
+        "minecraft:cod",
+        "minecraft:cod",
+        [
+          "kaleidoscope_fishing:sea_salt",
+          "kaleidoscope_fishing:fish_sauce"
+        ],
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:pan_seared_cod",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/nori_egg_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:nori",
+        "minecraft:egg",
+        "kaleidoscope_cookery:lettuce"
+      ],
+      "result": "kaleidoscope_fishing:nori_egg_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/fish_scale_jelly",
+      "ingredients": [
+        "kaleidoscope_fishing:fish_scales",
+        "kaleidoscope_fishing:fish_scales",
+        "kaleidoscope_fishing:fish_scales"
+      ],
+      "result": "kaleidoscope_fishing:fish_scale_jelly",
+      "count": 1,
+      "time": 400,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "teapot",
+    "recipe": {
+      "id": "kaleidoscope_fishing:teapot/kombu_tea",
+      "ingredient": "minecraft:dried_kelp",
+      "base": "minecraft:water",
+      "result": "kaleidoscope_fishing:kombu_tea",
+      "count": 4,
+      "time": 240,
+      "displayName": "Kombu Tea"
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/golden_croaker_fillet",
+      "input": "kaleidoscope_fishing:golden_croaker",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 4,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/chorus_sashimi",
+      "input": "kaleidoscope_fishing:chorus_carp",
+      "result": "kaleidoscope_fishing:chorus_sashimi",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/ender_angler_pearls",
+      "input": "kaleidoscope_fishing:ender_angler",
+      "result": "minecraft:ender_pearl",
+      "count": 2,
+      "cuts": 4
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/void_seafood_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:chorus_carp",
+        "kaleidoscope_fishing:chorus_jellyfish",
+        "kaleidoscope_fishing:purpur_shrimp"
+      ],
+      "result": "kaleidoscope_fishing:void_seafood_soup",
+      "count": 1,
+      "time": 400,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_glow_crab",
+      "input": "kaleidoscope_fishing:glow_crab",
+      "result": "kaleidoscope_fishing:steamed_crab",
+      "count": 1,
+      "time": 300
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/sea_bass_white_fish_fillet",
+      "input": "kaleidoscope_fishing:sea_bass",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/snakehead_white_fish_fillet",
+      "input": "kaleidoscope_fishing:snakehead",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 3,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/flying_fish_flying_fish_roe",
+      "input": "kaleidoscope_fishing:flying_fish",
+      "result": "kaleidoscope_fishing:flying_fish_roe",
+      "count": 2,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_sea_bass",
+      "input": "kaleidoscope_fishing:seasoned_sea_bass",
+      "result": "kaleidoscope_fishing:steamed_sea_bass",
+      "count": 1,
+      "time": 400
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/sea_bass_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:sea_bass",
+        "kaleidoscope_cookery:lettuce",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:sea_bass_soup",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/loach_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:loach",
+        "kaleidoscope_fishing:loach",
+        "kaleidoscope_cookery:lettuce",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:loach_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/stir_fried_snakehead",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_cookery:green_chili",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:stir_fried_snakehead",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/spicy_mudskipper",
+      "ingredients": [
+        "kaleidoscope_fishing:mudskipper",
+        "kaleidoscope_fishing:mudskipper",
+        "kaleidoscope_cookery:red_chili",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:spicy_mudskipper",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_lobster",
+      "input": "kaleidoscope_fishing:lobster",
+      "result": "kaleidoscope_fishing:steamed_lobster",
+      "count": 1,
+      "time": 300
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/lobster_congee",
+      "ingredients": [
+        "kaleidoscope_fishing:lobster",
+        "kaleidoscope_cookery:rice",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:lobster_congee",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "steamer",
+    "recipe": {
+      "id": "kaleidoscope_fishing:steamer/steamed_king_crab",
+      "input": "kaleidoscope_fishing:king_crab",
+      "result": "kaleidoscope_fishing:steamed_king_crab",
+      "count": 1,
+      "time": 300
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/crab_leg_hot_pot",
+      "ingredients": [
+        "kaleidoscope_fishing:king_crab",
+        "kaleidoscope_cookery:lettuce",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:crab_leg_hot_pot",
+      "count": 1,
+      "time": 400,
+      "base": "kaleidoscope_fishing:dashi",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/blindfish_clear_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:cave_blindfish",
+        "kaleidoscope_fishing:cave_blindfish",
+        "minecraft:brown_mushroom",
+        "kaleidoscope_fishing:sea_salt"
+      ],
+      "result": "kaleidoscope_fishing:blindfish_clear_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/spicy_crayfish",
+      "ingredients": [
+        "kaleidoscope_fishing:cave_crayfish",
+        "kaleidoscope_fishing:cave_crayfish",
+        "kaleidoscope_fishing:cave_crayfish",
+        "kaleidoscope_cookery:red_chili",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:spicy_crayfish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/karasumi_slices",
+      "input": "kaleidoscope_fishing:karasumi",
+      "result": "kaleidoscope_fishing:karasumi_slices",
+      "count": 4,
+      "cuts": 3
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/karasumi_fried_rice",
+      "ingredients": [
+        "kaleidoscope_fishing:karasumi_slices",
+        "kaleidoscope_fishing:karasumi_slices",
+        "kaleidoscope_cookery:cooked_rice",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:karasumi_fried_rice",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/shrimp_paste_fried_rice",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp_paste",
+        "kaleidoscope_cookery:cooked_rice",
+        "minecraft:egg",
+        "kaleidoscope_cookery:green_chili"
+      ],
+      "result": "kaleidoscope_fishing:shrimp_paste_fried_rice",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/river_lord_catfish_white_fish_fillet",
+      "input": "kaleidoscope_fishing:river_lord_catfish",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 6,
+      "cuts": 4
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/emperor_tuna_tuna_sashimi",
+      "input": "kaleidoscope_fishing:emperor_tuna",
+      "result": "kaleidoscope_fishing:tuna_sashimi",
+      "count": 8,
+      "cuts": 5
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/frostlake_char_white_fish_fillet",
+      "input": "kaleidoscope_fishing:frostlake_char",
+      "result": "kaleidoscope_fishing:white_fish_fillet",
+      "count": 5,
+      "cuts": 4
+    }
+  },
+  {
+    "kind": "chopping_board",
+    "recipe": {
+      "id": "kaleidoscope_fishing:board/grey_mullet_mullet_roe",
+      "input": "kaleidoscope_fishing:grey_mullet",
+      "result": "kaleidoscope_fishing:mullet_roe",
+      "count": 1,
+      "cuts": 3
+    }
+  }
+]

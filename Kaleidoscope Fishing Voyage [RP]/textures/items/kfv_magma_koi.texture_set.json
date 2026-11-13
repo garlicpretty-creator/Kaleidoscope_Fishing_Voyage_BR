@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_magma_koi",
+    "metalness_emissive_roughness": "kfv_magma_koi_mer",
+    "normal": "kfv_magma_koi_normal"
+  }
+}

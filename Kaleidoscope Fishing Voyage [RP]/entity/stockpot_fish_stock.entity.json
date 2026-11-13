@@ -1,0 +1,21 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:stockpot_fish_stock",
+      "materials": {
+        "default": "breeze_wind"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_stockpot_fish_stock"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.stockpot_layer"
+      },
+      "render_controllers": [
+        "controller.render.kaleidoscope_fishing.stockpot_fish_stock"
+      ],
+      "enable_attachables": false
+    }
+  }
+}

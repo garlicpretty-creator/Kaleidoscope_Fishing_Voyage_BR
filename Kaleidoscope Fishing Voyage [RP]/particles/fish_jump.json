@@ -1,0 +1,62 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_jump",
+      "basic_render_parameters": {
+        "material": "particles_alpha",
+        "texture": "textures/particle/kfv_fish_jump"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 1
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_point": {
+        "direction": [
+          "math.random(-0.35, 0.35)",
+          1,
+          "math.random(-0.35, 0.35)"
+        ]
+      },
+      "minecraft:particle_initial_speed": "math.random(4.2, 5.4)",
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 0.75
+      },
+      "minecraft:particle_motion_dynamic": {
+        "linear_acceleration": [
+          0,
+          -15,
+          0
+        ]
+      },
+      "minecraft:particle_initial_spin": {
+        "rotation": "math.random(-20, 20)",
+        "rotation_rate": "math.random(-240, 240)"
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          0.32,
+          0.16
+        ],
+        "facing_camera_mode": "rotate_xyz",
+        "uv": {
+          "texture_width": 8,
+          "texture_height": 4,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            8,
+            4
+          ]
+        }
+      },
+      "minecraft:particle_appearance_lighting": {}
+    }
+  }
+}

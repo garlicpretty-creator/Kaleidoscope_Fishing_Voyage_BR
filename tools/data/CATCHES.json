@@ -1,0 +1,819 @@
+[
+  {
+    "id": "kaleidoscope_fishing:carp",
+    "w": 30,
+    "waters": [
+      "river",
+      "lake",
+      "swamp"
+    ],
+    "size": [
+      30,
+      80
+    ],
+    "fight": 1,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 1.3
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:grass_carp",
+    "w": 24,
+    "waters": [
+      "river",
+      "lake",
+      "swamp"
+    ],
+    "time": "day",
+    "off": 0.3,
+    "size": [
+      40,
+      100
+    ],
+    "fight": 1,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 1.3
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:catfish",
+    "w": 18,
+    "waters": [
+      "swamp",
+      "river",
+      "lake"
+    ],
+    "time": "night",
+    "off": 0.25,
+    "rain": 1.5,
+    "size": [
+      30,
+      120
+    ],
+    "fight": 2,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 1.3
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:sweetfish",
+    "w": 16,
+    "waters": [
+      "river"
+    ],
+    "time": "day",
+    "off": 0.3,
+    "cold": 2.5,
+    "size": [
+      15,
+      30
+    ],
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:mackerel",
+    "w": 30,
+    "waters": [
+      "ocean",
+      "cold_ocean",
+      "deep_ocean"
+    ],
+    "size": [
+      25,
+      45
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:yellow_croaker",
+    "w": 24,
+    "waters": [
+      "ocean",
+      "warm_ocean",
+      "beach"
+    ],
+    "time": "day",
+    "off": 0.3,
+    "size": [
+      15,
+      30
+    ],
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bream",
+    "w": 12,
+    "waters": [
+      "ocean",
+      "warm_ocean"
+    ],
+    "dawn_dusk": 3,
+    "bait": {
+      "kaleidoscope_fishing:shrimp": 1.5
+    },
+    "size": [
+      25,
+      70
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:hairtail",
+    "w": 10,
+    "waters": [
+      "ocean",
+      "deep_ocean"
+    ],
+    "time": "night",
+    "off": 0.2,
+    "min_depth": 6,
+    "bait": {
+      "kaleidoscope_fishing:glow_bait": 2
+    },
+    "size": [
+      60,
+      150
+    ],
+    "fight": 2,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:grouper",
+    "w": 7,
+    "waters": [
+      "warm_ocean"
+    ],
+    "time": "day",
+    "off": 0.4,
+    "tier_bonus": 1.6,
+    "size": [
+      30,
+      120
+    ],
+    "fight": 3,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:tuna",
+    "w": 3,
+    "waters": [
+      "deep_ocean"
+    ],
+    "min_depth": 8,
+    "rain": 1.5,
+    "bait": {
+      "kaleidoscope_fishing:shrimp": 2
+    },
+    "tier_bonus": 1.6,
+    "size": [
+      80,
+      250
+    ],
+    "fight": 4,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:anglerfish",
+    "w": 2,
+    "waters": [
+      "deep_ocean"
+    ],
+    "min_depth": 10,
+    "time": "night",
+    "off": 0.0,
+    "rain": 2,
+    "tier": 2,
+    "bait": {
+      "kaleidoscope_fishing:glow_bait": 4
+    },
+    "size": [
+      40,
+      100
+    ],
+    "fight": 3,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:octopus",
+    "w": 5,
+    "waters": [
+      "warm_ocean",
+      "ocean"
+    ],
+    "time": "night",
+    "off": 0.3,
+    "bait": {
+      "kaleidoscope_fishing:glow_bait": 2
+    },
+    "size": [
+      30,
+      90
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:eel",
+    "w": 12,
+    "waters": [
+      "river",
+      "swamp",
+      "lake"
+    ],
+    "time": "night",
+    "off": 0.2,
+    "rain": 1.6,
+    "bait": {
+      "kaleidoscope_fishing:fish_meal_bait": 1.5,
+      "kaleidoscope_fishing:earthworm": 1.3
+    },
+    "size": [
+      40,
+      120
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:saury",
+    "w": 16,
+    "waters": [
+      "cold_ocean",
+      "ocean"
+    ],
+    "time": "night",
+    "off": 0.3,
+    "cold": 1.8,
+    "bait": {
+      "kaleidoscope_fishing:glow_bait": 1.5
+    },
+    "size": [
+      25,
+      40
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp",
+    "w": 12,
+    "waters": [
+      "river",
+      "lake",
+      "swamp",
+      "ocean",
+      "beach",
+      "warm_ocean"
+    ],
+    "max_depth": 6,
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:crab",
+    "w": 10,
+    "waters": [
+      "beach",
+      "swamp",
+      "ocean",
+      "warm_ocean"
+    ],
+    "max_depth": 4,
+    "size": null,
+    "fight": 0,
+    "tide": {
+      "low": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:oyster",
+    "w": 8,
+    "waters": [
+      "beach",
+      "ocean",
+      "warm_ocean"
+    ],
+    "max_depth": 5,
+    "size": null,
+    "fight": 0,
+    "tide": {
+      "low": 1.5
+    }
+  },
+  {
+    "id": "minecraft:cod",
+    "w": 18,
+    "waters": [
+      "ocean",
+      "cold_ocean",
+      "deep_ocean",
+      "beach",
+      "cave"
+    ],
+    "size": [
+      30,
+      80
+    ],
+    "fight": 1
+  },
+  {
+    "id": "minecraft:salmon",
+    "w": 14,
+    "waters": [
+      "river",
+      "cold_ocean",
+      "lake"
+    ],
+    "cold": 2.5,
+    "size": [
+      40,
+      90
+    ],
+    "fight": 1
+  },
+  {
+    "id": "minecraft:tropical_fish",
+    "w": 10,
+    "waters": [
+      "warm_ocean"
+    ],
+    "size": [
+      5,
+      20
+    ],
+    "fight": 0
+  },
+  {
+    "id": "minecraft:pufferfish",
+    "w": 4,
+    "waters": [
+      "warm_ocean",
+      "ocean"
+    ],
+    "size": [
+      10,
+      35
+    ],
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:void_eel",
+    "w": 16,
+    "waters": [
+      "void"
+    ],
+    "size": [
+      40,
+      120
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:purpur_shrimp",
+    "w": 12,
+    "waters": [
+      "void"
+    ],
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:starfin",
+    "w": 4,
+    "waters": [
+      "void"
+    ],
+    "min_depth": 8,
+    "size": [
+      30,
+      70
+    ],
+    "fight": 3
+  },
+  {
+    "id": "kaleidoscope_fishing:smelt",
+    "w": 30,
+    "waters": [
+      "ice"
+    ],
+    "size": [
+      8,
+      20
+    ],
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:rainbow_trout",
+    "w": 16,
+    "waters": [
+      "ice"
+    ],
+    "size": [
+      30,
+      70
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:arctic_char",
+    "w": 6,
+    "waters": [
+      "ice"
+    ],
+    "dawn_dusk": 2,
+    "size": [
+      40,
+      90
+    ],
+    "fight": 3
+  },
+  {
+    "id": "kaleidoscope_fishing:skipjack",
+    "w": 12,
+    "waters": [
+      "ocean",
+      "warm_ocean",
+      "deep_ocean"
+    ],
+    "time": "day",
+    "off": 0.4,
+    "size": [
+      40,
+      100
+    ],
+    "fight": 2,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:blazefin",
+    "w": 16,
+    "waters": [
+      "lava"
+    ],
+    "size": [
+      20,
+      45
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_eel",
+    "w": 10,
+    "waters": [
+      "lava"
+    ],
+    "size": [
+      40,
+      120
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:basalt_crab",
+    "w": 8,
+    "waters": [
+      "lava"
+    ],
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:magma_koi",
+    "w": 3,
+    "waters": [
+      "lava"
+    ],
+    "min_depth": 3,
+    "size": [
+      30,
+      80
+    ],
+    "fight": 3
+  },
+  {
+    "id": "kaleidoscope_fishing:golden_croaker",
+    "w": 2,
+    "waters": [
+      "ocean",
+      "warm_ocean"
+    ],
+    "slots": [
+      "dawn",
+      "dusk"
+    ],
+    "size": [
+      25,
+      45
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:moon_jellyfish",
+    "w": 6,
+    "waters": [
+      "ocean",
+      "deep_ocean"
+    ],
+    "time": "night",
+    "off": 0.0,
+    "moon": "full",
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:glow_crab",
+    "w": 6,
+    "waters": [
+      "beach"
+    ],
+    "time": "night",
+    "off": 0.0,
+    "moon": "full",
+    "max_depth": 4,
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_carp",
+    "w": 30,
+    "waters": [
+      "end_pond"
+    ],
+    "size": [
+      25,
+      60
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:chorus_jellyfish",
+    "w": 15,
+    "waters": [
+      "end_pond"
+    ],
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:ender_angler",
+    "w": 4,
+    "waters": [
+      "end_pond"
+    ],
+    "bait": {
+      "kaleidoscope_fishing:end_maggot": 3
+    },
+    "size": [
+      40,
+      90
+    ],
+    "fight": 3
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bass",
+    "w": 14,
+    "waters": [
+      "estuary"
+    ],
+    "dawn_dusk": 3,
+    "size": [
+      30,
+      90
+    ],
+    "fight": 2,
+    "bait": {
+      "kaleidoscope_fishing:live_shrimp": 2
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:grey_mullet",
+    "w": 10,
+    "waters": [
+      "estuary",
+      "beach"
+    ],
+    "time": "night",
+    "off": 0.3,
+    "moon": [
+      4
+    ],
+    "moon_boost": 4,
+    "size": [
+      30,
+      70
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:loach",
+    "w": 18,
+    "waters": [
+      "swamp",
+      "mangrove"
+    ],
+    "time": "night",
+    "off": 0.4,
+    "rain": 2,
+    "max_depth": 3,
+    "size": null,
+    "fight": 0,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 2
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:snakehead",
+    "w": 8,
+    "waters": [
+      "swamp",
+      "lake"
+    ],
+    "time": "day",
+    "off": 0.4,
+    "size": [
+      40,
+      110
+    ],
+    "fight": 2,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 1.3
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:mudskipper",
+    "w": 14,
+    "waters": [
+      "mangrove"
+    ],
+    "tide": {
+      "low": 2
+    },
+    "max_depth": 2,
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:flying_fish",
+    "w": 10,
+    "waters": [
+      "ocean",
+      "warm_ocean"
+    ],
+    "time": "day",
+    "off": 0.3,
+    "school": 3,
+    "moon": [
+      0
+    ],
+    "moon_boost": 2,
+    "size": [
+      20,
+      45
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:lobster",
+    "w": 6,
+    "waters": [
+      "beach",
+      "ocean",
+      "warm_ocean"
+    ],
+    "time": "night",
+    "off": 0.3,
+    "tide": {
+      "low": 1.5
+    },
+    "max_depth": 6,
+    "size": null,
+    "fight": 1,
+    "bait": {
+      "kaleidoscope_fishing:live_shrimp": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:king_crab",
+    "w": 4,
+    "waters": [
+      "cold_ocean",
+      "deep_ocean"
+    ],
+    "cold": 2,
+    "min_depth": 8,
+    "tier": 2,
+    "size": null,
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_blindfish",
+    "w": 24,
+    "waters": [
+      "cave"
+    ],
+    "size": [
+      10,
+      25
+    ],
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:cave_crayfish",
+    "w": 12,
+    "waters": [
+      "cave"
+    ],
+    "needs": [
+      "lush"
+    ],
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:river_lord_catfish",
+    "w": 1,
+    "waters": [
+      "river",
+      "swamp"
+    ],
+    "time": "night",
+    "off": 0,
+    "size": [
+      150,
+      250
+    ],
+    "fight": 8,
+    "req": {
+      "weather": "thunder",
+      "hook": "kaleidoscope_fishing:bone_hook",
+      "tier": 2
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:emperor_tuna",
+    "w": 1,
+    "waters": [
+      "deep_ocean"
+    ],
+    "min_depth": 12,
+    "size": [
+      250,
+      350
+    ],
+    "fight": 10,
+    "req": {
+      "tide": "high",
+      "moon": [
+        0
+      ],
+      "weather": "rain",
+      "bait": "kaleidoscope_fishing:live_shrimp",
+      "tier": 2
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:frostlake_char",
+    "w": 1,
+    "waters": [
+      "ice"
+    ],
+    "size": [
+      90,
+      140
+    ],
+    "fight": 6,
+    "req": {
+      "moon": [
+        4
+      ],
+      "slots": [
+        "dawn"
+      ]
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_dragon_koi",
+    "w": 1,
+    "waters": [
+      "lava"
+    ],
+    "min_depth": 4,
+    "size": [
+      120,
+      200
+    ],
+    "fight": 8,
+    "req": {
+      "dim": "minecraft:nether",
+      "line": "kaleidoscope_fishing:wire_line",
+      "nobait": true
+    }
+  }
+]

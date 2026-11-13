@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_ice_auger",
+    "metalness_emissive_roughness": "kfv_ice_auger_mer",
+    "normal": "kfv_ice_auger_normal"
+  }
+}

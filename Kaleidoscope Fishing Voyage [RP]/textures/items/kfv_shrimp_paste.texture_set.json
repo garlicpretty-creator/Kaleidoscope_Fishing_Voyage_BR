@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_shrimp_paste",
+    "metalness_emissive_roughness": "kfv_shrimp_paste_mer",
+    "normal": "kfv_shrimp_paste_normal"
+  }
+}

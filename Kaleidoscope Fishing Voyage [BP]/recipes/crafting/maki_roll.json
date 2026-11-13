@@ -1,0 +1,43 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:maki_roll"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:nori"
+      },
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      },
+      {
+        "item": "kaleidoscope_fishing:tuna_sashimi"
+      },
+      {
+        "item": "kaleidoscope_cookery:lettuce"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:maki_roll",
+      "count": 3
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:nori"
+      },
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      },
+      {
+        "item": "kaleidoscope_fishing:tuna_sashimi"
+      },
+      {
+        "item": "kaleidoscope_cookery:lettuce"
+      }
+    ]
+  }
+}

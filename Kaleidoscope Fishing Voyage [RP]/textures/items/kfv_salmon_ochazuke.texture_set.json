@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_salmon_ochazuke",
+    "metalness_emissive_roughness": "kfv_salmon_ochazuke_mer",
+    "normal": "kfv_salmon_ochazuke_normal"
+  }
+}

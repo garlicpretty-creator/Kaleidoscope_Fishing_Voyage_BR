@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_unknown_fish",
+    "metalness_emissive_roughness": "kfv_unknown_fish_mer",
+    "normal": "kfv_unknown_fish_normal"
+  }
+}

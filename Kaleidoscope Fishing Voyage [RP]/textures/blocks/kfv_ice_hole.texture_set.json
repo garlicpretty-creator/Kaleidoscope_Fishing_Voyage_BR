@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_ice_hole",
+    "metalness_emissive_roughness": "kfv_ice_hole_mer",
+    "heightmap": "kfv_ice_hole_height"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.cormorant.move": {
+      "loop": true,
+      "bones": {
+        "leg_l": {
+          "rotation": [
+            "math.cos(query.modified_distance_moved * 38) * 35 * query.modified_move_speed",
+            0,
+            0
+          ]
+        },
+        "leg_r": {
+          "rotation": [
+            "-(math.cos(query.modified_distance_moved * 38) * 35 * query.modified_move_speed)",
+            0,
+            0
+          ]
+        },
+        "neck": {
+          "rotation": [
+            "math.sin(query.life_time * 120) * 3 + query.property('kaleidoscope_fishing:diving') * 50",
+            0,
+            0
+          ]
+        },
+        "body": {
+          "rotation": [
+            "query.property('kaleidoscope_fishing:diving') * 55",
+            0,
+            0
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            0,
+            0,
+            "query.property('kaleidoscope_fishing:diving') * -25"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            0,
+            "query.property('kaleidoscope_fishing:diving') * 25"
+          ]
+        }
+      }
+    }
+  }
+}

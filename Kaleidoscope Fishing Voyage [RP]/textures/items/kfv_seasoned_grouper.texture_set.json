@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_seasoned_grouper",
+    "metalness_emissive_roughness": "kfv_seasoned_grouper_mer",
+    "normal": "kfv_seasoned_grouper_normal"
+  }
+}

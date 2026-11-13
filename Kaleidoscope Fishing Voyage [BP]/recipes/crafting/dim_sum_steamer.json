@@ -1,0 +1,46 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:dim_sum_steamer"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:har_gow"
+      },
+      {
+        "item": "kaleidoscope_fishing:har_gow"
+      },
+      {
+        "item": "kaleidoscope_fishing:crab_roe_bun"
+      },
+      {
+        "item": "kaleidoscope_fishing:crab_roe_bun"
+      },
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:dim_sum_steamer",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:har_gow"
+      },
+      {
+        "item": "kaleidoscope_fishing:crab_roe_bun"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ]
+  }
+}

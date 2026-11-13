@@ -1,0 +1,1562 @@
+[
+  {
+    "id": "kaleidoscope_fishing:grilled_fish",
+    "nameKey": "kaleidoscope_fishing.name.grilled_fish",
+    "icon": "textures/items/kfv_grilled_fish",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.carp",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:oyster_omelette",
+    "nameKey": "kaleidoscope_fishing.name.oyster_omelette",
+    "icon": "textures/items/kfv_oyster_omelette",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.oyster",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salt_pepper_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.salt_pepper_shrimp",
+    "icon": "textures/items/kfv_salt_pepper_shrimp",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_clams",
+    "nameKey": "kaleidoscope_fishing.name.spicy_clams",
+    "icon": "textures/items/kfv_spicy_clams",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.clam",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp_scrambled_eggs",
+    "nameKey": "kaleidoscope_fishing.name.shrimp_scrambled_eggs",
+    "icon": "textures/items/kfv_shrimp_scrambled_eggs",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:sweet_sour_fish",
+    "nameKey": "kaleidoscope_fishing.name.sweet_sour_fish",
+    "icon": "textures/items/kfv_sweet_sour_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.tomato",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.sugar",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fish_ball_soup",
+    "nameKey": "kaleidoscope_fishing.name.fish_ball_soup",
+    "icon": "textures/items/kfv_fish_ball_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_ball",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:seafood_congee",
+    "nameKey": "kaleidoscope_fishing.name.seafood_congee",
+    "icon": "textures/items/kfv_seafood_congee",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_sea_bream",
+    "nameKey": "kaleidoscope_fishing.name.steamed_sea_bream",
+    "icon": "textures/items/kfv_steamed_sea_bream",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.seasoned_sea_bream",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:har_gow",
+    "nameKey": "kaleidoscope_fishing.name.har_gow",
+    "icon": "textures/items/kfv_har_gow",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.raw_har_gow",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_crab",
+    "nameKey": "kaleidoscope_fishing.name.steamed_crab",
+    "icon": "textures/items/kfv_steamed_crab",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.crab",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salt_grilled_sweetfish",
+    "nameKey": "kaleidoscope_fishing.name.salt_grilled_sweetfish",
+    "icon": "textures/items/kfv_salt_grilled_sweetfish",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.skewered_sweetfish",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:pan_fried_hairtail",
+    "nameKey": "kaleidoscope_fishing.name.pan_fried_hairtail",
+    "icon": "textures/items/kfv_pan_fried_hairtail",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.hairtail",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_grouper",
+    "nameKey": "kaleidoscope_fishing.name.steamed_grouper",
+    "icon": "textures/items/kfv_steamed_grouper",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.seasoned_grouper",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:anglerfish_hot_pot",
+    "nameKey": "kaleidoscope_fishing.name.anglerfish_hot_pot",
+    "icon": "textures/items/kfv_anglerfish_hot_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.anglerfish",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.kelp",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_octopus",
+    "nameKey": "kaleidoscope_fishing.name.spicy_octopus",
+    "icon": "textures/items/kfv_spicy_octopus",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.octopus_slices",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fish_and_chips",
+    "nameKey": "kaleidoscope_fishing.name.fish_and_chips",
+    "icon": "textures/items/kfv_fish_and_chips",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.potato",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:seafood_chow_mein",
+    "nameKey": "kaleidoscope_fishing.name.seafood_chow_mein",
+    "icon": "textures/items/kfv_seafood_chow_mein",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.raw_noodles",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.octopus_slices",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:paella",
+    "nameKey": "kaleidoscope_fishing.name.paella",
+    "icon": "textures/items/kfv_paella",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.clam",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.tomato",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.octopus_slices",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:oyster_vermicelli",
+    "nameKey": "kaleidoscope_fishing.name.oyster_vermicelli",
+    "icon": "textures/items/kfv_oyster_vermicelli",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.oyster",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.raw_noodles",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:seafood_hot_pot",
+    "nameKey": "kaleidoscope_fishing.name.seafood_hot_pot",
+    "icon": "textures/items/kfv_seafood_hot_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.crab",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.clam",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.fish_ball",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:dried_shrimp_congee",
+    "nameKey": "kaleidoscope_fishing.name.dried_shrimp_congee",
+    "icon": "textures/items/kfv_dried_shrimp_congee",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.dried_shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:pickled_cabbage_fish",
+    "nameKey": "kaleidoscope_fishing.name.pickled_cabbage_fish",
+    "icon": "textures/items/kfv_pickled_cabbage_fish",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_chinesefood.chinese_sauerkraut",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:sashimi_boat",
+    "nameKey": "kaleidoscope_fishing.name.sashimi_boat",
+    "icon": "textures/ui/kfv_book/kfv_sashimi_boat",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.tuna_sashimi",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_bream_sashimi",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.kelp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.bowl",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:seafood_platter",
+    "nameKey": "kaleidoscope_fishing.name.seafood_platter",
+    "icon": "textures/ui/kfv_book/kfv_seafood_platter",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.steamed_crab",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.salt_pepper_shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.spicy_clams",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.oyster",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.grilled_fish",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.tuna_sashimi",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.spicy_octopus",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.ice",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:sushi_platter",
+    "nameKey": "kaleidoscope_fishing.name.sushi_platter",
+    "icon": "textures/ui/kfv_book/kfv_sushi_platter",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.nigiri_sushi",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.name.maki_roll",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.fish_roe",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.oak_slab",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:whole_tuna",
+    "nameKey": "kaleidoscope_fishing.name.whole_tuna",
+    "icon": "textures/ui/kfv_book/kfv_whole_tuna",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.tuna",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.kelp",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.oak_slab",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:seafood_feast_pot",
+    "nameKey": "kaleidoscope_fishing.name.seafood_feast_pot",
+    "icon": "textures/ui/kfv_book/kfv_seafood_feast_pot",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.seafood_hot_pot",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.cauldron",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fish_skewer_grill",
+    "nameKey": "kaleidoscope_fishing.name.fish_skewer_grill",
+    "icon": "textures/ui/kfv_book/kfv_fish_skewer_grill",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.salt_grilled_sweetfish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.grilled_fish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.campfire",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:dim_sum_steamer",
+    "nameKey": "kaleidoscope_fishing.name.dim_sum_steamer",
+    "icon": "textures/ui/kfv_book/kfv_dim_sum_steamer",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.har_gow",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.crab_roe_bun",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.bamboo",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_fish_plank",
+    "nameKey": "kaleidoscope_fishing.name.grilled_fish_plank",
+    "icon": "textures/ui/kfv_book/kfv_grilled_fish_plank",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.grilled_fish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.oak_slab",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:temaki_stand",
+    "nameKey": "kaleidoscope_fishing.name.temaki_stand",
+    "icon": "textures/ui/kfv_book/kfv_temaki_stand",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.nori",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.tuna_sashimi",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_bream_sashimi",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.fish_roe",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.bamboo",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fish_scale_jelly",
+    "nameKey": "kaleidoscope_fishing.name.fish_scale_jelly",
+    "icon": "textures/items/kfv_fish_scale_jelly",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_scales",
+        3
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:roe_don",
+    "nameKey": "kaleidoscope_fishing.name.roe_don",
+    "icon": "textures/items/kfv_roe_don",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.fish_roe",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_eel_don",
+    "nameKey": "kaleidoscope_fishing.name.lava_eel_don",
+    "icon": "textures/items/kfv_lava_eel_don",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.lava_eel",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.sugar",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:blazefin_soup",
+    "nameKey": "kaleidoscope_fishing.name.blazefin_soup",
+    "icon": "textures/items/kfv_blazefin_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.blazefin",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:basalt_crab_pot",
+    "nameKey": "kaleidoscope_fishing.name.basalt_crab_pot",
+    "icon": "textures/items/kfv_basalt_crab_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.basalt_crab",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.crimson_fungus",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.potato",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:tomato_mackerel",
+    "nameKey": "kaleidoscope_fishing.name.tomato_mackerel",
+    "icon": "textures/items/kfv_tomato_mackerel",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.mackerel",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.tomato",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salmon_ochazuke",
+    "nameKey": "kaleidoscope_fishing.name.salmon_ochazuke",
+    "icon": "textures/items/kfv_salmon_ochazuke",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.minecraft.cooked_salmon",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:pan_seared_cod",
+    "nameKey": "kaleidoscope_fishing.name.pan_seared_cod",
+    "icon": "textures/items/kfv_pan_seared_cod",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.minecraft.cod",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:unagi_don",
+    "nameKey": "kaleidoscope_fishing.name.unagi_don",
+    "icon": "textures/items/kfv_unagi_don",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.eel_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.sugar",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:pan_fried_saury",
+    "nameKey": "kaleidoscope_fishing.name.pan_fried_saury",
+    "icon": "textures/items/kfv_pan_fried_saury",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.saury",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fried_calamari",
+    "nameKey": "kaleidoscope_fishing.name.fried_calamari",
+    "icon": "textures/items/kfv_fried_calamari",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.raw_calamari",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:nigiri_sushi",
+    "nameKey": "kaleidoscope_fishing.name.nigiri_sushi",
+    "icon": "textures/items/kfv_nigiri_sushi",
+    "method": "crafting",
+    "count": 2,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.tuna_sashimi",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:maki_roll",
+    "nameKey": "kaleidoscope_fishing.name.maki_roll",
+    "icon": "textures/items/kfv_maki_roll",
+    "method": "crafting",
+    "count": 3,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.tuna_sashimi",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:crab_roe_bun",
+    "nameKey": "kaleidoscope_fishing.name.crab_roe_bun",
+    "icon": "textures/items/kfv_crab_roe_bun",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.raw_crab_roe_bun",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:nori_egg_soup",
+    "nameKey": "kaleidoscope_fishing.name.nori_egg_soup",
+    "icon": "textures/items/kfv_nori_egg_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:kombu_tea",
+    "nameKey": "kaleidoscope_fishing.name.kombu_tea",
+    "icon": "textures/items/kfv_kombu_tea",
+    "method": "teapot",
+    "count": 4,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.minecraft.dried_kelp",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:oden",
+    "nameKey": "kaleidoscope_fishing.name.oden",
+    "icon": "textures/items/kfv_oden",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dashi_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.fish_ball",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.potato",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:smelt_tempura",
+    "nameKey": "kaleidoscope_fishing.name.smelt_tempura",
+    "icon": "textures/items/kfv_smelt_tempura",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.smelt",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:pan_fried_trout",
+    "nameKey": "kaleidoscope_fishing.name.pan_fried_trout",
+    "icon": "textures/items/kfv_pan_fried_trout",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.rainbow_trout",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:char_rice",
+    "nameKey": "kaleidoscope_fishing.name.char_rice",
+    "icon": "textures/items/kfv_char_rice",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dashi_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.arctic_char",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salted_fish_fried_rice",
+    "nameKey": "kaleidoscope_fishing.name.salted_fish_fried_rice",
+    "icon": "textures/items/kfv_salted_fish_fried_rice",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.salted_fish",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_dried_squid",
+    "nameKey": "kaleidoscope_fishing.name.grilled_dried_squid",
+    "icon": "textures/items/kfv_grilled_dried_squid",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_squid",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:okaka_rice",
+    "nameKey": "kaleidoscope_fishing.name.okaka_rice",
+    "icon": "textures/items/kfv_okaka_rice",
+    "method": "crafting",
+    "count": 2,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.bonito_flakes",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:starfin_soup",
+    "nameKey": "kaleidoscope_fishing.name.starfin_soup",
+    "icon": "textures/items/kfv_starfin_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.starfin",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.chorus_fruit",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_purpur_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.steamed_purpur_shrimp",
+    "icon": "textures/items/kfv_steamed_purpur_shrimp",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.purpur_shrimp",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:oden_pot",
+    "nameKey": "kaleidoscope_fishing.name.oden_pot",
+    "icon": "textures/ui/kfv_book/kfv_oden_pot",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.oden",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.cauldron",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:ice_catch_platter",
+    "nameKey": "kaleidoscope_fishing.name.ice_catch_platter",
+    "icon": "textures/ui/kfv_book/kfv_ice_catch_platter",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.smelt_tempura",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.pan_fried_trout",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.ice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.oak_slab",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:void_seafood_soup",
+    "nameKey": "kaleidoscope_fishing.name.void_seafood_soup",
+    "icon": "textures/items/kfv_void_seafood_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.chorus_carp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.chorus_jellyfish",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.purpur_shrimp",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_sea_bass",
+    "nameKey": "kaleidoscope_fishing.name.steamed_sea_bass",
+    "icon": "textures/items/kfv_steamed_sea_bass",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.seasoned_sea_bass",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:sea_bass_soup",
+    "nameKey": "kaleidoscope_fishing.name.sea_bass_soup",
+    "icon": "textures/items/kfv_sea_bass_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_bass",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_mullet",
+    "nameKey": "kaleidoscope_fishing.name.grilled_mullet",
+    "icon": "textures/items/kfv_grilled_mullet",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.grey_mullet",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:loach_soup",
+    "nameKey": "kaleidoscope_fishing.name.loach_soup",
+    "icon": "textures/items/kfv_loach_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.loach",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:stir_fried_snakehead",
+    "nameKey": "kaleidoscope_fishing.name.stir_fried_snakehead",
+    "icon": "textures/items/kfv_stir_fried_snakehead",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_mudskipper",
+    "nameKey": "kaleidoscope_fishing.name.spicy_mudskipper",
+    "icon": "textures/items/kfv_spicy_mudskipper",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.mudskipper",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:flying_fish_roe_temaki",
+    "nameKey": "kaleidoscope_fishing.name.flying_fish_roe_temaki",
+    "icon": "textures/items/kfv_flying_fish_roe_temaki",
+    "method": "crafting",
+    "count": 2,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.flying_fish_roe",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_lobster",
+    "nameKey": "kaleidoscope_fishing.name.steamed_lobster",
+    "icon": "textures/items/kfv_steamed_lobster",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.lobster",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:lobster_congee",
+    "nameKey": "kaleidoscope_fishing.name.lobster_congee",
+    "icon": "textures/items/kfv_lobster_congee",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.lobster",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_king_crab",
+    "nameKey": "kaleidoscope_fishing.name.steamed_king_crab",
+    "icon": "textures/items/kfv_steamed_king_crab",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.king_crab",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:crab_leg_hot_pot",
+    "nameKey": "kaleidoscope_fishing.name.crab_leg_hot_pot",
+    "icon": "textures/items/kfv_crab_leg_hot_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dashi_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.king_crab",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:blindfish_clear_soup",
+    "nameKey": "kaleidoscope_fishing.name.blindfish_clear_soup",
+    "icon": "textures/items/kfv_blindfish_clear_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.cave_blindfish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.brown_mushroom",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_crayfish",
+    "nameKey": "kaleidoscope_fishing.name.spicy_crayfish",
+    "icon": "textures/items/kfv_spicy_crayfish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.cave_crayfish",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:karasumi_fried_rice",
+    "nameKey": "kaleidoscope_fishing.name.karasumi_fried_rice",
+    "icon": "textures/items/kfv_karasumi_fried_rice",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.karasumi_slices",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:flying_fish_ichiyaboshi",
+    "nameKey": "kaleidoscope_fishing.name.flying_fish_ichiyaboshi",
+    "icon": "textures/items/kfv_flying_fish_ichiyaboshi",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_flying_fish",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp_paste_fried_rice",
+    "nameKey": "kaleidoscope_fishing.name.shrimp_paste_fried_rice",
+    "icon": "textures/items/kfv_shrimp_paste_fried_rice",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.shrimp_paste",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ]
+    ]
+  }
+]

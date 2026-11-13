@@ -1,0 +1,30 @@
+// ============================================================================
+// 森羅物語：漁歌 / Kaleidoscope Cookery: Fishing Voyage — script entry
+// Role: ADDON. Talks to Kaleidoscope Cookery only through its public Script Event
+// API. Never imports Cookery's scripts and never hard-depends on its pack UUID.
+// ============================================================================
+import "./kc/bridge.js";
+import "./kc/guidebookPublisher.js";
+import "./fishing/registry.js";   // v1.6.2: register_bait / register_catch for other packs
+import "./fishing/rod.js";
+import "./fishing/minigameSwitch.js";
+import "./events/foodEffects.js";
+import "./events/clamDigging.js";
+import "./journal/journal.js";
+import "./blocks/fishTrap.js";
+import "./blocks/feast.js";
+import "./blocks/shoreDrop.js";
+import "./tools/basket.js";
+import "./tools/knife.js";
+import "./blocks/decor.js";
+import "./blocks/tanks.js";
+import "./journal/recipes.js";
+import "./blocks/cleaning.js";
+import "./blocks/drying.js";
+import "./blocks/iceHole.js";
+import "./blocks/fishSauceJar.js";
+import "./blocks/villageDecor.js";
+import "./world/schools.js";
+import "./creatures/seagull.js";
+import "./creatures/cormorant.js";
+import "./world/merchant.js";

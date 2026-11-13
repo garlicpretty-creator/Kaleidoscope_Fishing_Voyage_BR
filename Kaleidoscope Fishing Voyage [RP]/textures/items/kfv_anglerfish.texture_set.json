@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_anglerfish",
+    "metalness_emissive_roughness": "kfv_anglerfish_mer",
+    "normal": "kfv_anglerfish_normal"
+  }
+}
