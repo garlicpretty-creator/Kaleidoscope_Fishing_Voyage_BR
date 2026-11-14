@@ -116,7 +116,8 @@ def icon_from(source):
 
 # Hand touch-ups on the reduced icon ('.' keeps the pixel). At 16x16 the blue arc came out as three separate
 # dots, the hand was three pixels long and the moon window showed two yellow dots. Now: the arc runs across
-# the top of the dial and down its right side, the hand reaches the centre, and the window shows three moons.
+# the top of the dial and down its right side, the hand reaches the centre, and the window shows three moons on
+# dark blue (the picture's dark brown window was lost against the brass rim below it).
 TOUCH_UP = {
     4:  '.....BBBBBB.....',
     5:  '...........B....',
@@ -125,7 +126,7 @@ TOUCH_UP = {
     10: '....DyDMMDyD....',
     11: '.....DDDDDD.....',
 }
-TOUCH_PAL = {'B': '#4471c6', 'b': '#355590', 'r': '#7f181c', 'D': '#3f3325', 'M': '#fff4a5', 'y': '#c9b45e'}
+TOUCH_PAL = {'B': '#4471c6', 'b': '#355590', 'r': '#7f181c', 'D': '#1e2748', 'M': '#fff4a5', 'y': '#c9b45e'}
 
 
 def texture_set(path, third):
