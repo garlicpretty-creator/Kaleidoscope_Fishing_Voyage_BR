@@ -390,7 +390,10 @@
       "id": "kaleidoscope_fishing:wok/seafood_chow_mein",
       "ingredients": [
         "kaleidoscope_cookery:raw_noodles",
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         "kaleidoscope_fishing:octopus_slices",
         "kaleidoscope_cookery:green_chili"
       ],
@@ -406,7 +409,10 @@
       "id": "kaleidoscope_fishing:wok/paella",
       "ingredients": [
         "kaleidoscope_cookery:rice",
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         "kaleidoscope_fishing:clam",
         "kaleidoscope_cookery:tomato",
         "kaleidoscope_fishing:octopus_slices"
@@ -439,7 +445,10 @@
     "recipe": {
       "id": "kaleidoscope_fishing:stockpot/seafood_hot_pot",
       "ingredients": [
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         [
           "kaleidoscope_fishing:crab",
           "kaleidoscope_fishing:crab_meat"
@@ -1186,6 +1195,56 @@
       "result": "kaleidoscope_fishing:mullet_roe",
       "count": 1,
       "cuts": 3
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/stir_fried_shrimp",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp_meat",
+        "kaleidoscope_fishing:shrimp_meat",
+        "kaleidoscope_cookery:green_chili",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:stir_fried_shrimp",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/crab_congee",
+      "ingredients": [
+        "kaleidoscope_cookery:rice",
+        "kaleidoscope_fishing:crab_meat",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:crab_congee",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:fish_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/shrimp_noodle_soup",
+      "ingredients": [
+        "kaleidoscope_cookery:raw_noodles",
+        "kaleidoscope_fishing:shrimp_meat",
+        "kaleidoscope_fishing:shrimp_shell"
+      ],
+      "result": "kaleidoscope_fishing:shrimp_noodle_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
     }
   }
 ]

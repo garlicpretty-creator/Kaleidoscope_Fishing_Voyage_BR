@@ -3035,7 +3035,12 @@
    "usedBy": [
     "kaleidoscope_fishing:raw_har_gow",
     "kaleidoscope_fishing:shrimp_scrambled_eggs",
-    "kaleidoscope_fishing:seafood_congee"
+    "kaleidoscope_fishing:seafood_congee",
+    "kaleidoscope_fishing:stir_fried_shrimp",
+    "kaleidoscope_fishing:shrimp_noodle_soup",
+    "kaleidoscope_fishing:seafood_chow_mein",
+    "kaleidoscope_fishing:paella",
+    "kaleidoscope_fishing:seafood_hot_pot"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -3061,7 +3066,8 @@
    "stack": 64,
    "icon": "textures/items/kfv_shrimp_shell",
    "usedBy": [
-    "kaleidoscope_fishing:fish_stock_bucket"
+    "kaleidoscope_fishing:fish_stock_bucket",
+    "kaleidoscope_fishing:shrimp_noodle_soup"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -3091,7 +3097,8 @@
     "saturation": 0.3
    },
    "usedBy": [
-    "kaleidoscope_fishing:seafood_hot_pot"
+    "kaleidoscope_fishing:seafood_hot_pot",
+    "kaleidoscope_fishing:crab_congee"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -3121,7 +3128,8 @@
     "saturation": 0.3
    },
    "usedBy": [
-    "kaleidoscope_fishing:raw_crab_roe_bun"
+    "kaleidoscope_fishing:raw_crab_roe_bun",
+    "kaleidoscope_fishing:crab_roe_rice"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -3176,20 +3184,22 @@
     "nutrition": 1,
     "saturation": 0.1
    },
-   "usedBy": [],
+   "usedBy": [
+    "kaleidoscope_fishing:jellyfish_salad"
+   ],
    "mechanicsByLocale": {
     "en_US": [
-     "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is."
+     "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is or toss it into a Jellyfish Salad."
     ],
     "zh_TW": [
-     "在魚案板上切水母得到。口感爽脆，可以直接吃。"
+     "在魚案板上切水母得到。口感爽脆，可以直接吃，或做成涼拌海蜇皮。"
     ],
     "zh_CN": [
-     "在鱼案板上切水母得到。口感爽脆，可以直接吃。"
+     "在鱼案板上切水母得到。口感爽脆，可以直接吃，或做成凉拌海蜇皮。"
     ]
    },
    "mechanics": [
-    "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is."
+    "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is or toss it into a Jellyfish Salad."
    ]
   },
   {
@@ -7117,6 +7127,147 @@
    ]
   },
   {
+   "id": "kaleidoscope_fishing:stir_fried_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_stir_fried_shrimp",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_cookery:green_chili",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:stir_fried_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_congee",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_congee",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:fish_stock_bucket",
+      "kaleidoscope_cookery:rice",
+      "kaleidoscope_fishing:crab_meat",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:crab_congee"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_noodle_soup",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_noodle_soup",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_noodles",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_shell"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:shrimp_noodle_soup"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe_rice",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe_rice",
+   "food": {
+    "nutrition": 10,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:cooked_rice",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:nori",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:crab_roe_rice"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_salad",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_salad",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:red_chili",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:jellyfish_salad"
+    }
+   ]
+  },
+  {
    "id": "kaleidoscope_fishing:river_lord_catfish",
    "category": "fish",
    "kinds": [
@@ -7844,6 +7995,11 @@
    "kaleidoscope_fishing:karasumi_fried_rice": "Karasumi Fried Rice",
    "kaleidoscope_fishing:flying_fish_ichiyaboshi": "Grilled Flying Fish",
    "kaleidoscope_fishing:shrimp_paste_fried_rice": "Shrimp Paste Fried Rice",
+   "kaleidoscope_fishing:stir_fried_shrimp": "Stir-fried Shrimp",
+   "kaleidoscope_fishing:crab_congee": "Crab Congee",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "Shrimp Noodle Soup",
+   "kaleidoscope_fishing:crab_roe_rice": "Crab Roe Rice Bowl",
+   "kaleidoscope_fishing:jellyfish_salad": "Jellyfish Salad",
    "kaleidoscope_fishing:river_lord_catfish": "River Lord Catfish",
    "kaleidoscope_fishing:emperor_tuna": "Emperor Bluefin",
    "kaleidoscope_fishing:frostlake_char": "Frostlake Char",
@@ -8079,6 +8235,11 @@
    "kaleidoscope_fishing:karasumi_fried_rice": "烏魚子炒飯",
    "kaleidoscope_fishing:flying_fish_ichiyaboshi": "烤飛魚一夜干",
    "kaleidoscope_fishing:shrimp_paste_fried_rice": "蝦醬炒飯",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒蝦仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鮮蝦湯麵",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黃蓋飯",
+   "kaleidoscope_fishing:jellyfish_salad": "涼拌海蜇皮",
    "kaleidoscope_fishing:river_lord_catfish": "河伯鯰",
    "kaleidoscope_fishing:emperor_tuna": "藍鰭皇鮪",
    "kaleidoscope_fishing:frostlake_char": "冰湖主",
@@ -8314,6 +8475,11 @@
    "kaleidoscope_fishing:karasumi_fried_rice": "乌鱼子炒饭",
    "kaleidoscope_fishing:flying_fish_ichiyaboshi": "烤飞鱼一夜干",
    "kaleidoscope_fishing:shrimp_paste_fried_rice": "虾酱炒饭",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒虾仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鲜虾汤面",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黄盖饭",
+   "kaleidoscope_fishing:jellyfish_salad": "凉拌海蜇皮",
    "kaleidoscope_fishing:river_lord_catfish": "河伯鲶",
    "kaleidoscope_fishing:emperor_tuna": "蓝鳍皇鲔",
    "kaleidoscope_fishing:frostlake_char": "冰湖主",

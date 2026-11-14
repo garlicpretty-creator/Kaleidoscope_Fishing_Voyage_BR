@@ -6,6 +6,7 @@ Safe to run again. The icons drawn here are placeholders in the pack's palette u
 replaces them (same file names).
 
   cleaning()   Fish Cleaning Board: nine more fish, shrimp / crabs / jellyfish, and what they are cut into
+  dishes()     five dishes from the new ingredients; small changes to older dishes
   legends()    a keepsake and a feast for every legend, and the four tackle parts made from the keepsakes
 """
 import json, os
@@ -586,8 +587,120 @@ def journal_page():
     save('GUIDEBOOK_JSON', g, indent=1)
 
 
+# --------------------------------------------------------------------------- dishes
+def bowl(rows, palette):
+    """A 16x16 bowl icon: `rows` are the three rows of food showing over the rim (12, 14 and 12 pixels wide)."""
+    assert [len(r) for r in rows] == [8, 12, 12], rows
+    grid = ['................'] * 3 + ['....' + rows[0].replace(rows[0], 'OOOOOOOO') + '....',
+                                       '..OO' + rows[0] + 'OO..', '.O' + rows[1] + 'O.', '.Ob' + rows[2][1:-1] + 'bO.',
+                                       '.OBbbbbbbbbbbBO.', '..OBBBBBBBBBBO..', '..OBBBBBBBBBBO..', '...OBBBBBBBBO...',
+                                       '....OOBBBBOO....', '......OOOO......'] + ['................'] * 3
+    pal = {'O': O, 'B': '#b9774a', 'b': '#d79a66'}
+    pal.update(palette)
+    return grid, pal
+
+
+RICE, CR, FS = 'kaleidoscope_cookery:rice', 'kaleidoscope_cookery:cooked_rice', ID('fish_stock')
+# name, names, food (nutrition, saturation), station ('wok' | 'stockpot' | 'crafting'), ingredients, time, base, effects, icon
+NEW_DISHES = [
+    dict(name='stir_fried_shrimp', names=T('Stir-fried Shrimp', '清炒蝦仁', '清炒虾仁'), food=(8, 0.7), station='wok', time=200,
+         ingredients=[ID('shrimp_meat'), ID('shrimp_meat'), 'kaleidoscope_cookery:green_chili', 'minecraft:carrot'], effects=[],
+         icon=bowl(['pPgppPcp', 'ppPppcpPgppP', 'PpgpPppPpcpP'], {'p': '#f8cdbf', 'P': '#ec9a86', 'g': '#6fa84a', 'c': '#f09030'})),
+    dict(name='crab_congee', names=T('Crab Congee', '蟹肉粥', '蟹肉粥'), food=(9, 0.8), station='stockpot', time=300, base=FS,
+         ingredients=[RICE, ID('crab_meat'), 'minecraft:carrot'],
+         effects=[{'effect': 'regeneration', 'duration': 100, 'amplifier': 0}],
+         icon=bowl(['wwrwwwcw', 'wwwwrwwwwwcw', 'wcwwwwrwwwww'], {'w': '#f6efe0', 'r': '#e8765a', 'c': '#f09030'})),
+    dict(name='shrimp_noodle_soup', names=T('Shrimp Noodle Soup', '鮮蝦湯麵', '鲜虾汤面'), food=(9, 0.8), station='stockpot', time=300,
+         base='minecraft:water', ingredients=['kaleidoscope_cookery:raw_noodles', ID('shrimp_meat'), ID('shrimp_shell')], effects=[],
+         icon=bowl(['nsnPpsng', 'snnsPpPnsnns', 'nsnnsnnPpnsn'], {'n': '#f2dc9a', 's': '#e8b860', 'p': '#f8cdbf', 'P': '#ec9a86', 'g': '#6fa84a'})),
+    dict(name='crab_roe_rice', names=T('Crab Roe Rice Bowl', '蟹黃蓋飯', '蟹黄盖饭'), food=(10, 0.8), station='crafting', time=0,
+         ingredients=[CR, ID('crab_roe'), ID('crab_roe'), ID('nori'), 'minecraft:bowl'],
+         effects=[{'effect': 'absorption', 'duration': 600, 'amplifier': 0}],
+         icon=bowl(['wyYYYywk', 'wwyYYhYYywkw', 'wwwyYYYywwww'], {'w': '#fbf3e8', 'Y': '#f2a22c', 'y': '#f8c458', 'h': '#fde6a0', 'k': '#2c3a2a'})),
+    dict(name='jellyfish_salad', names=T('Jellyfish Salad', '涼拌海蜇皮', '凉拌海蜇皮'), food=(6, 0.6), station='crafting', time=0,
+         ingredients=[ID('jellyfish_skin'), ID('jellyfish_skin'), 'kaleidoscope_cookery:lettuce', 'kaleidoscope_cookery:red_chili', 'minecraft:bowl'],
+         effects=[{'effect': 'water_breathing', 'duration': 600, 'amplifier': 0}],
+         icon=bowl(['jJjgjJrj', 'jjJjjgJjjrJj', 'JjjgjJjjJjgj'], {'j': '#f3ead6', 'J': '#d9c8a4', 'g': '#6fa84a', 'r': '#d8452c'})),
+]
+METHOD = {'wok': 'Wok', 'stockpot': 'Stockpot', 'crafting': 'Crafting Table'}
+BASE_ITEM = {FS: ID('fish_stock_bucket'), ID('dashi'): ID('dashi_bucket')}       # what the journal and guidebook list for a base
+# small changes to dishes that were already there
+MORE_STAND_INS = [('wok/seafood_chow_mein', 'shrimp', 'shrimp_meat'), ('wok/paella', 'shrimp', 'shrimp_meat'),
+                  ('stockpot/seafood_hot_pot', 'shrimp', 'shrimp_meat')]
+MORE_EFFECTS = {      # well-earned dishes that gave nothing but hunger
+    'steamed_king_crab': [{'effect': 'absorption', 'duration': 1200, 'amplifier': 0}],
+    'steamed_lobster': [{'effect': 'regeneration', 'duration': 100, 'amplifier': 0}],
+    'karasumi_fried_rice': [{'effect': 'haste', 'duration': 600, 'amplifier': 0}],
+    'crab_roe_bun': [{'effect': 'regeneration', 'duration': 60, 'amplifier': 0}],
+}
+
+
+def dishes():
+    kc, effects, hints = load('KC_RECIPES'), load('FOOD_EFFECTS'), load('RECIPE_HINTS')
+    after = 'shrimp_paste_fried_rice'
+    for d in NEW_DISHES:
+        name, n, s = d['name'], d['food'][0], d['food'][1]
+        add_item(name=name, names=d['names'], icon=d['icon'], after=after, group='foods', food=d['food'],
+                 components={'minecraft:food': {'nutrition': n, 'saturation_modifier': s, 'can_always_eat': False,
+                                                'using_converts_to': 'minecraft:bowl'}})
+        base = d.get('base')
+        shown = ([BASE_ITEM[base]] if base in BASE_ITEM else []) + [i for i in d['ingredients']]
+        entry = {'id': ID(name), 'category': 'dishes', 'kinds': ['item'], 'stack': 64, 'icon': f'textures/items/kfv_{name}',
+                 'food': {'nutrition': n, 'saturation': s, 'returns': 'minecraft:bowl'},
+                 'recipes': [{'method': METHOD[d['station']], 'ingredients': shown, 'count': 1, 'time': d['time'], 'result': ID(name)}]}
+        add_guide(entry, d['names'], after)
+        if d['station'] == 'crafting':
+            shapeless(name, d['ingredients'], name)
+        else:
+            rid = ID(f"{d['station']}/{name}")
+            recipe = {'id': rid, 'ingredients': d['ingredients'], 'result': ID(name), 'count': 1}
+            if d['station'] == 'wok':
+                recipe.update(carrier='minecraft:bowl', time=d['time'])
+                kind = 'wok'
+            else:
+                recipe.update(time=d['time'], base=base, carrier='minecraft:bowl', finishedKind='default')
+                kind = 'stockpot_exact'
+            kc = [r for r in kc if r['recipe']['id'] != rid] + [{'kind': kind, 'recipe': recipe}]
+        if d['effects']:
+            effects[ID(name)] = d['effects']
+        counts = {}
+        for i in shown:
+            counts[i] = counts.get(i, 0) + 1
+        hints = [h for h in hints if h['id'] != ID(name)] + [{
+            'id': ID(name), 'nameKey': f'{NS}.name.{name}', 'icon': f'textures/items/kfv_{name}', 'method': d['station'],
+            'count': 1, 'ingredients': [[ing_key(i), c] for i, c in counts.items()]}]
+        after = name
+    for rid, old, new in MORE_STAND_INS:
+        ing = next(r['recipe'] for r in kc if r['recipe']['id'] == ID(rid))['ingredients']
+        for i, slot in enumerate(ing):
+            if slot == ID(old):
+                ing[i] = [ID(old), ID(new)]
+    for name, fx in MORE_EFFECTS.items():
+        effects.setdefault(ID(name), fx)
+    save('KC_RECIPES', kc)
+    save('FOOD_EFFECTS', effects)
+    save('RECIPE_HINTS', hints)
+    # the new ingredients' pages list the dishes that use them
+    g = load('GUIDEBOOK_JSON')
+    uses = {'shrimp_meat': ['stir_fried_shrimp', 'shrimp_noodle_soup', 'seafood_chow_mein', 'paella', 'seafood_hot_pot'],
+            'shrimp_shell': ['shrimp_noodle_soup'], 'crab_meat': ['crab_congee'], 'crab_roe': ['crab_roe_rice'],
+            'jellyfish_skin': ['jellyfish_salad']}
+    text = {'jellyfish_skin': T(['Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is or toss it into a Jellyfish Salad.'],
+                                ['在魚案板上切水母得到。口感爽脆，可以直接吃，或做成涼拌海蜇皮。'], ['在鱼案板上切水母得到。口感爽脆，可以直接吃，或做成凉拌海蜇皮。'])}
+    for e in g['entries']:
+        name = e['id'].split(':')[1]
+        for dish in uses.get(name, []):
+            if ID(dish) not in e.setdefault('usedBy', []):
+                e['usedBy'].append(ID(dish))
+        if name in text:
+            e['mechanicsByLocale'] = {k: list(v) for k, v in text[name].items()}
+            e['mechanics'] = list(text[name]['en_US'])
+    save('GUIDEBOOK_JSON', g, indent=1)
+
+
 if __name__ == '__main__':
     cleaning()
     legends()
     journal_page()
+    dishes()
     print('done; now run: python tools/build.py build')

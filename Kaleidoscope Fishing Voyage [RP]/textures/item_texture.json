@@ -635,6 +635,21 @@
     "kfv_shrimp_paste_fried_rice": {
       "textures": "textures/items/kfv_shrimp_paste_fried_rice"
     },
+    "kfv_stir_fried_shrimp": {
+      "textures": "textures/items/kfv_stir_fried_shrimp"
+    },
+    "kfv_crab_congee": {
+      "textures": "textures/items/kfv_crab_congee"
+    },
+    "kfv_shrimp_noodle_soup": {
+      "textures": "textures/items/kfv_shrimp_noodle_soup"
+    },
+    "kfv_crab_roe_rice": {
+      "textures": "textures/items/kfv_crab_roe_rice"
+    },
+    "kfv_jellyfish_salad": {
+      "textures": "textures/items/kfv_jellyfish_salad"
+    },
     "kfv_river_lord_catfish": {
       "textures": "textures/items/kfv_river_lord_catfish"
     },
