@@ -121,13 +121,6 @@
       "amplifier": 0
     }
   ],
-  "kaleidoscope_fishing:pickled_cabbage_fish": [
-    {
-      "effect": "fire_resistance",
-      "duration": 1200,
-      "amplifier": 0
-    }
-  ],
   "kaleidoscope_fishing:sashimi_boat": [
     {
       "effect": "water_breathing",

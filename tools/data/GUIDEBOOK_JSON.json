@@ -722,7 +722,6 @@
     "kaleidoscope_fishing:sweet_sour_fish",
     "kaleidoscope_fishing:seafood_congee",
     "kaleidoscope_fishing:fish_and_chips",
-    "kaleidoscope_fishing:pickled_cabbage_fish",
     "kaleidoscope_fishing:fish_ball",
     "kaleidoscope_fishing:stir_fried_snakehead"
    ]
@@ -1127,7 +1126,6 @@
     "kaleidoscope_fishing:anglerfish_hot_pot",
     "kaleidoscope_fishing:oyster_vermicelli",
     "kaleidoscope_fishing:seafood_hot_pot",
-    "kaleidoscope_fishing:pickled_cabbage_fish",
     "kaleidoscope_fishing:starfin_soup",
     "kaleidoscope_fishing:blazefin_soup",
     "kaleidoscope_fishing:sea_bass_soup",
@@ -1814,49 +1812,6 @@
      "time": 300,
      "result": "kaleidoscope_fishing:dried_shrimp_congee"
     }
-   ]
-  },
-  {
-   "id": "kaleidoscope_fishing:pickled_cabbage_fish",
-   "category": "dishes",
-   "kinds": [
-    "item"
-   ],
-   "stack": 64,
-   "icon": "textures/items/kfv_pickled_cabbage_fish",
-   "food": {
-    "nutrition": 11,
-    "saturation": 0.8,
-    "returns": "minecraft:bowl"
-   },
-   "recipes": [
-    {
-     "method": "Stockpot",
-     "ingredients": [
-      "kaleidoscope_fishing:fish_stock_bucket",
-      "kaleidoscope_fishing:white_fish_fillet",
-      "kaleidoscope_fishing:white_fish_fillet",
-      "kaleidoscope_chinesefood:chinese_sauerkraut",
-      "kaleidoscope_cookery:red_chili"
-     ],
-     "count": 1,
-     "time": 300,
-     "result": "kaleidoscope_fishing:pickled_cabbage_fish"
-    }
-   ],
-   "mechanicsByLocale": {
-    "en_US": [
-     "Needs Chinese Sauerkraut from Kaleidoscope Chinese Food's pickle jar."
-    ],
-    "zh_TW": [
-     "需要《萬花筒：中華美食》醃缸做的酸菜。"
-    ],
-    "zh_CN": [
-     "需要《森罗物语国味》腌缸做的酸菜。"
-    ]
-   },
-   "mechanics": [
-    "Needs Chinese Sauerkraut from Kaleidoscope Chinese Food's pickle jar."
    ]
   },
   {
@@ -7216,7 +7171,6 @@
    "kaleidoscope_fishing:oyster_vermicelli": "Oyster Vermicelli",
    "kaleidoscope_fishing:seafood_hot_pot": "Seafood Hot Pot",
    "kaleidoscope_fishing:dried_shrimp_congee": "Dried Shrimp Congee",
-   "kaleidoscope_fishing:pickled_cabbage_fish": "Pickled Cabbage Fish",
    "kaleidoscope_fishing:sashimi_boat": "Sashimi Boat",
    "kaleidoscope_fishing:seafood_platter": "Seafood Platter",
    "kaleidoscope_fishing:sushi_platter": "Sushi Geta",
@@ -7437,7 +7391,6 @@
    "kaleidoscope_fishing:oyster_vermicelli": "蚵仔麵線",
    "kaleidoscope_fishing:seafood_hot_pot": "海鮮火鍋",
    "kaleidoscope_fishing:dried_shrimp_congee": "蝦米粥",
-   "kaleidoscope_fishing:pickled_cabbage_fish": "酸菜魚",
    "kaleidoscope_fishing:sashimi_boat": "生魚片船",
    "kaleidoscope_fishing:seafood_platter": "海鮮大拼盤",
    "kaleidoscope_fishing:sushi_platter": "壽司木盤",
@@ -7658,7 +7611,6 @@
    "kaleidoscope_fishing:oyster_vermicelli": "蚵仔面线",
    "kaleidoscope_fishing:seafood_hot_pot": "海鲜火锅",
    "kaleidoscope_fishing:dried_shrimp_congee": "虾米粥",
-   "kaleidoscope_fishing:pickled_cabbage_fish": "酸菜鱼",
    "kaleidoscope_fishing:sashimi_boat": "生鱼片船",
    "kaleidoscope_fishing:seafood_platter": "海鲜大拼盘",
    "kaleidoscope_fishing:sushi_platter": "寿司木盘",

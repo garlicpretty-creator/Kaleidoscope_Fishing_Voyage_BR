@@ -438,31 +438,6 @@
     ]
   },
   {
-    "id": "kaleidoscope_fishing:pickled_cabbage_fish",
-    "nameKey": "kaleidoscope_fishing.name.pickled_cabbage_fish",
-    "icon": "textures/items/kfv_pickled_cabbage_fish",
-    "method": "stockpot",
-    "count": 1,
-    "ingredients": [
-      [
-        "kaleidoscope_fishing.name.fish_stock_bucket",
-        1
-      ],
-      [
-        "kaleidoscope_fishing.name.white_fish_fillet",
-        2
-      ],
-      [
-        "kaleidoscope_fishing.ing.kaleidoscope_chinesefood.chinese_sauerkraut",
-        1
-      ],
-      [
-        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
-        1
-      ]
-    ]
-  },
-  {
     "id": "kaleidoscope_fishing:sashimi_boat",
     "nameKey": "kaleidoscope_fishing.name.sashimi_boat",
     "icon": "textures/ui/kfv_book/kfv_sashimi_boat",

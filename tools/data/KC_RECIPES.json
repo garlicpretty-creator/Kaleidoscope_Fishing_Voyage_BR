@@ -461,24 +461,6 @@
     }
   },
   {
-    "kind": "stockpot_exact",
-    "recipe": {
-      "id": "kaleidoscope_fishing:stockpot/pickled_cabbage_fish",
-      "ingredients": [
-        "kaleidoscope_fishing:white_fish_fillet",
-        "kaleidoscope_fishing:white_fish_fillet",
-        "kaleidoscope_chinesefood:chinese_sauerkraut",
-        "kaleidoscope_cookery:red_chili"
-      ],
-      "result": "kaleidoscope_fishing:pickled_cabbage_fish",
-      "count": 1,
-      "time": 300,
-      "base": "kaleidoscope_fishing:fish_stock",
-      "carrier": "minecraft:bowl",
-      "finishedKind": "default"
-    }
-  },
-  {
     "kind": "chopping_board",
     "recipe": {
       "id": "kaleidoscope_fishing:board/eel_fillet",
