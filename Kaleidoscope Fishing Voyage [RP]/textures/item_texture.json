@@ -581,11 +581,23 @@
     "kfv_lure_hook": {
       "textures": "textures/items/kfv_lure_hook"
     },
+    "kfv_emperor_bone_hook": {
+      "textures": "textures/items/kfv_emperor_bone_hook"
+    },
     "kfv_glow_line": {
       "textures": "textures/items/kfv_glow_line"
     },
+    "kfv_whisker_line": {
+      "textures": "textures/items/kfv_whisker_line"
+    },
     "kfv_feather_bobber": {
       "textures": "textures/items/kfv_feather_bobber"
+    },
+    "kfv_dragon_scale_bobber": {
+      "textures": "textures/items/kfv_dragon_scale_bobber"
+    },
+    "kfv_frost_scale_bobber": {
+      "textures": "textures/items/kfv_frost_scale_bobber"
     },
     "kfv_live_shrimp": {
       "textures": "textures/items/kfv_live_shrimp"
@@ -641,11 +653,23 @@
     "kfv_dragon_scale": {
       "textures": "textures/items/kfv_dragon_scale"
     },
+    "kfv_emperor_tuna_fin": {
+      "textures": "textures/items/kfv_emperor_tuna_fin"
+    },
+    "kfv_frostlake_scale": {
+      "textures": "textures/items/kfv_frostlake_scale"
+    },
     "kfv_emperor_whole_tuna": {
       "textures": "textures/items/kfv_emperor_whole_tuna"
     },
     "kfv_frostlake_platter": {
       "textures": "textures/items/kfv_frostlake_platter"
+    },
+    "kfv_river_lord_casserole": {
+      "textures": "textures/items/kfv_river_lord_casserole"
+    },
+    "kfv_dragon_koi_sizzle": {
+      "textures": "textures/items/kfv_dragon_koi_sizzle"
     },
     "kfv_glass_float": {
       "textures": "textures/items/kfv_glass_float"

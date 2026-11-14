@@ -1533,5 +1533,59 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:river_lord_casserole",
+    "nameKey": "kaleidoscope_fishing.name.river_lord_casserole",
+    "icon": "textures/items/kfv_river_lord_casserole",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.river_lord_catfish",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.brown_mushroom",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.cauldron",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:dragon_koi_sizzle",
+    "nameKey": "kaleidoscope_fishing.name.dragon_koi_sizzle",
+    "icon": "textures/items/kfv_dragon_koi_sizzle",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.lava_dragon_koi",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.cobblestone",
+        1
+      ]
+    ]
   }
 ]

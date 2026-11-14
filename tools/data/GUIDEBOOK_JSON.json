@@ -6480,6 +6480,41 @@
    ]
   },
   {
+   "id": "kaleidoscope_fishing:emperor_bone_hook",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_emperor_bone_hook",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:emperor_tuna_fin",
+      "kaleidoscope_fishing:bone_hook"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:emperor_bone_hook"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (hook), made from an Emperor Bluefin Dorsal and a Bone Hook. Less common fish bite much more often (x1.5) and large fish are more likely, with no extra wear. Counts as a Bone Hook for the River Lord Catfish."
+    ],
+    "zh_TW": [
+     "釣具部件（鉤），用皇鮪背鰭和骨鉤做成。少見的魚上鉤多很多（×1.5），大型魚的機會更高，而且不會多磨損釣竿。釣河伯鯰時視同骨鉤。"
+    ],
+    "zh_CN": [
+     "钓具部件（钩），用皇鲔背鳍和骨钩做成。少见的鱼上钩多很多（×1.5），大型鱼的机会更高，而且不会多磨损钓竿。钓河伯鲶时视同骨钩。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (hook), made from an Emperor Bluefin Dorsal and a Bone Hook. Less common fish bite much more often (x1.5) and large fish are more likely, with no extra wear. Counts as a Bone Hook for the River Lord Catfish."
+   ]
+  },
+  {
    "id": "kaleidoscope_fishing:glow_line",
    "category": "tools",
    "kinds": [
@@ -6516,6 +6551,41 @@
    ]
   },
   {
+   "id": "kaleidoscope_fishing:whisker_line",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_whisker_line",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:river_lord_whisker",
+      "kaleidoscope_fishing:hemp_line"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:whisker_line"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (line), made from a River Lord Whisker and a Hemp Line. Holds two more pulls and fish bite no slower. Counts as a Wire Line for the Lava Dragon Koi."
+    ],
+    "zh_TW": [
+     "釣具部件（線），用河伯鬚和麻線做成。多撐兩次拉扯，咬鉤不會變慢。釣熔岩龍鯉時視同鋼絲線。"
+    ],
+    "zh_CN": [
+     "钓具部件（线），用河伯须和麻线做成。多撑两次拉扯，咬钩不会变慢。钓熔岩龙鲤时视同钢丝线。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (line), made from a River Lord Whisker and a Hemp Line. Holds two more pulls and fish bite no slower. Counts as a Wire Line for the Lava Dragon Koi."
+   ]
+  },
+  {
    "id": "kaleidoscope_fishing:feather_bobber",
    "category": "tools",
    "kinds": [
@@ -6549,6 +6619,76 @@
    },
    "mechanics": [
     "Tackle part (bobber). Rides high: the bait stays shallow, and shallow-water catches (shrimp, crabs, loach, lobster) come more often."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dragon_scale_bobber",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_dragon_scale_bobber",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:dragon_scale",
+      "kaleidoscope_fishing:bamboo_bobber"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:dragon_scale_bobber"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (bobber), made from a Dragon Scale and a Bamboo Bobber. Fish bite sooner (15%) and you get more time to strike."
+    ],
+    "zh_TW": [
+     "釣具部件（浮標），用龍鱗和竹節浮標做成。咬鉤快 15%，上鉤的反應時間也更長。"
+    ],
+    "zh_CN": [
+     "钓具部件（浮标），用龙鳞和竹节浮标做成。咬钩快 15%，上钩的反应时间也更长。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (bobber), made from a Dragon Scale and a Bamboo Bobber. Fish bite sooner (15%) and you get more time to strike."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:frost_scale_bobber",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_frost_scale_bobber",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:frostlake_scale",
+      "kaleidoscope_fishing:weighted_bobber"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:frost_scale_bobber"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. Sinks the bait 6 blocks deeper, and fish bite much sooner at night."
+    ],
+    "zh_TW": [
+     "釣具部件（浮標），用冰湖霜鱗和重墜浮標做成。水深算多 6 格，夜晚咬鉤快很多。"
+    ],
+    "zh_CN": [
+     "钓具部件（浮标），用冰湖霜鳞和重坠浮标做成。水深算多 6 格，夜晚咬钩快很多。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. Sinks the bait 6 blocks deeper, and fish bite much sooner at night."
    ]
   },
   {
@@ -7089,17 +7229,20 @@
    "icon": "textures/items/kfv_river_lord_whisker",
    "mechanicsByLocale": {
     "en_US": [
-     "A whisker as long as your arm, from the River Lord Catfish. A keepsake."
+     "A whisker as long as your arm, from the River Lord Catfish. A keepsake. With a Hemp Line it makes a River Lord Whisker Line."
     ],
     "zh_TW": [
-     "河伯鯰的鬚，比手臂還長。紀念品。"
+     "河伯鯰的鬚，比手臂還長。紀念品。和麻線可以做成河伯鬚線。"
     ],
     "zh_CN": [
-     "河伯鲶的须，比手臂还长。纪念品。"
+     "河伯鲶的须，比手臂还长。纪念品。和麻线可以做成河伯须线。"
     ]
    },
    "mechanics": [
-    "A whisker as long as your arm, from the River Lord Catfish. A keepsake."
+    "A whisker as long as your arm, from the River Lord Catfish. A keepsake. With a Hemp Line it makes a River Lord Whisker Line."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:whisker_line"
    ]
   },
   {
@@ -7112,17 +7255,72 @@
    "icon": "textures/items/kfv_dragon_scale",
    "mechanicsByLocale": {
     "en_US": [
-     "A scale from the Lava Dragon Koi, still warm. A keepsake."
+     "A scale from the Lava Dragon Koi, still warm. A keepsake. With a Bamboo Bobber it makes a Dragon Scale Bobber."
     ],
     "zh_TW": [
-     "熔岩龍鯉的鱗，還是溫的。紀念品。"
+     "熔岩龍鯉的鱗，還是溫的。紀念品。和竹節浮標可以做成龍鱗浮標。"
     ],
     "zh_CN": [
-     "熔岩龙鲤的鳞，还是温的。纪念品。"
+     "熔岩龙鲤的鳞，还是温的。纪念品。和竹节浮标可以做成龙鳞浮标。"
     ]
    },
    "mechanics": [
-    "A scale from the Lava Dragon Koi, still warm. A keepsake."
+    "A scale from the Lava Dragon Koi, still warm. A keepsake. With a Bamboo Bobber it makes a Dragon Scale Bobber."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:dragon_scale_bobber"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:emperor_tuna_fin",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_emperor_tuna_fin",
+   "usedBy": [
+    "kaleidoscope_fishing:emperor_bone_hook"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The tall dorsal fin of the Emperor Bluefin. A keepsake; with a Bone Hook it makes an Emperor Bone Hook."
+    ],
+    "zh_TW": [
+     "藍鰭皇鮪高聳的背鰭。紀念品；和骨鉤可以做成皇鮪骨鉤。"
+    ],
+    "zh_CN": [
+     "蓝鳍皇鲔高耸的背鳍。纪念品；和骨钩可以做成皇鲔骨钩。"
+    ]
+   },
+   "mechanics": [
+    "The tall dorsal fin of the Emperor Bluefin. A keepsake; with a Bone Hook it makes an Emperor Bone Hook."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:frostlake_scale",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_frostlake_scale",
+   "usedBy": [
+    "kaleidoscope_fishing:frost_scale_bobber"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A scale of the Frostlake Char, cold as the lake it came from. A keepsake; with a Weighted Bobber it makes a Frost Scale Bobber."
+    ],
+    "zh_TW": [
+     "冰湖主的鱗，和牠住的湖一樣冰。紀念品；和重墜浮標可以做成霜鱗浮標。"
+    ],
+    "zh_CN": [
+     "冰湖主的鳞，和它住的湖一样冰。纪念品；和重坠浮标可以做成霜鳞浮标。"
+    ]
+   },
+   "mechanics": [
+    "A scale of the Frostlake Char, cold as the lake it came from. A keepsake; with a Weighted Bobber it makes a Frost Scale Bobber."
    ]
   },
   {
@@ -7333,6 +7531,83 @@
    "mechanics": [
     "The Frostlake Char served on frosted ice with the ice-fishing catch. Place it and share it."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:river_lord_casserole",
+   "category": "dishes",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_river_lord_casserole",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:river_lord_catfish",
+      "minecraft:brown_mushroom",
+      "minecraft:carrot",
+      "kaleidoscope_cookery:lettuce",
+      "minecraft:cauldron"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:river_lord_casserole"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The River Lord Catfish simmered whole in a clay pot. One block, four bites; share it for the feast bonus."
+    ],
+    "zh_TW": [
+     "整條河伯鯰放進砂鍋慢燉。占一格，可以吃四口；大家一起吃有宴席加成。"
+    ],
+    "zh_CN": [
+     "整条河伯鲶放进砂锅慢炖。占一格，可以吃四口；大家一起吃有宴席加成。"
+    ]
+   },
+   "mechanics": [
+    "The River Lord Catfish simmered whole in a clay pot. One block, four bites; share it for the feast bonus."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dragon_koi_sizzle",
+   "category": "dishes",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_dragon_koi_sizzle",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:lava_dragon_koi",
+      "kaleidoscope_cookery:red_chili",
+      "kaleidoscope_cookery:green_chili",
+      "minecraft:cobblestone"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:dragon_koi_sizzle"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The Lava Dragon Koi seared on hot stone. A 1x2 board, three bites a block; share it for the feast bonus."
+    ],
+    "zh_TW": [
+     "熔岩龍鯉放在滾燙的石板上炙燒。占 1×2 格，每格三口；大家一起吃有宴席加成。"
+    ],
+    "zh_CN": [
+     "熔岩龙鲤放在滚烫的石板上炙烧。占 1×2 格，每格三口；大家一起吃有宴席加成。"
+    ]
+   },
+   "mechanics": [
+    "The Lava Dragon Koi seared on hot stone. A 1x2 board, three bites a block; share it for the feast bonus."
+   ]
   }
  ],
  "names": {
@@ -7534,8 +7809,12 @@
    "kaleidoscope_fishing:blindfish_clear_soup": "Blindfish Clear Soup",
    "kaleidoscope_fishing:spicy_crayfish": "Spicy Crayfish",
    "kaleidoscope_fishing:lure_hook": "Lure Hook",
+   "kaleidoscope_fishing:emperor_bone_hook": "Emperor Bone Hook",
    "kaleidoscope_fishing:glow_line": "Glow Line",
+   "kaleidoscope_fishing:whisker_line": "River Lord Whisker Line",
    "kaleidoscope_fishing:feather_bobber": "Feather Bobber",
+   "kaleidoscope_fishing:dragon_scale_bobber": "Dragon Scale Bobber",
+   "kaleidoscope_fishing:frost_scale_bobber": "Frost Scale Bobber",
    "kaleidoscope_fishing:live_shrimp": "Live Shrimp",
    "kaleidoscope_fishing:earthworm": "Earthworm",
    "kaleidoscope_fishing:mullet_roe": "Mullet Roe",
@@ -7555,13 +7834,17 @@
    "kaleidoscope_fishing:lava_dragon_koi": "Lava Dragon Koi",
    "kaleidoscope_fishing:river_lord_whisker": "River Lord Whisker",
    "kaleidoscope_fishing:dragon_scale": "Dragon Scale",
+   "kaleidoscope_fishing:emperor_tuna_fin": "Emperor Bluefin Dorsal",
+   "kaleidoscope_fishing:frostlake_scale": "Frostlake Scale",
    "kaleidoscope_fishing:glass_float": "Glass Float",
    "kaleidoscope_fishing:anchor": "Anchor",
    "kaleidoscope_fishing:net_wall": "Hanging Net",
    "kaleidoscope_fishing:dried_fish_string": "String of Dried Fish",
    "kaleidoscope_fishing:catch_crate": "Crate of the Catch",
    "kaleidoscope_fishing:emperor_whole_tuna": "Emperor Bluefin Whole",
-   "kaleidoscope_fishing:frostlake_platter": "Frostlake Platter"
+   "kaleidoscope_fishing:frostlake_platter": "Frostlake Platter",
+   "kaleidoscope_fishing:river_lord_casserole": "River Lord Casserole",
+   "kaleidoscope_fishing:dragon_koi_sizzle": "Dragon Koi Stone Grill"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -7761,8 +8044,12 @@
    "kaleidoscope_fishing:blindfish_clear_soup": "盲魚清湯",
    "kaleidoscope_fishing:spicy_crayfish": "辣炒螯蝦",
    "kaleidoscope_fishing:lure_hook": "假餌鉤",
+   "kaleidoscope_fishing:emperor_bone_hook": "皇鮪骨鉤",
    "kaleidoscope_fishing:glow_line": "夜光線",
+   "kaleidoscope_fishing:whisker_line": "河伯鬚線",
    "kaleidoscope_fishing:feather_bobber": "羽毛浮標",
+   "kaleidoscope_fishing:dragon_scale_bobber": "龍鱗浮標",
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鱗浮標",
    "kaleidoscope_fishing:live_shrimp": "活蝦",
    "kaleidoscope_fishing:earthworm": "蚯蚓",
    "kaleidoscope_fishing:mullet_roe": "烏魚卵",
@@ -7782,13 +8069,17 @@
    "kaleidoscope_fishing:lava_dragon_koi": "熔岩龍鯉",
    "kaleidoscope_fishing:river_lord_whisker": "河伯鬚",
    "kaleidoscope_fishing:dragon_scale": "龍鱗",
+   "kaleidoscope_fishing:emperor_tuna_fin": "皇鮪背鰭",
+   "kaleidoscope_fishing:frostlake_scale": "冰湖霜鱗",
    "kaleidoscope_fishing:glass_float": "玻璃浮球",
    "kaleidoscope_fishing:anchor": "錨",
    "kaleidoscope_fishing:net_wall": "漁網牆飾",
    "kaleidoscope_fishing:dried_fish_string": "魚乾串",
    "kaleidoscope_fishing:catch_crate": "漁獲木箱",
    "kaleidoscope_fishing:emperor_whole_tuna": "皇鮪大體",
-   "kaleidoscope_fishing:frostlake_platter": "冰湖主漁獲盤"
+   "kaleidoscope_fishing:frostlake_platter": "冰湖主漁獲盤",
+   "kaleidoscope_fishing:river_lord_casserole": "河伯鯰砂鍋",
+   "kaleidoscope_fishing:dragon_koi_sizzle": "龍鯉石板燒"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -7988,8 +8279,12 @@
    "kaleidoscope_fishing:blindfish_clear_soup": "盲鱼清汤",
    "kaleidoscope_fishing:spicy_crayfish": "辣炒螯虾",
    "kaleidoscope_fishing:lure_hook": "假饵钩",
+   "kaleidoscope_fishing:emperor_bone_hook": "皇鲔骨钩",
    "kaleidoscope_fishing:glow_line": "夜光线",
+   "kaleidoscope_fishing:whisker_line": "河伯须线",
    "kaleidoscope_fishing:feather_bobber": "羽毛浮标",
+   "kaleidoscope_fishing:dragon_scale_bobber": "龙鳞浮标",
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鳞浮标",
    "kaleidoscope_fishing:live_shrimp": "活虾",
    "kaleidoscope_fishing:earthworm": "蚯蚓",
    "kaleidoscope_fishing:mullet_roe": "乌鱼卵",
@@ -8009,13 +8304,17 @@
    "kaleidoscope_fishing:lava_dragon_koi": "熔岩龙鲤",
    "kaleidoscope_fishing:river_lord_whisker": "河伯须",
    "kaleidoscope_fishing:dragon_scale": "龙鳞",
+   "kaleidoscope_fishing:emperor_tuna_fin": "皇鲔背鳍",
+   "kaleidoscope_fishing:frostlake_scale": "冰湖霜鳞",
    "kaleidoscope_fishing:glass_float": "玻璃浮球",
    "kaleidoscope_fishing:anchor": "锚",
    "kaleidoscope_fishing:net_wall": "渔网墙饰",
    "kaleidoscope_fishing:dried_fish_string": "鱼干串",
    "kaleidoscope_fishing:catch_crate": "渔获木箱",
    "kaleidoscope_fishing:emperor_whole_tuna": "皇鲔大体",
-   "kaleidoscope_fishing:frostlake_platter": "冰湖主渔获盘"
+   "kaleidoscope_fishing:frostlake_platter": "冰湖主渔获盘",
+   "kaleidoscope_fishing:river_lord_casserole": "河伯鲶砂锅",
+   "kaleidoscope_fishing:dragon_koi_sizzle": "龙鲤石板烧"
   }
  },
  "text": {

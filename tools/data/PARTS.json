@@ -56,5 +56,28 @@
     "depth": -1,
     "shallow": 1.5,
     "style": 5
+  },
+  "kaleidoscope_fishing:whisker_line": {
+    "slot": "line",
+    "strain": 2,
+    "as": "kaleidoscope_fishing:wire_line"
+  },
+  "kaleidoscope_fishing:emperor_bone_hook": {
+    "slot": "hook",
+    "rare": 1.5,
+    "size": 1,
+    "as": "kaleidoscope_fishing:bone_hook"
+  },
+  "kaleidoscope_fishing:dragon_scale_bobber": {
+    "slot": "bobber",
+    "bite": 0.85,
+    "window": 10,
+    "style": 7
+  },
+  "kaleidoscope_fishing:frost_scale_bobber": {
+    "slot": "bobber",
+    "depth": 6,
+    "night": 0.75,
+    "style": 8
   }
 }

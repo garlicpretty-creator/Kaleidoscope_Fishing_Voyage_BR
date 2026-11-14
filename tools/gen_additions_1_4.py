@@ -6,10 +6,11 @@ Safe to run again. The icons drawn here are placeholders in the pack's palette u
 replaces them (same file names).
 
   cleaning()   Fish Cleaning Board: nine more fish, shrimp / crabs / jellyfish, and what they are cut into
+  legends()    a keepsake and a feast for every legend, and the four tackle parts made from the keepsakes
 """
 import json, os
 
-from content import BP, RP, NS, add_item, load, save, read, write, write_json, rgba
+from content import BP, RP, NS, add_item, add_guide, add_lang, guide_entry, load, save, read, write, write_json, rgba
 from PIL import Image
 
 ID = lambda n: f'{NS}:{n}'  # noqa: E731
@@ -333,6 +334,231 @@ def cleaning():
     save('GUIDEBOOK_JSON', g, indent=1)
 
 
+# --------------------------------------------------------------------------- legends
+BOBBER = ['................', '.......OO.......', '......OssO......', '......OssO......', '.....OOOOOO.....',
+          '....OaaaaaaO....', '...OaaAAAAaaO...', '...OaAAAAAAaO...', '...OOOOOOOOOO...', '...ObbbbbbbbO...',
+          '...ObbBBBBbbO...', '....ObbBBbbO....', '.....ObbbbO.....', '......OOOO......', '.......OO.......',
+          '................']
+T = lambda en, tw, cn: {'en_US': en, 'zh_TW': tw, 'zh_CN': cn}  # noqa: E731
+
+LEGEND_ITEMS = [
+    dict(name='emperor_tuna_fin', after='dragon_scale', group='tools', category='tools', stack=16,
+         names=T('Emperor Bluefin Dorsal', '皇鮪背鰭', '皇鲔背鳍'),
+         mechanics=T(['The tall dorsal fin of the Emperor Bluefin. A keepsake; with a Bone Hook it makes an Emperor Bone Hook.'],
+                     ['藍鰭皇鮪高聳的背鰭。紀念品；和骨鉤可以做成皇鮪骨鉤。'], ['蓝鳍皇鲔高耸的背鳍。纪念品；和骨钩可以做成皇鲔骨钩。']),
+         used_by=[ID('emperor_bone_hook')],
+         icon=(['................', '.........OO.....', '........OfO.....', '.......OfFO.....', '......OfFFO.....',
+                '.....OfFFFO.....', '....OfFFFdO.....', '...OfFFFFdO.....', '..OfFFFFddO.....', '..OfFFFdddOO....',
+                '.OfFFFFddddbO...', '.OFFFFdddbbbO...', '.ObbbbbbbbbO....', '..OOOOOOOOO.....', '................',
+                '................'], {'O': '#101828', 'f': '#5a86c8', 'F': '#2f5596', 'd': '#1e3868', 'b': '#c8d2e0'})),
+    dict(name='frostlake_scale', after='emperor_tuna_fin', group='tools', category='tools', stack=16,
+         names=T('Frostlake Scale', '冰湖霜鱗', '冰湖霜鳞'),
+         mechanics=T(['A scale of the Frostlake Char, cold as the lake it came from. A keepsake; with a Weighted Bobber it makes a Frost Scale Bobber.'],
+                     ['冰湖主的鱗，和牠住的湖一樣冰。紀念品；和重墜浮標可以做成霜鱗浮標。'], ['冰湖主的鳞，和它住的湖一样冰。纪念品；和重坠浮标可以做成霜鳞浮标。']),
+         used_by=[ID('frost_scale_bobber')],
+         icon=(['................', '................', '.....OOOOOO.....', '...OOiiiiiiOO...', '..OiihhiiiiiiO..',
+                '..OihhiiiiIIiO..', '.OiihiiiiIIIIiO.', '.OiiiiiiIIIIIiO.', '.OiiiiiIIIIIIiO.', '..OiiiIIIIIIiO..',
+                '..OIiIIIIIIIIO..', '...OIIIIIIIIO...', '....OOIIIIOO....', '......OOOO......', '................',
+                '................'], {'O': '#27405a', 'i': '#bfe4f4', 'I': '#86bfe0', 'h': '#ffffff'})),
+    dict(name='whisker_line', after='glow_line', group='tools', category='tools', stack=16,
+         names=T('River Lord Whisker Line', '河伯鬚線', '河伯须线'),
+         mechanics=T(['Tackle part (line), made from a River Lord Whisker and a Hemp Line. Holds two more pulls and fish bite no slower. Counts as a Wire Line for the Lava Dragon Koi.'],
+                     ['釣具部件（線），用河伯鬚和麻線做成。多撐兩次拉扯，咬鉤不會變慢。釣熔岩龍鯉時視同鋼絲線。'],
+                     ['钓具部件（线），用河伯须和麻线做成。多撑两次拉扯，咬钩不会变慢。钓熔岩龙鲤时视同钢丝线。']),
+         recipe=['river_lord_whisker', 'hemp_line'],
+         icon=(['................', '................', '....OOOOOOOO....', '...OllLLLLllO...', '..OlLOOOOOOLlO..',
+                '..OLO......OLO..', '.OlLO......OLlO.', '.OlLO......OLlO.', '.OlLO......OLlO.', '..OLO......OLO..',
+                '..OlLOOOOOOLlO..', '...OllLLLLllOOO.', '....OOOOOOOOlLO.', '............OOO.', '................',
+                '................'], {'O': '#1c1410', 'l': '#6e5a4a', 'L': '#4a3a2e'})),
+    dict(name='emperor_bone_hook', after='lure_hook', group='tools', category='tools', stack=16,
+         names=T('Emperor Bone Hook', '皇鮪骨鉤', '皇鲔骨钩'),
+         mechanics=T(['Tackle part (hook), made from an Emperor Bluefin Dorsal and a Bone Hook. Less common fish bite much more often (x1.5) and large fish are more likely, with no extra wear. Counts as a Bone Hook for the River Lord Catfish.'],
+                     ['釣具部件（鉤），用皇鮪背鰭和骨鉤做成。少見的魚上鉤多很多（×1.5），大型魚的機會更高，而且不會多磨損釣竿。釣河伯鯰時視同骨鉤。'],
+                     ['钓具部件（钩），用皇鲔背鳍和骨钩做成。少见的鱼上钩多很多（×1.5），大型鱼的机会更高，而且不会多磨损钓竿。钓河伯鲶时视同骨钩。']),
+         recipe=['emperor_tuna_fin', 'bone_hook'],
+         icon=(['................', '.........OOO....', '........OhhO....', '........OhO.....', '........OhO.....',
+                '........OhO.....', '........OhO.....', '........OhO.....', '..OO....OhO.....', '.OtO....OhO.....',
+                '.OttO..OhhO.....', '..OthOOhhO......', '...OhhhhO.......', '....OOOO........', '................',
+                '................'], {'O': '#101828', 'h': '#eae4d2', 't': '#3f6fb8'})),
+    dict(name='dragon_scale_bobber', after='feather_bobber', group='tools', category='tools', stack=16,
+         names=T('Dragon Scale Bobber', '龍鱗浮標', '龙鳞浮标'),
+         mechanics=T(['Tackle part (bobber), made from a Dragon Scale and a Bamboo Bobber. Fish bite sooner (15%) and you get more time to strike.'],
+                     ['釣具部件（浮標），用龍鱗和竹節浮標做成。咬鉤快 15%，上鉤的反應時間也更長。'],
+                     ['钓具部件（浮标），用龙鳞和竹节浮标做成。咬钩快 15%，上钩的反应时间也更长。']),
+         recipe=['dragon_scale', 'bamboo_bobber'],
+         icon=(BOBBER, {'O': O, 's': '#c9a24a', 'a': '#f2a22c', 'A': '#f8d070', 'b': '#c8402c', 'B': '#8a2418'})),
+    dict(name='frost_scale_bobber', after='dragon_scale_bobber', group='tools', category='tools', stack=16,
+         names=T('Frost Scale Bobber', '霜鱗浮標', '霜鳞浮标'),
+         mechanics=T(['Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. Sinks the bait 6 blocks deeper, and fish bite much sooner at night.'],
+                     ['釣具部件（浮標），用冰湖霜鱗和重墜浮標做成。水深算多 6 格，夜晚咬鉤快很多。'],
+                     ['钓具部件（浮标），用冰湖霜鳞和重坠浮标做成。水深算多 6 格，夜晚咬钩快很多。']),
+         recipe=['frostlake_scale', 'weighted_bobber'],
+         icon=(BOBBER, {'O': '#27405a', 's': '#8a96a4', 'a': '#e6f6fc', 'A': '#ffffff', 'b': '#86bfe0', 'B': '#4f8fc0'})),
+]
+NEW_PARTS = {
+    'whisker_line': {'slot': 'line', 'strain': 2, 'as': ID('wire_line')},
+    'emperor_bone_hook': {'slot': 'hook', 'rare': 1.5, 'size': 1, 'as': ID('bone_hook')},
+    'dragon_scale_bobber': {'slot': 'bobber', 'bite': 0.85, 'window': 10, 'style': 7},
+    'frost_scale_bobber': {'slot': 'bobber', 'depth': 6, 'night': 0.75, 'style': 8},
+}
+# item, block it copies (models are borrowed for now, on a re-tinted texture), tint, feast data, recipe, effects
+LEGEND_FEASTS = [
+    dict(name='river_lord_casserole', after='frostlake_platter', like='oden_pot', tint=(1.0, 0.82, 0.66),
+         names=T('River Lord Casserole', '河伯鯰砂鍋', '河伯鲶砂锅'),
+         mechanics=T(['The River Lord Catfish simmered whole in a clay pot. One block, four bites; share it for the feast bonus.'],
+                     ['整條河伯鯰放進砂鍋慢燉。占一格，可以吃四口；大家一起吃有宴席加成。'], ['整条河伯鲶放进砂锅慢炖。占一格，可以吃四口；大家一起吃有宴席加成。']),
+         feast={'parts': [[0, 0, 0]], 'dirs': [0, 1, 2, 3], 'bites': 4, 'nutrition': 5, 'saturation': 0.9,
+                'remains': ['minecraft:cauldron'], 'face': True},
+         recipe=[ID('river_lord_catfish'), 'minecraft:brown_mushroom', 'minecraft:carrot', 'kaleidoscope_cookery:lettuce', 'minecraft:cauldron'],
+         effects=[{'effect': 'resistance', 'duration': 600, 'amplifier': 0}, {'effect': 'regeneration', 'duration': 300, 'amplifier': 0}],
+         icon=(['................', '................', '................', '..OO........OO..', '.OccOOOOOOOOccO.',
+                '.OcOssggssssOcO.', '..OsswwsssggsO..', '.OCssssswwsssCO.', '.OCCssggssssCCO.', '.OCCCCCCCCCCCCO.',
+                '..OCCCCCCCCCCO..', '..OCCcCCCCcCCO..', '...OCCCCCCCCO...', '....OOOOOOOO....', '................',
+                '................'], {'O': O, 'C': '#9a5a34', 'c': '#b9774a', 's': '#e9d9a8', 'g': '#6fa84a', 'w': '#f6efe0'})),
+    dict(name='dragon_koi_sizzle', after='river_lord_casserole', like='grilled_fish_plank', tint=(1.0, 0.7, 0.62),
+         names=T('Dragon Koi Stone Grill', '龍鯉石板燒', '龙鲤石板烧'),
+         mechanics=T(['The Lava Dragon Koi seared on hot stone. A 1x2 board, three bites a block; share it for the feast bonus.'],
+                     ['熔岩龍鯉放在滾燙的石板上炙燒。占 1×2 格，每格三口；大家一起吃有宴席加成。'], ['熔岩龙鲤放在滚烫的石板上炙烧。占 1×2 格，每格三口；大家一起吃有宴席加成。']),
+         feast={'parts': [[0, 0, 0], [1, 0, 1]], 'dirs': [0, 1, 2, 3], 'bites': 3, 'nutrition': 4, 'saturation': 0.8,
+                'remains': ['minecraft:cobblestone']},
+         recipe=[ID('lava_dragon_koi'), 'kaleidoscope_cookery:red_chili', 'kaleidoscope_cookery:green_chili', 'minecraft:cobblestone'],
+         effects=[{'effect': 'fire_resistance', 'duration': 2400, 'amplifier': 0}, {'effect': 'strength', 'duration': 600, 'amplifier': 0}],
+         icon=(['................', '................', '................', '................', '..OOOOOOOOOOOO..',
+                '.OkkkkkkkkkkkkO.', 'OkkrrRRRRRrrykkO', 'OkrRRhRRRRRRrykO', 'OkkrRRRRRRRrgkkO', 'OkkkrrRRRrrkgkkO',
+                '.OkkkkkkkkkkkkO.', '..OKKKKKKKKKKO..', '...OOOOOOOOOO...', '................', '................',
+                '................'], {'O': O, 'k': '#6b6b72', 'K': '#4c4c54', 'r': '#c8402c', 'R': '#e8683c', 'h': '#f8b070',
+                                      'y': '#f2c84a', 'g': '#6fa84a'})),
+]
+
+
+def tinted(src, dst, tint):
+    """A copy of a texture (and of its texture set, MER and height maps) with its colours multiplied by tint."""
+    im = Image.open(src + '.png').convert('RGBA')
+    px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            px[x, y] = (min(255, int(r * tint[0])), min(255, int(g * tint[1])), min(255, int(b * tint[2])), a)
+    im.save(dst + '.png')
+    s, d = os.path.basename(src), os.path.basename(dst)
+    if os.path.exists(src + '.texture_set.json'):
+        write(dst + '.texture_set.json', read(src + '.texture_set.json').replace(s, d))
+        for extra in ('_mer.png', '_height.png', '_normal.png'):
+            if os.path.exists(src + extra):
+                Image.open(src + extra).save(dst + extra)
+
+
+def shapeless(rid, ingredients, result):
+    ing = [{'item': i} for i in ingredients]
+    write_json(os.path.join(BP, 'recipes', 'crafting', rid + '.json'), {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
+        'description': {'identifier': ID(rid)}, 'tags': ['crafting_table'], 'ingredients': ing,
+        'result': {'item': ID(result), 'count': 1}, 'unlock': ing[:1]}})
+
+
+def guide_recipe(ingredients, result):
+    return [{'method': 'Crafting Table', 'ingredients': list(ingredients), 'count': 1, 'time': 0, 'result': ID(result)}]
+
+
+def ing_key(i):
+    ns, name = i.split(':')
+    return f'{NS}.name.{name}' if ns == NS else f'{NS}.ing.{ns}.{name}'
+
+
+def legends():
+    add_lang(f'{NS}.ing.minecraft.cobblestone', T('Cobblestone', '鵝卵石', '圆石'), f'{NS}.ing.minecraft.cauldron')
+    # keepsakes and the parts made from them
+    for it in LEGEND_ITEMS:
+        it = dict(it)
+        recipe = it.pop('recipe', None)
+        if recipe:
+            ids = [ID(r) for r in recipe]
+            shapeless(it['name'], ids, it['name'])
+            it['recipes'] = guide_recipe(ids, it['name'])
+        add_item(**it)
+    keep = load('KEEPSAKES')
+    keep[ID('emperor_tuna')] = ID('emperor_tuna_fin')
+    keep[ID('frostlake_char')] = ID('frostlake_scale')
+    save('KEEPSAKES', keep)
+    parts = load('PARTS')
+    for name, p in NEW_PARTS.items():
+        parts[ID(name)] = p
+    save('PARTS', parts)
+    styles = load('LINE_STYLE')
+    styles[ID('whisker_line')] = 'line_whisker'
+    save('LINE_STYLE', styles)
+
+    # the whisker line's colour on the water, and the two new bobber looks (styles 7 and 8)
+    tinted(os.path.join(RP, 'textures', 'particle', 'kfv_line_wire'), os.path.join(RP, 'textures', 'particle', 'kfv_line_whisker'), (0.5, 0.42, 0.36))
+    write(os.path.join(RP, 'particles', 'line_whisker.json'), read(os.path.join(RP, 'particles', 'line_wire.json')).replace('line_wire', 'line_whisker'))
+    ent = os.path.join(RP, 'textures', 'entity')
+    tinted(os.path.join(ent, 'kfv_bobber_legend'), os.path.join(ent, 'kfv_bobber_dragon'), (1.0, 0.62, 0.42))
+    tinted(os.path.join(ent, 'kfv_bobber_weighted'), os.path.join(ent, 'kfv_bobber_frost'), (0.78, 1.0, 1.25))
+    path = os.path.join(RP, 'entity', 'bobber.entity.json')
+    client = json.loads(read(path))
+    tex = client['minecraft:client_entity']['description']['textures']
+    tex['dragon'], tex['frost'] = 'textures/entity/kfv_bobber_dragon', 'textures/entity/kfv_bobber_frost'
+    write_json(path, client)
+    path = os.path.join(RP, 'render_controllers', 'kfv_bobber.render_controllers.json')
+    rc = json.loads(read(path))
+    skins = rc['render_controllers']['controller.render.kfv_bobber']['arrays']['textures']['Array.skins']
+    for s in ('Texture.dragon', 'Texture.frost'):
+        if s not in skins:
+            skins.append(s)
+    assert skins.index('Texture.dragon') == 7 and skins.index('Texture.frost') == 8
+    write_json(path, rc)
+    path = os.path.join(BP, 'entities', 'bobber.json')
+    server = json.loads(read(path))
+    server['minecraft:entity']['description']['properties'][f'{NS}:style']['range'] = [0, 8]
+    write_json(path, server)
+
+    # the two feasts
+    feasts, effects, hints = load('FEASTS'), load('FOOD_EFFECTS'), load('RECIPE_HINTS')
+    terrain_path = os.path.join(RP, 'textures', 'terrain_texture.json')
+    terrain = json.loads(read(terrain_path))
+    for f in LEGEND_FEASTS:
+        name, like = f['name'], f['like']
+        shapeless(name, f['recipe'], name)
+        add_item(name=name, names=f['names'], icon=f['icon'], after=f['after'], group='placeable_foods', stack=16,
+                 components={'minecraft:tags': {'tags': ['kaleidoscope_cookery:placeable_food']}})
+        entry = guide_entry(name, 'dishes', 16, f['mechanics'], recipes=guide_recipe(f['recipe'], name), kinds=('item', 'block'))
+        add_guide(entry, f['names'], f['after'])
+        blocks = os.path.join(RP, 'textures', 'blocks')
+        tinted(os.path.join(blocks, f'kfv_{like}'), os.path.join(blocks, f'kfv_{name}'), f['tint'])
+        terrain['texture_data'][f'kfv_{name}'] = {'textures': f'textures/blocks/kfv_{name}'}
+        block = read(os.path.join(BP, 'blocks', f'{like}_block.json'))
+        block = block.replace(f'{NS}:{like}_block', f'{NS}:{name}_block').replace(f'display.item.{like}', f'display.item.{name}') \
+                     .replace(f'"kfv_{like}"', f'"kfv_{name}"')
+        write(os.path.join(BP, 'blocks', f'{name}_block.json'), block)
+        feasts[ID(name + '_block')] = dict(item=ID(name), **f['feast'])
+        effects[ID(name)] = f['effects']
+        if not any(h['id'] == ID(name) for h in hints):
+            counts = {}
+            for i in f['recipe']:
+                counts[i] = counts.get(i, 0) + 1
+            hints.append({'id': ID(name), 'nameKey': f'{NS}.name.{name}', 'icon': f'textures/items/kfv_{name}', 'method': 'crafting',
+                          'count': 1, 'ingredients': [[ing_key(i), n] for i, n in counts.items()]})
+    write_json(terrain_path, terrain)
+    save('FEASTS', feasts)
+    save('FOOD_EFFECTS', effects)
+    save('RECIPE_HINTS', hints)
+
+    # the two older keepsakes say what they are for now
+    g = load('GUIDEBOOK_JSON')
+    more = {'river_lord_whisker': (T(' With a Hemp Line it makes a River Lord Whisker Line.', '和麻線可以做成河伯鬚線。', '和麻线可以做成河伯须线。'), 'whisker_line'),
+            'dragon_scale': (T(' With a Bamboo Bobber it makes a Dragon Scale Bobber.', '和竹節浮標可以做成龍鱗浮標。', '和竹节浮标可以做成龙鳞浮标。'), 'dragon_scale_bobber')}
+    for e in g['entries']:
+        name = e['id'].split(':')[1]
+        if name in more:
+            text, part = more[name]
+            for lang, lines in e['mechanicsByLocale'].items():
+                if not lines[0].endswith(text[lang]):
+                    lines[0] += text[lang]
+            e['mechanics'] = list(e['mechanicsByLocale']['en_US'])
+            e['usedBy'] = [ID(part)]
+    save('GUIDEBOOK_JSON', g, indent=1)
+
+
 if __name__ == '__main__':
     cleaning()
+    legends()
     print('done; now run: python tools/build.py build')

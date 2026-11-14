@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_dragon_koi_sizzle",
+    "metalness_emissive_roughness": "kfv_dragon_koi_sizzle_mer",
+    "heightmap": "kfv_dragon_koi_sizzle_height"
+  }
+}

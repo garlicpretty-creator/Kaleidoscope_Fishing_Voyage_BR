@@ -208,7 +208,9 @@
               "kaleidoscope_fishing:oden_pot",
               "kaleidoscope_fishing:ice_catch_platter",
               "kaleidoscope_fishing:emperor_whole_tuna",
-              "kaleidoscope_fishing:frostlake_platter"
+              "kaleidoscope_fishing:frostlake_platter",
+              "kaleidoscope_fishing:river_lord_casserole",
+              "kaleidoscope_fishing:dragon_koi_sizzle"
             ]
           },
           {
@@ -269,12 +271,18 @@
               "kaleidoscope_fishing:ender_fishing_rod",
               "kaleidoscope_fishing:end_maggot",
               "kaleidoscope_fishing:lure_hook",
+              "kaleidoscope_fishing:emperor_bone_hook",
               "kaleidoscope_fishing:glow_line",
+              "kaleidoscope_fishing:whisker_line",
               "kaleidoscope_fishing:feather_bobber",
+              "kaleidoscope_fishing:dragon_scale_bobber",
+              "kaleidoscope_fishing:frost_scale_bobber",
               "kaleidoscope_fishing:live_shrimp",
               "kaleidoscope_fishing:earthworm",
               "kaleidoscope_fishing:river_lord_whisker",
-              "kaleidoscope_fishing:dragon_scale"
+              "kaleidoscope_fishing:dragon_scale",
+              "kaleidoscope_fishing:emperor_tuna_fin",
+              "kaleidoscope_fishing:frostlake_scale"
             ]
           },
           {

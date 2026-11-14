@@ -13,7 +13,9 @@
         "weighted": "textures/entity/kfv_bobber_weighted",
         "ender": "textures/entity/kfv_bobber_ender",
         "feather": "textures/entity/kfv_bobber_feather",
-        "legend": "textures/entity/kfv_bobber_legend"
+        "legend": "textures/entity/kfv_bobber_legend",
+        "dragon": "textures/entity/kfv_bobber_dragon",
+        "frost": "textures/entity/kfv_bobber_frost"
       },
       "geometry": {
         "default": "geometry.kaleidoscope_fishing.bobber"

@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:emperor_bone_hook"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:emperor_tuna_fin"
+      },
+      {
+        "item": "kaleidoscope_fishing:bone_hook"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:emperor_bone_hook",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:emperor_tuna_fin"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:frost_scale_bobber"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:frostlake_scale"
+      },
+      {
+        "item": "kaleidoscope_fishing:weighted_bobber"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:frost_scale_bobber",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:frostlake_scale"
+      }
+    ]
+  }
+}

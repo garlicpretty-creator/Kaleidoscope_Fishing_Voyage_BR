@@ -12,7 +12,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, moonPhase, tideState, timeSlot, weatherOf } from "./water.js";
 import { BAITS, CATCH_BY_ID, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
-import { KEEPSAKES, RODS } from "../data/generated.js";
+import { KEEPSAKES, PARTS, RODS } from "../data/generated.js";
 import { getRecords, recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
 import { classOf, loreFor } from "./size.js";
@@ -31,6 +31,9 @@ const TICK = 2;
 const MAX_AGE = 2400;
 const MAX_DIST = 32;
 const KEEPSAKE_AGAIN = 0.25;
+// 1.4.0: a part made from a keepsake counts as the part it was made from where a legend asks for one
+// (PARTS[].as: the Emperor Bone Hook as a Bone Hook, the River Lord Whisker Line as a Wire Line).
+const partAs = id => PARTS[id]?.as ?? id;
 
 const sessions = new Map();   // playerId -> session
 const lastUse = new Map();
@@ -214,7 +217,7 @@ function hookFish(player, s) {
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
     moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
-    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: s.parts?.hook, line: s.parts?.line, dim: dim.id,
+    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }

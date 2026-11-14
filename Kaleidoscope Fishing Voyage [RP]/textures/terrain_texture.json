@@ -351,6 +351,12 @@
     },
     "kfv_frostlake_platter": {
       "textures": "textures/blocks/kfv_frostlake_platter"
+    },
+    "kfv_river_lord_casserole": {
+      "textures": "textures/blocks/kfv_river_lord_casserole"
+    },
+    "kfv_dragon_koi_sizzle": {
+      "textures": "textures/blocks/kfv_dragon_koi_sizzle"
     }
   }
 }
