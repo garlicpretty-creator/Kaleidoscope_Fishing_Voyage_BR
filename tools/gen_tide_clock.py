@@ -1,9 +1,10 @@
-"""Tide Clock (潮汐鐘): the held model, its texture and the 16x16 item icon.
+"""Tide Clock (潮汐鐘): the held model and its texture; with --icon, the 16x16 item icon too.
 
-  python tools/gen_tide_clock.py
+  python tools/gen_tide_clock.py                    model and texture
+  python tools/gen_tide_clock.py --icon <picture>   also the item icon, made from the author's picture
 
-Writes models/entity/tide_clock.geo.json, textures/entity/kfv_tide_clock.png and textures/items/kfv_tide_clock.png
-(with their texture sets and RTX maps). Safe to run again.
+Writes models/entity/tide_clock.geo.json and textures/entity/kfv_tide_clock.png; --icon writes
+textures/items/kfv_tide_clock.png. Each texture gets its texture set and RTX maps. Safe to run again.
 
 The clock is a brass disc held flat in the hand, read from above with "forward" at the top:
   hand      one turn per tide (12000 ticks). It points at the blue arc while the tide is high.
@@ -13,7 +14,7 @@ Everything that carries meaning is a cube, not a painted mark, so nothing depend
 mirrored. The turning and the moon are Molang in animations/tide_clock.animation.json and
 render_controllers/kfv_tide_clock.render_controllers.json; they follow fishing/water.js tideState().
 """
-import json, os
+import json, os, sys
 from PIL import Image
 
 import pbr
@@ -91,36 +92,20 @@ def sheet():
     return im
 
 
-ICON = [
-    '................',
-    '.....OOOOOO.....',
-    '...OOhhhhbbOO...',
-    '..OhbHHHHHHbbO..',
-    '..OhHfffffsHbO..',
-    '.OhHfffRffffsbO.',
-    '.ObffffRffffsbO.',
-    '.ObffffRffffsdO.',
-    '.ObffffPffffsdO.',
-    '.ObfffNNNNffsdO.',
-    '.ObffNMMmNNfsdO.',
-    '..ObfNMMmNNsdO..',
-    '..ObbsNNNNLddO..',
-    '...OOddddddOO...',
-    '.....OOOOOO.....',
-    '................',
-]
-ICON_PAL = {'O': '#2e1c10', 'b': '#c9a24a', 'h': '#e6c877', 'd': '#8a6a2a', 'H': '#3f7fc4', 'f': '#efe4c8',
-            's': '#d8cba8', 'R': '#b02a22', 'P': '#2e1c10', 'N': '#1e2748', 'M': '#f6eaa6', 'm': '#cdbf7c',
-            'L': '#d8c08a'}
-
-
-def icon():
-    im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
-    for y, row in enumerate(ICON):
-        assert len(row) == 16, (y, len(row))
-        for x, ch in enumerate(row):
-            if ch != '.':
-                im.putpixel((x, y), rgba(ICON_PAL[ch]))
+def icon_from(source):
+    """The item icon from a large picture: reduced to 16x16 by nearest neighbour (no smoothing), then the
+    near-white background that touches the border is made transparent (the dial's own white stays)."""
+    im = Image.open(source).convert('RGB').resize((16, 16), Image.NEAREST).convert('RGBA')
+    px = im.load()
+    seen, todo = set(), [(x, y) for x in range(16) for y in range(16) if x in (0, 15) or y in (0, 15)]
+    while todo:
+        x, y = todo.pop()
+        if (x, y) in seen or not (0 <= x < 16 and 0 <= y < 16) or min(px[x, y][:3]) < 235:
+            continue
+        seen.add((x, y))
+        todo += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+    for x, y in seen:
+        px[x, y] = (0, 0, 0, 0)
     return im
 
 
@@ -143,10 +128,12 @@ def main():
     tex = os.path.join(RP, 'textures', 'entity', 'kfv_tide_clock.png')
     sheet().save(tex)
     texture_set(tex, ('heightmap', '_height'))
-    ico = os.path.join(RP, 'textures', 'items', 'kfv_tide_clock.png')
-    icon().save(ico)
-    texture_set(ico, ('normal', '_normal'))
-    print('wrote', geo, tex, ico, sep='\n  ')
+    print('wrote', geo, tex, sep='\n  ')
+    if len(sys.argv) == 3 and sys.argv[1] == '--icon':
+        ico = os.path.join(RP, 'textures', 'items', 'kfv_tide_clock.png')
+        icon_from(sys.argv[2]).save(ico)
+        texture_set(ico, ('normal', '_normal'))
+        print('  ' + ico)
 
 
 if __name__ == '__main__':
