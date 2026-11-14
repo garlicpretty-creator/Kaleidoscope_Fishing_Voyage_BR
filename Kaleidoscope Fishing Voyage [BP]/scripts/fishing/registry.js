@@ -50,7 +50,6 @@ let onChange = () => {};           // loot.js rebuilds its lookups
 
 /** Live views for loot.js. */
 export const externalCatches = () => [...catches.values()];
-export const externalBait = id => baits.get(id);
 export const externalBaits = () => [...baits.values()];
 /** loot.js wires these at load (builtin bait test, change callback). */
 export function _wire(isBuiltinBait, changed) { builtinBait = isBuiltinBait; onChange = changed; }

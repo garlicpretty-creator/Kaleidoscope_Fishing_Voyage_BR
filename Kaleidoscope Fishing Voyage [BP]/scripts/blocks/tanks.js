@@ -323,7 +323,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
 // ---------------------------------------------------------------- fish whose tank is gone
 function sweep() {
   for (const id of ["overworld", "nether", "the_end"]) {
-    let dim, list = [];
+    let dim, list;
     try { dim = world.getDimension(id); list = dim.getEntities({ type: FISH_ID }); } catch { continue; }
     for (const e of list) {
       const tag = e.getTags().find(t => t.startsWith(TAG));

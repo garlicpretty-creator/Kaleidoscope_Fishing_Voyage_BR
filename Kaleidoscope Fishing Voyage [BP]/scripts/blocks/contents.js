@@ -34,7 +34,7 @@ export function spawnAll(dim, pos, stacks) {
 
 export function sweep() {
   if (!records.length) return;
-  let ids = [];
+  let ids;
   try { ids = world.getDynamicPropertyIds(); } catch { return; }
   for (const k of ids) {
     const r = records.find(r => k.startsWith(r.prefix));

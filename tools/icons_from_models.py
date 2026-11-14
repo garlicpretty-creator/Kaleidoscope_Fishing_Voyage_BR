@@ -7,7 +7,7 @@ usage: python tools/icons_from_models.py <out_dir>            review sheet + 16x
 For every candidate it writes <out_dir>/<id>_16x16.png (a pixel icon made from the 3D render: rendered large,
 reduced to 16x16, colour-quantised, dark outline added) and builds a review sheet <out_dir>/對照.png showing
   current 2D icon | 3D model at inventory size | auto 16x16 icon from the model
-Candidates are grouped: blocks that already show their 3D model in the inventory (A), feast / large items that
+Candidates are grouped: blocks placed from an item with a 2D icon (A), feast / large items that
 use a 2D icon but have a 3D model (B), and worn / held items whose model only shows in hand (C).
 """
 import importlib.util, json, os, sys
@@ -22,15 +22,9 @@ rm.LIGHT_FLOOR = 0.72              # icons read better with softer shadows
 F = 'geometry.kaleidoscope_fishing.'
 # (group, item id, block-texture name or texture path, [(geometry, dx, dz)], yaw, pitch, rotate_deg)
 A = [(n, f'kfv_{t}', [(F + g, 0, 0)]) for n, t, g in (
-    ('anchor', 'anchor', 'anchor'), ('catch_crate', 'catch_crate', 'catch_crate'),
-    ('dried_fish_string', 'dried_fish_string', 'dried_fish_string'), ('drying_rack', 'drying_rack', 'drying_rack_1_1_2'),
-    ('fish_cleaning_board', 'fish_cleaning_board', 'fish_cleaning_board_1_1'), ('fish_print', 'print_frame_wood', 'fish_print'),
-    ('fish_sauce_jar', 'fish_sauce_jar', 'fish_sauce_jar_lid'), ('fish_scale', 'fish_scale', 'fish_scale_0'),
-    ('fish_tank', 'fish_tank', 'fish_tank'), ('fishing_lantern', 'fishing_lantern', 'fishing_lantern_1'),
-    ('fishing_net', 'fishing_net', 'fishing_net_0'), ('glass_float', 'glass_float', 'glass_float'),
-    ('laver_rock', 'laver_rock', 'laver_rock_0'), ('net_wall', 'net_wall', 'net_wall'),
-    ('oyster_bed', 'oyster_bed', 'oyster_bed_0'), ('shrimp_trap', 'shrimp_trap', 'shrimp_trap_1_1_1'),
-    ('tackle_rack', 'tackle_rack', 'tackle_rack_1_4'))]
+    ('dried_fish_string', 'dried_fish_string', 'dried_fish_string'), ('fish_print', 'print_frame_wood', 'fish_print'),
+    ('glass_float', 'glass_float', 'glass_float'), ('laver_rock', 'laver_rock', 'laver_rock_0'),
+    ('net_wall', 'net_wall', 'net_wall'), ('oyster_bed', 'oyster_bed', 'oyster_bed_0'))]
 B = [(n, f'kfv_{t}', parts) for n, t, parts in (
     ('whole_tuna', 'whole_tuna', [(F + f'whole_tuna_{p}_0', 0, 16 * p) for p in range(3)]),
     ('emperor_whole_tuna', 'emperor_whole_tuna', [(F + f'emperor_whole_tuna_{p}_0', 0, 16 * p) for p in range(3)]),
@@ -68,7 +62,6 @@ def joined(parts):
         if not g:
             continue
         tw, th = g['description'].get('texture_width', 64), g['description'].get('texture_height', 64)
-        byname = {b['name']: b for b in g['bones']}
         for b in g['bones']:
             for c in b.get('cubes', []):
                 c = json.loads(json.dumps(c))
@@ -156,11 +149,10 @@ def main(out_dir):
     # sheet
     cell = 64; cols = 3
     W = cols * (cell * 3 + 40) + 20
-    per_row = []
     sheet_h = 50 + ((len(rows) + cols - 1) // cols) * (cell + 34)
     sheet = Image.new('RGB', (W, sheet_h), (232, 230, 222))
     d = ImageDraw.Draw(sheet)
-    d.text((12, 10), '每格：現在的 2D icon ｜ 3D 模型在背包大小 ｜ 由模型自動轉成的 16×16　A=方塊（背包已顯示 3D）B=宴席/大型物品 C=穿戴/手持',
+    d.text((12, 10), '每格：現在的 2D icon ｜ 3D 模型在背包大小 ｜ 由模型自動轉成的 16×16　A=方塊（用 2D icon 的物品擺放）B=宴席/大型物品 C=穿戴/手持',
            font=rm.FONT, fill=(40, 40, 40))
     zh = rm.ZH
     for i, (group, iid, cur, big, icon) in enumerate(rows):

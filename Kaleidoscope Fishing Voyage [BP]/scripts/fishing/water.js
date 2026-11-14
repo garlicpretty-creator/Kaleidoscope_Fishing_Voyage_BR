@@ -107,7 +107,7 @@ export function analyzeWater(dim, loc) {
   const depth = waterDepth(dim, x, surface, z);
   const biome = biomeId(dim, { x, y: surface, z });
   const waters = new Set();
-  let cold = false;
+  let cold;
 
   if (biome) {
     // "grove" alone is the snowy mountain grove; mangrove_swamp and cherry_grove are not cold

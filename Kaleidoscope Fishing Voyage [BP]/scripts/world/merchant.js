@@ -8,9 +8,8 @@
 // identical stacks, so the buying moved here (v1.2-pre7); the screen keeps what he sells.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { isWater } from "../fishing/water.js";
-import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES } from "../data/generated.js";
+import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES, WANT_LIST } from "../data/generated.js";
 import { LARGE, MEDIUM, SMALL, readSize } from "../fishing/size.js";
-import { WANT_LIST } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";

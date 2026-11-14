@@ -139,7 +139,6 @@ function releaseHeron(s) {
   try { s.heron.remove(); } catch {}
   s.heron = undefined;
 }
-export const schoolHeronIds = () => new Set(herons.keys());
 
 function spawnGulls(s) {
   const n = Math.min(2 + (Math.random() < 0.5 ? 1 : 0), MAX_GULLS - liveGullCount());

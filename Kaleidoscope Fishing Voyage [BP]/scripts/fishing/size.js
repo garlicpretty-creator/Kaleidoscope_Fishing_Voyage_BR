@@ -8,7 +8,6 @@ export const SMALL = 1, MEDIUM = 2, LARGE = 3;
 const RANGE = Object.fromEntries(CATCHES.filter(c => c.size).map(c => [c.id, c.size]));
 const MARK = { [SMALL]: "§7◆", [MEDIUM]: "§f◆◆", [LARGE]: "§6◆◆◆" };
 
-export const hasSize = id => !!RANGE[id];
 export const rangeOf = id => RANGE[id];
 
 /** Size class for a length in cm: the species' range split in thirds. */

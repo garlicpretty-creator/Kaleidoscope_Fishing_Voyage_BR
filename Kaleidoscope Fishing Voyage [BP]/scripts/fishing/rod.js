@@ -11,11 +11,9 @@
 //            it closer; reeling during pull strains the line and can snap it.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, moonPhase, tideState, timeSlot, weatherOf } from "./water.js";
-import { BAITS, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
-import { KEEPSAKES } from "../data/generated.js";
-import { getRecords } from "../journal/records.js";
-import { RODS } from "../data/generated.js";
-import { recordCatch } from "../journal/records.js";
+import { BAITS, CATCH_BY_ID, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
+import { KEEPSAKES, RODS } from "../data/generated.js";
+import { getRecords, recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
@@ -24,7 +22,6 @@ import { effects, readParts } from "./parts.js";
 import { advance, hud, hudDue, newGame } from "./minigame.js";
 import { charset, minigameOn } from "./minigameSwitch.js";
 import { MG } from "../data/minigame.js";
-import { CATCH_BY_ID } from "./loot.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";
