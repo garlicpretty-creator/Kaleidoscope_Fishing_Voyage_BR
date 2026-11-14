@@ -1,8 +1,0 @@
-{
-  "format_version": "1.16.100",
-  "minecraft:texture_set": {
-    "color": "kfv_pickled_cabbage_fish",
-    "metalness_emissive_roughness": "kfv_pickled_cabbage_fish_mer",
-    "normal": "kfv_pickled_cabbage_fish_normal"
-  }
-}
