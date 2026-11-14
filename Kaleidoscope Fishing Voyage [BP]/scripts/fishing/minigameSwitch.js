@@ -20,8 +20,6 @@ function save() { try { world.setDynamicProperty(KEY, JSON.stringify(cfg)); } ca
 
 export const minigameOn = () => load().on !== false;
 export const charset = () => load().charset;
-/** For tests and the reset path. */
-export function _reset() { cfg = undefined; }
 
 /** Apply one command line; returns the reply text (or undefined when the line is not understood). */
 export function command(message) {

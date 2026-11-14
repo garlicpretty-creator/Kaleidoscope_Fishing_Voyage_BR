@@ -203,4 +203,3 @@ system.runInterval(guard(look), 40);
 system.runInterval(guard(sweep), 200);
 world.afterEvents.entityLoad.subscribe(ev => { try { dropIfOrphan(ev.entity); } catch {} });
 world.afterEvents.entityHurt.subscribe(ev => { try { onHurt(ev); } catch {} }, { entityTypes: [GULL] });
-export const _busyForTests = busy;

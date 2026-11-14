@@ -32,7 +32,6 @@ const MAX_AGE = 2400;
 const MAX_DIST = 32;
 
 const sessions = new Map();   // playerId -> session
-export const _sessionsForTests = sessions;
 const lastUse = new Map();
 let loop;
 
@@ -547,7 +546,6 @@ world.afterEvents.itemUse.subscribe(ev => useRodItem(ev.source, ev.itemStack));
 
 // v1.5: whether each angler is holding the use key with a rod (the minigame's only input)
 const holding = new Map();
-export const _holdingForTests = holding;
 world.afterEvents.itemStartUse.subscribe(ev => {
   if (!ev.source || !RODS[ev.itemStack?.typeId]) return;
   holding.set(ev.source.id, true);

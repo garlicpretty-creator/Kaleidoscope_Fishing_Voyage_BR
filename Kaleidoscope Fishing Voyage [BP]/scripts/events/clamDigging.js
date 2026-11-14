@@ -132,5 +132,3 @@ world.afterEvents.playerBreakBlock.subscribe(ev => {
   if (!onBeach(ev.dimension, loc)) return;
   try { ev.dimension.spawnItem(new ItemStack(CLAM, 1), at); } catch {}
 });
-
-export const _spotsForTests = spots;

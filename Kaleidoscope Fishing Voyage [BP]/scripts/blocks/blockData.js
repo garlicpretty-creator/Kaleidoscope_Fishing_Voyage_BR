@@ -31,5 +31,3 @@ export function writeData(kind, dim, p, v) {
   try { world.setDynamicProperty(k, v ? JSON.stringify(v) : undefined); } catch {}
   remember(k, v || undefined);
 }
-
-export const _clearCacheForTests = () => cache.clear();

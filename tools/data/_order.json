@@ -48,10 +48,6 @@
     "ascii": true
   },
   {
-    "name": "BUILD_PROFILE",
-    "ascii": true
-  },
-  {
     "name": "TRAP_BAITS",
     "ascii": true
   },

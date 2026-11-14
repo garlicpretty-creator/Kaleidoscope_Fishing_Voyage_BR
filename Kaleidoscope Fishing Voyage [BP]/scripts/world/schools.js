@@ -43,7 +43,6 @@ const air = b => !b || b.typeId === "minecraft:air";
 export function schoolNear(dim, loc, r = 6) {
   return schools.find(s => s.dimId === dim.id && d2(s, loc) <= r * r);
 }
-export const _schoolsForTests = schools;
 
 // --------------------------------------------------------------------------- finding water
 function surfaceAt(dim, x, z, fromY) {
@@ -204,7 +203,6 @@ function columnOpen(dim, x, y, z) {
   columns.set(key, { ok, at: now });
   return ok;
 }
-export const _columnOpenForTests = columnOpen;
 
 function drift(s) {
   const nx = s.x + Math.cos(s.heading) * SPEED * 20, nz = s.z + Math.sin(s.heading) * SPEED * 20;

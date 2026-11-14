@@ -147,4 +147,3 @@ system.runTimeout(() => {
     } catch {}
   }
 }, 40);
-export const _stateForTests = state;
