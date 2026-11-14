@@ -209,9 +209,6 @@
     "kfv_lava_fishing_rod": {
       "textures": "textures/items/kfv_lava_fishing_rod"
     },
-    "kfv_shrimp_trap": {
-      "textures": "textures/items/kfv_shrimp_trap"
-    },
     "kfv_angler_journal": {
       "textures": "textures/items/kfv_angler_journal"
     },
@@ -329,24 +326,6 @@
     "kfv_recipe_scrap": {
       "textures": "textures/items/kfv_recipe_scrap"
     },
-    "kfv_fish_cleaning_board": {
-      "textures": "textures/items/kfv_fish_cleaning_board"
-    },
-    "kfv_fish_scale": {
-      "textures": "textures/items/kfv_fish_scale"
-    },
-    "kfv_fishing_lantern": {
-      "textures": "textures/items/kfv_fishing_lantern"
-    },
-    "kfv_tackle_rack": {
-      "textures": "textures/items/kfv_tackle_rack"
-    },
-    "kfv_fish_tank": {
-      "textures": "textures/items/kfv_fish_tank"
-    },
-    "kfv_fishing_net": {
-      "textures": "textures/items/kfv_fishing_net"
-    },
     "kfv_fish_print": {
       "textures": "textures/items/kfv_fish_print"
     },
@@ -382,9 +361,6 @@
     },
     "kfv_skipjack": {
       "textures": "textures/items/kfv_skipjack"
-    },
-    "kfv_drying_rack": {
-      "textures": "textures/items/kfv_drying_rack"
     },
     "kfv_air_dried_fish": {
       "textures": "textures/items/kfv_air_dried_fish"
