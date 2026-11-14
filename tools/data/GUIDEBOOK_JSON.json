@@ -2456,23 +2456,35 @@
     "en_US": [
      "Use to open. Records every species you have landed, how many times, and your largest catch.",
      "Species you have not caught yet show only a hint of where they live.",
-     "A fish that beats your record carries a ★ and its length."
+     "A fish that beats your record carries a ★ and its length.",
+     "A water whose every species you have caught is marked, and gives a reward the first time you open its page.",
+     "The tide page also shows the fish merchant's order: sell him the fish it names and he hands over a reward when it is filled. The order's fish hangs low on his pole.",
+     "Settings: the look of the reeling minigame's bar (each player's own); operators can also turn the minigame off for the world."
     ],
     "zh_TW": [
      "使用即可翻開。記錄你釣過的每一種漁獲、次數與最大尺寸。",
      "還沒釣到的種類只會顯示出沒地點的提示。",
-     "打破紀錄的魚會帶有 ★ 與體長。"
+     "打破紀錄的魚會帶有 ★ 與體長。",
+     "某個水域的魚全部釣過後，該頁會打勾，第一次翻開時還會給一份獎勵。",
+     "潮汐頁也會顯示漁販的訂單：把訂單上的魚賣給他，交齊後他會給一份獎勵。訂單的魚掛在他扁擔的下方。",
+     "設定：收線小遊戲軌道的字元樣式（每位玩家各自設定）；管理員還可以替整個世界關閉小遊戲。"
     ],
     "zh_CN": [
      "使用即可翻开。记录你钓过的每一种渔获、次数与最大尺寸。",
      "还没钓到的种类只会显示出没地点的提示。",
-     "打破纪录的鱼会带有 ★ 与体长。"
+     "打破纪录的鱼会带有 ★ 与体长。",
+     "某个水域的鱼全部钓过后，该页会打勾，第一次翻开时还会给一份奖励。",
+     "潮汐页也会显示渔贩的订单：把订单上的鱼卖给他，交齐后他会给一份奖励。订单的鱼挂在他扁担的下方。",
+     "设置：收线小游戏轨道的字符样式（每位玩家各自设置）；管理员还可以替整个世界关闭小游戏。"
     ]
    },
    "mechanics": [
     "Use to open. Records every species you have landed, how many times, and your largest catch.",
     "Species you have not caught yet show only a hint of where they live.",
-    "A fish that beats your record carries a ★ and its length."
+    "A fish that beats your record carries a ★ and its length.",
+    "A water whose every species you have caught is marked, and gives a reward the first time you open its page.",
+    "The tide page also shows the fish merchant's order: sell him the fish it names and he hands over a reward when it is filled. The order's fish hangs low on his pole.",
+    "Settings: the look of the reeling minigame's bar (each player's own); operators can also turn the minigame off for the world."
    ]
   },
   {
@@ -3738,17 +3750,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "While it is in your inventory, fish you land go into the creel instead of your pockets (up to 256). Use it to take them out."
+     "While it is in your inventory, fish you land go into the creel instead of your pockets (up to 256). Use it to take them out.",
+     "Legends go in too; a record fish (★) stays in your pockets."
     ],
     "zh_TW": [
-     "放在背包時，釣到的魚會直接進魚簍，不佔背包（最多 256 條）。使用魚簍即可取出。"
+     "放在背包時，釣到的魚會直接進魚簍，不佔背包（最多 256 條）。使用魚簍即可取出。",
+     "傳說魚也會進魚簍；破紀錄的魚（★）會留在背包。"
     ],
     "zh_CN": [
-     "放在背包时，钓到的鱼会直接进鱼篓，不占背包（最多 256 条）。使用鱼篓即可取出。"
+     "放在背包时，钓到的鱼会直接进鱼篓，不占背包（最多 256 条）。使用鱼篓即可取出。",
+     "传说鱼也会进鱼篓；破纪录的鱼（★）会留在背包。"
     ]
    },
    "mechanics": [
-    "While it is in your inventory, fish you land go into the creel instead of your pockets (up to 256). Use it to take them out."
+    "While it is in your inventory, fish you land go into the creel instead of your pockets (up to 256). Use it to take them out.",
+    "Legends go in too; a record fish (★) stays in your pockets."
    ]
   },
   {

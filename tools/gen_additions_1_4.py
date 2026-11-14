@@ -558,7 +558,36 @@ def legends():
     save('GUIDEBOOK_JSON', g, indent=1)
 
 
+# --------------------------------------------------------------------------- guidebook text for script features
+def journal_page():
+    """The Angler's Journal page says what 1.4.0 added to the journal (the features themselves are scripts)."""
+    more = T(["A water whose every species you have caught is marked, and gives a reward the first time you open its page.",
+              "The tide page also shows the fish merchant's order: sell him the fish it names and he hands over a reward when it is filled. The order's fish hangs low on his pole.",
+              "Settings: the look of the reeling minigame's bar (each player's own); operators can also turn the minigame off for the world."],
+             ["某個水域的魚全部釣過後，該頁會打勾，第一次翻開時還會給一份獎勵。",
+              "潮汐頁也會顯示漁販的訂單：把訂單上的魚賣給他，交齊後他會給一份獎勵。訂單的魚掛在他扁擔的下方。",
+              "設定：收線小遊戲軌道的字元樣式（每位玩家各自設定）；管理員還可以替整個世界關閉小遊戲。"],
+             ["某个水域的鱼全部钓过后，该页会打勾，第一次翻开时还会给一份奖励。",
+              "潮汐页也会显示渔贩的订单：把订单上的鱼卖给他，交齐后他会给一份奖励。订单的鱼挂在他扁担的下方。",
+              "设置：收线小游戏轨道的字符样式（每位玩家各自设置）；管理员还可以替整个世界关闭小游戏。"])
+    g = load('GUIDEBOOK_JSON')
+    page = next(e for e in g['entries'] if e['id'] == ID('angler_journal'))
+    for lang, lines in page['mechanicsByLocale'].items():
+        for line in more[lang]:
+            if line not in lines:
+                lines.append(line)
+    page['mechanics'] = list(page['mechanicsByLocale']['en_US'])
+    basket = next(e for e in g['entries'] if e['id'] == ID('fish_basket'))
+    note = T('Legends go in too; a record fish (★) stays in your pockets.', '傳說魚也會進魚簍；破紀錄的魚（★）會留在背包。', '传说鱼也会进鱼篓；破纪录的鱼（★）会留在背包。')
+    for lang, lines in basket['mechanicsByLocale'].items():
+        if note[lang] not in lines:
+            lines.append(note[lang])
+    basket['mechanics'] = list(basket['mechanicsByLocale']['en_US'])
+    save('GUIDEBOOK_JSON', g, indent=1)
+
+
 if __name__ == '__main__':
     cleaning()
     legends()
+    journal_page()
     print('done; now run: python tools/build.py build')

@@ -20,7 +20,7 @@ import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
 // v1.5: the fishing minigame (Stardew-style). Pure logic in minigame.js, the world switch in minigameSwitch.js.
 import { advance, hud, hudDue, newGame } from "./minigame.js";
-import { charset, minigameOn } from "./minigameSwitch.js";
+import { charsetFor, minigameOn } from "./minigameSwitch.js";
 import { MG } from "../data/minigame.js";
 import { spawnParticle } from "../util/particles.js";
 
@@ -504,7 +504,7 @@ function tick() {
           startWaiting(s);
           continue;
         }
-        const text = hud(g, charset());
+        const text = hud(g, charsetFor(p));
         if (hudDue(s.hud, text, s.age, g.inside)) {
           try { p.onScreenDisplay.setActionBar(text); } catch {}
           s.hud = { text, at: s.age, inside: g.inside };

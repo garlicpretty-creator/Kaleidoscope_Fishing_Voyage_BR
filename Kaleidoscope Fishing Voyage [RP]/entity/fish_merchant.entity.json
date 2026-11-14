@@ -66,6 +66,9 @@
         },
         {
           "controller.render.kfv_merchant_want_b": "query.property('kaleidoscope_fishing:want_b') > 0"
+        },
+        {
+          "controller.render.kfv_merchant_order": "query.property('kaleidoscope_fishing:order') > 0"
         }
       ],
       "spawn_egg": {

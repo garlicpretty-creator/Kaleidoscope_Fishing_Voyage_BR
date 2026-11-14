@@ -6,10 +6,13 @@
 // He buys fish when you use one on him: the whole stack in your hand, sizes mixed or not, and
 // big fish fetch more (small x0.6, large x1.6, a record x2.5). The trading screen only matched
 // identical stacks, so the buying moved here (v1.2-pre7); the screen keeps what he sells.
+// 1.4.0: he also carries one order (a fish, how many, sometimes "medium or larger"). Fish sold to him that fit
+// the order count toward it, each player on their own; when it is filled he hands over a reward. The order's
+// fish hangs low on his pole, and the Angler's Journal tide page says how many he wants and how far you are.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { isWater } from "../fishing/water.js";
 import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES, WANT_LIST } from "../data/generated.js";
-import { LARGE, MEDIUM, SMALL, readSize } from "../fishing/size.js";
+import { LARGE, MEDIUM, SMALL, rangeOf, readSize } from "../fishing/size.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";
@@ -78,6 +81,7 @@ const WANT_BONUS = 2;
 const pick3 = () => { const a = [...WANT_LIST]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, 2); };
 function setWants(m) {
   const w = pick3();
+  setOrder(m, w);
   try { m.setDynamicProperty(WANTS, JSON.stringify(w)); } catch {}
   try { m.setProperty(`${NS}:want_a`, WANT_LIST.indexOf(w[0]) + 1); m.setProperty(`${NS}:want_b`, WANT_LIST.indexOf(w[1]) + 1); } catch {}
   return w;
@@ -92,6 +96,68 @@ export function wantsNear(player) {
   try { near = player.dimension.getEntities({ type: MERCHANT, location: player.location, maxDistance: 96, closest: 1 })[0]; } catch {}
   if (!near) return undefined;
   return wantsOf(near).slice(0, 2);
+}
+
+// --------------------------------------------------------------- his order (1.4.0)
+const ORDER = `${NS}:order`, ORDER_DONE = `${NS}:order_done`;
+const ORDER_SIZED_CHANCE = 0.3;
+// cheap fish: six of them; middling: four; dear: two
+const orderCount = id => (MERCHANT_PRICES[id] <= 0.25 ? 6 : MERCHANT_PRICES[id] <= 0.5 ? 4 : 2);
+const REWARDS = [
+  { w: 30, give: () => [new ItemStack(`${NS}:recipe_scrap`, 1)] },
+  { w: 30, give: () => [new ItemStack([`${NS}:copper_hook`, `${NS}:hemp_line`, `${NS}:bamboo_bobber`][randInt(0, 2)], 1)] },
+  { w: 25, give: () => [new ItemStack(Math.random() < 0.5 ? `${NS}:fish_meal_bait` : `${NS}:glow_bait`, 8)] },
+  { w: 15, give: () => [new ItemStack("minecraft:emerald", 6)] },
+];
+function setOrder(m, wants) {
+  const pool = WANT_LIST.filter(id => !wants.includes(id) && MERCHANT_PRICES[id] !== undefined);
+  const id = pool[randInt(0, pool.length - 1)];
+  if (!id) return undefined;
+  const o = { id, n: orderCount(id), min: rangeOf(id) && Math.random() < ORDER_SIZED_CHANCE ? MEDIUM : 0 };
+  try { m.setDynamicProperty(ORDER, JSON.stringify(o)); m.setDynamicProperty(ORDER_DONE, "{}"); } catch {}
+  try { m.setProperty(ORDER, WANT_LIST.indexOf(id) + 1); } catch {}
+  return o;
+}
+function orderOf(m) {
+  try { const v = JSON.parse(m.getDynamicProperty(ORDER) ?? "null"); if (v && typeof v.id === "string" && v.n > 0) return v; } catch {}
+  return setOrder(m, wantsOf(m));          // a merchant from before 1.4.0 gets his order the first time he is asked
+}
+function progressOf(m) {
+  try { const v = JSON.parse(m.getDynamicProperty(ORDER_DONE) ?? "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; }
+}
+/** How many of `count` fish of size class cls (a record counts as large) a player may still hand in for the order. */
+function orderRoom(m, player, id, cls, record) {
+  const o = orderOf(m);
+  if (!o || o.id !== id) return 0;
+  if (o.min && !record && (cls || MEDIUM) < o.min) return 0;      // a fish with no mark counts as medium (size.js)
+  return Math.max(0, o.n - (progressOf(m)[player.id] ?? 0));
+}
+/** Count n fish toward the player's order; hands over the reward when it is filled. */
+function fillOrder(m, player, n) {
+  const o = orderOf(m);
+  if (!o || n <= 0) return;
+  const done = progressOf(m);
+  const before = done[player.id] ?? 0;
+  if (before >= o.n) return;
+  done[player.id] = Math.min(o.n, before + n);
+  try { m.setDynamicProperty(ORDER_DONE, JSON.stringify(done)); } catch {}
+  if (done[player.id] < o.n) return;
+  let roll = Math.random() * REWARDS.reduce((a, r) => a + r.w, 0);
+  const reward = REWARDS.find(r => (roll -= r.w) <= 0) ?? REWARDS[0];
+  for (const stack of reward.give()) {
+    try { const rest = player.getComponent("minecraft:inventory")?.container?.addItem(stack); if (rest) player.dimension.spawnItem(rest, player.location); }
+    catch { try { player.dimension.spawnItem(stack, player.location); } catch {} }
+  }
+  bell(m.dimension, m.location, 0.9);
+  system.runTimeout(() => { try { bell(m.dimension, m.location, 0.9); } catch {} }, 6);
+  try { player.playSound("random.levelup", { pitch: 1.4, volume: 0.5 }); } catch {}
+}
+/** The nearest merchant's order for the journal: { id, n, min, have }; undefined if none is about. */
+export function orderNear(player) {
+  let near;
+  try { near = player.dimension.getEntities({ type: MERCHANT, location: player.location, maxDistance: 96, closest: 1 })[0]; } catch {}
+  const o = near && orderOf(near);
+  return o ? { ...o, have: Math.min(o.n, progressOf(near)[player.id] ?? 0) } : undefined;
 }
 
 // --------------------------------------------------------------- he buys fish
@@ -112,8 +178,12 @@ function sell(player, merchant, id) {
   const left = MERCHANT_BUDGET - spent;
   let n = stack.amount;
   while (n > 0 && Math.floor(credit + n * each) > left) n--;                 // only what his purse allows
+  const room = orderRoom(merchant, player, id, cls, record);
+  // an empty purse does not stop his order: he still takes the fish it asks for (unpaid)
+  const unpaid = n <= 0 && room > 0;
+  if (unpaid) n = Math.min(stack.amount, room);
   if (n <= 0) { snd(merchant, "mob.wanderingtrader.no"); return; }
-  const total = credit + n * each, paid = Math.floor(total);
+  const total = unpaid ? credit : credit + n * each, paid = unpaid ? 0 : Math.floor(total);
   try { player.setDynamicProperty(CREDIT, Math.round((total - paid) * 1000) / 1000); } catch {}
   try { merchant.setDynamicProperty(SPENT, spent + paid); } catch {}
   let creative = false;
@@ -125,6 +195,7 @@ function sell(player, merchant, id) {
     catch { try { player.dimension.spawnItem(em, player.location); } catch {} }
   }
   snd(merchant, "mob.wanderingtrader.yes");
+  fillOrder(merchant, player, Math.min(n, room));
   snd(player, paid > 0 ? "random.orb" : "random.pop", 1.2, 0.5);
   for (let i = 0; i < 3; i++) {
     try { spawnParticle(merchant.dimension, "minecraft:villager_happy", { x: merchant.location.x + (Math.random() - 0.5), y: merchant.location.y + 2, z: merchant.location.z + (Math.random() - 0.5) }); } catch {}

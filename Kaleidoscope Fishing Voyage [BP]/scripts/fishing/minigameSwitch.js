@@ -2,6 +2,8 @@
 //   /scriptevent kaleidoscope_fishing:minigame on | off | status | charset block | charset ascii
 // Off = the 1.4 behaviour (tug-of-war reeling, or landing at once). Commands need command permission,
 // so only operators can change it. Read once and cached; every change is saved at once.
+// 1.4.0: the Angler's Journal has a settings page for the same two things. The charset can also be set per
+// player there (it depends on the font of each player's device); a player's own choice wins over the world's.
 import { system, world } from "@minecraft/server";
 
 const NS = "kaleidoscope_fishing";
@@ -20,6 +22,14 @@ function save() { try { world.setDynamicProperty(KEY, JSON.stringify(cfg)); } ca
 
 export const minigameOn = () => load().on !== false;
 export const charset = () => load().charset;
+const OWN = `${NS}:charset`;
+/** The HUD charset for one player: their own choice, else the world's. */
+export function charsetFor(player) {
+  try { const v = player.getDynamicProperty(OWN); if (v === "block" || v === "ascii") return v; } catch {}
+  return charset();
+}
+export function setCharsetFor(player, value) { try { player.setDynamicProperty(OWN, value); } catch {} }
+export function setMinigame(on) { load(); cfg.on = !!on; save(); }
 
 /** Apply one command line; returns the reply text (or undefined when the line is not understood). */
 export function command(message) {
