@@ -7041,7 +7041,7 @@
     "item",
     "block"
    ],
-   "stack": 1,
+   "stack": 16,
    "icon": "textures/items/kfv_emperor_whole_tuna",
    "recipes": [
     {
@@ -7080,7 +7080,7 @@
     "item",
     "block"
    ],
-   "stack": 1,
+   "stack": 16,
    "icon": "textures/items/kfv_frostlake_platter",
    "recipes": [
     {

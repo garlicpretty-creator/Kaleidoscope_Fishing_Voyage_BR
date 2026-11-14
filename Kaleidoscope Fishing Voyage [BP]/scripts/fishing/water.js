@@ -110,7 +110,8 @@ export function analyzeWater(dim, loc) {
   let cold = false;
 
   if (biome) {
-    cold = /frozen|cold|snowy|taiga|grove|ice/.test(biome);
+    // "grove" alone is the snowy mountain grove; mangrove_swamp and cherry_grove are not cold
+    cold = /frozen|cold|snowy|taiga|ice/.test(biome) || biome === "grove";
     if (biome.includes("ocean")) {
       if (biome.includes("deep")) waters.add("deep_ocean");
       if (biome.includes("warm") && !biome.includes("lukewarm")) waters.add("warm_ocean");

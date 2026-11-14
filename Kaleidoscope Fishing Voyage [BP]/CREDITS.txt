@@ -29,7 +29,7 @@ re-coloured copies of Kaleidoscope Cookery's Barley Tea teacup textures (CC BY-N
 Kaleidoscope Official Production Team / Loyallay's Bedrock port). Only the colours were
 changed. The Kombu Tea item icon is an AI-generated icon like the others.
 
-Sound effects are original, synthesised for this add-on (tools/sounds.py).
+Sound effects are original, synthesised for this add-on.
 Vibrant Visuals / RTX texture sets (MER and height maps) are generated from the
 pack's own materials (tools/pbr.py).
 
