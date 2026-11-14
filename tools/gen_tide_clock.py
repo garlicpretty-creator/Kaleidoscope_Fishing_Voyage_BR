@@ -94,7 +94,8 @@ def sheet():
 
 def icon_from(source):
     """The item icon from a large picture: reduced to 16x16 by nearest neighbour (no smoothing), then the
-    near-white background that touches the border is made transparent (the dial's own white stays)."""
+    near-white background that touches the border is made transparent (the dial's own white stays).
+    TOUCH_UP is then painted over it."""
     im = Image.open(source).convert('RGB').resize((16, 16), Image.NEAREST).convert('RGBA')
     px = im.load()
     seen, todo = set(), [(x, y) for x in range(16) for y in range(16) if x in (0, 15) or y in (0, 15)]
@@ -106,7 +107,25 @@ def icon_from(source):
         todo += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
     for x, y in seen:
         px[x, y] = (0, 0, 0, 0)
+    for y, row in TOUCH_UP.items():
+        for x, ch in enumerate(row):
+            if ch != '.':
+                px[x, y] = rgba(TOUCH_PAL[ch])
     return im
+
+
+# Hand touch-ups on the reduced icon ('.' keeps the pixel). At 16x16 the blue arc came out as three separate
+# dots, the hand was three pixels long and the moon window showed two yellow dots. Now: the arc runs across
+# the top of the dial and down its right side, the hand reaches the centre, and the window shows three moons.
+TOUCH_UP = {
+    4:  '.....BBBBBB.....',
+    5:  '...........B....',
+    7:  '...........b....',
+    8:  '.......r........',
+    10: '....DyDMMDyD....',
+    11: '.....DDDDDD.....',
+}
+TOUCH_PAL = {'B': '#4471c6', 'b': '#355590', 'r': '#7f181c', 'D': '#3f3325', 'M': '#fff4a5', 'y': '#c9b45e'}
 
 
 def texture_set(path, third):
