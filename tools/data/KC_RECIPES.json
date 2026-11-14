@@ -126,7 +126,10 @@
     "recipe": {
       "id": "kaleidoscope_fishing:wok/shrimp_scrambled_eggs",
       "ingredients": [
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         "minecraft:egg",
         "minecraft:egg"
       ],
@@ -163,7 +166,9 @@
           "kaleidoscope_fishing:dried_fish",
           "kaleidoscope_fishing:fish_bones",
           "kaleidoscope_fishing:bonito_flakes",
-          "kaleidoscope_fishing:air_dried_fish"
+          "kaleidoscope_fishing:air_dried_fish",
+          "kaleidoscope_fishing:shrimp_shell",
+          "kaleidoscope_fishing:crab_shell"
         ],
         [
           "kaleidoscope_fishing:mackerel",
@@ -171,7 +176,9 @@
           "kaleidoscope_fishing:dried_fish",
           "kaleidoscope_fishing:fish_bones",
           "kaleidoscope_fishing:bonito_flakes",
-          "kaleidoscope_fishing:air_dried_fish"
+          "kaleidoscope_fishing:air_dried_fish",
+          "kaleidoscope_fishing:shrimp_shell",
+          "kaleidoscope_fishing:crab_shell"
         ],
         "minecraft:kelp"
       ],
@@ -206,7 +213,10 @@
       "id": "kaleidoscope_fishing:stockpot/seafood_congee",
       "ingredients": [
         "kaleidoscope_cookery:rice",
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         "kaleidoscope_fishing:white_fish_fillet"
       ],
       "result": "kaleidoscope_fishing:seafood_congee",
@@ -430,7 +440,10 @@
       "id": "kaleidoscope_fishing:stockpot/seafood_hot_pot",
       "ingredients": [
         "kaleidoscope_fishing:shrimp",
-        "kaleidoscope_fishing:crab",
+        [
+          "kaleidoscope_fishing:crab",
+          "kaleidoscope_fishing:crab_meat"
+        ],
         "kaleidoscope_fishing:clam",
         "kaleidoscope_fishing:fish_ball",
         "kaleidoscope_cookery:lettuce"

@@ -3009,6 +3009,178 @@
    ]
   },
   {
+   "id": "kaleidoscope_fishing:shrimp_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_meat",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "usedBy": [
+    "kaleidoscope_fishing:raw_har_gow",
+    "kaleidoscope_fishing:shrimp_scrambled_eggs",
+    "kaleidoscope_fishing:seafood_congee"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Peel a shrimp, crayfish or lobster on the Fish Cleaning Board. Stands in for Shrimp in Har Gow, Shrimp Scrambled Eggs and Seafood Congee."
+    ],
+    "zh_TW": [
+     "在魚案板上剝蝦、螯蝦或龍蝦得到。可以代替蝦做生蝦餃、蝦仁炒蛋和海鮮粥。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剥虾、螯虾或龙虾得到。可以代替虾做生虾饺、虾仁炒蛋和海鲜粥。"
+    ]
+   },
+   "mechanics": [
+    "Peel a shrimp, crayfish or lobster on the Fish Cleaning Board. Stands in for Shrimp in Har Gow, Shrimp Scrambled Eggs and Seafood Congee."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_shell",
+   "usedBy": [
+    "kaleidoscope_fishing:fish_stock_bucket"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Left over from peeling shrimp on the Fish Cleaning Board. Boil into Fish Stock."
+    ],
+    "zh_TW": [
+     "在魚案板上剝蝦剩下的殼。可以熬成魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剥虾剩下的壳。可以熬成鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Left over from peeling shrimp on the Fish Cleaning Board. Boil into Fish Stock."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_meat",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.3
+   },
+   "usedBy": [
+    "kaleidoscope_fishing:seafood_hot_pot"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Picked from a crab on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+    ],
+    "zh_TW": [
+     "在魚案板上拆蟹得到。可以代替螃蟹做海鮮火鍋。"
+    ],
+    "zh_CN": [
+     "在鱼案板上拆蟹得到。可以代替螃蟹做海鲜火锅。"
+    ]
+   },
+   "mechanics": [
+    "Picked from a crab on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.3
+   },
+   "usedBy": [
+    "kaleidoscope_fishing:raw_crab_roe_bun"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sometimes found when a crab is opened on the Fish Cleaning Board. Makes a Raw Crab Roe Bun with Raw Dough."
+    ],
+    "zh_TW": [
+     "在魚案板上開蟹殼時有時會得到。和生麵團做成生蟹黃包。"
+    ],
+    "zh_CN": [
+     "在鱼案板上开蟹壳时有时会得到。和生面团做成生蟹黄包。"
+    ]
+   },
+   "mechanics": [
+    "Sometimes found when a crab is opened on the Fish Cleaning Board. Makes a Raw Crab Roe Bun with Raw Dough."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_shell",
+   "usedBy": [
+    "kaleidoscope_fishing:fish_stock_bucket"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The shell of a crab opened on the Fish Cleaning Board. Boil into Fish Stock."
+    ],
+    "zh_TW": [
+     "在魚案板上開蟹剩下的殼。可以熬成魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上开蟹剩下的壳。可以熬成鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "The shell of a crab opened on the Fish Cleaning Board. Boil into Fish Stock."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_skin",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_skin",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.1
+   },
+   "usedBy": [],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is."
+    ],
+    "zh_TW": [
+     "在魚案板上切水母得到。口感爽脆，可以直接吃。"
+    ],
+    "zh_CN": [
+     "在鱼案板上切水母得到。口感爽脆，可以直接吃。"
+    ]
+   },
+   "mechanics": [
+    "Sliced from a jellyfish on the Fish Cleaning Board. Crunchy; eat it as it is."
+   ]
+  },
+  {
    "id": "kaleidoscope_fishing:fish_scale_jelly",
    "category": "dishes",
    "kinds": [
@@ -3714,17 +3886,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish you catch works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+     "Shrimp, crayfish and lobster are peeled in one cut into Shrimp Meat and Shrimp Shells. Crabs take two cuts: the first lifts the shell (Crab Shell, sometimes Crab Roe), the second picks the Crab Meat. A jellyfish is sliced into Jellyfish Strips. Oysters and clams do not go on the board."
     ],
     "zh_TW": [
-     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。所有魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。"
+     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。釣得到的魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。",
+     "蝦、螯蝦和龍蝦一刀剝開，得到蝦肉和蝦殼。螃蟹要兩刀：第一刀開殼（蟹殼，有時有蟹黃），第二刀取蟹肉。水母切成海蜇皮。牡蠣和蛤蜊不能放上魚案板。"
     ],
     "zh_CN": [
-     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。所有鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。"
+     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。钓得到的鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。",
+     "虾、螯虾和龙虾一刀剥开，得到虾肉和虾壳。螃蟹要两刀：第一刀开壳（蟹壳，有时有蟹黄），第二刀取蟹肉。水母切成海蜇皮。牡蛎和蛤蜊不能放上鱼案板。"
     ]
    },
    "mechanics": [
-    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish you catch works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+    "Shrimp, crayfish and lobster are peeled in one cut into Shrimp Meat and Shrimp Shells. Crabs take two cuts: the first lifts the shell (Crab Shell, sometimes Crab Roe), the second picks the Crab Meat. A jellyfish is sliced into Jellyfish Strips. Oysters and clams do not go on the board."
    ]
   },
   {
@@ -7249,6 +7425,12 @@
    "kaleidoscope_fishing:fish_offal": "Fish Offal",
    "kaleidoscope_fishing:fish_bones": "Fish Bones",
    "kaleidoscope_fishing:fish_roe": "Fish Roe",
+   "kaleidoscope_fishing:shrimp_meat": "Shrimp Meat",
+   "kaleidoscope_fishing:shrimp_shell": "Shrimp Shells",
+   "kaleidoscope_fishing:crab_meat": "Crab Meat",
+   "kaleidoscope_fishing:crab_roe": "Crab Roe",
+   "kaleidoscope_fishing:crab_shell": "Crab Shell",
+   "kaleidoscope_fishing:jellyfish_skin": "Jellyfish Strips",
    "kaleidoscope_fishing:fish_scale_jelly": "Fish Scale Jelly",
    "kaleidoscope_fishing:roe_don": "Roe Rice Bowl",
    "kaleidoscope_fishing:lava_eel_don": "Lava Eel Rice Bowl",
@@ -7470,6 +7652,12 @@
    "kaleidoscope_fishing:fish_offal": "魚雜",
    "kaleidoscope_fishing:fish_bones": "魚骨",
    "kaleidoscope_fishing:fish_roe": "魚卵",
+   "kaleidoscope_fishing:shrimp_meat": "蝦肉",
+   "kaleidoscope_fishing:shrimp_shell": "蝦殼",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_roe": "蟹黃",
+   "kaleidoscope_fishing:crab_shell": "蟹殼",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
    "kaleidoscope_fishing:fish_scale_jelly": "魚鱗凍",
    "kaleidoscope_fishing:roe_don": "魚卵丼",
    "kaleidoscope_fishing:lava_eel_don": "熔岩鰻蓋飯",
@@ -7691,6 +7879,12 @@
    "kaleidoscope_fishing:fish_offal": "鱼杂",
    "kaleidoscope_fishing:fish_bones": "鱼骨",
    "kaleidoscope_fishing:fish_roe": "鱼卵",
+   "kaleidoscope_fishing:shrimp_meat": "虾肉",
+   "kaleidoscope_fishing:shrimp_shell": "虾壳",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_roe": "蟹黄",
+   "kaleidoscope_fishing:crab_shell": "蟹壳",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
    "kaleidoscope_fishing:fish_scale_jelly": "鱼鳞冻",
    "kaleidoscope_fishing:roe_don": "鱼卵丼",
    "kaleidoscope_fishing:lava_eel_don": "熔岩鳗盖饭",

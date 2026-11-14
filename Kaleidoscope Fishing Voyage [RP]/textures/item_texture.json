@@ -263,6 +263,24 @@
     "kfv_fish_roe": {
       "textures": "textures/items/kfv_fish_roe"
     },
+    "kfv_shrimp_meat": {
+      "textures": "textures/items/kfv_shrimp_meat"
+    },
+    "kfv_shrimp_shell": {
+      "textures": "textures/items/kfv_shrimp_shell"
+    },
+    "kfv_crab_meat": {
+      "textures": "textures/items/kfv_crab_meat"
+    },
+    "kfv_crab_roe": {
+      "textures": "textures/items/kfv_crab_roe"
+    },
+    "kfv_crab_shell": {
+      "textures": "textures/items/kfv_crab_shell"
+    },
+    "kfv_jellyfish_skin": {
+      "textures": "textures/items/kfv_jellyfish_skin"
+    },
     "kfv_fish_scale_jelly": {
       "textures": "textures/items/kfv_fish_scale_jelly"
     },

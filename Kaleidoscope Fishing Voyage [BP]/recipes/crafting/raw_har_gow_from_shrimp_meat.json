@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:raw_har_gow_from_shrimp_meat"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_cookery:raw_dough"
+      },
+      {
+        "item": "kaleidoscope_fishing:shrimp_meat"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:raw_har_gow",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_cookery:raw_dough"
+      },
+      {
+        "item": "kaleidoscope_fishing:shrimp_meat"
+      }
+    ]
+  }
+}

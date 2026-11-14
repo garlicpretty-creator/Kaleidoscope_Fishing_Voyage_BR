@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:raw_crab_roe_bun_from_crab_roe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_cookery:raw_dough"
+      },
+      {
+        "item": "kaleidoscope_fishing:crab_roe"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:raw_crab_roe_bun",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_cookery:raw_dough"
+      },
+      {
+        "item": "kaleidoscope_fishing:crab_roe"
+      }
+    ]
+  }
+}

@@ -30,6 +30,7 @@ const LINE = `${NS}:fishing_line`;
 const TICK = 2;
 const MAX_AGE = 2400;
 const MAX_DIST = 32;
+const KEEPSAKE_AGAIN = 0.25;
 
 const sessions = new Map();   // playerId -> session
 const lastUse = new Map();
@@ -133,12 +134,14 @@ function landCatch(player, s, from) {
   if (cls) { try { stack.setLore(loreFor(cls, rec.newBest ? s.size : undefined)); } catch {} }
   const start = { x: from.x, y: from.y + 0.4, z: from.z };
   const pl = player.location;
-  // A carried Fish Creel takes ordinary catches straight in; record fish stay out as trophies.
+  // A carried Fish Creel takes catches straight in, legends too; record fish stay out as trophies
+  // (the creel only remembers species and size class, so a record would lose its length).
   const legend = LEGEND_SET.has(s.catchId);
   if (legend) { try { stack.setLore([...(stack.getLore() ?? []), "§d✦"]); } catch {} }
-  // v1.4: the first legend of its kind brings its keepsake
-  if (legend && rec.first && KEEPSAKES[s.catchId]) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
-  const stored = !rec.newBest && !legend && tryStore(player, s.catchId, 1, cls) === 0;
+  // v1.4: the first legend of its kind brings its keepsake; a later one brings another one time in four
+  // (keepsakes are used up when made into tackle parts)
+  if (legend && KEEPSAKES[s.catchId] && (rec.first || Math.random() < KEEPSAKE_AGAIN)) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
+  const stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
     try { dim.spawnItem(stack, player.location).clearVelocity(); } catch {}
