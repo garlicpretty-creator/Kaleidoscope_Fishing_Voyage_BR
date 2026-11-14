@@ -1,0 +1,17 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.tide_clock.tide": {
+      "loop": true,
+      "bones": {
+        "tide_hand": {
+          "rotation": [
+            0,
+            "math.mod((q.time_of_day - 0.25) * 24000 - q.moon_phase * 750 + 24000, 12000) * 0.03",
+            0
+          ]
+        }
+      }
+    }
+  }
+}

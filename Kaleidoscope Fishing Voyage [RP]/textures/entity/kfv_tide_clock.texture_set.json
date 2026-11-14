@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_tide_clock",
+    "metalness_emissive_roughness": "kfv_tide_clock_mer",
+    "heightmap": "kfv_tide_clock_height"
+  }
+}

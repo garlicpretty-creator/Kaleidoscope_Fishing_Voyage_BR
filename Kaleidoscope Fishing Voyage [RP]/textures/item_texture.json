@@ -212,6 +212,9 @@
     "kfv_angler_journal": {
       "textures": "textures/items/kfv_angler_journal"
     },
+    "kfv_tide_clock": {
+      "textures": "textures/items/kfv_tide_clock"
+    },
     "kfv_bamboo_hat": {
       "textures": "textures/items/kfv_bamboo_hat"
     },
