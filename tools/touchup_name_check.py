@@ -4,6 +4,8 @@
 
   live_shrimp          looked like a grey fish. Now the Shrimp icon in the grey, see-through colours of a living
                        shrimp (shrimp only turn pink when cooked).
+  dried_shrimp         showed one big shrimp, while dried shrimp are tiny. Now a small handful of little curled
+                       dried shrimp, drawn by hand.
   seasoned_*           Seasoned Sea Bass, Grouper and Sea Bream looked the same as the raw fish. Now they carry
                        slivers of ginger and green onion, ready for the steamer.
 Each icon is rebuilt from a fixed source (the Shrimp icon; the raw fish's icon as committed before this script),
@@ -42,6 +44,42 @@ def live_shrimp():
     return im
 
 
+DRIED = {'l': '#fcc896', 'o': '#f0904e', 'd': '#cc6234', 'e': '#3a1a0a'}
+TINY = ['.lo..',          # one little dried shrimp: head with an eye, the body curling down to the tail
+        'leoo.',
+        'ooodo',
+        '.oddd',
+        '..dd.']
+HANDFUL = [(2, 8, False), (6, 10, True), (10, 8, True), (5, 4, False), (8, 3, True)]   # x, y, mirrored
+
+
+def _rgba(h):
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5)) + (255,)
+
+
+def dried_shrimp():
+    im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    for ox, oy, flip in HANDFUL:
+        for y, row in enumerate(TINY):
+            for x, ch in enumerate(row):
+                if ch != '.':
+                    im.putpixel((ox + (4 - x if flip else x), oy + y), _rgba(DRIED[ch]))
+    # outline only where the handful meets the outside (holes between the shrimp stay light)
+    px = im.load()
+    outside, todo = set(), [(x, y) for x in range(16) for y in range(16) if (x in (0, 15) or y in (0, 15))]
+    while todo:
+        x, y = todo.pop()
+        if (x, y) in outside or not (0 <= x < 16 and 0 <= y < 16) or px[x, y][3]:
+            continue
+        outside.add((x, y))
+        todo += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+    edge = [(x, y) for y in range(16) for x in range(16) if px[x, y][3] and any(
+        (x + dx, y + dy) in outside or not (0 <= x + dx < 16 and 0 <= y + dy < 16) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    for xy in edge:
+        im.putpixel(xy, _rgba('#5a2a14'))
+    return im
+
+
 def garnish(name):
     raw = subprocess.run(['git', 'show', f'{SOURCE_REV}:Kaleidoscope Fishing Voyage [RP]/textures/items/kfv_{name}.png'],
                          cwd=ROOT, capture_output=True, check=True).stdout
@@ -69,9 +107,10 @@ def save(name, im):
 
 def main():
     save('live_shrimp', live_shrimp())
+    save('dried_shrimp', dried_shrimp())
     for name in ('seasoned_sea_bass', 'seasoned_grouper', 'seasoned_sea_bream'):
         save(name, garnish(name))
-    print('fixed live_shrimp and the three seasoned fish')
+    print('fixed live_shrimp, dried_shrimp and the three seasoned fish')
 
 
 if __name__ == '__main__':
