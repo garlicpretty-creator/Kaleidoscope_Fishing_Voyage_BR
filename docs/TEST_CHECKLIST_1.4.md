@@ -120,7 +120,7 @@
 
 - **資料與引用**：所有物品、方塊、配方、戰利品表、貼圖、模型、語言鍵互相對得上（`python tools/validate.py .`）
 - **資料表與腳本一致**（`python tools/build.py check`）
-- **模型**：395 個幾何體都合法，UV 沒有超出貼圖（`python tools/check_models.py`）
+- **模型**：432 個幾何體都合法，UV 沒有超出貼圖（`python tools/check_models.py`）
 - **腳本**：語法、匯入匯出、沒有未定義變數或冗贅程式（ESLint）
 - **腳本行為**：279 項，在模擬的 Minecraft 腳本環境裡實際執行（`python tools/sim/run_tests.py`）
   - 魚案板：51 種漁獲每一種從放上去到切完，起始刀數、刀數、每刀產物都正確；牡蠣會被拒絕
