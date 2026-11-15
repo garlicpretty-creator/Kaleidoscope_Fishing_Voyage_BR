@@ -47,6 +47,11 @@ python tools/validate.py .    # 交叉檢查引用
 - 遊戲資料表在 `tools/data/*.json`，改完用 `build.py build` 重新產生 `scripts/data/generated.js`。
 - `tools/ai2pixel.py` 和 `tools/touchup_*.py` 是製作物品 icon 用的工具。
 
+## 文件 / Docs
+
+- [`docs/TEST_CHECKLIST_1.4.md`](docs/TEST_CHECKLIST_1.4.md)：1.4.0 的遊戲內檢測表 / in-game test checklist for 1.4.0
+- [`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)：1.5.0 企劃書（定案版，尚未實作）/ the plan for 1.5.0 (decided, not implemented yet)
+
 ## 授權 / License
 
 - 美術素材（貼圖、模型、音效、文字）：[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
