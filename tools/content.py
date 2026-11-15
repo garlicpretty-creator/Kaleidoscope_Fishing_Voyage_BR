@@ -184,7 +184,8 @@ def add_item(name, names, icon, after, group='ingredients', category='ingredient
         'description': {'identifier': f'{NS}:{name}', 'menu_category': {
             'category': 'equipment', 'group': f'kaleidoscope_cookery:itemGroup.name.{group}'}},
         'components': comp}})
-    save_icon(name, draw(*icon))
+    if not os.path.exists(os.path.join(RP, 'textures', 'items', f'kfv_{name}.png')):
+        save_icon(name, draw(*icon))          # a placeholder only: never drawn over an icon that is already there
     add_item_texture(name, texture_after or after)
     add_catalog(name, after)
     add_names(name, names, after)

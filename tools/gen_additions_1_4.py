@@ -2,8 +2,8 @@
 
   python tools/gen_additions_1_4.py && python tools/build.py build
 
-Safe to run again. The icons drawn here are placeholders in the pack's palette until the author's own art
-replaces them (same file names).
+Safe to run again. The icons drawn here are placeholders, used only while an item has no icon file yet;
+the icons in the pack now were generated with Retro Diffusion from these placeholders (see CREDITS.txt).
 
   cleaning()   Fish Cleaning Board: nine more fish, shrimp / crabs / jellyfish, and what they are cut into
   dishes()     five dishes from the new ingredients; small changes to older dishes
