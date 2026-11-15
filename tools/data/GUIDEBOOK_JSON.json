@@ -4092,17 +4092,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Put any fish in it (octopus, pufferfish, jellyfish and crabs too) and it swims to and fro behind the glass. Use it with an empty hand to take the fish back. Two Fish Tanks make a Large Fish Tank."
+     "Put any fish in it (octopus, pufferfish, jellyfish and crabs too) and it swims to and fro behind the glass. Use it with an empty hand to take the fish back. Two Fish Tanks make a Large Fish Tank.",
+     "Shrimp can live in it too. Oysters and anything fished from lava cannot."
     ],
     "zh_TW": [
-     "任何魚都能放進去（章魚、河豚、水母、螃蟹也可以），牠會在玻璃後面游來游去。空手使用取回。兩個魚缸可以合成一個大魚缸。"
+     "任何魚都能放進去（章魚、河豚、水母、螃蟹也可以），牠會在玻璃後面游來游去。空手使用取回。兩個魚缸可以合成一個大魚缸。",
+     "蝦也可以養。牡蠣和岩漿裡釣到的漁獲不能放。"
     ],
     "zh_CN": [
-     "任何鱼都能放进去（章鱼、河豚、水母、螃蟹也可以），它会在玻璃后面游来游去。空手使用取回。两个鱼缸可以合成一个大鱼缸。"
+     "任何鱼都能放进去（章鱼、河豚、水母、螃蟹也可以），它会在玻璃后面游来游去。空手使用取回。两个鱼缸可以合成一个大鱼缸。",
+     "虾也可以养。牡蛎和岩浆里钓到的渔获不能放。"
     ]
    },
    "mechanics": [
-    "Put any fish in it (octopus, pufferfish, jellyfish and crabs too) and it swims to and fro behind the glass. Use it with an empty hand to take the fish back. Two Fish Tanks make a Large Fish Tank."
+    "Put any fish in it (octopus, pufferfish, jellyfish and crabs too) and it swims to and fro behind the glass. Use it with an empty hand to take the fish back. Two Fish Tanks make a Large Fish Tank.",
+    "Shrimp can live in it too. Oysters and anything fished from lava cannot."
    ],
    "usedBy": [
     "kaleidoscope_fishing:large_fish_tank"
