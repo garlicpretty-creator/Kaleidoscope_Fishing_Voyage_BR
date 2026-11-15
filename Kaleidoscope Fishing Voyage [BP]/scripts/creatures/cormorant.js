@@ -26,8 +26,9 @@ const snd = (dim, id, loc, pitch = 1, volume = 0.8) => { try { dim.playSound(id,
 // v1.4.1: the owner. minecraft:tameable sits in the wild group, which the tame event removes, so
 // in the real game a tamed cormorant has no tameable component and tamedToPlayerId was never
 // readable — no owner, so it never dived. The owner is now written to a dynamic property when the
-// tame event fires (the player who just fed it, else the nearest player). Cormorants tamed before
-// this fix have no property: they take the nearest player within 16 blocks, as they follow them.
+// tame event fires: the player who just offered it a fish, else the only player within 8 blocks (with
+// two or more around, nobody is guessed). Cormorants tamed before this fix have no property: the nearest
+// player within 16 blocks claims them once and is saved.
 const OWNER = `${NS}:owner`;
 const feeder = new Map();    // cormorant id -> { pid, tick } of the last player who used an item on it
 const players = () => { try { return world.getAllPlayers(); } catch { return []; } };
@@ -48,12 +49,26 @@ function ownerOf(c) {
   try { pid = c.getDynamicProperty(OWNER); } catch {}
   if (!pid) { try { pid = c.getComponent("minecraft:tameable")?.tamedToPlayerId; } catch {} }
   if (pid) return players().find(p => p.id === pid);
-  return nearestPlayer(c, 16);
+  // a cormorant tamed before the owner was saved: the nearest player within 16 claims it once, for good,
+  // so it does not switch to whoever happens to be closest on a later dive
+  const p = nearestPlayer(c, 16);
+  if (p) { try { c.setDynamicProperty(OWNER, p.id); } catch {} }
+  return p;
 }
+
+// only players within `max` blocks; used so a tame without a known feeder is credited only when nobody
+// else is close enough to have been the one feeding
+function playersNear(c, max) {
+  return players().filter(p => p.isValid && p.dimension.id === c.dimension.id && near(p.location, c.location) <= max);
+}
+const isTameFood = it => { try { return !!it && it.hasTag("minecraft:is_fish"); } catch { return false; } };
 
 try {
   world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
-    if (ev.target?.typeId === CORM && ev.player) feeder.set(ev.target.id, { pid: ev.player.id, tick: system.currentTick });
+    if (ev.target?.typeId !== CORM || !ev.player || !isTameFood(ev.itemStack)) return;   // only a fish offered
+    const prev = feeder.get(ev.target.id);
+    if (prev && prev.pid !== ev.player.id && system.currentTick - prev.tick <= 5) return; // first feeder keeps it
+    feeder.set(ev.target.id, { pid: ev.player.id, tick: system.currentTick });
   });
 } catch {}
 try {
@@ -62,7 +77,8 @@ try {
     if (ev.eventId !== `${NS}:on_tame` || c?.typeId !== CORM) return;
     const f = feeder.get(c.id);
     feeder.delete(c.id);
-    const p = (f && system.currentTick - f.tick <= 5 && players().find(x => x.id === f.pid)) || nearestPlayer(c, 8);
+    let p = f && system.currentTick - f.tick <= 5 && players().find(x => x.id === f.pid);
+    if (!p) { const close = playersNear(c, 8); if (close.length === 1) p = close[0]; }   // never guess between players
     if (p) { try { c.setDynamicProperty(OWNER, p.id); } catch {} }
   }, { entityTypes: [CORM], eventTypes: [`${NS}:on_tame`] });
 } catch {}
