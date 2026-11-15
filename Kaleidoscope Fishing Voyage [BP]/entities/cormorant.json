@@ -353,12 +353,8 @@
         }
       },
       "kaleidoscope_fishing:diving": {
-        "minecraft:physics": {
-          "has_gravity": false,
-          "has_collision": false
-        },
-        "minecraft:movement": {
-          "value": 0
+        "minecraft:mark_variant": {
+          "value": 1
         }
       }
     },

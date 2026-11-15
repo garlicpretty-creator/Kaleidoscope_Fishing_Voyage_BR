@@ -118,6 +118,8 @@ function dive(c, owner, water) {
   // A full body under: the water is at least 2 deep, so its feet go into the lower block and its
   // back stays below the surface. Held there every 2 ticks: behavior.float and buoyancy would
   // otherwise pop it straight back up between script updates (v1.4.1: it only ever bobbed).
+  // The hold is the only thing keeping it down: the dive event no longer switches gravity off, since
+  // removing that group afterwards also removed the base physics and the cormorant floated into the sky.
   const under = { x: water.x, y: water.y - 1, z: water.z };
   try { c.teleport(under); } catch {}
   snd(dim, "random.splash", water, 1.1, 0.6);

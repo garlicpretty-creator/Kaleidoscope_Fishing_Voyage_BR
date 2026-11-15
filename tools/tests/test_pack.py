@@ -113,5 +113,23 @@ names = [os.path.basename(p) for p in jsons] + [f for _, _, fs in os.walk(os.pat
 ok(not [f for f in names if 'platform' in f], 'the sea platform is gone (feature, rule, structure)')
 ok(sum('fishing_pier' in f for f in names) >= 3, 'the fishing pier feature, rule and structure are present')
 
+# entity component groups: a group that an event removes must not redefine a base component, because removing
+# it deletes the base component as well (1.4.0: the cormorant lost gravity after its first dive and rose away)
+for p, j in jsons.items():
+    if not (p.startswith(os.path.join(BP, 'entities')) and 'minecraft:entity' in j):
+        continue
+    e = j['minecraft:entity']; base = set(e.get('components', {})); removed = set()
+    def walk(o):
+        if isinstance(o, dict):
+            if isinstance(o.get('remove'), dict):
+                removed.update(o['remove'].get('component_groups', []))
+            for v in o.values(): walk(v)
+        elif isinstance(o, list):
+            for v in o: walk(v)
+    walk(e.get('events', {}))
+    clash = {g: sorted(base & set(v)) for g, v in e.get('component_groups', {}).items() if g in removed and base & set(v)}
+    ok(not clash, f"{e['description']['identifier']}: no removable group shadows a base component"
+       + ('' if not clash else f' ({clash})'))
+
 print(f'\n{failed} pack test(s) FAILED' if failed else '\nall pack tests passed')
 sys.exit(1 if failed else 0)
