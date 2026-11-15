@@ -213,23 +213,12 @@
               "name": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
             },
             "items": [
-              "kaleidoscope_fishing:fishing_boat",
               "kaleidoscope_fishing:shrimp_trap",
               "kaleidoscope_fishing:fish_cleaning_board",
               "kaleidoscope_fishing:fish_scale",
-              "kaleidoscope_fishing:fishing_lantern",
               "kaleidoscope_fishing:tackle_rack",
-              "kaleidoscope_fishing:fish_tank",
-              "kaleidoscope_fishing:large_fish_tank",
-              "kaleidoscope_fishing:fishing_net",
-              "kaleidoscope_fishing:fish_print",
               "kaleidoscope_fishing:drying_rack",
-              "kaleidoscope_fishing:fish_sauce_jar",
-              "kaleidoscope_fishing:glass_float",
-              "kaleidoscope_fishing:anchor",
-              "kaleidoscope_fishing:net_wall",
-              "kaleidoscope_fishing:dried_fish_string",
-              "kaleidoscope_fishing:catch_crate"
+              "kaleidoscope_fishing:fish_sauce_jar"
             ]
           },
           {
@@ -242,13 +231,9 @@
               "kaleidoscope_fishing:voyage_fishing_rod",
               "kaleidoscope_fishing:lava_fishing_rod",
               "kaleidoscope_fishing:angler_journal",
-              "kaleidoscope_fishing:bamboo_hat",
-              "kaleidoscope_fishing:straw_raincoat",
               "kaleidoscope_fishing:fishing_knife",
-              "kaleidoscope_fishing:fish_basket",
               "kaleidoscope_fishing:fish_meal_bait",
               "kaleidoscope_fishing:glow_bait",
-              "kaleidoscope_fishing:recipe_scrap",
               "kaleidoscope_fishing:cormorant_ring",
               "kaleidoscope_fishing:copper_hook",
               "kaleidoscope_fishing:gold_hook",
@@ -279,6 +264,53 @@
             },
             "items": [
               "kaleidoscope_fishing:kombu_tea"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "kaleidoscope_fishing:fish_tank",
+              "name": "kaleidoscope_cookery:itemGroup.name.furniture"
+            },
+            "items": [
+              "kaleidoscope_fishing:fishing_boat",
+              "kaleidoscope_fishing:fishing_lantern",
+              "kaleidoscope_fishing:fish_tank",
+              "kaleidoscope_fishing:large_fish_tank",
+              "kaleidoscope_fishing:fishing_net",
+              "kaleidoscope_fishing:fish_print",
+              "kaleidoscope_fishing:glass_float",
+              "kaleidoscope_fishing:anchor",
+              "kaleidoscope_fishing:net_wall",
+              "kaleidoscope_fishing:dried_fish_string",
+              "kaleidoscope_fishing:catch_crate"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "kaleidoscope_fishing:fish_basket",
+              "name": "kaleidoscope_cookery:itemGroup.name.storage_utility"
+            },
+            "items": [
+              "kaleidoscope_fishing:fish_basket"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "kaleidoscope_fishing:bamboo_hat",
+              "name": "kaleidoscope_cookery:itemGroup.name.wearables"
+            },
+            "items": [
+              "kaleidoscope_fishing:bamboo_hat",
+              "kaleidoscope_fishing:straw_raincoat"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "kaleidoscope_fishing:recipe_scrap",
+              "name": "kaleidoscope_cookery:itemGroup.name.recipe_pages"
+            },
+            "items": [
+              "kaleidoscope_fishing:recipe_scrap"
             ]
           }
         ]

@@ -5,7 +5,7 @@
       "identifier": "kaleidoscope_fishing:recipe_scrap",
       "menu_category": {
         "category": "equipment",
-        "group": "kaleidoscope_cookery:itemGroup.name.tools"
+        "group": "kaleidoscope_cookery:itemGroup.name.recipe_pages"
       }
     },
     "components": {

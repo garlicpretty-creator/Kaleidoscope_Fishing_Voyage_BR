@@ -752,6 +752,48 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   withRandom(0.5, () => advance(600, ['cormorant.js']));
   ok(!c.events.includes(NS + 'dive'), 'cormorant: it does not fish when its owner is far away');
   c.remove();
+  // v1.4.1: in the game the tame event removes the wild group and with it minecraft:tameable, so a tamed cormorant
+  // has no tamedToPlayerId. The owner comes from the tame event: the player who fed it is written to a dynamic property.
+  P.location = { x: cx + 0.5, y: 64, z: 0.5 };
+  clearInv(); drops();
+  c = D.spawnEntity(CORM, { x: cx + 3.5, y: 64, z: 0.5 });
+  fire('world.beforeEvents.playerInteractWithEntity', { player: P, target: c, itemStack: stack('grass_carp'), cancel: false });
+  fire('world.afterEvents.dataDrivenEntityTrigger', { entity: c, eventId: NS + 'on_tame' });
+  c.families.add('kfv_cormorant_tamed'); c.setProperty(NS + 'ringed', true);
+  ok(c.getDynamicProperty(NS + 'owner') === P.id && !c.comps['minecraft:tameable'], 'cormorant: taming records the player who fed it as the owner');
+  let lowest = Infinity;
+  const watch = S.system.runInterval(() => { if (c.getProperty(NS + 'diving')) lowest = Math.min(lowest, c.location.y); }, 1);
+  timers[timers.length - 1].file = 'cormorant.js';
+  withRandom(0.5, () => advance(600, ['cormorant.js']));
+  S.system.clearRun(watch);
+  d = drops();
+  ok(c.events.includes(NS + 'dive') && c.events.includes(NS + 'surface') && d.length === 1,
+    `cormorant: tamed in play (no tameable component left), it still dives and brings its owner a fish (${dropIds(d)})`);
+  ok(lowest <= 62, `cormorant: while diving it is held fully under water (lowest y ${lowest}, water surface block 63)`);
+  c.remove();
+  // a cormorant tamed before v1.4.1 (no owner property, no tameable component) fishes for the player next to it
+  c = D.spawnEntity(CORM, { x: cx + 3.5, y: 64, z: 0.5 }); c.families.add('kfv_cormorant_tamed');
+  withRandom(0.5, () => advance(600, ['cormorant.js']));
+  ok(c.events.includes(NS + 'dive'), 'cormorant: an older tamed cormorant with no recorded owner fishes for the nearest player');
+  c.remove(); drops();
+  // every raw fish of the add-on tames, tempts and heals it (not only the vanilla fish and five river/sea fish)
+  const cj = JSON.parse(readFileSync(join(BP, 'entities', 'cormorant.json'), 'utf8'))['minecraft:entity'];
+  const tame = new Set(cj.component_groups[NS + 'wild']['minecraft:tameable'].tame_items);
+  const tempt = new Set(cj.component_groups[NS + 'wild']['minecraft:behavior.tempt'].items);
+  const heal = new Set(cj.component_groups[NS + 'tamed']['minecraft:healable'].items.map(x => x.item));
+  const legends = new Set(JSON.parse(readFileSync(join(BP, '..', 'tools', 'data', 'LEGENDS.json'), 'utf8')));
+  const notFish = /crab|crayfish|lobster|shrimp|jellyfish|octopus|oyster|clam|squid/;
+  const modFish = [];
+  for (const f of readdirSync(join(BP, 'items'))) {
+    try {
+      const it = JSON.parse(readFileSync(join(BP, 'items', f), 'utf8'))['minecraft:item'];
+      const id = it.description.identifier;
+      if ((it.components['minecraft:tags']?.tags ?? []).includes('minecraft:is_fish') && !legends.has(id) && !notFish.test(id)) modFish.push(id);
+    } catch {}
+  }
+  const missing = modFish.filter(id => !tame.has(id) || !tempt.has(id) || !heal.has(id));
+  ok(modFish.length >= 25 && !missing.length, `cormorant: every mod fish (${modFish.length}) tames, tempts and heals it (missing: ${missing.join(', ') || 'none'})`);
+  ok(tame.has(NS + 'grass_carp') && tame.has(NS + 'sea_bass') && tame.has('minecraft:cod'), 'cormorant: a mod fish such as grass carp or sea bass tames it, as cod does');
   P.location = { x: 0.5, y: 65, z: 0.5 };
 }
 

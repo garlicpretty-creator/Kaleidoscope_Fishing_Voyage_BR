@@ -12,7 +12,7 @@ export const MG = {
 
   BOX: { tier1: 24, tier2: 28 },        // box length by rod tier (bamboo rod = tier 1)
   HOLD_ACC: 0.9,             // holding the use key pushes the box right
-  FALL_ACC: 0.9,             // releasing lets it slide left
+  FALL_ACC: 0.6,             // releasing lets it slide left (1.4.0 playtest: 0.9 slid back too fast)
   VMAX: 4.0,
   BOUNCE: 0.4,               // hitting the left end bounces back at this fraction
 

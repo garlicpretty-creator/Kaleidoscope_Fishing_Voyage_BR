@@ -506,7 +506,13 @@ function tick() {
         }
         const text = hud(g, charset());
         if (hudDue(s.hud, text, s.age, g.inside)) {
-          try { p.onScreenDisplay.setActionBar(text); } catch {}
+          // 1.4.0: each line gets a short label (reel track / catch progress) in the player's language
+          const [track, bar] = text.split("\n");
+          try {
+            p.onScreenDisplay.setActionBar({ rawtext: [
+              { text: "§7" }, { translate: "kaleidoscope_fishing.minigame.label_reel" }, { text: " " + track + "\n§7" },
+              { translate: "kaleidoscope_fishing.minigame.label_progress" }, { text: " " + bar }] });
+          } catch {}
           s.hud = { text, at: s.age, inside: g.inside };
         }
       } else if (s.phase === "pull") {

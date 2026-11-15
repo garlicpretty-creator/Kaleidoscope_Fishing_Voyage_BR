@@ -241,7 +241,7 @@ def shrimp_part(bone, c):
     s = c['size']
     if bone.startswith('leg'):
         return 'leg'
-    if max(s) >= 4.5:
+    if max(s) >= 2.5 and min(s) <= 0.2:
         return 'antenna'
     if bone == 'tail' and s[1] <= 0.25:
         return 'fan'
