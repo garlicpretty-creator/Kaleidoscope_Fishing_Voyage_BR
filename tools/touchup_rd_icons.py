@@ -22,7 +22,8 @@ DST = os.path.join(os.path.dirname(HERE), 'Kaleidoscope Fishing Voyage [RP]', 't
 
 ICONS = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell', 'jellyfish_skin', 'emperor_tuna_fin',
          'frostlake_scale', 'whisker_line', 'emperor_bone_hook', 'dragon_scale_bobber', 'frost_scale_bobber',
-         'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
+         'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad',
+         'cave_crayfish']                     # 1.4.0 name check: the old one read as a wrench
 
 
 def rgb(h):
