@@ -413,5 +413,125 @@
         0.5
       ]
     ]
+  },
+  "kaleidoscope_fishing:loach": {
+    "index": 35,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      1
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:mudskipper": {
+    "index": 36,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      1
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:golden_croaker": {
+    "index": 37,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      4
+    ],
+    "scales": true,
+    "bones": 2,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.4
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:chorus_carp": {
+    "index": 38,
+    "out": [
+      "kaleidoscope_fishing:chorus_sashimi",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.25
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:ender_angler": {
+    "index": 39,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 2,
+    "extra": [
+      [
+        "minecraft:ender_pearl",
+        0.5
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:blazefin": {
+    "index": 40,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      2
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "minecraft:blaze_powder",
+        0.3
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:lava_eel": {
+    "index": 41,
+    "out": [
+      "kaleidoscope_fishing:eel_fillet",
+      3
+    ],
+    "scales": false,
+    "bones": 1,
+    "extra": []
+  },
+  "kaleidoscope_fishing:magma_koi": {
+    "index": 42,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      3
+    ],
+    "scales": true,
+    "bones": 1,
+    "extra": [
+      [
+        "minecraft:magma_cream",
+        0.3
+      ]
+    ]
+  },
+  "kaleidoscope_fishing:lava_dragon_koi": {
+    "index": 43,
+    "out": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      6
+    ],
+    "scales": true,
+    "bones": 3,
+    "extra": [
+      [
+        "kaleidoscope_fishing:fish_roe",
+        0.5
+      ]
+    ]
   }
 }

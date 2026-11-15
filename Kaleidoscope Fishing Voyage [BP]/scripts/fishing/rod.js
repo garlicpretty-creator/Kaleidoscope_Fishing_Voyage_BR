@@ -103,7 +103,7 @@ function consumeOne(player, typeId) {
 // the next bait in the bag (or none) and the wait for a bite starts over; returns true then.
 function baitGone(s) {
   if (!s.bait || s.bait === LURE || hasItem(s.player, s.bait)) return false;
-  s.bait = findBait(s.player);
+  s.bait = findBait(s.player) ?? (s.fx?.lure ? LURE : undefined);   // a lure hook takes over again
   return true;
 }
 
@@ -367,6 +367,8 @@ function gear(player) {
 }
 
 function startWaiting(s) {
+  // a legend that got away: the bobber loses its gold for the next ordinary bite
+  try { if (s.bobber.getProperty(`${NS}:style`) === LEGEND_STYLE) s.bobber.setProperty(`${NS}:style`, s.fx.style ?? (endPond(s) ? ENDER_STYLE : 0)); } catch {}
   const [lo, hi] = s.rod.bite;
   const rain = isRaining(s.bobber.dimension);
   const g = gear(s.player);
@@ -420,7 +422,7 @@ function tick() {
       const slot = mainhand(p);
       if (!slot?.hasItem() || slot.typeId !== s.rodId || p.dimension.id !== b.dimension.id) { endSession(pid); continue; }
       const pl = p.location, bl = b.location;
-      if (dist2(pl, bl) > MAX_DIST * MAX_DIST) { s.phase === "pull" ? snapLine(p, s) : endSession(pid); continue; }
+      if (dist2(pl, bl) > MAX_DIST * MAX_DIST) { ["pull", "rest", "game"].includes(s.phase) ? snapLine(p, s) : endSession(pid); continue; }   // a hooked fish snaps the line
       s.age += TICK;
       if (s.age > MAX_AGE && !["pull", "rest", "game"].includes(s.phase)) { endSession(pid); continue; }
       const dim = b.dimension;

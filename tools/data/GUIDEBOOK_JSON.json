@@ -3043,6 +3043,9 @@
      "time": 240,
      "result": "kaleidoscope_fishing:lava_eel_don"
     }
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:lava_dragon_koi_stone_grill"
    ]
   },
   {
@@ -5976,6 +5979,9 @@
      "time": 300,
      "result": "kaleidoscope_fishing:loach_soup"
     }
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:river_lord_catfish_clay_pot"
    ]
   },
   {
@@ -6765,7 +6771,8 @@
     "A river or swamp on a thunderstorm night. Only a Voyage rod with a Bone Hook holds it."
    ],
    "usedBy": [
-    "kaleidoscope_fishing:white_fish_fillet"
+    "kaleidoscope_fishing:white_fish_fillet",
+    "kaleidoscope_fishing:river_lord_catfish_clay_pot"
    ]
   },
   {
@@ -6855,6 +6862,9 @@
    },
    "mechanics": [
     "Nether lava at least 4 blocks deep, on a Lava rod with a Wire Line and no bait: it only strikes a bare hook or a lure."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:lava_dragon_koi_stone_grill"
    ]
   },
   {
@@ -7111,6 +7121,83 @@
    "mechanics": [
     "The Frostlake Char served on frosted ice with the ice-fishing catch. Place it and share it."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lava_dragon_koi_stone_grill",
+   "category": "dishes",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_lava_dragon_koi_stone_grill",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:lava_dragon_koi",
+      "kaleidoscope_fishing:lava_eel_don",
+      "kaleidoscope_cookery:red_chili",
+      "minecraft:magma",
+      "minecraft:polished_blackstone_slab"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:lava_dragon_koi_stone_grill"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The Lava Dragon Koi seared whole on a hot blackstone slab, ember cracks still glowing. Place it and share it; you get the slab back."
+    ],
+    "zh_TW": [
+     "熔岩龍鯉整尾鋪在燒燙的黑石板上，邊緣的餘燼還在發光。放下來大家一起吃，吃完退回石板。"
+    ],
+    "zh_CN": [
+     "熔岩龙鲤整尾铺在烧烫的黑石板上，边缘的余烬还在发光。放下来大家一起吃，吃完退回石板。"
+    ]
+   },
+   "mechanics": [
+    "The Lava Dragon Koi seared whole on a hot blackstone slab, ember cracks still glowing. Place it and share it; you get the slab back."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:river_lord_catfish_clay_pot",
+   "category": "dishes",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_river_lord_catfish_clay_pot",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:river_lord_catfish",
+      "kaleidoscope_fishing:loach_soup",
+      "kaleidoscope_cookery:green_chili",
+      "minecraft:decorated_pot"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:river_lord_catfish_clay_pot"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "The River Lord Catfish braised in a clay pot with tofu and scallion, whiskers over the rim. Four bites; you get the pot back."
+    ],
+    "zh_TW": [
+     "河伯鯰配豆腐、蔥段燉在砂鍋裡，長鬚垂出鍋邊。分四口吃，吃完退回陶罐。"
+    ],
+    "zh_CN": [
+     "河伯鲶配豆腐、葱段炖在砂锅里，长须垂出锅边。分四口吃，吃完退回陶罐。"
+    ]
+   },
+   "mechanics": [
+    "The River Lord Catfish braised in a clay pot with tofu and scallion, whiskers over the rim. Four bites; you get the pot back."
+   ]
   }
  ],
  "names": {
@@ -7332,7 +7419,9 @@
    "kaleidoscope_fishing:dried_fish_string": "String of Dried Fish",
    "kaleidoscope_fishing:catch_crate": "Crate of the Catch",
    "kaleidoscope_fishing:emperor_whole_tuna": "Emperor Bluefin Whole",
-   "kaleidoscope_fishing:frostlake_platter": "Frostlake Platter"
+   "kaleidoscope_fishing:frostlake_platter": "Frostlake Platter",
+   "kaleidoscope_fishing:lava_dragon_koi_stone_grill": "Dragon Koi Hot Stone Grill",
+   "kaleidoscope_fishing:river_lord_catfish_clay_pot": "River Lord Catfish Clay Pot"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -7552,7 +7641,9 @@
    "kaleidoscope_fishing:dried_fish_string": "魚乾串",
    "kaleidoscope_fishing:catch_crate": "漁獲木箱",
    "kaleidoscope_fishing:emperor_whole_tuna": "皇鮪大體",
-   "kaleidoscope_fishing:frostlake_platter": "冰湖主漁獲盤"
+   "kaleidoscope_fishing:frostlake_platter": "冰湖主漁獲盤",
+   "kaleidoscope_fishing:lava_dragon_koi_stone_grill": "龍鯉石板燒",
+   "kaleidoscope_fishing:river_lord_catfish_clay_pot": "河伯鯰砂鍋"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -7772,7 +7863,9 @@
    "kaleidoscope_fishing:dried_fish_string": "鱼干串",
    "kaleidoscope_fishing:catch_crate": "渔获木箱",
    "kaleidoscope_fishing:emperor_whole_tuna": "皇鲔大体",
-   "kaleidoscope_fishing:frostlake_platter": "冰湖主渔获盘"
+   "kaleidoscope_fishing:frostlake_platter": "冰湖主渔获盘",
+   "kaleidoscope_fishing:lava_dragon_koi_stone_grill": "龙鲤石板烧",
+   "kaleidoscope_fishing:river_lord_catfish_clay_pot": "河伯鲶砂锅"
   }
  },
  "text": {

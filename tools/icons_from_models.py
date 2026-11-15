@@ -45,6 +45,8 @@ B = [(n, f'kfv_{t}', parts) for n, t, parts in (
     ('seafood_feast_pot', 'seafood_feast_pot', [(F + 'seafood_feast_pot_0_0_0', 0, 0)]),
     ('ice_catch_platter', 'ice_catch_platter', [(F + 'ice_catch_platter_0_0', 0, 0), (F + 'ice_catch_platter_1_0', 0, 16)]),
     ('frostlake_platter', 'frostlake_platter', [(F + 'frostlake_platter_0_0', 0, 0), (F + 'frostlake_platter_1_0', 0, 16)]),
+    ('lava_dragon_koi_stone_grill', 'lava_dragon_koi_stone_grill', [(F + 'lava_dragon_koi_stone_grill_0_0', 0, 0), (F + 'lava_dragon_koi_stone_grill_1_0', 0, 16)]),
+    ('river_lord_catfish_clay_pot', 'river_lord_catfish_clay_pot', [(F + 'river_lord_catfish_clay_pot_0_0_0', 0, 0)]),
     ('fishing_boat', 'fishing_boat', [(F + f'fishing_boat_{p}', 0, 16 * p) for p in range(3)]),
     ('large_fish_tank', 'large_fish_tank', [(F + 'large_fish_tank_0_0', 0, 0), (F + 'large_fish_tank_1_0', 16, 0)]))]
 C = [('bamboo_fishing_rod', 'textures/entity/kfv_bamboo_rod', [(F + 'bamboo_rod', 0, 0)], 'rod'),

@@ -411,5 +411,56 @@
     "remains": [
       "minecraft:oak_slab"
     ]
+  },
+  "kaleidoscope_fishing:lava_dragon_koi_stone_grill_block": {
+    "bites": 3,
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "item": "kaleidoscope_fishing:lava_dragon_koi_stone_grill",
+    "light": 6,
+    "nutrition": 3,
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "remains": [
+      "minecraft:polished_blackstone_slab"
+    ],
+    "saturation": 0.8
+  },
+  "kaleidoscope_fishing:river_lord_catfish_clay_pot_block": {
+    "bites": 4,
+    "dirs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "face": true,
+    "item": "kaleidoscope_fishing:river_lord_catfish_clay_pot",
+    "nutrition": 4,
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "remains": [
+      "minecraft:decorated_pot"
+    ],
+    "saturation": 0.8
   }
 }

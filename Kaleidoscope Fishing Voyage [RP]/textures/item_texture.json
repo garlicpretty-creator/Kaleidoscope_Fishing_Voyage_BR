@@ -658,6 +658,12 @@
     },
     "kfv_dried_fish_string": {
       "textures": "textures/items/kfv_dried_fish_string"
+    },
+    "kfv_lava_dragon_koi_stone_grill": {
+      "textures": "textures/items/kfv_lava_dragon_koi_stone_grill"
+    },
+    "kfv_river_lord_catfish_clay_pot": {
+      "textures": "textures/items/kfv_river_lord_catfish_clay_pot"
     }
   }
 }

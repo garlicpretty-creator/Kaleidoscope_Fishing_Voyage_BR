@@ -351,6 +351,15 @@
     },
     "kfv_frostlake_platter": {
       "textures": "textures/blocks/kfv_frostlake_platter"
+    },
+    "kfv_board_fish": {
+      "textures": "textures/blocks/kfv_board_fish"
+    },
+    "kfv_lava_dragon_koi_stone_grill": {
+      "textures": "textures/blocks/kfv_lava_dragon_koi_stone_grill"
+    },
+    "kfv_river_lord_catfish_clay_pot": {
+      "textures": "textures/blocks/kfv_river_lord_catfish_clay_pot"
     }
   }
 }

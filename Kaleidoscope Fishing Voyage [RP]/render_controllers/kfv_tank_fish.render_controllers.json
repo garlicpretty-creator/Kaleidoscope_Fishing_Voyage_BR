@@ -49,7 +49,9 @@
             "Geometry.river_lord_catfish",
             "Geometry.emperor_tuna",
             "Geometry.frostlake_char",
-            "Geometry.lava_dragon_koi"
+            "Geometry.lava_dragon_koi",
+            "Geometry.shrimp",
+            "Geometry.purpur_shrimp"
           ]
         }
       },

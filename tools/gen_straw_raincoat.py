@@ -24,6 +24,7 @@ TOP = (16, 6, 16, 8)            # tops of tiers (straw laid flat)
 UNDER = (32, 6, 16, 8)          # undersides (shadowed straw)
 ROPE = (48, 6, 16, 2)
 COLLAR = (48, 8, 16, 3)
+ROPE_WIDE = (48, 11, 16, 4)     # rope for faces taller than 2 (held bundle ties, knot ends)
 FOLD = (0, 14, 16, 6)           # folded bundle sides
 CLEAR = (62, 62, 1, 1)          # left transparent: hides the thin bottom edge of straw panels
 SCALE = 2                       # png is drawn at 2x the model's UV space for finer straw
@@ -83,10 +84,10 @@ def worn():
     tiers = [(24.2, 5.4, 9.0, 4.8, 22), (20.6, 5.6, 9.6, 5.2, 16), (16.4, 5.6, 10.2, 5.6, 13), (12.4, 5.8, 10.6, 6.0, 11)]
     for k, (y, h, w, d, fl) in enumerate(tiers):
         panel_tier(body, y, h, w, d, TIER[k], fl)
-    body.append(cube([-4.6, 23.0, -2.6], [9.2, 1.4, 5.2], COLLAR, top=COLLAR, bottom=COLLAR))     # collar
-    body.append(cube([-5.6, 15.9, -3.6], [11.2, 0.7, 7.2], ROPE, top=ROPE, bottom=ROPE))          # waist rope, over the seam
-    body.append(cube([-1.1, 14.2, -3.9], [0.7, 1.8, 0.3], ROPE, top=ROPE, bottom=ROPE))           # knot ends hanging in front
-    body.append(cube([0.3, 13.8, -3.9], [0.7, 2.2, 0.3], ROPE, top=ROPE, bottom=ROPE))
+    body.append(cube([-4.6, 23.0, -2.6], [9.2, 1.4, 5.2], COLLAR, top=TOP, bottom=UNDER))     # collar
+    body.append(cube([-5.6, 15.9, -3.6], [11.2, 0.7, 7.2], ROPE, top=UNDER, bottom=UNDER))          # waist rope, over the seam
+    body.append(cube([-1.1, 14.2, -3.9], [0.7, 1.8, 0.3], ROPE_WIDE, top=ROPE, bottom=ROPE))           # knot ends hanging in front
+    body.append(cube([0.3, 13.8, -3.9], [0.7, 2.2, 0.3], ROPE_WIDE, top=ROPE, bottom=ROPE))
     for sgn, bone in ((1, left), (-1, right)):
         # shoulder flaps: an outer panel and front/back panels over the upper arm, tilted out
         cx = 6 * sgn
@@ -107,8 +108,8 @@ def held():
     cubes = [cube([-9, 10, -2], [6, 1.5, 6], FOLD, top=TOP),
              cube([-8.75, 11.5, -1.75], [5.5, 1.5, 5.5], FOLD, top=TOP),
              cube([-8.5, 13, -1.5], [5, 1.2, 5], FOLD, top=TOP),
-             cube([-9.1, 10.6, 0.6], [6.2, 3.8, 0.6], ROPE, top=ROPE, bottom=ROPE),       # rope round the bundle
-             cube([-6.6, 10.6, -2.1], [0.6, 3.8, 6.2], ROPE, top=ROPE, bottom=ROPE)]
+             cube([-9.1, 10.6, 0.6], [6.2, 3.8, 0.6], ROPE_WIDE, top=ROPE, bottom=ROPE),       # rope round the bundle
+             cube([-6.6, 10.6, -2.1], [0.6, 3.8, 6.2], ROPE_WIDE, top=ROPE, bottom=ROPE_WIDE)]
     bones = [dict(b) for b in RIG]
     bones.append({'name': 'kfv_held', 'parent': 'rightItem', 'pivot': [-6, 15, 1], 'cubes': cubes})
     return bones
@@ -156,6 +157,7 @@ def paint():
     fill(TOP, lambda u, v: STRAW[2 + ((u * 3 + v) % 5 == 0) + ((u + v) % 4 == 0)])
     fill(UNDER, lambda u, v: STRAW[(u + v) % 2])
     fill(ROPE, lambda u, v: hexc('#4a3a28') if (u + v) % 2 else hexc('#6e5a3e'))
+    fill(ROPE_WIDE, lambda u, v: hexc('#4a3a28') if (u + v) % 2 else hexc('#6e5a3e'))
     fill(COLLAR, lambda u, v: STRAW[max(0, min(5, 4 - v // 2 + (u % 3 == 0)))])
     return im
 

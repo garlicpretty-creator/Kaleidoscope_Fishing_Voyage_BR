@@ -1,0 +1,165 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:lava_dragon_koi_stone_grill_block",
+      "states": {
+        "kaleidoscope_fishing:part": [
+          0,
+          1
+        ],
+        "kaleidoscope_fishing:food_stage": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "kaleidoscope_fishing:dir": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "menu_category": {
+        "category": "none"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.lava_dragon_koi_stone_grill",
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_0_0",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_lava_dragon_koi_stone_grill",
+          "render_method": "alpha_test"
+        },
+        "kfv_lava_dragon_koi_stone_grill": {
+          "texture": "kfv_lava_dragon_koi_stone_grill",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          3,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          5,
+          16
+        ]
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.2
+      },
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:map_color": "#2A2428",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/empty.json",
+      "kaleidoscope_fishing:feast": {},
+      "minecraft:light_emission": 6
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_0_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_0_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_0_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_0_3"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_1_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.lava_dragon_koi_stone_grill_1_3"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 2",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:dir') == 3",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

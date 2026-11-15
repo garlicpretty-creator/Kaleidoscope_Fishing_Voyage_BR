@@ -4,6 +4,25 @@
     "animation.kaleidoscope_fishing.fish_merchant.move": {
       "loop": true,
       "bones": {
+        "body": {
+          "rotation": [
+            0,
+            "math.sin(query.modified_distance_moved * 38) * 3 * query.modified_move_speed",
+            "math.sin(query.modified_distance_moved * 38) * 1.5 * query.modified_move_speed"
+          ],
+          "position": [
+            0,
+            "-math.abs(math.cos(query.modified_distance_moved * 38)) * 0.6 * query.modified_move_speed",
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "math.sin(query.life_time * 30) * 1.5 + math.abs(math.cos(query.modified_distance_moved * 38)) * 2 * query.modified_move_speed",
+            0,
+            0
+          ]
+        },
         "leg_l": {
           "rotation": [
             "math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed",
@@ -20,30 +39,37 @@
         },
         "arm_l": {
           "rotation": [
-            "-(math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed) * 0.8",
+            "-(math.cos(query.modified_distance_moved * 38) * 32 * query.modified_move_speed) * 0.8 + math.sin(query.life_time * 40) * 2",
             0,
-            0
+            "-2 - math.sin(query.life_time * 40) * 1.5"
           ]
         },
         "arm_r": {
           "rotation": [
-            "-25",
+            "-25 + math.cos(query.modified_distance_moved * 38) * 4 * query.modified_move_speed",
             0,
             "8"
+          ]
+        },
+        "pole": {
+          "rotation": [
+            "math.cos(query.modified_distance_moved * 38) * 3 * query.modified_move_speed",
+            0,
+            "math.sin(query.modified_distance_moved * 19) * 2 * query.modified_move_speed"
           ]
         },
         "basket_f": {
           "rotation": [
             "math.sin(query.modified_distance_moved * 38) * 7 * query.modified_move_speed + math.sin(query.life_time * 90) * 1.5",
             0,
-            0
+            "math.sin(query.modified_distance_moved * 19 + 30) * 4 * query.modified_move_speed"
           ]
         },
         "basket_b": {
           "rotation": [
             "math.sin(query.modified_distance_moved * 38) * 7 * query.modified_move_speed + math.sin(query.life_time * 90) * 1.5",
             0,
-            0
+            "math.sin(query.modified_distance_moved * 19 - 30) * 4 * query.modified_move_speed"
           ]
         }
       }

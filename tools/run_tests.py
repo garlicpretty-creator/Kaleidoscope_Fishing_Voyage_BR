@@ -7,6 +7,8 @@
   4. tests/test_pack.py   JSON, manifests, icons, RTX maps, catalog, placeable blocks, spawn eggs, features
   5. tests/test_scripts.mjs  scripts under a mock game API: loading, custom components, the register API,
                           legend conditions, the 1.4 species (needs Node.js 22.15+)
+  6-8. tests/test_play*.mjs  play-throughs in a stateful simulation (tests/sim): workstations, fishing from cast
+                          to catch, feasts, tanks, merchant, gulls, cormorants, digging, journal, Cookery bridge
 
 None of this replaces playing the pack: it only proves the files and the script logic hang together.
 Exit code 1 if any step fails.
@@ -16,6 +18,10 @@ import os, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 ENV = dict(os.environ, PYTHONUTF8='1')
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')   # test output has ★ and ✦
+except AttributeError:
+    pass
 results = []
 
 
@@ -24,7 +30,7 @@ def run(name, cmd, judge=None):
     p = subprocess.run(cmd, cwd=ROOT, env=ENV, capture_output=True, text=True, encoding='utf-8', errors='replace')
     out = (p.stdout or '') + (p.stderr or '')
     good, note = judge(out) if judge else (p.returncode == 0, '')
-    print(out.rstrip() if not good or name.startswith('tests') else '\n'.join(out.rstrip().splitlines()[-2:]))
+    print(out.rstrip() if not good or (name.startswith('tests') and 'play' not in name) else '\n'.join(out.rstrip().splitlines()[-2:]))
     if note:
         print(note)
     results.append((name, good))
@@ -50,6 +56,8 @@ run('tests/test_pack.py', [py, '-X', 'utf8', 'tools/tests/test_pack.py'])
 node = shutil.which('node')
 if node:
     run('tests/test_scripts.mjs', [node, '--import', './tools/tests/mock/hooks.mjs', 'tools/tests/test_scripts.mjs'])
+    for t in ('test_play', 'test_play_fishing', 'test_play_world'):
+        run(f'tests/{t}.mjs', [node, '--import', './tools/tests/sim/hooks.mjs', f'tools/tests/{t}.mjs'])
 else:
     print('\n=== tests/test_scripts.mjs\nskipped: Node.js not found')
     results.append(('tests/test_scripts.mjs (skipped, no Node.js)', False))

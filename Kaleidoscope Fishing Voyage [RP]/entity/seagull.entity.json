@@ -13,11 +13,13 @@
         "default": "geometry.kaleidoscope_fishing.seagull"
       },
       "animations": {
-        "fly": "animation.kaleidoscope_fishing.seagull.fly"
+        "fly": "animation.kaleidoscope_fishing.seagull.fly",
+        "look_at_target": "animation.common.look_at_target"
       },
       "scripts": {
         "animate": [
-          "fly"
+          "fly",
+          "look_at_target"
         ]
       },
       "render_controllers": [

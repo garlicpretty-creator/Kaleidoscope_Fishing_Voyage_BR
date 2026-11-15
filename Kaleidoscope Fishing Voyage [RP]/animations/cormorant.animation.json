@@ -4,6 +4,18 @@
     "animation.kaleidoscope_fishing.cormorant.move": {
       "loop": true,
       "bones": {
+        "body": {
+          "rotation": [
+            "query.property('kaleidoscope_fishing:diving') * 55 + math.sin(query.modified_distance_moved * 76) * 2 * query.modified_move_speed",
+            0,
+            "math.sin(query.modified_distance_moved * 38) * 8 * query.modified_move_speed"
+          ],
+          "position": [
+            0,
+            "math.abs(math.sin(query.modified_distance_moved * 38)) * 0.5 * query.modified_move_speed",
+            0
+          ]
+        },
         "leg_l": {
           "rotation": [
             "math.cos(query.modified_distance_moved * 38) * 35 * query.modified_move_speed",
@@ -20,14 +32,14 @@
         },
         "neck": {
           "rotation": [
-            "math.sin(query.life_time * 120) * 3 + query.property('kaleidoscope_fishing:diving') * 50",
-            0,
-            0
+            "math.sin(query.life_time * 120) * 3 + query.property('kaleidoscope_fishing:diving') * 50 + math.sin(query.modified_distance_moved * 76) * 8 * query.modified_move_speed",
+            "math.sin(query.life_time * 17) * math.sin(query.life_time * 7) * 20 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground",
+            "-math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed"
           ]
         },
-        "body": {
+        "head": {
           "rotation": [
-            "query.property('kaleidoscope_fishing:diving') * 55",
+            "-math.sin(query.modified_distance_moved * 76) * 5 * query.modified_move_speed",
             0,
             0
           ]
@@ -36,14 +48,14 @@
           "rotation": [
             0,
             0,
-            "query.property('kaleidoscope_fishing:diving') * -25"
+            "query.property('kaleidoscope_fishing:diving') * -25 + math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed + math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
           ]
         },
         "wing_r": {
           "rotation": [
             0,
             0,
-            "query.property('kaleidoscope_fishing:diving') * 25"
+            "query.property('kaleidoscope_fishing:diving') * 25 + math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed - math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
           ]
         }
       }

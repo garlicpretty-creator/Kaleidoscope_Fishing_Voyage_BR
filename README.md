@@ -50,7 +50,7 @@ python tools/run_tests.py     # 跑全部離線測試
 
 ### 測試 / Tests
 
-`python tools/run_tests.py` 依序執行下面五項，全部通過才會回傳 0：
+`python tools/run_tests.py` 依序執行下面八項，全部通過才會回傳 0：
 
 | 項目 | 檢查內容 |
 |---|---|
@@ -59,6 +59,7 @@ python tools/run_tests.py     # 跑全部離線測試
 | `check_models.py` | 3D 模型結構。有 10 個模型借用森羅物語的幾何，要把 `Kaleidoscope-Cookery-*.mcaddon` 放在本資料夾的上一層才會一起驗證，否則會註明「未驗證」 |
 | `tests/test_pack.py` | JSON、manifest、物品 icon、光影材質、創造模式選單、方塊放置設定、生怪蛋、世界結構 |
 | `tests/test_scripts.mjs` | 用模擬的遊戲環境載入全部腳本，測試自訂元件註冊、給其他附屬包的 API、傳說魚條件、1.4 新魚種 |
+| `tests/test_play.mjs`、`test_play_fishing.mjs`、`test_play_world.mjs` | 在有狀態的模擬世界（`tools/tests/sim`）裡重播玩家操作：工作站、從拋竿到上鉤的釣魚流程、宴席、魚缸、魚販、海鷗、鸕鶿、挖蛤、圖鑑、森羅物語連動 |
 
 這些測試只能證明檔案和程式邏輯沒問題，不能取代進遊戲實際遊玩。
 These tests only prove that the files and the script logic hang together; they do not replace play-testing.

@@ -66,7 +66,7 @@ function check() {
   try { const m = p.dimension.spawnEntity(MERCHANT, at); setWants(m); bell(p.dimension, at, 0.8); } catch {}
 }
 
-system.runInterval(() => { try { check(); } catch (err) { console.warn(`[Fishing Voyage] merchant: ${err}`); } }, CHECK);
+system.runInterval(() => { try { for (const m of merchants()) wantsOf(m); check(); } catch (err) { console.warn(`[Fishing Voyage] merchant: ${err}`); } }, CHECK);
 // his hand bell as he walks
 system.runInterval(() => {
   for (const m of merchants()) if (Math.random() < 0.5) bell(m.dimension, m.location, 0.45);
@@ -76,15 +76,20 @@ system.runInterval(() => {
 // Two fish from WANT_LIST, paid double. Both hang from his carrying pole for everyone to see.
 const WANTS = `${NS}:wants`;
 const WANT_BONUS = 2;
-const pick3 = () => { const a = [...WANT_LIST]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, 2); };
+const WANTS_DAY = `${NS}:wants_day`;             // a merchant who stays a second day wants new fish that day
+const today = () => { try { return world.getDay(); } catch { return 0; } };
+const pickWants = () => { const a = [...WANT_LIST]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, 2); };
 function setWants(m) {
-  const w = pick3();
-  try { m.setDynamicProperty(WANTS, JSON.stringify(w)); } catch {}
+  const w = pickWants();
+  try { m.setDynamicProperty(WANTS, JSON.stringify(w)); m.setDynamicProperty(WANTS_DAY, today()); } catch {}
   try { m.setProperty(`${NS}:want_a`, WANT_LIST.indexOf(w[0]) + 1); m.setProperty(`${NS}:want_b`, WANT_LIST.indexOf(w[1]) + 1); } catch {}
   return w;
 }
 function wantsOf(m) {
-  try { const v = JSON.parse(m.getDynamicProperty(WANTS) ?? "null"); if (Array.isArray(v) && v.length) return v; } catch {}
+  try {
+    const v = JSON.parse(m.getDynamicProperty(WANTS) ?? "null");
+    if (Array.isArray(v) && v.length && (m.getDynamicProperty(WANTS_DAY) ?? today()) === today()) return v;
+  } catch {}
   return setWants(m);                       // a merchant from 1.3.x gets his wants the first time he is asked
 }
 /** What the nearest merchant wants, for the journal; undefined if none is about. */
