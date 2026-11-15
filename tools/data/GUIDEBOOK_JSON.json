@@ -153,7 +153,8 @@
     "kaleidoscope_fishing:fish_stock_bucket",
     "kaleidoscope_fishing:dried_fish",
     "kaleidoscope_fishing:tomato_mackerel",
-    "kaleidoscope_fishing:grilled_fish"
+    "kaleidoscope_fishing:grilled_fish",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -185,7 +186,8 @@
    "usedBy": [
     "kaleidoscope_fishing:white_fish_fillet",
     "kaleidoscope_fishing:dried_fish",
-    "kaleidoscope_fishing:grilled_fish"
+    "kaleidoscope_fishing:grilled_fish",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -404,7 +406,8 @@
    },
    "usedBy": [
     "kaleidoscope_fishing:dried_fish",
-    "kaleidoscope_fishing:skewered_sweetfish"
+    "kaleidoscope_fishing:skewered_sweetfish",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -1025,7 +1028,8 @@
     }
    ],
    "usedBy": [
-    "kaleidoscope_fishing:dried_shrimp_congee"
+    "kaleidoscope_fishing:dried_shrimp_congee",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ]
   },
   {
@@ -2620,7 +2624,8 @@
     "saturation": 0.3
    },
    "usedBy": [
-    "kaleidoscope_fishing:pan_fried_saury"
+    "kaleidoscope_fishing:pan_fried_saury",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -4581,7 +4586,8 @@
     "saturation": 0.2
    },
    "usedBy": [
-    "kaleidoscope_fishing:smelt_tempura"
+    "kaleidoscope_fishing:smelt_tempura",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -5596,7 +5602,8 @@
     "Shallow swamp and mangrove water at night, more in the rain."
    ],
    "usedBy": [
-    "kaleidoscope_fishing:loach_soup"
+    "kaleidoscope_fishing:loach_soup",
+    "kaleidoscope_fishing:fish_sauce_jar"
    ]
   },
   {
@@ -6582,18 +6589,18 @@
    "stack": 16,
    "icon": "textures/items/kfv_fish_sauce",
    "mechanicsByLocale": {
-    "en_US": [
-     "Drawn with a glass bottle from a Fish Sauce Jar of salted small fish. Works in place of salt in every wok dish."
-    ],
     "zh_TW": [
-     "用玻璃瓶從醃小魚的魚露甕取得。所有炒鍋料理都可以拿它代替鹽。"
+     "用玻璃瓶從醃小魚的魚露甕取得（小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚）。所有炒鍋料理都可以拿它代替鹽。"
     ],
     "zh_CN": [
-     "用玻璃瓶从腌小鱼的鱼露瓮取得。所有炒锅料理都可以拿它代替盐。"
+     "用玻璃瓶从腌小鱼的鱼露瓮取得（小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼）。所有炒锅料理都可以拿它代替盐。"
+    ],
+    "en_US": [
+     "Drawn with a glass bottle from a Fish Sauce Jar of salted small fish (Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod). Works in place of salt in every wok dish."
     ]
    },
    "mechanics": [
-    "Drawn with a glass bottle from a Fish Sauce Jar of salted small fish. Works in place of salt in every wok dish."
+    "Drawn with a glass bottle from a Fish Sauce Jar of salted small fish (Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod). Works in place of salt in every wok dish."
    ]
   },
   {
@@ -6650,18 +6657,18 @@
     }
    ],
    "mechanicsByLocale": {
-    "en_US": [
-     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). It seals itself and ferments; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
-    ],
     "zh_TW": [
-     "先放鹽，再放 4 條小魚（魚露）或 4 份蝦米（蝦醬）。甕會自己封起來發酵；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
+     "先放鹽，再放 4 條小魚（做魚露）或 4 份蝦米（做蝦醬）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
     ],
     "zh_CN": [
-     "先放盐，再放 4 条小鱼（鱼露）或 4 份虾米（虾酱）。瓮会自己封起来发酵；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
+     "先放盐，再放 4 条小鱼（做鱼露）或 4 份虾米（做虾酱）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
+    ],
+    "en_US": [
+     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
     ]
    },
    "mechanics": [
-    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). It seals itself and ferments; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
    ]
   },
   {
