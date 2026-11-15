@@ -405,7 +405,7 @@ NEW_PARTS = {
 }
 # item, block it copies (models are borrowed for now, on a re-tinted texture), tint, feast data, recipe, effects
 LEGEND_FEASTS = [
-    dict(name='river_lord_casserole', after='frostlake_platter', like='oden_pot', tint=(1.0, 0.82, 0.66),
+    dict(name='river_lord_casserole', after='frostlake_platter', like='oden_pot', tint='clay_pot',
          names=T('River Lord Casserole', '河伯鯰砂鍋', '河伯鲶砂锅'),
          mechanics=T(['The River Lord Catfish simmered whole in a clay pot. One block, four bites; share it for the feast bonus.'],
                      ['整條河伯鯰放進砂鍋慢燉。占一格，可以吃四口；大家一起吃有宴席加成。'], ['整条河伯鲶放进砂锅慢炖。占一格，可以吃四口；大家一起吃有宴席加成。']),
@@ -417,7 +417,7 @@ LEGEND_FEASTS = [
                 '.OcOssggssssOcO.', '..OsswwsssggsO..', '.OCssssswwsssCO.', '.OCCssggssssCCO.', '.OCCCCCCCCCCCCO.',
                 '..OCCCCCCCCCCO..', '..OCCcCCCCcCCO..', '...OCCCCCCCCO...', '....OOOOOOOO....', '................',
                 '................'], {'O': O, 'C': '#9a5a34', 'c': '#b9774a', 's': '#e9d9a8', 'g': '#6fa84a', 'w': '#f6efe0'})),
-    dict(name='dragon_koi_sizzle', after='river_lord_casserole', like='grilled_fish_plank', tint=(1.0, 0.7, 0.62),
+    dict(name='dragon_koi_sizzle', after='river_lord_casserole', like='grilled_fish_plank', tint='stone_slab',
          names=T('Dragon Koi Stone Grill', '龍鯉石板燒', '龙鲤石板烧'),
          mechanics=T(['The Lava Dragon Koi seared on hot stone. A 1x2 board, three bites a block; share it for the feast bonus.'],
                      ['熔岩龍鯉放在滾燙的石板上炙燒。占 1×2 格，每格三口；大家一起吃有宴席加成。'], ['熔岩龙鲤放在滚烫的石板上炙烧。占 1×2 格，每格三口；大家一起吃有宴席加成。']),
@@ -434,13 +434,17 @@ LEGEND_FEASTS = [
 
 
 def tinted(src, dst, tint):
-    """A copy of a texture (and of its texture set, MER and height maps) with its colours multiplied by tint."""
+    """A copy of a texture (and of its texture set, MER and height maps) with its colours changed: tint is an
+    (r, g, b) multiplier, or a function (r, g, b) -> (r, g, b)."""
     im = Image.open(src + '.png').convert('RGBA')
     px = im.load()
     for y in range(im.height):
         for x in range(im.width):
             r, g, b, a = px[x, y]
-            px[x, y] = (min(255, int(r * tint[0])), min(255, int(g * tint[1])), min(255, int(b * tint[2])), a)
+            if callable(tint):
+                px[x, y] = tuple(max(0, min(255, int(v))) for v in tint(r, g, b)) + (a,)
+            else:
+                px[x, y] = (min(255, int(r * tint[0])), min(255, int(g * tint[1])), min(255, int(b * tint[2])), a)
     im.save(dst + '.png')
     s, d = os.path.basename(src), os.path.basename(dst)
     if os.path.exists(src + '.texture_set.json'):
@@ -448,6 +452,34 @@ def tinted(src, dst, tint):
         for extra in ('_mer.png', '_height.png', '_normal.png'):
             if os.path.exists(src + extra):
                 Image.open(src + extra).save(dst + extra)
+
+
+def _hsv(r, g, b):
+    import colorsys
+    return colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+
+
+def _rgb(h, s, v):
+    import colorsys
+    return tuple(c * 255 for c in colorsys.hsv_to_rgb(h, s, v))
+
+
+def clay_pot(r, g, b):
+    """The Oden Pot's grey metal becomes a terracotta clay pot; the broth turns a deeper, browner gold."""
+    h, s, v = _hsv(r, g, b)
+    if s < 0.15:
+        return _rgb(0.045, 0.58, min(1.0, v * 1.05))
+    return _rgb(h * 0.85, min(1.0, s * 1.05), v * 0.85)
+
+
+def stone_slab(r, g, b):
+    """The Grilled Fish Plank's brown wood becomes dark grey stone; the pale fish becomes a red-gold koi."""
+    h, s, v = _hsv(r, g, b)
+    if s >= 0.5 and 0.02 <= h <= 0.12:                  # wood
+        return _rgb(0.6, 0.06, min(1.0, v * 0.95 + 0.06))
+    if s < 0.2 and v > 0.6:                             # the fish
+        return _rgb(0.03 + 0.06 * (1 - v), 0.72, min(1.0, v * 0.92))
+    return (r, g, b)
 
 
 def shapeless(rid, ingredients, result):
@@ -525,7 +557,8 @@ def legends():
         entry = guide_entry(name, 'dishes', 16, f['mechanics'], recipes=guide_recipe(f['recipe'], name), kinds=('item', 'block'))
         add_guide(entry, f['names'], f['after'])
         blocks = os.path.join(RP, 'textures', 'blocks')
-        tinted(os.path.join(blocks, f'kfv_{like}'), os.path.join(blocks, f'kfv_{name}'), f['tint'])
+        tinted(os.path.join(blocks, f'kfv_{like}'), os.path.join(blocks, f'kfv_{name}'),
+               globals()[f['tint']] if isinstance(f['tint'], str) else f['tint'])
         terrain['texture_data'][f'kfv_{name}'] = {'textures': f'textures/blocks/kfv_{name}'}
         block = read(os.path.join(BP, 'blocks', f'{like}_block.json'))
         block = block.replace(f'{NS}:{like}_block', f'{NS}:{name}_block').replace(f'display.item.{like}', f'display.item.{name}') \

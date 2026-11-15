@@ -6,7 +6,7 @@ The generated icons have no dark outline, unlike the rest of the pack, and a few
 square. For each icon below this script starts again from the untouched candidate, so it can be run again:
   1. clears the outermost column / row where the drawing touches the edge (one pixel of margin, like the others)
   2. darkens the silhouette's edge pixels into an outline (warm, a little hue-shifted, as in the Cookery icons)
-  3. applies the hand fixes in FIX
+  3. applies the recolouring in RECOLOR and the hand fixes in FIX
 and writes textures/items/kfv_<name>.png with its RTX maps. The feast icons are not here: they are 64x64 renders
 of their 3D models (tools/icons_from_models.py --hires 64).
 """
@@ -31,6 +31,19 @@ def rgb(h):
 
 # name -> {(x, y): colour or None (clear)}, applied after the outline
 FIX = {}
+
+
+def _pale_shrimp(r, g, b):
+    """Stir-fried Shrimp is a light dish: its shrimp pale pink, so it does not read as the red Salt and Pepper Shrimp."""
+    import colorsys
+    h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+    if (h <= 0.09 or h >= 0.95) and s > 0.4 and v > 0.5:
+        return tuple(int(c * 255) for c in colorsys.hsv_to_rgb(0.0 if h >= 0.95 else h * 0.6, s * 0.5, min(1.0, v * 1.1)))
+    return (r, g, b)
+
+
+# name -> function (r, g, b) -> (r, g, b), applied to the drawing before the outline
+RECOLOR = {'stir_fried_shrimp': _pale_shrimp}
 
 
 def outline(im):
@@ -69,6 +82,12 @@ def main():
             for x in range(16):
                 r, g, b, a = px[x, y]
                 px[x, y] = (r, g, b, 255) if a >= 128 else (0, 0, 0, 0)
+        if name in RECOLOR:
+            for y in range(16):
+                for x in range(16):
+                    r, g, b, a = px[x, y]
+                    if a:
+                        px[x, y] = RECOLOR[name](r, g, b) + (255,)
         outline(margin(im))
         for (x, y), colour in FIX.get(name, {}).items():
             im.putpixel((x, y), rgb(colour) if colour else (0, 0, 0, 0))
