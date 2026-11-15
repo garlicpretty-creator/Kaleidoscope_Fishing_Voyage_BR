@@ -118,6 +118,17 @@ setComps(await boot());
   ok(JSON.stringify(t.permutation.getAllStates()) !== before && inv('carp') === 0, `fish tank: a carp goes in (${JSON.stringify(t.permutation.getAllStates())})`);
 }
 
+{
+  const { FIT, TANK_KIND } = await importScript('data/tank.js');
+  const { TANK_FISH } = await importScript('data/generated.js');
+  const over = FIT.flat(2).filter(r => r[0] > 100);
+  ok(FIT.length >= TANK_FISH.length && TANK_KIND.length >= TANK_FISH.length && !over.length,
+    `fish tank: every species has a fit and a kind, and no scale passes the property's 100 cap (${over.length} over)`);
+  clearInv(); const t2 = place(NS + 'fish_tank');
+  P.hold(NS + 'purpur_shrimp', 1); use(t2);
+  ok(inv('purpur_shrimp') === 0, 'fish tank: purpur shrimp go in');
+}
+
 // ---------- fish print ----------
 {
   clearInv(); const f = place(NS + 'fish_print');
