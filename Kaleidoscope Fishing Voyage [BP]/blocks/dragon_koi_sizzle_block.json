@@ -27,7 +27,7 @@
     },
     "components": {
       "minecraft:display_name": "%kaleidoscope_fishing.display.item.dragon_koi_sizzle",
-      "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_0_0",
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_0_0",
       "minecraft:material_instances": {
         "*": {
           "texture": "kfv_dragon_koi_sizzle",
@@ -78,49 +78,49 @@
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 0",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_0_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_0_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 1",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_0_1"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_0_1"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 2",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_0_2"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_0_2"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 0 && q.block_state('kaleidoscope_fishing:food_stage') == 3",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_0_3"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_0_3"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 0",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_1_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_1_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 1",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_1_1"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_1_1"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 2",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_1_2"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_1_2"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 1 && q.block_state('kaleidoscope_fishing:food_stage') == 3",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.grilled_fish_plank_1_3"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.dragon_koi_sizzle_1_3"
         }
       },
       {

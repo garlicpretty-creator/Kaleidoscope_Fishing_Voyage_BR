@@ -287,6 +287,8 @@ def cleaning():
                 src = c[ID(like[name])] if name in like else e
                 assert src.get('first', 1 if src['scales'] else 2) == first, (name, 'look-alike has other cuts')
                 gid = GEO + f"{src['index']}_{stage}"
+                if GEO + f"{e['index']}_{stage}" in by_id:       # its own model (tools/gen_models_1_4.py) wins
+                    gid = GEO + f"{e['index']}_{stage}"
             assert gid in by_id, gid
             used.add(gid)
             perms.append({'condition': f"{idx} == {e['index']} && {cut} == {stage}", 'components': {'minecraft:geometry': gid}})
@@ -557,12 +559,16 @@ def legends():
         entry = guide_entry(name, 'dishes', 16, f['mechanics'], recipes=guide_recipe(f['recipe'], name), kinds=('item', 'block'))
         add_guide(entry, f['names'], f['after'])
         blocks = os.path.join(RP, 'textures', 'blocks')
-        tinted(os.path.join(blocks, f'kfv_{like}'), os.path.join(blocks, f'kfv_{name}'),
-               globals()[f['tint']] if isinstance(f['tint'], str) else f['tint'])
+        # its own model and texture come from tools/gen_models_1_4.py; until then a re-coloured copy of the borrowed one
+        if not os.path.exists(os.path.join(RP, 'models', 'blocks', f'{name}.geo.json')):
+            tinted(os.path.join(blocks, f'kfv_{like}'), os.path.join(blocks, f'kfv_{name}'),
+                   globals()[f['tint']] if isinstance(f['tint'], str) else f['tint'])
         terrain['texture_data'][f'kfv_{name}'] = {'textures': f'textures/blocks/kfv_{name}'}
         block = read(os.path.join(BP, 'blocks', f'{like}_block.json'))
         block = block.replace(f'{NS}:{like}_block', f'{NS}:{name}_block').replace(f'display.item.{like}', f'display.item.{name}') \
                      .replace(f'"kfv_{like}"', f'"kfv_{name}"')
+        if os.path.exists(os.path.join(RP, 'models', 'blocks', f'{name}.geo.json')):
+            block = block.replace(f'geometry.{NS}.{like}_', f'geometry.{NS}.{name}_')
         write(os.path.join(BP, 'blocks', f'{name}_block.json'), block)
         feasts[ID(name + '_block')] = dict(item=ID(name), **f['feast'])
         effects[ID(name)] = f['effects']

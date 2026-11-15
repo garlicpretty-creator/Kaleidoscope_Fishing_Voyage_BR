@@ -24,7 +24,7 @@
     },
     "components": {
       "minecraft:display_name": "%kaleidoscope_fishing.display.item.river_lord_casserole",
-      "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_0_0",
+      "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_0_0",
       "minecraft:material_instances": {
         "*": {
           "texture": "kfv_river_lord_casserole",
@@ -75,31 +75,31 @@
       {
         "condition": "q.block_state('kaleidoscope_fishing:food_stage') == 0",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_0_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_0_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:food_stage') == 1",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_1_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_1_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:food_stage') == 2",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_2_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_2_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:food_stage') == 3",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_3_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_3_0"
         }
       },
       {
         "condition": "q.block_state('kaleidoscope_fishing:food_stage') == 4",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.oden_pot_0_4_0"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.river_lord_casserole_0_4_0"
         }
       },
       {

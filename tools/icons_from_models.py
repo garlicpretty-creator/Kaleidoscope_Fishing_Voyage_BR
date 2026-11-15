@@ -41,9 +41,9 @@ B = [(n, f'kfv_{t}', parts) for n, t, parts in (
     ('frostlake_platter', 'frostlake_platter', [(F + 'frostlake_platter_0_0', 0, 0), (F + 'frostlake_platter_1_0', 0, 16)]),
     ('fishing_boat', 'fishing_boat', [(F + f'fishing_boat_{p}', 0, 16 * p) for p in range(3)]),
     ('large_fish_tank', 'large_fish_tank', [(F + 'large_fish_tank_0_0', 0, 0), (F + 'large_fish_tank_1_0', 16, 0)]),
-    # 1.4.0: the two legend feasts use the Oden Pot's and the Grilled Fish Plank's models on their own textures
-    ('river_lord_casserole', 'river_lord_casserole', [(F + 'oden_pot_0_0_0', 0, 0)]),
-    ('dragon_koi_sizzle', 'dragon_koi_sizzle', [(F + 'grilled_fish_plank_0_0', 0, 0), (F + 'grilled_fish_plank_1_0', 0, 16)]))]
+    # 1.4.0: the two legend feasts (models from tools/gen_models_1_4.py)
+    ('river_lord_casserole', 'river_lord_casserole', [(F + 'river_lord_casserole_0_0_0', 0, 0)]),
+    ('dragon_koi_sizzle', 'dragon_koi_sizzle', [(F + 'dragon_koi_sizzle_0_0', 0, 0), (F + 'dragon_koi_sizzle_1_0', 0, 16)]))]
 C = [('bamboo_fishing_rod', 'textures/entity/kfv_bamboo_rod', [(F + 'bamboo_rod', 0, 0)], 'rod'),
      ('bamboo_hat', 'textures/entity/kfv_bamboo_hat', [(F + 'bamboo_hat', 0, 0)], 'hat'),
      ('straw_raincoat', 'textures/entity/kfv_straw_raincoat', [(F + 'straw_raincoat', 0, 0)], 'coat')]
