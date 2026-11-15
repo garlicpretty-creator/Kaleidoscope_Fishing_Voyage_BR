@@ -51,7 +51,8 @@
             "Geometry.frostlake_char",
             "Geometry.lava_dragon_koi",
             "Geometry.shrimp",
-            "Geometry.purpur_shrimp"
+            "Geometry.purpur_shrimp",
+            "Geometry.oyster"
           ]
         }
       },

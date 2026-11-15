@@ -739,12 +739,11 @@ def dishes():
 
 
 # --------------------------------------------------------------------------- fish tanks
-TANK_MORE = [('shrimp', 'cave_crayfish'), ('purpur_shrimp', 'cave_crayfish')]      # new species, whose model and fit it borrows
+TANK_MORE = [('shrimp', 'cave_crayfish'), ('purpur_shrimp', 'cave_crayfish'), ('oyster', 'cave_crayfish')]   # new species, whose fit it borrows
 
 
 def tank():
-    """Shrimp and Purpur Shrimp can live in the Fish Tank. They borrow the Cave Crayfish's model for now.
-    (Oysters wait for a model of their own; lava creatures wait for the lava tank.)"""
+    """Shrimp, Purpur Shrimp and Oysters can live in the Fish Tank (lava creatures wait for the lava tank)."""
     import re
     fish = load('TANK_FISH')
     path = os.path.join(BP, 'scripts', 'data', 'tank.js')
@@ -765,7 +764,10 @@ def tank():
             while len(table) <= i:
                 table.append(None)
             table[i] = json.loads(json.dumps(table[src]))
-        geos[name] = geos[like]
+        own = f'geometry.{NS}.tank_fish.{name}'                 # its own model (tools/gen_models_1_4.py), else the look-alike's
+        geos[name] = own if own in read(os.path.join(RP, 'models', 'entity', 'tank_fish.geo.json')) else geos[like]
+        if name == 'oyster':                            # it sits still: no stroll along the floor
+            fit[i] = [[[scale, 0, lo, hi] for scale, _, lo, hi in tank] for tank in fit[i]]
         while len(array) <= i:
             array.append(None)
         array[i] = f'Geometry.{name}'
@@ -778,9 +780,12 @@ def tank():
     write_json(client_path, client)
     write_json(rc_path, rc)
     g = load('GUIDEBOOK_JSON')
-    note = T('Shrimp can live in it too. Oysters and anything fished from lava cannot.', '蝦也可以養。牡蠣和岩漿裡釣到的漁獲不能放。', '虾也可以养。牡蛎和岩浆里钓到的渔获不能放。')
+    note = T('Shrimp and oysters can live in it too. Anything fished from lava cannot.', '蝦和牡蠣也可以養。岩漿裡釣到的漁獲不能放。', '虾和牡蛎也可以养。岩浆里钓到的渔获不能放。')
+    old = T('Shrimp can live in it too. Oysters and anything fished from lava cannot.', '蝦也可以養。牡蠣和岩漿裡釣到的漁獲不能放。', '虾也可以养。牡蛎和岩浆里钓到的渔获不能放。')
     page = next(e for e in g['entries'] if e['id'] == ID('fish_tank'))
     for lang, lines in page['mechanicsByLocale'].items():
+        if old[lang] in lines:
+            lines.remove(old[lang])
         if note[lang] not in lines:
             lines.append(note[lang])
     page['mechanics'] = list(page['mechanicsByLocale']['en_US'])

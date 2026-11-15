@@ -56,8 +56,9 @@
         "emperor_tuna": "geometry.kaleidoscope_fishing.tank_fish.emperor_tuna",
         "frostlake_char": "geometry.kaleidoscope_fishing.tank_fish.frostlake_char",
         "lava_dragon_koi": "geometry.kaleidoscope_fishing.tank_fish.lava_dragon_koi",
-        "shrimp": "geometry.kaleidoscope_fishing.tank_fish.cave_crayfish",
-        "purpur_shrimp": "geometry.kaleidoscope_fishing.tank_fish.cave_crayfish"
+        "shrimp": "geometry.kaleidoscope_fishing.tank_fish.shrimp",
+        "purpur_shrimp": "geometry.kaleidoscope_fishing.tank_fish.purpur_shrimp",
+        "oyster": "geometry.kaleidoscope_fishing.tank_fish.oyster"
       },
       "animations": {
         "swim": "animation.kaleidoscope_fishing.tank_fish.swim",

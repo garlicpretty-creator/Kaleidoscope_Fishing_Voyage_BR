@@ -6,6 +6,7 @@ They are meant to be refined in Blockbench: every model is a plain Bedrock geome
 texture, so it opens as is and the texture can be repainted. Safe to run again (each run rebuilds what it owns).
 
   board_fish() the nine fish new on the Fish Cleaning Board, in their own colours
+  tank_creatures() Shrimp, Purpur Shrimp and Oyster in the Fish Tank
   feasts()    River Lord Casserole (a clay pot, 5 stages) and Dragon Koi Stone Grill (1x2 stone slab, 4 stages)
 """
 import os
@@ -203,6 +204,79 @@ def board_fish():
     hgt.save(hgt_p)
 
 
+# --------------------------------------------------------------------------- Fish Tank
+# Shrimp and Purpur Shrimp walk the tank floor like the Cave Crayfish (its shape, their own colours); the Oyster
+# sits on the floor, half open, with a pearl. Run after tools/repaint_tank_fish.py, which rebuilds the tank models.
+TANK_RECOLOUR = {'shrimp': ('cave_crayfish', '#a8442a', '#e0764a', '#f8b89a'),
+                 'purpur_shrimp': ('cave_crayfish', '#5a3a6a', '#a070b8', '#d8b0e8')}
+
+
+def tank_creatures():
+    import json
+    from PIL import Image
+    geo_path = os.path.join(RP, 'models', 'entity', 'tank_fish.geo.json')
+    tex_path = os.path.join(RP, 'textures', 'entity', 'kfv_tank_fish.png')
+    geo = json.load(open(geo_path, encoding='utf-8'))
+    by_id = {g['description']['identifier']: g for g in geo['minecraft:geometry']}
+    big = Image.open(tex_path).convert('RGBA')                    # 512x512; the geometry counts 256 (2 texels a unit)
+    k = big.width // 256
+    a = Atlas(256, 256, start=(0, 112))                          # in UV units, below the fish (they end at row 108)
+    pfx = GEO + 'tank_fish.'
+
+    def colour_of(face):
+        (u, v), (w, h) = face['uv'], face['uv_size']
+        return big.getpixel((int((u + w / 2) * k), int((v + h / 2) * k)))
+
+    for name, (like, *palette) in TANK_RECOLOUR.items():
+        g = json.loads(json.dumps(by_id[pfx + like]))
+        g['description']['identifier'] = pfx + name
+        faces = [f for b in g['bones'] for c in b.get('cubes', []) for f in c['uv'].values()]
+        vals = [_hsv(colour_of(f))[2] for f in faces if _hsv(colour_of(f))[2] >= 0.16]
+        lo, hi = min(vals), max(vals)
+        cells = [a.add(c, noise=4) for c in palette]
+        for f in faces:
+            v = _hsv(colour_of(f))[2]
+            if v < 0.16:                                         # eyes stay
+                continue
+            rel = (v - lo) / max(hi - lo, 1e-6)
+            f['uv'], f['uv_size'] = list(cells[0 if rel < 0.34 else 1 if rel < 0.7 else 2]), [2, 2]
+        by_id[pfx + name] = g
+
+    SHELL, SHELL_D, SHELL_L, NACRE, FLESH, PEARL = '#8a8270', '#6e6858', '#9a9280', '#e8e2d4', '#d8cfb8', '#ffffff'
+    B = lambda *v, top, side=None: box(*v, top, side, atlas=a)  # noqa: E731
+    oyster = [B(-2, 2, 0, 0.7, -1.6, 1.6, top=SHELL, side=SHELL_D), B(-1.8, 1.8, 0.7, 0.9, -1.4, 1.4, top=NACRE),
+              B(-1.2, 1.2, 0.9, 1.2, -1, 1, top=FLESH), B(-0.3, 0.3, 1.2, 1.6, 0.3, 0.9, top=PEARL),
+              B(-2, 2, 1.3, 1.8, -1.6, 0.0, top=SHELL_L, side=SHELL_D), B(-1.8, 1.8, 0.9, 1.3, -1.6, -1.2, top=SHELL_D)]
+    by_id[pfx + 'oyster'] = {
+        'description': {'identifier': pfx + 'oyster', 'texture_width': 256, 'texture_height': 256,
+                        'visible_bounds_width': 2, 'visible_bounds_height': 2, 'visible_bounds_offset': [0, 0.5, 0]},
+        'bones': [{'name': 'spin', 'pivot': [0, 0, 0]}, {'name': 'fish', 'parent': 'spin', 'pivot': [0, 0, 0], 'cubes': oyster}]}
+
+    geo['minecraft:geometry'] = list(by_id.values())
+    write_geometries(geo_path, geo['minecraft:geometry'])
+    cells = a.image.resize((512, 512), Image.NEAREST)
+    big.alpha_composite(cells)
+    big.save(tex_path)
+    for suffix in ('_mer.png', '_height.png'):                    # the new cells in the RTX maps too
+        p = tex_path[:-4] + suffix
+        if not os.path.exists(p):
+            continue
+        m = Image.open(p)
+        mode = m.mode
+        m = m.convert('RGBA')
+        common = max(m.crop((0, 0, 512, 216)).getcolors(512 * 216), key=lambda cv: cv[0])[1]
+        for (cu, cv) in a.cells.values():
+            for y in range((cv - 1) * k, (cv + 3) * k):
+                for x in range((cu - 1) * k, (cu + 3) * k):
+                    if suffix == '_mer.png':
+                        m.putpixel((x, y), common)
+                    else:
+                        r, g, b, _ = big.getpixel((x, y))
+                        l = int(96 + (0.299 * r + 0.587 * g + 0.114 * b) * 0.5)
+                        m.putpixel((x, y), (l, l, l, 255))
+        m.convert(mode).save(p)
+
+
 def feasts():
     casserole()
     sizzle()
@@ -211,4 +285,5 @@ def feasts():
 if __name__ == '__main__':
     feasts()
     board_fish()
+    tank_creatures()
     print('done; now run: python tools/gen_additions_1_4.py && python tools/build.py build')
