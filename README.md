@@ -32,20 +32,45 @@ An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleido
 
 1. 先安裝森羅物語：廚房 1.6.1 以上。 / Install Kaleidoscope Cookery 1.6.1 or newer first.
 2. 從 [Releases](../../releases) 下載 `.mcaddon`，點兩下匯入 Minecraft。 / Download the `.mcaddon` from Releases and open it.
+   Releases 還沒有檔案的話，可以照下面「從原始碼打包」自己產生。 / If Releases is still empty, build it from source as below.
 3. 在世界設定中同時啟用森羅物語與漁歌的行為包、資源包。 / Enable both add-ons' behaviour and resource packs in the world settings.
 
 ## 從原始碼打包 / Building from source
 
-需要 Python 3 與 Pillow。 / Requires Python 3 and Pillow.
+需要 Python 3 與 Pillow；跑腳本測試另外需要 Node.js 22.15 以上。
+Requires Python 3 and Pillow; the script tests also need Node.js 22.15+.
 
 ```
-python tools/build.py check   # 檢查資料與 generated.js 是否一致
 python tools/build.py pack    # 產生 ../Kaleidoscope_Fishing_Voyage_v<版本>.mcaddon
-python tools/validate.py .    # 交叉檢查引用
+python tools/run_tests.py     # 跑全部離線測試
 ```
 
-- 遊戲資料表在 `tools/data/*.json`，改完用 `build.py build` 重新產生 `scripts/data/generated.js`。
-- `tools/ai2pixel.py` 和 `tools/touchup_*.py` 是製作物品 icon 用的工具。
+- 遊戲資料表在 `tools/data/*.json`，改完用 `python tools/build.py build` 重新產生 `scripts/data/generated.js`。
+- 同一份原始碼打包出來的 `.mcaddon` 每次都完全相同。
+
+### 測試 / Tests
+
+`python tools/run_tests.py` 依序執行下面五項，全部通過才會回傳 0：
+
+| 項目 | 檢查內容 |
+|---|---|
+| `build.py check` | `generated.js` 和 `tools/data` 一致 |
+| `validate.py` | 交叉檢查所有 ID 引用。目前固定有 30 項「問題」是誤報（配方和地物規則的 ID 不是物品 ID、森羅物語自己的 ID），列在 `tools/tests/validate_baseline.txt`；只有出現新的項目才算失敗 |
+| `check_models.py` | 3D 模型結構。有 10 個模型借用森羅物語的幾何，要把 `Kaleidoscope-Cookery-*.mcaddon` 放在本資料夾的上一層才會一起驗證，否則會註明「未驗證」 |
+| `tests/test_pack.py` | JSON、manifest、物品 icon、光影材質、創造模式選單、方塊放置設定、生怪蛋、世界結構 |
+| `tests/test_scripts.mjs` | 用模擬的遊戲環境載入全部腳本，測試自訂元件註冊、給其他附屬包的 API、傳說魚條件、1.4 新魚種 |
+
+這些測試只能證明檔案和程式邏輯沒問題，不能取代進遊戲實際遊玩。
+These tests only prove that the files and the script logic hang together; they do not replace play-testing.
+
+### icon 工具 / Icon tools
+
+`tools/ai2pixel.py`、`tools/touchup_*.py`、`tools/review_sheet.py` 是製作物品 icon 用的工具，只在作者的工作環境能直接使用：
+
+- 它們讀寫本倉庫上一層的 `icon_ai_input/`、`icon_preview/` 資料夾（不在倉庫裡）。
+- 對照圖使用 Windows 的微軟正黑體（`C:\Windows\Fonts\msjh.ttc`）。
+
+打包和測試都不需要這些工具。
 
 ## 授權 / License
 
