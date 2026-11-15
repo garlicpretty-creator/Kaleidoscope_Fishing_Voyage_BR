@@ -30,11 +30,7 @@ def rgb(h):
 
 
 # name -> {(x, y): colour or None (clear)}, applied after the outline
-FIX = {
-    # the strips read as one beige lump: cut two gaps so it reads as a pile of strips
-    'jellyfish_skin': {(5, 6): '#8a6a4e', (5, 7): '#8a6a4e', (5, 8): '#8a6a4e', (10, 7): '#8a6a4e', (10, 8): '#8a6a4e',
-                       (10, 9): '#8a6a4e'},
-}
+FIX = {}
 
 
 def outline(im):
