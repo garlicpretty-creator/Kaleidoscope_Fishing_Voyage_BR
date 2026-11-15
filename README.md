@@ -49,8 +49,8 @@ python tools/validate.py .    # 交叉檢查引用
 
 ## 文件 / Docs
 
-- [`docs/TEST_CHECKLIST_1.4.md`](docs/TEST_CHECKLIST_1.4.md)：1.4.0 的遊戲內檢測表 / in-game test checklist for 1.4.0
-- [`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)：1.5.0 企劃書（定案版，尚未實作）/ the plan for 1.5.0 (decided, not implemented yet)
+- [`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)：1.5.0 企劃書（定案版，以 `main` 的 1.4.0 發行版為基準，尚未實作）/ the plan for 1.5.0, based on the 1.4.0 release on `main` (decided, not implemented yet)
+- [`docs/TEST_CHECKLIST_1.4.md`](docs/TEST_CHECKLIST_1.4.md)：這條分支內容的檢測表，**不適用 1.4.0 發行版** / checklist for this branch's content; it does not match the 1.4.0 release
 
 ## 授權 / License
 
