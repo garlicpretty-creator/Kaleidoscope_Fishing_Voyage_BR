@@ -91,6 +91,12 @@
         }
       },
       {
+        "condition": "q.block_state('kaleidoscope_fishing:stage') == 0 && q.block_state('kaleidoscope_fishing:salted') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_sauce_jar_salted"
+        }
+      },
+      {
         "condition": "q.block_state('kaleidoscope_fishing:kind') == 1 && q.block_state('kaleidoscope_fishing:stage') == 1",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_sauce_jar_fish"

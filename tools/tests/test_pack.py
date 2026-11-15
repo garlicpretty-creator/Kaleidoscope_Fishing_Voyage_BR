@@ -113,6 +113,27 @@ names = [os.path.basename(p) for p in jsons] + [f for _, _, fs in os.walk(os.pat
 ok(not [f for f in names if 'platform' in f], 'the sea platform is gone (feature, rule, structure)')
 ok(sum('fishing_pier' in f for f in names) >= 3, 'the fishing pier feature, rule and structure are present')
 
+# Cookery guidebook: every item a page shows has a name in each language. Cookery falls back to English and
+# then to the raw id, which is how untranslated English appeared in the Traditional Chinese book (1.4.0 playtest)
+gb = load(os.path.join(ROOT, 'tools', 'data', 'GUIDEBOOK_JSON.json'))
+gb_ids = set()
+def gb_walk(o):
+    if isinstance(o, dict):
+        for v in o.values(): gb_walk(v)
+    elif isinstance(o, list):
+        for v in o: gb_walk(v)
+    elif isinstance(o, str) and re.fullmatch(r'[a-z_]+:[a-z0-9_]+', o):
+        gb_ids.add(o)
+gb_walk(gb['entries']); gb_walk(gb['categories'])
+for lang in ('zh_TW', 'zh_CN', 'en_US'):
+    miss = sorted(i for i in gb_ids if i not in gb['names'][lang])
+    ok(not miss, f'guidebook: every item shown has a {lang} name ({len(gb_ids)} items)' + ('' if not miss else ': ' + ', '.join(miss)))
+latin = re.compile(r'[A-Za-z]{3,}')
+for lang in ('zh_TW', 'zh_CN'):
+    bad = sorted(k for k, v in list(gb['names'][lang].items()) + list(gb['text'][lang].items())
+                 if isinstance(v, str) and latin.search(re.sub('§.', '', v).replace('Kaleidoscope', '').replace('Cookery', '')))
+    ok(not bad, f'guidebook: no untranslated English in the {lang} names and texts' + ('' if not bad else ': ' + ', '.join(bad[:10])))
+
 # entity component groups: a group that an event removes must not redefine a base component, because removing
 # it deletes the base component as well (1.4.0: the cormorant lost gravity after its first dive and rose away)
 for p, j in jsons.items():
