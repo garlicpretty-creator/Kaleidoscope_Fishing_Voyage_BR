@@ -17,6 +17,7 @@ import { getRecords } from "../journal/records.js";
 import { RODS } from "../data/generated.js";
 import { recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
+import { emitCaught } from "../api/host.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
@@ -143,6 +144,7 @@ function landCatch(player, s, from) {
   // v1.4: the first legend of its kind brings its keepsake
   if (legend && rec.first && KEEPSAKES[s.catchId]) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
   const stored = !rec.newBest && !legend && tryStore(player, s.catchId, 1, cls) === 0;
+  emitCaught(player, s.catchId, { via: "rod", size: s.size, cls, rec });       // 1.5.0: other packs hear every landed catch
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
     try { dim.spawnItem(stack, player.location).clearVelocity(); } catch {}

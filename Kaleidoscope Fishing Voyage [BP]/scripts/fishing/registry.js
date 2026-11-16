@@ -19,6 +19,13 @@
 // `req` (legend conditions) is not accepted; w is 1..20 (built-in rare fish are <= 12, common 30); a bait's
 // biteFactor is 0.5..1 (our best bait is 0.5). An entry with needBait bites only on one of those baits, which is
 // how element fish stay behind arcane bait. Bad entries are dropped with one console warning each.
+//
+// 1.5.0:
+//   kaleidoscope_fishing:register_price {"api":1,"source":"<ns>","prices":[{"id":"<item>","price":0.5}, ...]}
+//                                       the Fish Merchant buys the item: `price` is emeralds for one medium fish
+//                                       (0.05..3; our dearest fish are 3). Size and record factors apply as for
+//                                       our own fish. An outside fish is never one of the day's wanted fish.
+// api_ready also lists what api/host.js offers: "events", "state", "records", "catalog" (see that file).
 import { system, ItemTypes } from "@minecraft/server";
 import { ADDON_VERSION, CATCHES, LEGENDS } from "../data/generated.js";
 
@@ -29,10 +36,11 @@ export const EV = {
   ping: `${SOURCE}:api_ping`,
   bait: `${SOURCE}:register_bait`,
   catch: `${SOURCE}:register_catch`,
+  price: `${SOURCE}:register_price`,
 };
-export const CAPABILITIES = ["bait", "catch"];
+export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog"];
 export const LIMITS = Object.freeze({ w: [1, 20], biteFactor: [0.5, 1], size: [1, 500], fight: [0, 3], depth: [0, 64],
-  factor: [0, 3], moonBoost: [1, 2], perSource: 64 });
+  factor: [0, 3], moonBoost: [1, 2], price: [0.05, 3], perSource: 64 });
 
 // the vocabulary the built-in table uses; an external entry may only use these waters / needs / slots
 const ID_RE = /^[a-z0-9_.-]+:[a-z0-9_./-]+$/;
@@ -41,9 +49,11 @@ const LEGEND = new Set(LEGENDS ?? []);
 const WATERS = new Set(CATCHES.flatMap(c => [...(c.waters ?? []), ...(c.needs ?? [])]));
 const SLOTS = ["dawn", "day", "dusk", "night"];
 
-/** registered catches: id -> entry (with .source); registered baits: id -> {biteFactor, source} */
+/** registered catches: id -> entry (with .source); registered baits: id -> {biteFactor, source};
+ *  registered prices: id -> {price, source} */
 const catches = new Map();
 const baits = new Map();
+const prices = new Map();
 let itemExists = id => { try { return !!ItemTypes.get(id); } catch { return false; } };
 let builtinBait = () => false;     // set by loot.js (avoids a circular import)
 let onChange = () => {};           // loot.js rebuilds its lookups
@@ -52,11 +62,13 @@ let onChange = () => {};           // loot.js rebuilds its lookups
 export const externalCatches = () => [...catches.values()];
 export const externalBait = id => baits.get(id);
 export const externalBaits = () => [...baits.values()];
+/** What the Fish Merchant pays for an outside fish (emeralds for a medium one), or undefined. */
+export const externalPrice = id => prices.get(id)?.price;
 /** loot.js wires these at load (builtin bait test, change callback). */
 export function _wire(isBuiltinBait, changed) { builtinBait = isBuiltinBait; onChange = changed; }
 /** Tests only. */
 export function _setItemExists(fn) { itemExists = fn; }
-export function _clearRegistry() { catches.clear(); baits.clear(); onChange(); }
+export function _clearRegistry() { catches.clear(); baits.clear(); prices.clear(); onChange(); }
 
 function warn(what) { try { console.warn(`[Fishing Voyage] Rejected ${what}`); } catch {} }
 const num = (v, [lo, hi]) => typeof v === "number" && Number.isFinite(v) && v >= lo && v <= hi;
@@ -126,18 +138,35 @@ function baitEntry(e, source) {
   return { id: e.id, biteFactor: f, source };
 }
 
+function priceEntry(e, source) {
+  if (!e || typeof e !== "object" || typeof e.id !== "string" || !ID_RE.test(e.id) || e.id.length > 96) return "bad id";
+  if (e.id.startsWith(`${SOURCE}:`) || e.id.startsWith("minecraft:") || BUILTIN.has(e.id)) return `${e.id}: built-in prices are closed`;
+  const have = prices.get(e.id);
+  if (have && have.source !== source) return `${e.id}: already registered by ${have.source}`;
+  if (!itemExists(e.id)) return `${e.id}: no such item`;
+  if (!num(e.price, LIMITS.price)) return `${e.id}: price ${LIMITS.price[0]}..${LIMITS.price[1]}`;
+  return { id: e.id, price: e.price, source };
+}
+
 function count(map, source) { let n = 0; for (const v of map.values()) if (v.source === source) n++; return n; }
+
+const KIND = {
+  bait: { many: "baits", one: "bait", map: baits, make: baitEntry, label: "bait(s)" },
+  catch: { many: "catches", one: "catch", map: catches, make: catchEntry, label: "catch(es)" },
+  price: { many: "prices", one: "price", map: prices, make: priceEntry, label: "price(s)" },
+};
 
 /** Handle one register_* / api_ping event; returns how many entries were accepted (0 for anything else). */
 export function onRegister(ev) {
   const id = ev?.id;
   if (id === EV.ping) { sendReady(); return 0; }
-  if (id !== EV.bait && id !== EV.catch) return 0;
+  const kind = id === EV.bait ? KIND.bait : id === EV.catch ? KIND.catch : id === EV.price ? KIND.price : undefined;
+  if (!kind) return 0;
   const m = parse(ev.message);
   if (!m) { warn(`${id}: bad envelope (api ${API}, source required)`); return 0; }
-  const list = id === EV.bait ? (m.baits ?? (m.bait ? [m.bait] : undefined)) : (m.catches ?? (m.catch ? [m.catch] : undefined));
+  const list = m[kind.many] ?? (m[kind.one] ? [m[kind.one]] : undefined);
   if (!Array.isArray(list) || !list.length || list.length > 32) { warn(`${id} from ${m.source}: 1..32 entries per message`); return 0; }
-  const map = id === EV.bait ? baits : catches, make = id === EV.bait ? baitEntry : catchEntry;
+  const { map, make } = kind;
   let ok = 0;
   for (const raw of list) {
     const e = make(raw, m.source);
@@ -148,7 +177,7 @@ export function onRegister(ev) {
   }
   if (ok) {
     onChange();
-    try { console.info(`[Fishing Voyage] ${m.source} registered ${ok} ${id === EV.bait ? "bait(s)" : "catch(es)"} (${count(map, m.source)} in all)`); } catch {}
+    try { console.info(`[Fishing Voyage] ${m.source} registered ${ok} ${kind.label} (${count(map, m.source)} in all)`); } catch {}
   }
   return ok;
 }

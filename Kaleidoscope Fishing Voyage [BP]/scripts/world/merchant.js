@@ -12,6 +12,8 @@ import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES } from "../data/generated.
 import { LARGE, MEDIUM, SMALL, readSize } from "../fishing/size.js";
 import { WANT_LIST } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
+import { externalPrice } from "../fishing/registry.js";
+import { emit } from "../api/host.js";
 
 const NS = "kaleidoscope_fishing";
 const MERCHANT = `${NS}:fish_merchant`;
@@ -102,6 +104,8 @@ export function wantsNear(player) {
 
 // --------------------------------------------------------------- he buys fish
 const CLASS_PRICE = { 0: 1, [SMALL]: 0.6, [MEDIUM]: 1, [LARGE]: 1.6 };
+/** Emeralds for one medium fish: our own table first, then what another pack registered (1.5.0 register_price). */
+export const priceOf = id => MERCHANT_PRICES[id] ?? externalPrice(id);
 const CREDIT = `${NS}:merchant_credit`, SPENT = `${NS}:spent`;
 const snd = (e, id, pitch = 1, volume = 0.8) => { try { e.dimension.playSound(id, e.location, { pitch, volume }); } catch {} };
 
@@ -111,7 +115,7 @@ function sell(player, merchant, id) {
   if (!stack || (FISH_ALIAS[stack.typeId] ?? stack.typeId) !== id) return;
   const { cls, record } = readSize(stack);
   const want = wantsOf(merchant).slice(0, 2).includes(id) ? WANT_BONUS : 1;
-  const each = MERCHANT_PRICES[id] * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want;
+  const each = priceOf(id) * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want;
   let credit = 0, spent = 0;
   try { credit = Number(player.getDynamicProperty(CREDIT) ?? 0); } catch {}
   try { spent = Number(merchant.getDynamicProperty(SPENT) ?? 0); } catch {}
@@ -131,6 +135,7 @@ function sell(player, merchant, id) {
     catch { try { player.dimension.spawnItem(em, player.location); } catch {} }
   }
   snd(merchant, "mob.wanderingtrader.yes");
+  emit("sold", player, { id, n, paid });
   snd(player, paid > 0 ? "random.orb" : "random.pop", 1.2, 0.5);
   for (let i = 0; i < 3; i++) {
     try { spawnParticle(merchant.dimension, "minecraft:villager_happy", { x: merchant.location.x + (Math.random() - 0.5), y: merchant.location.y + 2, z: merchant.location.z + (Math.random() - 0.5) }); } catch {}
@@ -141,7 +146,7 @@ world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
   const { player, target, itemStack } = ev;
   if (target?.typeId !== MERCHANT || !itemStack) return;
   const id = FISH_ALIAS[itemStack.typeId] ?? itemStack.typeId;
-  if (MERCHANT_PRICES[id] === undefined) return;
+  if (priceOf(id) === undefined) return;
   ev.cancel = true;                                      // no trading screen: he takes the fish
   system.run(() => { try { sell(player, target, id); } catch (err) { console.warn(`[Fishing Voyage] merchant sale: ${err}`); } });
 });

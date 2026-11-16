@@ -21,6 +21,7 @@ import { readData, writeData } from "./blockData.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
+import { emit } from "../api/host.js";
 
 const NS = "kaleidoscope_fishing";
 const CUT = `${NS}:cut`, SIZE = `${NS}:size`;
@@ -122,6 +123,7 @@ const cleaningBoard = {
       saveSize(block, undefined);
       block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
       fx(block, "dig.wood", 1.3, "minecraft:basic_crit_particle");
+      emit("cleaned", player, { id: fish.id });
     }
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {

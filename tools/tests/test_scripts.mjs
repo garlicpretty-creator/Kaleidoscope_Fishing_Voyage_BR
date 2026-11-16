@@ -4,12 +4,16 @@
 //   3. the bait / catch registration API accepts good entries and rejects bad ones
 //   4. each legend can be caught when all its conditions hold, and never when one is missing
 //   5. the 1.4 species can all be caught in their own waters
+//   6. 1.5.0: price registration, the event broadcast, the state / record / catalog requests
+//   7. 1.5.0: the handshakes with Herbal, Harvest and Ranching; checked against their own API code when those
+//      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { __subs } from './mock/server.mjs';
+import { existsSync } from 'node:fs';
+import { __sent, __subs } from './mock/server.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const BP = join(ROOT, 'Kaleidoscope Fishing Voyage [BP]');
@@ -124,6 +128,138 @@ for (const n of ['loach', 'mudskipper', 'snakehead', 'cave_blindfish', 'grey_mul
     rod: true, tier: e.tier ?? 3, slot: e.slots?.[0] ?? (e.time === 'night' ? 'night' : 'day'), moon: 2, raining: false, cold: false };
   ok(count(ctx, e.id, 20000) > 0, `${n} can be caught (${(e.waters ?? []).join('/') || 'any water'}${e.needs ? ', needs ' + e.needs : ''}${e.tier ? ', rod tier ' + e.tier : ''})`);
 }
+
+// ---------- 6. host API (1.5.0) ----------
+const H = await imp('api/host.js');
+const M = await imp('world/merchant.js');
+const sentSince = (n, id) => __sent.slice(n).filter(e => e[0] === id).map(e => JSON.parse(e[1]));
+console.log = () => {};
+R._clearRegistry();
+const pr = body => R.onRegister({ id: `${NS}register_price`, message: JSON.stringify({ api: 1, source: 'testpack', ...body }) });
+const p1 = pr({ prices: [{ id: 'testpack:glow_eel', price: 0.5 }] });
+console.log = log;
+ok(p1 === 1 && M.priceOf('testpack:glow_eel') === 0.5, 'register_price: the merchant pays the registered price');
+ok(M.priceOf(`${NS}carp`) === G.MERCHANT_PRICES[`${NS}carp`], 'register_price: our own prices are untouched');
+{
+  const n = warns.length;
+  ok(pr({ prices: [{ id: `${NS}carp`, price: 3 }] }) === 0, 'rejected: a price for one of our own fish');
+  ok(pr({ prices: [{ id: 'minecraft:diamond', price: 1 }] }) === 0, 'rejected: a price for a vanilla item');
+  ok(pr({ prices: [{ id: 'testpack:glow_eel', price: 64 }] }) === 0, 'rejected: a price out of range');
+  ok(pr({ prices: [{ id: 'otherpack:missing', price: 1 }] }) === 0, 'rejected: a price for an item that does not exist');
+  ok(warns.length === n + 4, 'every rejected price is reported once');
+}
+R._clearRegistry();
+ok(M.priceOf('testpack:glow_eel') === undefined, 'register_price: gone after the registry is cleared');
+for (const c of ['bait', 'catch', 'price', 'events', 'state', 'records', 'catalog']) ok(R.CAPABILITIES.includes(c), `api_ready lists the capability "${c}"`);
+
+let mark = __sent.length;
+H.emitCaught({ id: 'p1' }, `${NS}emperor_tuna`, { via: 'rod', size: 210, cls: 3, rec: { first: true, newBest: false } });
+const caught = sentSince(mark, H.EVT)[0];
+ok(caught && caught.v === 1 && caught.t === 'caught' && caught.p === 'p1' && caught.id === `${NS}emperor_tuna` && caught.via === 'rod'
+  && caught.size === 210 && caught.cls === 3 && caught.legend === true && caught.first === true && caught.record === false,
+  `evt caught carries the fish, how, its size and whether it is a legend, a first or a record (${JSON.stringify(caught)})`);
+mark = __sent.length;
+H.emitCaught({ id: 'p1' }, `${NS}shrimp`, { via: 'tip_up', cls: 0, rec: { first: false, newBest: false } });
+ok(!('size' in sentSince(mark, H.EVT)[0]) && sentSince(mark, H.EVT)[0].legend === false, 'evt caught: an unsized catch has no size, an ordinary fish is no legend');
+ok(__sent.every(e => String(e[1]).length <= 2048), 'every script event we send fits in 2048 characters');
+
+const ask = (name, body) => { const n = __sent.length; const handled = H.onRequest({ id: `${NS}${name}_request`, message: JSON.stringify({ api: 1, source: 'testpack', ...body }) }); return { handled, out: sentSince(n, `${NS}${name}`) }; };
+const st = ask('state', { req: 'a1' });
+ok(st.handled && st.out.length === 1 && st.out[0].to === 'testpack' && st.out[0].req === 'a1' && st.out[0].ok === true
+  && ['high', 'low'].includes(st.out[0].tide) && Number.isInteger(st.out[0].moon) && typeof st.out[0].slot === 'string',
+  `state_request is answered to the asker with tide, moon and time slot (${JSON.stringify(st.out[0])})`);
+ok(!H.onRequest({ id: `${NS}state_request`, message: '{"api":2,"source":"testpack"}' }), 'a request with the wrong api gets no answer');
+ok(!H.onRequest({ id: `${NS}state_request`, message: `{"api":1,"source":"kaleidoscope_fishing"}` }), 'a request claiming to be us gets no answer');
+ok(!H.onRequest({ id: `${NS}state_request`, message: 'not json' }), 'a request that is not JSON gets no answer');
+const rc = ask('record', { p: 'nobody' });
+ok(rc.out[0]?.ok === false && rc.out[0].code === 'NO_PLAYER', 'record_request for a player who is not there answers NO_PLAYER');
+const cat = ask('catalog', { kind: 'catches', req: 7 });
+const items = cat.out.sort((a, b) => a.index - b.index).flatMap(m => m.items);
+ok(cat.out.length > 1 && cat.out.every(m => m.parts === cat.out.length && m.req === 7 && m.ok) && items.length === G.CATCHES.length,
+  `catalog catches comes in ${cat.out.length} parts with all ${G.CATCHES.length} catches`);
+ok(items.filter(i => i.legend).length === G.LEGENDS.length && items.every(i => Array.isArray(i.waters)), 'catalog catches marks the legends and lists the waters');
+const baits = ask('catalog', { kind: 'baits' }).out.flatMap(m => m.items);
+ok(baits.some(b => b.id === `${NS}earthworm`) && !baits.some(b => b.id === L.LURE), 'catalog baits lists the real baits, not the lure hook stand-in');
+ok(ask('catalog', { kind: 'nope' }).out[0]?.code === 'UNKNOWN_KIND', 'catalog of an unknown kind answers UNKNOWN_KIND');
+
+// ---------- 7. sister packs (1.5.0) ----------
+const F = await imp('api/family.js');
+F._resetFamily();
+mark = __sent.length;
+F.pingFamily();
+ok(['kaleidoscope_herbal', 'kaleidoscope_harvest', 'kaleidoscope_ranching'].every(ns => __sent.slice(mark).some(e => e[0] === `${ns}:api_ping` && e[1] === 'kaleidoscope_fishing')),
+  'the handshake pings Herbal, Harvest and Ranching with our namespace');
+mark = __sent.length;
+ok(!F.onFamilyEvent({ id: 'kaleidoscope_herbal:api_ready', message: '{"api":2,"capabilities":["external_heat"]}' }) && __sent.length === mark,
+  'a sister pack with a newer, incompatible api is left alone');
+ok(F.onFamilyEvent({ id: 'kaleidoscope_herbal:api_ready', message: JSON.stringify({ api: 1, source: 'kaleidoscope_herbal', version: '1.2.0', capabilities: ['events'], limits: {} }) }) && __sent.length === mark,
+  'Herbal without external_heat: we note it and send nothing');
+F.onFamilyEvent({ id: 'kaleidoscope_herbal:api_ready', message: JSON.stringify({ api: 1, source: 'kaleidoscope_herbal', version: '1.2.0', capabilities: ['external_heat'], limits: { itemsPerMessage: 32 } }) });
+const heatMsgs = sentSince(mark, 'kaleidoscope_herbal:heat_register');
+const heatRows = heatMsgs.flatMap(m => m.items);
+ok(heatMsgs.length >= 1 && heatMsgs.every(m => m.api === 1 && m.source === 'kaleidoscope_fishing' && m.items.length <= 32)
+  && heatRows.length === Object.keys(G.HERBAL_HEAT).length, `Herbal: ${heatRows.length} heat values sent in ${heatMsgs.length} message(s) of at most 32`);
+ok(F.familyInfo('kaleidoscope_herbal')?.version === '1.2.0' && F.familyInfo('kaleidoscope_harvest') === undefined, 'familyInfo tells who has answered');
+{
+  const foods = new Set();
+  for (const p of walk(join(BP, 'items'))) { const it = JSON.parse(readFileSync(p, 'utf8'))['minecraft:item']; if (it?.components?.['minecraft:food']) foods.add(it.description.identifier); }
+  const bad = Object.entries(G.HERBAL_HEAT).filter(([id, h]) => !foods.has(id) || !Number.isInteger(h) || h === 0 || h < -100 || h > 100);
+  ok(!bad.length, bad.length ? `HERBAL_HEAT entries that are not our food or not a non-zero integer -100..100: ${bad.map(b => b[0])}` : 'every HERBAL_HEAT entry is one of our food items with a heat of -100..100');
+}
+{
+  const n = warns.length;
+  F.onFamilyEvent({ id: 'kaleidoscope_herbal:heat_ack', message: JSON.stringify({ api: 1, to: 'someone_else', ok: true, accepted: 0, rejected: [{ id: 'x:y', code: 'TAKEN' }] }) });
+  ok(warns.length === n, "an ack addressed to another pack is not ours to report");
+  F.onFamilyEvent({ id: 'kaleidoscope_herbal:heat_ack', message: JSON.stringify({ api: 1, to: 'kaleidoscope_fishing', ok: true, accepted: 1, rejected: [{ id: `${NS}oden`, code: 'TAKEN' }] }) });
+  F.onFamilyEvent({ id: 'kaleidoscope_herbal:heat_ack', message: JSON.stringify({ api: 1, to: 'kaleidoscope_fishing', ok: true, accepted: 1, rejected: [{ id: `${NS}oden`, code: 'TAKEN' }] }) });
+  ok(warns.length === n + 1, 'a heat value Herbal rejects is reported once, however often it is sent again');
+}
+mark = __sent.length;
+F.onFamilyEvent({ id: 'kaleidoscope_ranching:api_ready', message: JSON.stringify({ api: 1, version: '1.0.0', capabilities: ['register_feed'] }) });
+const oldFeeds = sentSince(mark, 'kaleidoscope_ranching:register_feed');
+mark = __sent.length;
+F.onFamilyEvent({ id: 'kaleidoscope_ranching:api_ready', message: JSON.stringify({ api: 1, version: '1.1.0', capabilities: ['register_feed', 'feed_1_1'] }) });
+const newFeeds = sentSince(mark, 'kaleidoscope_ranching:register_feed');
+ok(oldFeeds.length === G.RANCHING_FEEDS.filter(f => !f.needs).length && newFeeds.length === G.RANCHING_FEEDS.length
+  && newFeeds.every(f => f.item.startsWith(NS) && typeof f.kind === 'string' && f.units >= 1 && f.units <= 9),
+  `Ranching: ${newFeeds.length} feeds registered, one per message (${oldFeeds.length} for a Ranching without feed_1_1)`);
+{
+  const n = warns.length;
+  F.onFamilyEvent({ id: 'kaleidoscope_ranching:api_result', message: JSON.stringify({ event: 'register_feed', id: 'other_pack:oats', ok: false, error: 'x' }) });
+  F.onFamilyEvent({ id: 'kaleidoscope_ranching:api_result', message: JSON.stringify({ event: 'register_feed', id: `${NS}fish_meal`, ok: true }) });
+  ok(warns.length === n, "Ranching's results for other packs, and its acceptances, are not reported");
+  F.onFamilyEvent({ id: 'kaleidoscope_ranching:api_result', message: JSON.stringify({ event: 'register_feed', id: `${NS}fish_meal`, ok: false, error: 'built-in feeds cannot be replaced' }) });
+  ok(warns.length === n + 1, 'a feed Ranching refuses is reported');
+}
+mark = __sent.length;
+ok(F.onFamilyEvent({ id: 'kaleidoscope_harvest:api_ready', message: JSON.stringify({ api: 1, version: '1.0.0', capabilities: [] }) }) && __sent.length === mark
+  && F.familyInfo('kaleidoscope_harvest')?.version === '1.0.0', 'Harvest: the handshake is remembered and nothing is sent yet');
+ok(!F.onFamilyEvent({ id: 'some_other_pack:api_ready', message: '{"api":1}' }), 'api_ready from a pack outside the family is ignored');
+
+// Against the sister packs' own code, when their repositories are checked out next to this one.
+const beside = name => [name, name.replace(/(^|_)([a-z])/g, (_, a, b) => a + b.toUpperCase()).replace(/_Br$/, '_BR')].map(n => join(ROOT, '..', n)).find(existsSync);
+const herbalRepo = beside('kaleidoscope_herbal_br');
+if (herbalRepo) {
+  const core = await import(pathToFileURL(join(herbalRepo, 'Kaleidoscope Herbal [BP]', 'scripts', 'api', 'herbalHostCore.js')).href);
+  const out = [], externalHeat = new Map();
+  const host = core.createHerbalHost({ send: (id, message) => out.push([id, JSON.parse(message)]), now: () => 0, version: 'test', catalogs: {},
+    externalHeat, ownsItem: id => id.startsWith('kaleidoscope_herbal:'), getPlayer: () => undefined, getHeat: () => 0, shiftHeat: () => ({ heat: 0 }), log: () => {} });
+  for (const m of heatMsgs) host.handle('kaleidoscope_herbal:heat_register', JSON.stringify(m), 'Server');
+  const acks = out.filter(e => e[0] === 'kaleidoscope_herbal:heat_ack').map(e => e[1]);
+  const accepted = acks.reduce((n, a) => n + (a.accepted ?? 0), 0), refused = acks.flatMap(a => a.rejected ?? []);
+  ok(acks.length === heatMsgs.length && acks.every(a => a.ok && a.to === 'kaleidoscope_fishing') && accepted === heatRows.length && !refused.length && externalHeat.size === heatRows.length,
+    `Herbal's own host code accepts all ${heatRows.length} of our heat values (${refused.length} rejected${refused.length ? ': ' + JSON.stringify(refused) : ''})`);
+} else console.log('NOTE Herbal repository not found next to this one: heat_register checked against our reading of its API only');
+const ranchRepo = beside('kaleidoscope_ranching_br');
+if (ranchRepo) {
+  const api = readFileSync(join(ranchRepo, 'packs', 'BP', 'scripts', 'api', 'ranchingApi.js'), 'utf8');
+  const feeds = readFileSync(join(ranchRepo, 'packs', 'BP', 'scripts', 'data', 'feeds.js'), 'utf8');
+  const kinds = new Set([...(api.match(/const FEED_KINDS = \{([^}]*)\}/)?.[1] ?? '').matchAll(/(\w+):/g)].map(m => m[1]));
+  const caps = new Set([...(api.match(/export const CAPABILITIES = \[([\s\S]*?)\];/)?.[1] ?? '').matchAll(/"([a-z0-9_]+)"/g)].map(m => m[1]));
+  ok(G.RANCHING_FEEDS.every(f => kinds.has(f.kind) && (!f.needs || caps.has(f.needs))) && caps.has('register_feed'),
+    `Ranching's own API knows every feed kind and capability we use (${[...new Set(G.RANCHING_FEEDS.map(f => f.kind))].join(', ')})`);
+  ok(G.RANCHING_FEEDS.every(f => !feeds.includes(`"${f.item}"`)), 'none of the feeds we register is already built into Ranching (it would be refused)');
+} else console.log('NOTE Ranching repository not found next to this one: register_feed checked against our reading of its API only');
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

@@ -17,6 +17,7 @@ import { rollCatch, rollSize } from "../fishing/loot.js";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, timeSlot } from "../fishing/water.js";
 import { LARGE, MEDIUM, classOf, loreFor, rangeOf } from "../fishing/size.js";
 import { recordCatch } from "../journal/records.js";
+import { emitCaught } from "../api/host.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
@@ -97,6 +98,7 @@ function landTipUp(player, block) {
     cls = MEDIUM;
   }
   const rec = cm !== undefined ? recordCatch(player, id, cm) : recordCatch(player, id);
+  emitCaught(player, id, { via: "tip_up", size: cm, cls, rec });
   const stack = new ItemStack(id, 1);
   if (cls) { try { stack.setLore(loreFor(cls, rec.newBest ? cm : undefined)); } catch {} }
   if (rec.newBest || tryStore(player, id, 1, cls) !== 0) give(player, stack);

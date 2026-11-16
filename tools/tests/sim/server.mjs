@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const BP = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', 'Kaleidoscope Fishing Voyage [BP]');
 
 export const __subs = {};
+export const __sent = [];          // [id, message] of every system.sendScriptEvent
 export const __log = { sounds: [], messages: [], particles: [], commands: [], forms: [], errors: [] };
 const fail = m => { __log.errors.push(m); throw new Error(m); };
 const queue = [];
@@ -207,7 +208,7 @@ export const system = {
   runInterval() { return 1; },
   runJob() { return 1; },
   clearRun() {},
-  sendScriptEvent() {},
+  sendScriptEvent(id, message) { __sent.push([id, message]); },
 };
 export const EnchantmentTypes = { get: id => ({ id }) };
 export class MolangVariableMap { setFloat() {} setColorRGB() {} setColorRGBA() {} setVector3() {} setSpeedAndDirection() {} }

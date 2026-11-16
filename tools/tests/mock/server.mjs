@@ -2,6 +2,7 @@
 // and every event subscription is recorded in `__subs` so tests can fire them.
 export const __subs = {};
 export const __timers = [];
+export const __sent = [];          // [id, message] of every system.sendScriptEvent
 
 function deep(name = 'mock') {
   const fn = function () {};
@@ -51,7 +52,7 @@ export const system = new Proxy({
   runInterval(fn, t) { __timers.push(['interval', fn, t]); return 1; },
   runJob() { return 1; },
   clearRun() {},
-  sendScriptEvent() {},
+  sendScriptEvent(id, message) { __sent.push([id, message]); },
 }, { get: (t, k) => (k in t ? t[k] : deep(`system.${String(k)}`)) });
 
 export class ItemStack {

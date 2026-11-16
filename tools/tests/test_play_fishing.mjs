@@ -12,7 +12,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, tick, breakBlock, inv, st, clearInv, P, NS, D, log, flush, fire, importScript,
-  answers, S, BP, clock, GameMode, guard } from './sim/play.mjs';
+  answers, S, BP, clock, GameMode, guard, sent, evts } from './sim/play.mjs';
 
 // ---------------------------------------------------------------- mock extensions (this file only)
 // timers: loops created after boot run on our clock; everything earlier (schools, gulls, merchant...) stays idle
@@ -209,11 +209,15 @@ D.getWeather = () => 'Clear';
   ok(waitFor(() => s.phase === 'bite', 600), `bamboo rod: a bite comes (age ${s.age})`);
   advance(2);
   ok(bobbers.at(-1).location.y < y0 - 0.2, `bamboo rod: on a bite the bobber is pulled under (${y0.toFixed(2)} -> ${bobbers.at(-1).location.y.toFixed(2)})`);
+  const sent0 = sent.length;                 // a small fish lands on the strike itself, a big one after the fight
   cool(); press();
   const id = s.catchId;
   ok(!!id, `bamboo rod: striking during the bite hooks something (${id})`);
   fight('bot');
   const d = allDrops();
+  const heard = evts(sent0).filter(e => e.t === 'caught');
+  ok(heard.length === 1 && heard[0].id === id && heard[0].via === 'rod' && heard[0].p === P.id && typeof heard[0].first === 'boolean',
+    `bamboo rod: other packs hear "caught" once for the landed fish (${JSON.stringify(heard)})`);
   ok(session() === undefined && d.some(x => x.id === id), `bamboo rod: the catch is landed (drops: ${d.map(x => x.id.split(':')[1]).join(', ')})`);
   ok(!bobbers.at(-1).isValid, 'bamboo rod: the bobber is removed after landing');
   ok(!loops.size, 'bamboo rod: the tick loop stops when no bobber is out');

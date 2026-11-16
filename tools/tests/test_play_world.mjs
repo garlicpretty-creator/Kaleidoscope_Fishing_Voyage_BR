@@ -489,7 +489,10 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna'.slice(1), NS + 'anglerfish'].map(x => x.replace('::', ':'))));
   m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish']));
   clearInv(); P.hold(NS + 'tuna', 3);
+  const sent0 = sent.length;
   const ev = interactEntity(m);
+  const sold = sent.slice(sent0).filter(e => e.id === 'kaleidoscope_fishing:evt').map(e => JSON.parse(e.msg)).filter(e => e.t === 'sold');
+  ok(sold.length === 1 && sold[0].id === NS + 'tuna' && sold[0].n === 3 && sold[0].paid === 12 && sold[0].p === P.id, `merchant: other packs hear "sold" with the fish, the count and the emeralds (${JSON.stringify(sold)})`);
   ok(ev.cancel && inv('tuna') === 0 && inv('minecraft:emerald') === 12, `merchant: 3 wanted tuna (2 emeralds each) pay double: ${inv('minecraft:emerald')} emeralds (want 12)`);
   clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
   ok(inv('minecraft:emerald') === 1 && Math.abs(Number(P.getDynamicProperty(NS + 'merchant_credit')) - 0.5) < 1e-9, `merchant: 3 octopus (0.5 each, not wanted) pay 1 emerald and 0.5 credit (${inv('minecraft:emerald')}, credit ${P.getDynamicProperty(NS + 'merchant_credit')})`);

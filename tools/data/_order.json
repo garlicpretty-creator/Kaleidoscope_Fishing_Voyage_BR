@@ -110,5 +110,13 @@
   {
     "name": "GUIDEBOOK_JSON",
     "ascii": true
+  },
+  {
+    "name": "HERBAL_HEAT",
+    "ascii": true
+  },
+  {
+    "name": "RANCHING_FEEDS",
+    "ascii": true
   }
 ]

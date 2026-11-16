@@ -7,7 +7,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, tick, wait, breakBlock, place, inv, st, clearInv, drops, P, NS, D, log, flush,
-  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown } from './sim/play.mjs';
+  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts } from './sim/play.mjs';
 setComps(await boot());
 
 // ---------- drying rack ----------
@@ -86,7 +86,10 @@ setComps(await boot());
   P.hold(NS + 'grey_mullet', 1); use(c);
   ok(st(c, 'cut') > 0 && !P.held(), `cleaning board: a grey mullet is laid on the board (cut ${st(c, 'cut')})`);
   P.hold(NS + 'fishing_knife', 1);
+  const sent0 = sent.length;
   let guard = 0; while (st(c, 'cut') > 0 && guard++ < 5) use(c);
+  const cleaned = evts(sent0).filter(e => e.t === 'cleaned');
+  ok(cleaned.length === 1 && cleaned[0].id === NS + 'grey_mullet' && cleaned[0].p === P.id, `cleaning board: other packs hear "cleaned" once, at the last cut (${JSON.stringify(cleaned)})`);
   const got = P.inv.slots.filter(Boolean).map(s => s.typeId).concat(drops().map(x => x.id));
   ok(got.includes(NS + 'fish_scales') && got.includes(NS + 'fish_offal') && got.includes(NS + 'fish_bones') && st(c, 'cut') === 0,
     `cleaning board: three knife cuts give scales, offal, fillets and bones (${[...new Set(got)].map(x => x.split(':')[1]).join(', ')})`);
