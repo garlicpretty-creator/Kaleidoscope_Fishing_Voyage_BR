@@ -79,7 +79,25 @@ def creel():
     c.save('BASKET_ITEMS', items)
 
 
+def journal():
+    """Step 1: the journal's settings page."""
+    J = f'{c.NS}.journal.'
+    for key, en, tw, cn in [
+        ('settings', 'Settings', '設定', '设置'),
+        ('settings_charset', 'Reeling track drawn as: %1$s', '收線軌道的樣式：%1$s', '收线轨道的样式：%1$s'),
+        ('settings_use_block', 'Draw it with blocks  ▕██ ▏', '改用方塊字元 ▕██ ▏', '改用方块字符 ▕██ ▏'),
+        ('settings_use_ascii', 'Draw it with plain characters  [## ]', '改用一般字元 [## ]', '改用普通字符 [## ]'),
+        ('settings_minigame_on', 'Reeling minigame: on (for the whole world)', '收線小遊戲：開啟（整個世界）', '收线小游戏：开启（整个世界）'),
+        ('settings_minigame_off', 'Reeling minigame: off (for the whole world)', '收線小遊戲：關閉（整個世界）', '收线小游戏：关闭（整个世界）'),
+        ('settings_op_only', 'Only an operator can turn the minigame on or off.', '只有管理員可以開關小遊戲。', '只有管理员可以开关小游戏。'),
+        ('settings_turn_off', 'Turn the minigame off', '關閉小遊戲', '关闭小游戏'),
+        ('settings_turn_on', 'Turn the minigame on', '開啟小遊戲', '开启小游戏'),
+    ]:
+        c.lang(J + key, en, tw, cn, packs=(c.RP,))
+
+
 if __name__ == '__main__':
     legends()
     creel()
+    journal()
     print('1.5.0 content written; now run: python tools/build.py build')

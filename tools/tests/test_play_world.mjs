@@ -670,8 +670,27 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
     ok(fs.map(titleOf).join() === want.join() && fs[1].buttons.length === list.length + 1 && bodyOk,
       `journal: index > ${g} (${list.length} species) > ${short(list[0].id)} page > ${g} > index`);
   }
-  fs = await openJournal([GROUPS.length + 2]);
-  ok(fs.length === 1, 'journal: the close button closes the journal');
+  fs = await openJournal([GROUPS.length + 3]);
+  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 4, 'journal: the close button closes the journal');
+  // 1.5.0 settings: each player's own track style; only an operator sees the minigame switch
+  {
+    const SW = await importScript('fishing/minigameSwitch.js');
+    const SET = GROUPS.length + 2;
+    SW._reset(); P.setDynamicProperty(NS + 'charset', undefined);
+    delete P.commandPermissionLevel; delete P.playerPermissionLevel;
+    fs = await openJournal([SET, 0, 1, 0]);
+    ok(fs.map(titleOf).slice(0, 2).join() === [J + 'title', J + 'settings'].join() && fs[1].buttons.length === 2 && JSON.stringify(fs[1].body).includes('settings_op_only'),
+      'journal settings: a player who is not an operator sees the track style and Back, and is told why there is no switch');
+    ok(SW.charsetFor(P) === 'ascii' && SW.charset() === 'block', `journal settings: the track style is the player's own (theirs ${SW.charsetFor(P)}, the world's ${SW.charset()})`);
+    ok(SW.charsetFor({ getDynamicProperty: () => undefined }) === 'block', 'journal settings: a player who has not chosen follows the world');
+    ok(SW.minigameOn(), 'journal settings: without operator rights the minigame stays as it was');
+    P.commandPermissionLevel = 1;
+    fs = await openJournal([SET, 1, 2, 0]);
+    ok(fs[1].buttons.length === 3 && !SW.minigameOn() && JSON.stringify(fs[2].body).includes('settings_minigame_off'), 'journal settings: an operator turns the minigame off for the world');
+    fs = await openJournal([SET, 1, 0, 2, 0]);
+    ok(SW.minigameOn() && SW.charsetFor(P) === 'block', 'journal settings: and on again; the track style switches back');
+    delete P.commandPermissionLevel; P.setDynamicProperty(NS + 'charset', undefined); SW._reset();
+  }
   P.setDynamicProperty(NS + 'journal', undefined);
 }
 

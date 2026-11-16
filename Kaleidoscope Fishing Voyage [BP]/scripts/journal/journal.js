@@ -9,6 +9,7 @@ import { getRecords } from "./records.js";
 import { moonPhase, tideState } from "../fishing/water.js";
 import { showRecipes } from "./recipes.js";
 import { wantsNear } from "../world/merchant.js";
+import { charsetFor, minigameOn, setCharsetFor, setMinigame } from "../fishing/minigameSwitch.js";
 
 const NS = "kaleidoscope_fishing";
 const JOURNAL = `${NS}:angler_journal`;
@@ -36,13 +37,42 @@ async function showIndex(player) {
   form.button(t("recipes"), "textures/ui/kfv_book/kfv_cat_recipes");
   form.button(t("tide"), "textures/ui/kfv_book/kfv_tide");
   for (const g of GROUPS) form.button(t(`group_${g}`), groupIcon(g));
+  form.button(t("settings"));
   form.button(t("close"));
   const res = await form.show(player);
-  if (res.canceled || res.selection === undefined || res.selection > GROUPS.length + 1) return;
+  if (res.canceled || res.selection === undefined || res.selection > GROUPS.length + 2) return;
   pageSound(player);
   if (res.selection === 0) return showRecipes(player, () => showIndex(player));
   if (res.selection === 1) return showTide(player);
+  if (res.selection === GROUPS.length + 2) return showSettings(player);
   return showGroup(player, GROUPS[res.selection - 2]);
+}
+
+/** Someone who may change a world setting: an operator. The API has named this differently over time, so ask every way. */
+export function isOperator(player) {
+  try { if (typeof player.commandPermissionLevel === "number") return player.commandPermissionLevel >= 1; } catch {}
+  try { if (typeof player.playerPermissionLevel === "number") return player.playerPermissionLevel === 2; } catch {}
+  try { if (typeof player.isOp === "function") return !!player.isOp(); } catch {}
+  return false;
+}
+
+// 1.5.0: settings without commands. Each player picks how the reeling track is drawn for them; an operator can
+// turn the minigame off or on for the world. The /scriptevent command still works.
+async function showSettings(player) {
+  const op = isOperator(player);
+  const mine = charsetFor(player);
+  const body = { rawtext: [t("settings_charset", { block: "▕██ ▏", ascii: "[## ]" }[mine]), { text: "\n" },
+    t(minigameOn() ? "settings_minigame_on" : "settings_minigame_off"), ...(op ? [] : [{ text: "\n" }, t("settings_op_only")])] };
+  const form = new ActionFormData().title(t("settings")).body(body);
+  form.button(t(mine === "block" ? "settings_use_ascii" : "settings_use_block"));
+  if (op) form.button(t(minigameOn() ? "settings_turn_off" : "settings_turn_on"));
+  form.button(t("back"));
+  const res = await form.show(player);
+  if (res.canceled || res.selection === undefined) return;
+  pageSound(player);
+  if (res.selection === 0) { setCharsetFor(player, mine === "block" ? "ascii" : "block"); return showSettings(player); }
+  if (op && res.selection === 1) { setMinigame(!minigameOn()); return showSettings(player); }
+  return showIndex(player);
 }
 
 // v1.4: one page per water, listing its species.
