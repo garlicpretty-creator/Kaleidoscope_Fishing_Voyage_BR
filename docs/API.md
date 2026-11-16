@@ -1,0 +1,233 @@
+# 森羅物語：漁歌 — 對外 API（API 1）
+
+其他附加包透過 **Script Event** 和漁歌溝通，命名空間一律是 `kaleidoscope_fishing`。做法和森羅廚房、草本、樂牧相同：`api_ping` → `api_ready`，再依 `capabilities` 決定要用哪些功能。**不要 import 漁歌行為包裡的腳本。**
+
+這份文件對應 **1.5.0（開發中）**。標「1.4.0」的在發行版就能用；標「1.5.0」的要等 1.5.0 發行。1.5.0 還會再增加魚案板、魚缸、魚池飼料的註冊與天象條件，見 [`PLAN_1.5.0.md`](PLAN_1.5.0.md) 第 11 節；加進來時這份文件會同步更新。
+
+Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_fishing` namespace, the same ping / ready pattern Cookery, Herbal and Ranching use. Never import Fishing Voyage's scripts.
+
+## 通用規則
+
+| 項目 | 規定 |
+| --- | --- |
+| 傳輸 | `system.sendScriptEvent(id, message)`，`message` 是一行 JSON，長度不超過 2048 字元 |
+| 請求必填 | `api: 1`、`source`：你的命名空間（`[a-z0-9_.-]`，不可以是 `kaleidoscope_fishing`） |
+| 回覆定址 | 回覆是廣播，帶 `to: <你的 source>`；請只處理 `to` 等於自己的訊息 |
+| 對應請求 | 查詢可以帶 `req`（字串或數字，最長 32 字），回覆原樣帶回 |
+| 不合格的請求 | JSON 壞掉、`api` 不是 1、`source` 不合規：查詢不回覆；註冊在內容日誌留一行 `[Fishing Voyage] Rejected …` |
+| 持久性 | 漁歌不保存任何外部註冊；每次載入世界，收到 `api_ready` 之後要重送一次（重送沒有副作用） |
+| 沒裝漁歌 | 不會有任何回覆；你的附加包應該照常運作 |
+| 相容性 | 新功能只會**增加** capability 或事件，不會改動既有欄位的意思；有破壞性變更才會升 `api` |
+
+## 握手
+
+| 方向 | 事件 | 內容 |
+| --- | --- | --- |
+| → 漁歌 | `kaleidoscope_fishing:api_ping` | 任意字串（建議放你的 `source`） |
+| ← 漁歌 | `kaleidoscope_fishing:api_ready` | `{"api":1,"source":"kaleidoscope_fishing","version":"1.5.0","capabilities":[...]}` |
+
+漁歌在世界載入後 10 tick 會主動廣播一次 `api_ready`；比較晚載入的附加包自己送 `api_ping` 會得到同樣的回覆。
+
+### capabilities
+
+| 名稱 | 版本 | 意義 |
+| --- | --- | --- |
+| `bait` | 1.4.0 | 可以註冊餌：`register_bait` |
+| `catch` | 1.4.0 | 可以註冊漁獲：`register_catch` |
+| `price` | 1.5.0 | 可以註冊漁販的收購價：`register_price` |
+| `events` | 1.5.0 | 會廣播 `kaleidoscope_fishing:evt` |
+| `state` | 1.5.0 | 可以查詢潮汐、月相、時段：`state_request` |
+| `records` | 1.5.0 | 可以查詢玩家的釣魚紀錄：`record_request` |
+| `catalog` | 1.5.0 | 可以查詢漁獲與餌的清單：`catalog_request` |
+
+用之前先確認清單裡有；1.4.0 的漁歌只有 `bait`、`catch`。
+
+## 註冊
+
+三種註冊的共同規則：
+
+- 只能註冊**自己命名空間**的物品，物品必須存在。
+- 一則訊息 1–32 筆；每個來源每種最多 64 筆。
+- 同一個 `id` 先註冊的來源保有它；同一個來源重送是更新。
+- 沒有回覆事件。被拒絕的項目各在內容日誌留一行，說明原因。
+
+### 餌 — `register_bait`（1.4.0）
+
+```json
+{"api":1,"source":"my_pack","baits":[{"id":"my_pack:corn_bait","biteFactor":0.7}]}
+```
+
+`biteFactor` 是等待咬鉤時間的倍率，0.5–1，越小越快（漁歌自己最好的餌是 0.5）；不寫是 0.75。
+
+### 漁獲 — `register_catch`（1.4.0）
+
+```json
+{"api":1,"source":"my_pack","catches":[{"id":"my_pack:glow_eel","w":6,"waters":["river"],"size":[30,80],"needBait":["my_pack:corn_bait"]}]}
+```
+
+| 欄位 | 意思 | 限制 |
+| --- | --- | --- |
+| `id` | 釣到的物品 | 必填 |
+| `w` | 出現權重 | 必填，整數 1–20（漁歌的稀有魚不超過 12，常見魚是 30） |
+| `waters` | 出現的水域 | 見下方清單 |
+| `needs` | 另外必須符合的水域 | 同上 |
+| `size` | `[最小, 最大]` 公分 | 整數 1–500 |
+| `fight` | 掙扎強度 | 整數 0–3 |
+| `tier`、`tier_bonus` | 需要的釣竿等級；高級釣竿的加成 | 1–3；0–3 |
+| `min_depth`、`max_depth` | 水深 | 整數 0–64 |
+| `time`、`off` | 只在 `"day"` 或 `"night"`；非該時段的倍率 | `off` 0–1 |
+| `slots` | 時段 | `dawn`、`day`、`dusk`、`night` |
+| `moon`、`moon_boost` | `"full"`，或月相編號陣列（0 滿月 … 4 新月）加倍率 | `moon_boost` 1–2 |
+| `tide` | `{"high":倍率,"low":倍率}` | 各 0–3 |
+| `rain`、`cold`、`dawn_dusk`、`school` | 下雨、寒冷、晨昏、魚群的倍率 | 0–3 |
+| `bait` | 特定餌的倍率 `{"<餌>":1.5}` | 0–3；餌必須是內建或已註冊的 |
+| `needBait` | 只有用這些餌才上鉤 | 同上 |
+
+水域：`river`、`lake`、`swamp`、`mangrove`、`estuary`、`beach`、`ocean`、`warm_ocean`、`cold_ocean`、`deep_ocean`、`cave`、`ice`、`lava`、`end_pond`、`void`。
+
+不接受：`req`（傳說魚條件）、`sky`（天象，1.5.0 之後開放）。
+
+### 漁販收購價 — `register_price`（1.5.0）
+
+```json
+{"api":1,"source":"my_pack","prices":[{"id":"my_pack:glow_eel","price":0.5}]}
+```
+
+- `price`：中型一條值幾顆綠寶石，0.05–3（漁歌最貴的鮟鱇魚、熔岩錦鯉是 3）。
+- 尺寸的倍率和漁歌的魚一樣：小型 ×0.6、大型 ×1.6、破紀錄 ×2.5。沒有尺寸資料的物品照中型算。
+- 和漁歌的魚共用漁販的錢袋。
+- 外部的魚不會成為漁販當天想收的魚。
+- 不能替 `minecraft:` 或漁歌自己的物品訂價。
+
+## 事件廣播 — `events`（1.5.0）
+
+`kaleidoscope_fishing:evt`，一行 JSON：`{"v":1,"t":"<事件>","p":"<player.id>", ...}`。格式和草本的 `kaleidoscope_herbal:evt` 相同。
+
+| `t` | 其他欄位 | 時機 |
+| --- | --- | --- |
+| `caught` | `id`、`via`、`size`?、`cls`、`legend`、`first`、`record` | 一條漁獲上岸 |
+| `cleaned` | `id` | 魚案板上一條魚切完最後一刀 |
+| `sold` | `id`、`n`、`paid` | 把魚賣給漁販；`paid` 是這次拿到的綠寶石 |
+| `tide` | `state`：`high` 或 `low` | 潮汐轉換。世界事件，沒有 `p` |
+
+`caught` 的欄位：
+
+| 欄位 | 內容 |
+| --- | --- |
+| `id` | 漁獲的物品 ID（也包含其他附加包註冊的漁獲） |
+| `via` | `rod`（釣竿）或 `tip_up`（冰洞的插旗浮標） |
+| `size` | 公分；沒有尺寸的漁獲（蝦、蟹等）沒有這個欄位 |
+| `cls` | 0 沒有尺寸、1 小型、2 中型、3 大型 |
+| `legend` | 是不是傳說魚 |
+| `first` | 這位玩家第一次釣到這種 |
+| `record` | 打破了這位玩家自己的紀錄 |
+
+蝦籠收成、鸕鶿抓魚、挖蛤不算 `caught`。
+
+## 查詢
+
+### 現在的漁況 — `state_request`（1.5.0）
+
+請求：`{"api":1,"source":"my_pack","req":"1"}`
+
+回覆 `kaleidoscope_fishing:state`：
+
+```json
+{"api":1,"to":"my_pack","req":"1","ok":true,"tide":"high","moon":0,"slot":"dawn","day":12}
+```
+
+- `tide`：`high` 或 `low`。
+- `moon`：0 滿月 … 4 新月 … 7。
+- `slot`：`dawn`、`day`、`dusk`、`night`。
+- `day`：世界的天數。
+
+### 玩家的釣魚紀錄 — `record_request`（1.5.0）
+
+查一種魚：`{"api":1,"source":"my_pack","req":"2","p":"<player.id>","id":"kaleidoscope_fishing:carp"}`
+
+回覆 `kaleidoscope_fishing:record`：`{"api":1,"to":"my_pack","req":"2","p":"...","ok":true,"id":"kaleidoscope_fishing:carp","n":7,"best":64}`
+
+- `n`：釣到幾次（0 表示沒釣過）。
+- `best`：最大的尺寸，公分；沒有尺寸的漁獲或沒釣過就沒有這個欄位。
+
+不帶 `id` 就查總覽：`{"ok":true,"caught":23,"total":52,"legends":1,"legendTotal":4}`。
+
+`p` 不是線上玩家時回 `{"ok":false,"code":"NO_PLAYER"}`。
+
+### 清單 — `catalog_request`（1.5.0）
+
+請求：`{"api":1,"source":"my_pack","req":"3","kind":"catches"}`
+
+回覆 `kaleidoscope_fishing:catalog`，可能分成多封；收齊 `parts` 封後依 `index` 合併 `items`：
+
+```json
+{"api":1,"to":"my_pack","req":"3","kind":"catches","ok":true,"index":0,"parts":4,"items":[...]}
+```
+
+| `kind` | `items` 每筆 |
+| --- | --- |
+| `catches` | `{id, waters, group?, size?, legend?, source?}`：`group` 是手帳的分頁；其他附加包註冊的漁獲帶註冊者的 `source` |
+| `baits` | `{id, biteFactor, source?}` |
+
+未知的 `kind` 回 `{"ok":false,"code":"UNKNOWN_KIND","kinds":["catches","baits"]}`。
+
+## 標籤與指令
+
+- **刀**：任何帶 `kaleidoscope_cookery:kitchen_knife` 標籤的物品都能在魚案板下刀，用它殺魷魚也會掉魷魚。
+- **小遊戲開關**（管理員指令，不是給附加包用的）：`/scriptevent kaleidoscope_fishing:minigame on | off | status | charset block | charset ascii`
+
+## 漁歌會主動找的附加包
+
+漁歌載入一秒後會送出下面三個 `api_ping`。有回覆才會動作；沒裝的話什麼都不會發生，也不會在日誌留訊息。
+
+| 附加包 | 漁歌送出 | 效果 |
+| --- | --- | --- |
+| 森羅物語：草本 `kaleidoscope_herbal` | `heat_register`（需要 `external_heat`） | 33 道漁歌料理有寒熱值：螃蟹、生魚片、海苔偏寒；蝦、鰻魚、炸物、辣菜、火鍋、下界料理偏熱 |
+| 森羅物語：樂牧 `kaleidoscope_ranching` | `register_feed`（需要 `register_feed`） | 魚粉（混合飼料，2 份）、魚乾（穀物類，1 份）可以放進飼槽；蝦米是補鈣飼料（需要 `feed_1_1`） |
+| 森羅物語：豐收 `kaleidoscope_harvest` | 只有 `api_ping` | 豐收還沒有發行。漁歌會記住它的 `api_ready`，等它的作物物品 ID 確定後再加入用到那些作物的配方 |
+
+漁歌另外會聽：
+
+| 事件 | 來源 | 漁歌的反應 |
+| --- | --- | --- |
+| `kaleidoscope_cookery:api_ready` / `guidebook_ready` | 森羅廚房 | 註冊配方與湯底；發布圖鑑的漁歌分頁 |
+| `aww:evt` 的 `autofed` | A Witch Way | 背包自動餵食漁歌料理時，照樣給料理的效果 |
+
+## 給草本、樂牧、豐收的對照
+
+| 你想做的事 | 用什麼 |
+| --- | --- |
+| 讓自己的物品能當魚餌 | `register_bait`（樂牧已經在用） |
+| 加自己的魚 | `register_catch`，可以搭配 `needBait` 限定要用自己的餌 |
+| 讓漁販收自己的魚 | `register_price` |
+| 玩家釣到魚、釣到傳說魚、破紀錄時做反應 | 聽 `evt` 的 `caught`，看 `legend`、`first`、`record` |
+| 依潮汐或月相改變自己的內容 | `state_request`，並聽 `evt` 的 `tide` |
+| 任務或成就要知道玩家釣過什麼 | `record_request` |
+| 列出漁歌有哪些魚（做手冊頁、掉落表） | `catalog_request` |
+
+### 最小範例
+
+```js
+import { system } from "@minecraft/server";
+
+const ME = "my_pack";
+let fishing;                                   // 漁歌的 api_ready；沒裝漁歌就一直是 undefined
+
+system.afterEvents.scriptEventReceive.subscribe(ev => {
+  let m;
+  try { m = JSON.parse(ev.message); } catch { return; }
+  if (ev.id === "kaleidoscope_fishing:api_ready" && m.api === 1) {
+    fishing = m;
+    if (m.capabilities.includes("bait"))
+      system.sendScriptEvent("kaleidoscope_fishing:register_bait",
+        JSON.stringify({ api: 1, source: ME, baits: [{ id: `${ME}:corn_bait`, biteFactor: 0.7 }] }));
+  } else if (ev.id === "kaleidoscope_fishing:evt" && m.v === 1) {
+    if (m.t === "caught" && m.legend) { /* 玩家 m.p 釣到傳說魚 m.id */ }
+    if (m.t === "tide") { /* 潮汐變成 m.state */ }
+  } else if (ev.id === "kaleidoscope_fishing:state" && m.to === ME) {
+    /* m.tide, m.moon, m.slot */
+  }
+}, { namespaces: ["kaleidoscope_fishing"] });
+
+system.runTimeout(() => system.sendScriptEvent("kaleidoscope_fishing:api_ping", ME), 20);
+```

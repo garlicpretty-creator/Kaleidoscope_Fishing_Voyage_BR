@@ -58,7 +58,8 @@ To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame of
 | `kaleidoscope_fishing:register_catch` | 你 → 漁歌 | `{"api":1,"source":"<ns>","catches":[{"id":"<item>","w":6,"waters":["river"],"size":[20,60]}]}` |
 
 - 只能註冊自己命名空間的物品；每次載入世界，收到 `api_ready` 之後要重新註冊。 / Register only items of your own namespace, again on every world load after `api_ready`.
-- 完整的欄位與限制寫在 `scripts/fishing/registry.js` 開頭的註解。 / The full field list and limits are in the header of `scripts/fishing/registry.js`.
+- 完整的介面文件：[`docs/API.md`](docs/API.md)（含 1.5.0 開發中的事件廣播、查詢與漁販價格註冊）。 / Full reference: [`docs/API.md`](docs/API.md), including what 1.5.0 adds.
+- 1.5.0 的企劃書：[`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)。 / The plan for 1.5.0.
 - 帶 `kaleidoscope_cookery:kitchen_knife` 標籤的刀都能在魚案板使用。 / Any knife tagged `kaleidoscope_cookery:kitchen_knife` works on the fish cleaning board.
 
 ## 從原始碼打包 / Building from source
