@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tide_clock",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/kfv_tide_clock"
+      },
+      "geometry": {
+        "default": "geometry.kaleidoscope_fishing.tide_clock"
+      },
+      "animations": {
+        "tide": "animation.kaleidoscope_fishing.tide_clock.tide"
+      },
+      "scripts": {
+        "animate": [
+          "tide"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.kfv_tide_clock"
+      ]
+    }
+  }
+}

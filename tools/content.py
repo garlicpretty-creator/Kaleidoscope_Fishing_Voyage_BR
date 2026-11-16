@@ -138,13 +138,22 @@ def guide(key, category, mechanics, name, stack=16, recipes=None, food=None, use
         entry['food'] = food
     if recipes:
         entry['recipes'] = recipes
-    entry['mechanicsByLocale'] = {code: [text] for code, text in zip(LANGS, mechanics)}
-    entry['mechanics'] = [mechanics[0]]
+    lines = [m if isinstance(m, (list, tuple)) else [m] for m in mechanics]     # one paragraph, or several
+    entry['mechanicsByLocale'] = {code: list(text) for code, text in zip(LANGS, lines)}
+    entry['mechanics'] = list(lines[0])
     if used_by:
         entry['usedBy'] = [full(u) for u in used_by]
     g['entries'] = [e for e in g['entries'] if e['id'] != full(key)] + [entry]
     for code, text in zip(LANGS, name):
         g['names'][code][full(key)] = text
+    save('GUIDEBOOK_JSON', g)
+
+
+def guide_name(item_id, en, tw, cn):
+    """A name for an item another pack owns (a vanilla ingredient) that one of our guidebook pages shows."""
+    g = data('GUIDEBOOK_JSON')
+    for code, text in zip(LANGS, (en, tw, cn)):
+        g['names'][code][full(item_id)] = text
     save('GUIDEBOOK_JSON', g)
 
 

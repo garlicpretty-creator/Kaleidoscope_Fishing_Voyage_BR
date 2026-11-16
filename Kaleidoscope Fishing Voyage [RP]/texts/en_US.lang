@@ -638,3 +638,5 @@ kaleidoscope_fishing.journal.market_order=The fish merchant's order:
 kaleidoscope_fishing.journal.order_medium= (medium ◆◆ or larger)
 kaleidoscope_fishing.journal.order_progress=handed in %1$s / %2$s
 kaleidoscope_fishing.journal.order_done=filled
+kaleidoscope_fishing.display.item.tide_clock=Tide Clock\n§9§oKC: Fishing Voyage§r
+kaleidoscope_fishing.name.tide_clock=Tide Clock

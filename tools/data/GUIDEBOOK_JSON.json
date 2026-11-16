@@ -7413,6 +7413,52 @@
    "mechanics": [
     "Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. An ice-blue float: sinks the bait 6 blocks deeper, and fish bite much sooner at night."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:tide_clock",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_tide_clock",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:copper_ingot",
+      "minecraft:copper_ingot",
+      "minecraft:clock",
+      "minecraft:copper_ingot",
+      "minecraft:copper_ingot"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:tide_clock"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
+     "The small moon near the low mark shows tonight's moon phase.",
+     "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still."
+    ],
+    "zh_TW": [
+     "拿在手上低頭看盤面。指針每一次潮汐轉一圈：指著遠端的藍色弧段時是漲潮，其他位置是退潮。",
+     "靠近退潮記號的小月亮顯示今晚的月相。",
+     "只有拿在手上時才會動：在物品欄或物品展示框裡圖案是靜止的。"
+    ],
+    "zh_CN": [
+     "拿在手上低头看盘面。指针每一次潮汐转一圈：指着远端的蓝色弧段时是涨潮，其他位置是退潮。",
+     "靠近退潮记号的小月亮显示今晚的月相。",
+     "只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。"
+    ]
+   },
+   "mechanics": [
+    "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
+    "The small moon near the low mark shows tonight's moon phase.",
+    "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still."
+   ]
   }
  ],
  "names": {
@@ -7703,7 +7749,9 @@
    "kaleidoscope_fishing:emperor_bone_hook": "Emperor Bone Hook",
    "kaleidoscope_fishing:whisker_line": "River Lord Whisker Line",
    "kaleidoscope_fishing:dragon_scale_bobber": "Dragon Scale Bobber",
-   "kaleidoscope_fishing:frost_scale_bobber": "Frost Scale Bobber"
+   "kaleidoscope_fishing:frost_scale_bobber": "Frost Scale Bobber",
+   "kaleidoscope_fishing:tide_clock": "Tide Clock",
+   "minecraft:clock": "Clock"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -7992,7 +8040,9 @@
    "kaleidoscope_fishing:emperor_bone_hook": "皇鮪骨鉤",
    "kaleidoscope_fishing:whisker_line": "河伯鬚線",
    "kaleidoscope_fishing:dragon_scale_bobber": "龍鱗浮標",
-   "kaleidoscope_fishing:frost_scale_bobber": "霜鱗浮標"
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鱗浮標",
+   "kaleidoscope_fishing:tide_clock": "潮汐鐘",
+   "minecraft:clock": "時鐘"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -8281,7 +8331,9 @@
    "kaleidoscope_fishing:emperor_bone_hook": "皇鲔骨钩",
    "kaleidoscope_fishing:whisker_line": "河伯须线",
    "kaleidoscope_fishing:dragon_scale_bobber": "龙鳞浮标",
-   "kaleidoscope_fishing:frost_scale_bobber": "霜鳞浮标"
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鳞浮标",
+   "kaleidoscope_fishing:tide_clock": "潮汐钟",
+   "minecraft:clock": "时钟"
   }
  },
  "text": {

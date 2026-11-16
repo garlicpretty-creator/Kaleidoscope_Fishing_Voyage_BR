@@ -682,6 +682,9 @@
     },
     "kfv_frost_scale_bobber": {
       "textures": "textures/items/kfv_frost_scale_bobber"
+    },
+    "kfv_tide_clock": {
+      "textures": "textures/items/kfv_tide_clock"
     }
   }
 }

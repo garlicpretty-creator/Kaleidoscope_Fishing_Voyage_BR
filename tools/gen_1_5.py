@@ -108,9 +108,31 @@ def merchant_order():
         c.lang(J + key, en, tw, cn, packs=(c.RP,))
 
 
+def tide_clock():
+    """Step 2: the Tide Clock. Its model, texture and icon come from tools/gen_tide_clock.py; the moving hand and
+    the moon are Molang in the resource pack (animations/tide_clock.animation.json, the render controller)."""
+    name = ('Tide Clock', '潮汐鐘', '潮汐钟')
+    c.item('tide_clock', stack=1)
+    c.names('tide_clock', *name)
+    c.icon('tide_clock')
+    c.catalog('tide_clock', 'angler_journal')
+    c.guide_name('minecraft:clock', 'Clock', '時鐘', '时钟')
+    recipe = {'method': 'Crafting Table', 'ingredients': ['minecraft:copper_ingot', 'minecraft:copper_ingot', 'minecraft:clock',
+              'minecraft:copper_ingot', 'minecraft:copper_ingot'], 'count': 1, 'time': 0, 'result': c.full('tide_clock')}
+    c.guide('tide_clock', 'tools', (
+        ['Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.',
+         "The small moon near the low mark shows tonight's moon phase.",
+         'It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.'],
+        ['拿在手上低頭看盤面。指針每一次潮汐轉一圈：指著遠端的藍色弧段時是漲潮，其他位置是退潮。', '靠近退潮記號的小月亮顯示今晚的月相。',
+         '只有拿在手上時才會動：在物品欄或物品展示框裡圖案是靜止的。'],
+        ['拿在手上低头看盘面。指针每一次潮汐转一圈：指着远端的蓝色弧段时是涨潮，其他位置是退潮。', '靠近退潮记号的小月亮显示今晚的月相。',
+         '只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。']), name, stack=1, recipes=[recipe])
+
+
 if __name__ == '__main__':
     legends()
     creel()
     journal()
     merchant_order()
+    tide_clock()
     print('1.5.0 content written; now run: python tools/build.py build')

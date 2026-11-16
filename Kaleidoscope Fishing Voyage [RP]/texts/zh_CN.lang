@@ -638,3 +638,5 @@ kaleidoscope_fishing.journal.market_order=渔贩的订单：
 kaleidoscope_fishing.journal.order_medium=（中型 ◆◆ 以上）
 kaleidoscope_fishing.journal.order_progress=已交 %1$s / %2$s
 kaleidoscope_fishing.journal.order_done=已完成
+kaleidoscope_fishing.display.item.tide_clock=潮汐钟\n§9§o森罗物语：渔歌§r
+kaleidoscope_fishing.name.tide_clock=潮汐钟

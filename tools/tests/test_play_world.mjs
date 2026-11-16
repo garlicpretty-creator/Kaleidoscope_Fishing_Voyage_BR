@@ -845,6 +845,38 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 ok(log.messages.length === startupMessages && startupMessages === 0, `no chat text at all during the whole play-through (${log.messages.length}: ${log.messages.slice(0, 3).join(' | ')})`);
 ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no chat text through commands either');
 
+// ================================================================ 1.5.0: the Tide Clock agrees with the tide
+{
+  const W = await importScript('fishing/water.js');
+  const RPdir = join(BP, '..', 'Kaleidoscope Fishing Voyage [RP]');
+  const anim = JSON.parse(readFileSync(join(RPdir, 'animations', 'tide_clock.animation.json'), 'utf8')).animations['animation.kaleidoscope_fishing.tide_clock.tide'];
+  const expr = anim.bones.tide_hand.rotation[1];
+  const angle = new Function('q', 'math', `return ${expr};`);
+  const math = { mod: (a, b) => a - b * Math.floor(a / b) };
+  const day0 = clock.day, moon0 = clock.moon;
+  // q.time_of_day is documented as midnight 0, sunrise 0.25; older notes say noon 0. The clock must be right either way.
+  const conventions = { 'midnight = 0': t => (t / 24000 + 0.25) % 1, 'noon = 0': t => (((t - 6000) / 24000) % 1 + 1) % 1 };
+  for (const [name, tod] of Object.entries(conventions)) {
+    let wrong = 0, checked = 0;
+    for (let moon = 0; moon < 8; moon++) for (let t = 0; t < 24000; t += 125) {
+      clock.day = t; clock.moon = moon;
+      const a = ((angle({ time_of_day: tod(t), moon_phase: moon }, math) % 360) + 360) % 360;
+      const onArc = a <= 45 + 1e-6 || a >= 315 - 1e-6;                    // the blue arc: 45 degrees either side of straight ahead
+      const edge = Math.abs(a - 45) < 1e-6 || Math.abs(a - 315) < 1e-6;    // exactly on the arc's end: either answer is fine
+      checked++;
+      if (!edge && onArc !== (W.tideState() === 'high')) wrong++;
+    }
+    ok(wrong === 0, `tide clock: the hand is on the blue arc exactly while the tide is high, through all 8 moon phases (${checked} moments, ${name}; ${wrong} wrong)`);
+  }
+  clock.day = day0; clock.moon = moon0;
+  const vis = Object.assign({}, ...JSON.parse(readFileSync(join(RPdir, 'render_controllers', 'kfv_tide_clock.render_controllers.json'), 'utf8'))
+    .render_controllers['controller.render.kfv_tide_clock'].part_visibility.filter(v => !('*' in v)));
+  const lit = moon => Object.fromEntries(Object.entries(vis).map(([bone, e]) => [bone, !!new Function('q', `return ${e};`)({ moon_phase: moon })]));
+  const count = moon => Object.values(lit(moon)).filter(Boolean).length;
+  ok([0, 1, 2, 3, 4, 5, 6, 7].map(count).join() === '4,3,2,1,0,1,2,3', `tide clock: the moon shows full, waning, new and waxing (strips lit per phase: ${[0, 1, 2, 3, 4, 5, 6, 7].map(count).join()})`);
+  ok(lit(3).moon_l2 && !lit(3).moon_r2 && lit(5).moon_r2 && !lit(5).moon_l2, 'tide clock: a waning crescent is lit on one side, a waxing crescent on the other');
+}
+
 // ================================================================ 1.5.0: the merchant's order
 {
   const MM = await importScript('world/merchant.js');
@@ -899,7 +931,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   // an empty purse: he takes the order's fish unpaid, and nothing else
   m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', PURSE);
   setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
-  clearInv(); P.hold(NS + 'sea_bass', 6); interactEntity(m);
+  clearInv(); P.hold(NS + 'sea_bass', 6); withRandom(0, () => interactEntity(m));     // the first reward in the table (not emeralds)
   ok(inv('sea_bass') === 2 && inv('minecraft:emerald') === 0 && MM.orderNear(P)?.have === 4, `order: with his purse empty he takes just the 4 the order asks for, unpaid (${inv('sea_bass')} left)`);
   clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
   ok(inv('octopus') === 3, 'order: with his purse empty he buys nothing that is not on the order');
