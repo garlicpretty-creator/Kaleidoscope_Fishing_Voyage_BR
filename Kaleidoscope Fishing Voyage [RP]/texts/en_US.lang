@@ -634,3 +634,7 @@ kaleidoscope_fishing.journal.settings_minigame_off=Reeling minigame: off (for th
 kaleidoscope_fishing.journal.settings_op_only=Only an operator can turn the minigame on or off.
 kaleidoscope_fishing.journal.settings_turn_off=Turn the minigame off
 kaleidoscope_fishing.journal.settings_turn_on=Turn the minigame on
+kaleidoscope_fishing.journal.market_order=The fish merchant's order: 
+kaleidoscope_fishing.journal.order_medium= (medium ◆◆ or larger)
+kaleidoscope_fishing.journal.order_progress=handed in %1$s / %2$s
+kaleidoscope_fishing.journal.order_done=filled

@@ -96,8 +96,21 @@ def journal():
         c.lang(J + key, en, tw, cn, packs=(c.RP,))
 
 
+def merchant_order():
+    """Step 1: the tide page's lines for the merchant's order."""
+    J = f'{c.NS}.journal.'
+    for key, en, tw, cn in [
+        ('market_order', "The fish merchant's order: ", '漁販的訂單：', '渔贩的订单：'),
+        ('order_medium', ' (medium ◆◆ or larger)', '（中型 ◆◆ 以上）', '（中型 ◆◆ 以上）'),
+        ('order_progress', 'handed in %1$s / %2$s', '已交 %1$s / %2$s', '已交 %1$s / %2$s'),
+        ('order_done', 'filled', '已完成', '已完成'),
+    ]:
+        c.lang(J + key, en, tw, cn, packs=(c.RP,))
+
+
 if __name__ == '__main__':
     legends()
     creel()
     journal()
+    merchant_order()
     print('1.5.0 content written; now run: python tools/build.py build')

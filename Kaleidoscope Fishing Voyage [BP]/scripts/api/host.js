@@ -8,6 +8,7 @@
 //                   legend, first (first of its species for this player), record (a new personal best)
 //          cleaned  id            the last cut of a fish on the Fish Cleaning Board
 //          sold     id, n, paid   fish sold to the Fish Merchant (paid in emeralds)
+//          order_filled  id, n   the player handed in the last fish of the merchant's order
 //          tide     state ("high" | "low")   world event, no "p": the tide turned
 //   in   kaleidoscope_fishing:state_request   {"api":1,"source":"<ns>","req"?}                   capability "state"
 //   out  kaleidoscope_fishing:state           {"api":1,"to":"<ns>","req"?,"ok":true,"tide","moon","slot","day"}

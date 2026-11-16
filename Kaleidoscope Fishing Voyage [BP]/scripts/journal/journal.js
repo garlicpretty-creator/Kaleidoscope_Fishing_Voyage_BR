@@ -8,7 +8,7 @@ import { JOURNAL_SPECIES } from "../data/generated.js";
 import { getRecords } from "./records.js";
 import { moonPhase, tideState } from "../fishing/water.js";
 import { showRecipes } from "./recipes.js";
-import { wantsNear } from "../world/merchant.js";
+import { orderNear, wantsNear } from "../world/merchant.js";
 import { charsetFor, minigameOn, setCharsetFor, setMinigame } from "../fishing/minigameSwitch.js";
 
 const NS = "kaleidoscope_fishing";
@@ -106,6 +106,13 @@ async function showTide(player) {
   const wants = wantsNear(player);
   if (wants === undefined) line(t("market_none"));
   else line({ rawtext: [t("market_wants"), ...wants.flatMap((id, i) => [{ text: i ? "、" : "" }, { translate: `${NS}.name.${id.split(":")[1]}` }])] });
+  // 1.5.0: his order, and how far you are with it
+  const order = orderNear(player);
+  if (order) {
+    line({ rawtext: [t("market_order"), { translate: `${NS}.name.${order.id.split(":")[1]}` }, { text: ` ×${order.n}` },
+      ...(order.min ? [t("order_medium")] : []), { text: "  " },
+      order.have >= order.n ? t("order_done") : t("order_progress", order.have, order.n)] });
+  }
   line({ text: "" });
   line(t("tide_help_high"));
   line(t("tide_help_low"));

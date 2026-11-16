@@ -107,7 +107,8 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | --- | --- | --- |
 | `caught` | `id`、`via`、`size`?、`cls`、`legend`、`first`、`record` | 一條漁獲上岸 |
 | `cleaned` | `id` | 魚案板上一條魚切完最後一刀 |
-| `sold` | `id`、`n`、`paid` | 把魚賣給漁販；`paid` 是這次拿到的綠寶石 |
+| `sold` | `id`、`n`、`paid` | 把魚賣給漁販；`n` 是他收下的數量，`paid` 是這次拿到的綠寶石 |
+| `order_filled` | `id`、`n` | 玩家交齊了漁販的訂單（`n` 條 `id`），剛拿到獎勵 |
 | `tide` | `state`：`high` 或 `low` | 潮汐轉換。世界事件，沒有 `p` |
 
 `caught` 的欄位：

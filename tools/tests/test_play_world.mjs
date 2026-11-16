@@ -845,6 +845,85 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 ok(log.messages.length === startupMessages && startupMessages === 0, `no chat text at all during the whole play-through (${log.messages.length}: ${log.messages.slice(0, 3).join(' | ')})`);
 ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no chat text through commands either');
 
+// ================================================================ 1.5.0: the merchant's order
+{
+  const MM = await importScript('world/merchant.js');
+  const home = { ...P.location }; P.location = { x: 518.5, y: 65, z: 518.5 };
+  const { WANT_LIST: WL, MERCHANT_PRICES: MP, MERCHANT_BUDGET: PURSE } = await importScript('data/generated.js');
+  const fresh = () => { for (const e of D.getEntities({ type: MERCHANT })) e.remove(); const m = D.spawnEntity(MERCHANT, { x: 520.5, y: 65, z: 520.5 }); MM.orderOf(m); return m; };
+  const evtsSince = n => sent.slice(n).filter(e => e.id === 'kaleidoscope_fishing:evt').map(e => JSON.parse(e.msg));
+  const orderProp = m => m.getProperty(NS + 'order');
+  let m = fresh();
+  let o = MM.orderOf(m);
+  const wants = JSON.parse(m.getDynamicProperty(NS + 'wants'));
+  ok(o && WL.includes(o.id) && !wants.includes(o.id) && [2, 4, 6].includes(o.n) && orderProp(m) === WL.indexOf(o.id) + 1,
+    `order: a merchant carries one order, not one of the day's two fish, and hangs it on his pole (${short(o?.id)} x${o?.n}, property ${orderProp(m)})`);
+  ok(JSON.stringify(MM.orderOf(m)) === JSON.stringify(o), 'order: asking again gives the same order');
+  ok(o.n === (MP[o.id] <= 0.25 ? 6 : MP[o.id] <= 0.5 ? 4 : 2), `order: cheap fish six, middling four, dear two (${short(o.id)} at ${MP[o.id]} -> ${o.n})`);
+  // the day's fish change on his second day, and still avoid the order
+  for (let i = 0; i < 12; i++) {
+    clock.abs += 24000; advance(6000, ['merchant.js']);
+    if (JSON.parse(m.getDynamicProperty(NS + 'wants')).includes(o.id)) { ok(false, 'order: a new day made the order fish one of the wanted fish'); break; }
+  }
+  ok(MM.orderOf(m).id === o.id, 'order: it stays the same for his whole visit');
+
+  // a fixed order so the numbers are known: 4 sea bass, any size
+  const setOrder = (m, ord) => { m.setDynamicProperty(NS + 'order', JSON.stringify(ord)); m.setDynamicProperty(NS + 'order_done', '{}'); };
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 });
+  P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); P.hold(NS + 'sea_bass', 3); drops();
+  let n0 = sent.length;
+  interactEntity(m);
+  ok(MM.orderNear(P)?.have === 3 && inv('minecraft:emerald') === 1, `order: 3 sea bass are paid as usual and count toward the order (have ${MM.orderNear(P)?.have}/4, ${inv('minecraft:emerald')} emerald)`);
+  ok(!evtsSince(n0).some(e => e.t === 'order_filled'), 'order: nothing is handed over before it is filled');
+  // the journal tells the count
+  P.hold(NS + 'angler_journal', 1); const f0 = log.forms.length; answers.push(1);
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
+  const body = JSON.stringify(log.forms[f0 + 1]?.body ?? {});
+  ok(body.includes('market_order') && body.includes('name.sea_bass') && body.includes('×4') && body.includes('order_progress'), 'order: the tide page shows the order, its count and how far you are');
+  // filling it: a reward, once
+  clearInv(); P.hold(NS + 'sea_bass', 5); drops(); n0 = sent.length;
+  const before = P.inv.slots.filter(Boolean).reduce((a, s) => a + (s.typeId === NS + 'sea_bass' ? 0 : s.amount), 0);
+  withRandom(0.99, () => interactEntity(m));          // the last reward in the table: 6 emeralds
+  const filled = evtsSince(n0).filter(e => e.t === 'order_filled');
+  ok(MM.orderNear(P)?.have === 4 && filled.length === 1 && filled[0].id === NS + 'sea_bass' && filled[0].n === 4 && filled[0].p === P.id,
+    `order: the fourth fish fills it, and other packs hear "order_filled" (${JSON.stringify(filled)})`);
+  ok(inv('minecraft:emerald') === 3 + 6 && inv('sea_bass') === 0, `order: he still buys the whole stack (5 x 0.5 and the 0.5 owed = 3 emeralds) and adds the reward (${inv('minecraft:emerald')} emeralds)`);
+  clearInv(); P.hold(NS + 'sea_bass', 2); n0 = sent.length; interactEntity(m);
+  ok(!evtsSince(n0).some(e => e.t === 'order_filled') && inv('minecraft:emerald') === 1, 'order: a filled order gives no second reward; the fish are simply bought');
+  P.hold(NS + 'angler_journal', 1); const f1 = log.forms.length; answers.push(1);
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
+  ok(JSON.stringify(log.forms[f1 + 1]?.body ?? {}).includes('order_done'), 'order: the tide page says it is filled');
+
+  // an empty purse: he takes the order's fish unpaid, and nothing else
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', PURSE);
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); P.hold(NS + 'sea_bass', 6); interactEntity(m);
+  ok(inv('sea_bass') === 2 && inv('minecraft:emerald') === 0 && MM.orderNear(P)?.have === 4, `order: with his purse empty he takes just the 4 the order asks for, unpaid (${inv('sea_bass')} left)`);
+  clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
+  ok(inv('octopus') === 3, 'order: with his purse empty he buys nothing that is not on the order');
+
+  // a size the order asks for
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
+  setOrder(m, { id: NS + 'sea_bass', n: 2, min: 2 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); holdStack(stack('sea_bass', 2, ['§7◆'])); interactEntity(m);
+  ok(MM.orderNear(P)?.have === 0 && inv('sea_bass') === 0, 'order: small fish are bought but do not count toward a medium-or-larger order');
+  clearInv(); holdStack(stack('sea_bass', 1, ['§6◆◆◆'])); interactEntity(m);
+  clearInv(); P.hold(NS + 'sea_bass', 1); interactEntity(m);
+  ok(MM.orderNear(P)?.have === 2, 'order: large fish count, and so does a fish with no size mark');
+
+  // every player has their own progress
+  const other = { id: 'p2' };
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 });
+  m.setDynamicProperty(NS + 'order_done', JSON.stringify({ p2: 3 }));
+  ok(MM.orderNear(P)?.have === 0 && MM.orderNear({ ...other, dimension: D, location: m.location })?.have === 3, "order: one player's progress is not another's");
+
+  for (const e of D.getEntities({ type: MERCHANT })) e.remove();
+  P.setDynamicProperty(NS + 'merchant_credit', undefined);
+  P.location = home;
+}
+
 // ================================================================ 1.5.0: wolves, cats and the knife's Looting
 {
   const PETS = await importScript('creatures/pets.js');
