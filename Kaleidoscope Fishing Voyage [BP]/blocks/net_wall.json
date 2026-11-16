@@ -51,7 +51,15 @@
       },
       "minecraft:map_color": "#8C7A5A",
       "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/net_wall.json",
-      "kaleidoscope_fishing:wall_decor": {}
+      "kaleidoscope_fishing:wall_decor": {},
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true
+          }
+        ]
+      }
     },
     "permutations": [
       {

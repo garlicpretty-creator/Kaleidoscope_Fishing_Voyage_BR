@@ -12,10 +12,6 @@
 // A board laid before 1.6.3 learns its fish on its next use; until then only the player-break and explosion
 // paths (which still see the block) can give it back.
 // v1.6.3 (F2): every refused use says why (util/hint.js).
-// 1.4.0: not every catch is scaled, gutted and filleted. An entry may say where it starts (`first`: 3 = one cut,
-// 2 = two cuts), what the gutting cut gives instead of Fish Offal (`gut`) and what the last cut gives besides its
-// meat (`last`). Shrimp are peeled in one cut (meat + shells), crabs take two (shell and roe, then meat), a
-// jellyfish is sliced in one.
 import { EquipmentSlot, GameMode, ItemStack, system } from "@minecraft/server";
 import { CLEANING, FISH_ALIAS } from "../data/generated.js";
 import { LARGE, SMALL, applyClass, readSize } from "../fishing/size.js";
@@ -32,9 +28,6 @@ const CUT = `${NS}:cut`, SIZE = `${NS}:size`;
 const yieldOf = (fish, cls) => Math.max(1, fish.out[1] + (cls === LARGE ? 1 : cls === SMALL ? -1 : 0));
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
-/** The cut a catch starts at: its own `first`, else 1 for a scaled fish and 2 for a scaleless one. */
-const firstOf = fish => fish.first ?? (fish.scales ? 1 : 2);
-const OFFAL = [[`${NS}:fish_offal`, 1]];
 
 // v1.5.5: the size class lives in blockData ("cb": { size }); the size state is still written for 1.5.4 and
 // read only for a board laid before 1.5.5 (copied over on its next use).
@@ -96,12 +89,12 @@ const cleaningBoard = {
       const size = readSize(held).cls;
       stash(key, keepOf(held));
       if (!creative(player)) { if (held.amount <= 1) slot.setItem(undefined); else { held.amount -= 1; slot.setItem(held); } }
-      saveBoard(block, size, c.index, firstOf(c));
-      block.setPermutation(withFishIndex(p, c.index).withState(CUT, firstOf(c)).withState(SIZE, size));
+      saveBoard(block, size, c.index, c.scales ? 1 : 2);
+      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.scales ? 1 : 2).withState(SIZE, size));
       fx(block, "mob.fish.flop", 1.0);
       return;
     }
-    const first = firstOf(fish);
+    const first = fish.scales ? 1 : 2;
     if (!held) {                                         // changed your mind before the first cut
       if (cut === first) { give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0)); }
       else refuse(player, "board_finish_knife");
@@ -118,7 +111,7 @@ const cleaningBoard = {
       block.setPermutation(p.withState(CUT, 2));
       fx(block, "mob.sheep.shear", 1.4, "minecraft:basic_crit_particle");
     } else if (cut === 2) {                              // gut
-      for (const [id, n] of fish.gut ?? OFFAL) give(player, block, id, n);
+      give(player, block, `${NS}:fish_offal`);
       for (const [id, chance] of fish.extra) if (Math.random() < chance) give(player, block, id);
       saveBoard(block, cls, idx, 3);
       block.setPermutation(p.withState(CUT, 3));
@@ -126,7 +119,6 @@ const cleaningBoard = {
     } else {                                             // fillet
       give(player, block, fish.out[0], yieldOf(fish, cls));
       give(player, block, `${NS}:fish_bones`, fish.bones);
-      for (const [id, n] of fish.last ?? []) give(player, block, id, n);
       saveSize(block, undefined);
       block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
       fx(block, "dig.wood", 1.3, "minecraft:basic_crit_particle");
@@ -142,8 +134,8 @@ const cleaningBoard = {
 export function boardContents(idx, cut, cls, keep) {
   const fish = BY_INDEX[idx];
   if (!fish) return [];
-  if (cut === firstOf(fish) || !cut) return [[fish.id, 1, cls, keep]];
-  return [[fish.out[0], yieldOf(fish, cls), 0], [`${NS}:fish_bones`, fish.bones, 0], ...(fish.last ?? []).map(([id, n]) => [id, n, 0])];
+  if (cut === (fish.scales ? 1 : 2) || !cut) return [[fish.id, 1, cls, keep]];
+  return [[fish.out[0], yieldOf(fish, cls), 0], [`${NS}:fish_bones`, fish.bones, 0]];
 }
 function dropBoard(dim, pos, perm) {
   const rec = readData("cb", dim, pos);

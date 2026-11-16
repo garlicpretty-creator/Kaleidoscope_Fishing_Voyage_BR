@@ -30,12 +30,40 @@
           "probability": 0.34,
           "tame_items": [
             "kaleidoscope_fishing:carp",
+            "kaleidoscope_fishing:grass_carp",
+            "kaleidoscope_fishing:catfish",
             "kaleidoscope_fishing:sweetfish",
             "kaleidoscope_fishing:mackerel",
             "kaleidoscope_fishing:yellow_croaker",
+            "kaleidoscope_fishing:sea_bream",
+            "kaleidoscope_fishing:hairtail",
+            "kaleidoscope_fishing:grouper",
+            "kaleidoscope_fishing:tuna",
+            "kaleidoscope_fishing:anglerfish",
+            "kaleidoscope_fishing:eel",
             "kaleidoscope_fishing:saury",
+            "kaleidoscope_fishing:void_eel",
+            "kaleidoscope_fishing:starfin",
+            "kaleidoscope_fishing:smelt",
+            "kaleidoscope_fishing:rainbow_trout",
+            "kaleidoscope_fishing:arctic_char",
+            "kaleidoscope_fishing:skipjack",
+            "kaleidoscope_fishing:blazefin",
+            "kaleidoscope_fishing:lava_eel",
+            "kaleidoscope_fishing:magma_koi",
+            "kaleidoscope_fishing:golden_croaker",
+            "kaleidoscope_fishing:chorus_carp",
+            "kaleidoscope_fishing:ender_angler",
+            "kaleidoscope_fishing:sea_bass",
+            "kaleidoscope_fishing:grey_mullet",
+            "kaleidoscope_fishing:loach",
+            "kaleidoscope_fishing:snakehead",
+            "kaleidoscope_fishing:mudskipper",
+            "kaleidoscope_fishing:flying_fish",
+            "kaleidoscope_fishing:cave_blindfish",
             "minecraft:cod",
-            "minecraft:salmon"
+            "minecraft:salmon",
+            "minecraft:tropical_fish"
           ],
           "tame_event": {
             "event": "kaleidoscope_fishing:on_tame",
@@ -47,12 +75,40 @@
           "speed_multiplier": 1.1,
           "items": [
             "kaleidoscope_fishing:carp",
+            "kaleidoscope_fishing:grass_carp",
+            "kaleidoscope_fishing:catfish",
             "kaleidoscope_fishing:sweetfish",
             "kaleidoscope_fishing:mackerel",
             "kaleidoscope_fishing:yellow_croaker",
+            "kaleidoscope_fishing:sea_bream",
+            "kaleidoscope_fishing:hairtail",
+            "kaleidoscope_fishing:grouper",
+            "kaleidoscope_fishing:tuna",
+            "kaleidoscope_fishing:anglerfish",
+            "kaleidoscope_fishing:eel",
             "kaleidoscope_fishing:saury",
+            "kaleidoscope_fishing:void_eel",
+            "kaleidoscope_fishing:starfin",
+            "kaleidoscope_fishing:smelt",
+            "kaleidoscope_fishing:rainbow_trout",
+            "kaleidoscope_fishing:arctic_char",
+            "kaleidoscope_fishing:skipjack",
+            "kaleidoscope_fishing:blazefin",
+            "kaleidoscope_fishing:lava_eel",
+            "kaleidoscope_fishing:magma_koi",
+            "kaleidoscope_fishing:golden_croaker",
+            "kaleidoscope_fishing:chorus_carp",
+            "kaleidoscope_fishing:ender_angler",
+            "kaleidoscope_fishing:sea_bass",
+            "kaleidoscope_fishing:grey_mullet",
+            "kaleidoscope_fishing:loach",
+            "kaleidoscope_fishing:snakehead",
+            "kaleidoscope_fishing:mudskipper",
+            "kaleidoscope_fishing:flying_fish",
+            "kaleidoscope_fishing:cave_blindfish",
             "minecraft:cod",
-            "minecraft:salmon"
+            "minecraft:salmon",
+            "minecraft:tropical_fish"
           ]
         },
         "minecraft:behavior.avoid_mob_type": {
@@ -72,8 +128,8 @@
         },
         "minecraft:despawn": {
           "despawn_from_distance": {
-            "min_distance": 48,
-            "max_distance": 96
+            "min_distance": 64,
+            "max_distance": 128
           }
         }
       },
@@ -103,6 +159,14 @@
               "heal_amount": 4
             },
             {
+              "item": "kaleidoscope_fishing:grass_carp",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:catfish",
+              "heal_amount": 4
+            },
+            {
               "item": "kaleidoscope_fishing:sweetfish",
               "heal_amount": 4
             },
@@ -115,7 +179,107 @@
               "heal_amount": 4
             },
             {
+              "item": "kaleidoscope_fishing:sea_bream",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:hairtail",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:grouper",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:tuna",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:anglerfish",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:eel",
+              "heal_amount": 4
+            },
+            {
               "item": "kaleidoscope_fishing:saury",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:void_eel",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:starfin",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:smelt",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:rainbow_trout",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:arctic_char",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:skipjack",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:blazefin",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:lava_eel",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:magma_koi",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:golden_croaker",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:chorus_carp",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:ender_angler",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:sea_bass",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:grey_mullet",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:loach",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:snakehead",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:mudskipper",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:flying_fish",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:cave_blindfish",
               "heal_amount": 4
             },
             {
@@ -124,6 +288,10 @@
             },
             {
               "item": "minecraft:salmon",
+              "heal_amount": 4
+            },
+            {
+              "item": "minecraft:tropical_fish",
               "heal_amount": 4
             }
           ]
@@ -185,12 +353,8 @@
         }
       },
       "kaleidoscope_fishing:diving": {
-        "minecraft:physics": {
-          "has_gravity": false,
-          "has_collision": false
-        },
-        "minecraft:movement": {
-          "value": 0
+        "minecraft:mark_variant": {
+          "value": 1
         }
       }
     },

@@ -61,8 +61,8 @@
         },
         "minecraft:despawn": {
           "despawn_from_distance": {
-            "min_distance": 48,
-            "max_distance": 96
+            "min_distance": 64,
+            "max_distance": 128
           }
         }
       },

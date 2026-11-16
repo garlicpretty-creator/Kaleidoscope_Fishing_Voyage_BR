@@ -30,6 +30,7 @@ TARGETS = {
     'emperor_tuna': ('fish', 'tuna'), 'frostlake_char': ('fish', 'char'), 'lava_dragon_koi': ('fish', 'lava'),
     'lobster': ('crust', 'segments'), 'king_crab': ('crust', 'spiky'), 'cave_crayfish': ('crust', 'segments'),
     'crab': ('crust', 'shell'), 'glow_crab': ('crust', 'glow'),
+    'shrimp': ('crust', 'shrimp'), 'purpur_shrimp': ('crust', 'shrimp'),
     'octopus': ('octo', 'octo'), 'moon_jellyfish': ('jelly', 'rings'), 'chorus_jellyfish': ('jelly', 'chorus'),
 }
 EXTRA = {   # hand-picked accents the icons cannot give
@@ -37,6 +38,11 @@ EXTRA = {   # hand-picked accents the icons cannot give
     'frostlake_char': {'accent': (240, 140, 120)}, 'lava_dragon_koi': {'accent': (255, 190, 60)},
     'glow_crab': {'accent': (190, 255, 150)}, 'chorus_jellyfish': {'accent': (236, 140, 200)},
     'moon_jellyfish': {'accent': (178, 162, 214)},
+    # the shrimp icons are pale inside; same hues, wider range
+    'shrimp': {'dark': (90, 36, 24), 'dorsal': (216, 96, 62), 'flank': (240, 138, 102), 'belly': (246, 205, 176),
+               'light': (255, 240, 222), 'accent': (226, 69, 42)},
+    'purpur_shrimp': {'dark': (58, 26, 64), 'dorsal': (138, 74, 142), 'flank': (176, 122, 175), 'belly': (220, 188, 214),
+                      'light': (242, 226, 240), 'accent': (194, 90, 192)},
 }
 
 
@@ -228,6 +234,88 @@ def paint_face(px, x0, y0, w, h, face, role, p, pattern, rnd, info):
             px[x0 + u, y0 + v] = c + (255,)
 
 
+DENSITY = {'shrimp': 2, 'purpur_shrimp': 2}     # extra texel density for small, detailed creatures
+
+
+def shrimp_part(bone, c):
+    s = c['size']
+    if bone.startswith('leg'):
+        return 'leg'
+    if max(s) >= 2.5 and min(s) <= 0.2:
+        return 'antenna'
+    if bone == 'tail' and s[1] <= 0.25:
+        return 'fan'
+    if max(s) <= 0.45:
+        return 'eye'
+    if s[0] <= 0.35:
+        return 'rostrum'
+    if s[2] >= 2:
+        return 'carapace'
+    return 'seg'
+
+
+def paint_shrimp(px, x0, y0, w, h, face, part, p, rnd):
+    """Shrimp: see-through looking shell with a dark back line, segment seams, a banded fan tail."""
+    dark, dorsal, flank, belly, light, acc = (p[k] for k in ('dark', 'dorsal', 'flank', 'belly', 'light', 'accent'))
+    side = face in ('north', 'south', 'east', 'west')
+    for v in range(h):
+        for u in range(w):
+            fv = (v + 0.5) / h; fu = (u + 0.5) / w
+            if part in ('carapace', 'seg'):
+                if face == 'up':
+                    c = mix(flank, light, 0.25)
+                    if abs(fu - 0.5) < 0.18:
+                        c = mix(dorsal, dark, 0.6)                         # line down the back
+                    elif abs(fu - 0.5) < 0.3:
+                        c = mix(dorsal, acc, 0.4)
+                    if part == 'seg' and fv < 0.2:
+                        c = mix(c, dark, 0.7)                              # seam to the segment in front
+                elif face == 'down':
+                    c = mix(belly, light, 0.3)
+                    if part == 'seg' and u % 2 == 0 and fv > 0.5:
+                        c = mix(belly, acc, 0.35)                          # swimmerets
+                else:
+                    c = mix(mix(dorsal, acc, 0.45), flank, fv / 0.4) if fv < 0.4 else mix(flank, belly, (fv - 0.4) / 0.6)
+                    if abs(fv - 0.55) < 0.09:
+                        c = mix(c, light, 0.6)                             # glassy band
+                    if part == 'carapace' and face in ('north', 'south') and abs(fu - 0.6) < 0.06 and 0.2 < fv < 0.75:
+                        c = mix(c, dark, 0.55)                             # cervical groove
+                    if part == 'seg':
+                        if face in ('east', 'west') and u == 0 or face in ('north', 'south') and fu < 0.12:
+                            c = mix(c, dark, 0.6)
+                        if fv > 0.85 and u % 2:
+                            c = mix(c, dark, 0.3)                          # scalloped plate edge
+                    if fv < 0.15:
+                        c = mix(c, dark, 0.4)
+                if rnd.random() < 0.1:
+                    c = mix(acc, dark, 0.35)                               # pigment specks
+            elif part == 'fan':
+                c = mix(flank, acc, 0.5 + 0.5 * fv)
+                if u % 2:
+                    c = mix(c, light, 0.25)                                # rays
+                if abs(fu - 0.5) < 0.12:
+                    c = mix(dorsal, light, 0.2)                            # telson
+                if fv > 0.78:
+                    c = mix(acc, dark, 0.65)                               # dark tip band
+                if not side and fv < 0.15:
+                    c = mix(c, dark, 0.3)
+            elif part == 'rostrum':
+                c = mix(dorsal, flank, 0.3)
+                if face == 'up' and v % 2 == 0:
+                    c = mix(c, light, 0.5)                                 # teeth
+            elif part == 'leg':
+                c = mix(flank, light, 0.45)
+                if v % 3 == 2 or (face in ('up', 'down') and u % 3 == 2):
+                    c = mix(acc, flank, 0.3)                               # joint bands
+            elif part == 'antenna':
+                c = mix(acc, flank, 0.25) if (u + v) // 2 % 2 else mix(flank, light, 0.3)
+            else:                                                          # eye on a stalk
+                c = (14, 12, 16)
+                if u == 0 and v == 0:
+                    c = (235, 235, 240)
+            px[x0 + u, y0 + v] = c + (255,)
+
+
 def paint_eye_on_head(px, regions, p, species):
     """Fish without eye cubes: paint an eye near the front-top of the head cube's two side faces."""
     if species == 'cave_blindfish':
@@ -281,9 +369,13 @@ def main():
                         continue
                     a, bdim = FACE_DIMS[face]
                     fw, fh = abs(s[a]), abs(s[bdim])
-                    tw, th = max(1, math.ceil(fw * S - 1e-6)), max(1, math.ceil(fh * S - 1e-6))
+                    k = S * DENSITY.get(species, 1)
+                    tw, th = max(1, math.ceil(fw * k - 1e-6)), max(1, math.ceil(fh * k - 1e-6))
                     x0, y0 = packer.take(tw, th)
-                    paint_face(px, x0, y0, tw, th, face, role, p, pattern, rnd, {'kind': kind, 'species': species})
+                    if pattern == 'shrimp':
+                        paint_shrimp(px, x0, y0, tw, th, face, shrimp_part(b['name'], c), p, rnd)
+                    else:
+                        paint_face(px, x0, y0, tw, th, face, role, p, pattern, rnd, {'kind': kind, 'species': species})
                     regions[face] = (x0, y0, tw, th)
                     newuv[face] = {'uv': [x0 / S, y0 / S], 'uv_size': [round(tw / S, 4), round(th / S, 4)]}
                 if c is head and not has_eye_cubes:

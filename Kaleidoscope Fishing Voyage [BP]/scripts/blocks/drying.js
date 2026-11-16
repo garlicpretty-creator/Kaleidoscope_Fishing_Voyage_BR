@@ -17,7 +17,7 @@ import { applyClass } from "../fishing/size.js";
 import { isRaining } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
-import { registerRecords, registerStation, spawnAll } from "./contents.js";
+import { parsePos, registerRecords, registerStation, spawnAll } from "./contents.js";
 
 const NS = "kaleidoscope_fishing";
 const KIND = `${NS}:kind`, COUNT = `${NS}:count`, STAGE = `${NS}:stage`;

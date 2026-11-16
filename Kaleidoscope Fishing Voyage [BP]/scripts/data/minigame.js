@@ -12,13 +12,13 @@ export const MG = {
 
   BOX: { tier1: 24, tier2: 28 },        // box length by rod tier (bamboo rod = tier 1)
   HOLD_ACC: 0.9,             // holding the use key pushes the box right
-  FALL_ACC: 0.9,             // releasing lets it slide left
+  FALL_ACC: 0.6,             // releasing lets it slide left (1.4.0 playtest: 0.9 slid back too fast)
   VMAX: 4.0,
   BOUNCE: 0.4,               // hitting the left end bounces back at this fraction
 
   START: 0.30,               // progress at the start
   GAIN: 0.012,               // per tick while the fish is inside the box (x (1 - D * GAIN_D) x legend pace)
-  LOSS: 0.008,               // per tick while outside (x (1 + D * LOSS_D) x tackle factor x legend pace)
+  LOSS: 0.005,               // per tick while outside (x (1 + D * LOSS_D) x tackle factor x legend pace); 1.4.0 playtest: 0.008 drained too fast
   GAIN_D: 0.003, LOSS_D: 0.004,
   SPEED_D: 0.008,            // fish speed x (1 + D * SPEED_D)
   CAP: 85,                   // highest difficulty a non-legend can reach

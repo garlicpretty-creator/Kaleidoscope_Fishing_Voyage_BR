@@ -1,11 +1,11 @@
 // ## Fishing-village blocks: Fish Scale, Tackle Rack and Fish Print (the tanks: tanks.js).
 // No text: the needle, the hung rods and the print show everything.
 import { EnchantmentTypes, EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
-import { CATCHES, FISH_ALIAS } from "../data/generated.js";
-import { LARGE, MEDIUM, SMALL, readSize } from "../fishing/size.js";
+import { CATCHES, FISH_ALIAS, RODS, TANK_FISH } from "../data/generated.js";
+import { LARGE, MEDIUM, SMALL, applyClass, readSize } from "../fishing/size.js";
 import { isPart, readParts, slotOf, writeParts } from "../fishing/parts.js";
 import { readFishIndex, withFishIndex } from "./fishState.js";
-import { printIndex } from "../data/tank.js";
+import { PRINTABLE, printIndex } from "../data/tank.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";

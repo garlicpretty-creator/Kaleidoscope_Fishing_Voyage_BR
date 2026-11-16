@@ -36,15 +36,5 @@
   "kaleidoscope_fishing:flying_fish": 0.25,
   "kaleidoscope_fishing:lobster": 1.5,
   "kaleidoscope_fishing:king_crab": 2.0,
-  "kaleidoscope_fishing:cave_blindfish": 0.2,
-  "kaleidoscope_fishing:shrimp": 0.1,
-  "kaleidoscope_fishing:oyster": 0.125,
-  "kaleidoscope_fishing:loach": 0.125,
-  "kaleidoscope_fishing:crab": 0.1667,
-  "kaleidoscope_fishing:mudskipper": 0.1667,
-  "minecraft:tropical_fish": 0.1667,
-  "minecraft:pufferfish": 0.25,
-  "kaleidoscope_fishing:cave_crayfish": 0.3333,
-  "kaleidoscope_fishing:purpur_shrimp": 0.3333,
-  "kaleidoscope_fishing:basalt_crab": 0.5
+  "kaleidoscope_fishing:cave_blindfish": 0.2
 }

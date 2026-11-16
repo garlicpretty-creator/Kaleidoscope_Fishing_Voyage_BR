@@ -37,7 +37,7 @@
       },
       "menu_category": {
         "category": "equipment",
-        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+        "group": "kaleidoscope_cookery:itemGroup.name.furniture"
       },
       "traits": {
         "minecraft:placement_direction": {

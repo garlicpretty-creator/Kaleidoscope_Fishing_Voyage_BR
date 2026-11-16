@@ -4,30 +4,42 @@
     "animation.kaleidoscope_fishing.seagull.fly": {
       "loop": true,
       "bones": {
+        "body": {
+          "rotation": [
+            "(1 - query.is_on_ground) * (math.sin(query.life_time * 700 + 60) * 4 - 6) + query.is_on_ground * math.sin(query.modified_distance_moved * 60) * 3 * query.modified_move_speed",
+            0,
+            "query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 7 * query.modified_move_speed"
+          ],
+          "position": [
+            0,
+            "(1 - query.is_on_ground) * math.sin(query.life_time * 700 + 90) * 0.5 + query.is_on_ground * math.abs(math.sin(query.modified_distance_moved * 30)) * 0.6 * query.modified_move_speed",
+            0
+          ]
+        },
         "wing_l": {
           "rotation": [
             0,
-            0,
-            "math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6"
+            "query.is_on_ground * math.sin(query.life_time * 37) * 2",
+            "math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6 + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
           ]
         },
         "wing_r": {
           "rotation": [
             0,
-            0,
-            "-(math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6)"
+            "-query.is_on_ground * math.sin(query.life_time * 37) * 2",
+            "-(math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6) + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
           ]
         },
         "head": {
           "rotation": [
-            "math.sin(query.life_time * 90) * 4",
-            0,
+            "math.sin(query.life_time * 90) * 3 * (1 - query.is_on_ground) + math.sin(query.modified_distance_moved * 60) * 10 * query.modified_move_speed * query.is_on_ground",
+            "math.sin(query.life_time * 29) * math.sin(query.life_time * 11) * 35 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground",
             0
           ]
         },
         "legs": {
           "rotation": [
-            "(1 - query.is_on_ground) * 60",
+            "(1 - query.is_on_ground) * 60 + math.sin(query.modified_distance_moved * 60) * 18 * query.modified_move_speed * query.is_on_ground",
             0,
             0
           ]

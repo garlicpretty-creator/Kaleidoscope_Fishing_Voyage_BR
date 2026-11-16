@@ -23,12 +23,65 @@ const setProp = (e, k, v) => { try { e.setProperty(`${NS}:${k}`, v); } catch {} 
 const fx = (dim, id, loc) => { try { spawnParticle(dim, id, loc); } catch {} };
 const snd = (dim, id, loc, pitch = 1, volume = 0.8) => { try { dim.playSound(id, loc, { pitch, volume }); } catch {} };
 
+// v1.4.1: the owner. minecraft:tameable sits in the wild group, which the tame event removes, so
+// in the real game a tamed cormorant has no tameable component and tamedToPlayerId was never
+// readable — no owner, so it never dived. The owner is now written to a dynamic property when the
+// tame event fires: the player who just offered it a fish, else the only player within 8 blocks (with
+// two or more around, nobody is guessed). Cormorants tamed before this fix have no property: the nearest
+// player within 16 blocks claims them once and is saved.
+const OWNER = `${NS}:owner`;
+const feeder = new Map();    // cormorant id -> { pid, tick } of the last player who used an item on it
+const players = () => { try { return world.getAllPlayers(); } catch { return []; } };
+const near = (a, b) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+
+function nearestPlayer(c, max) {
+  let best, bd = max;
+  for (const p of players()) {
+    if (!p.isValid || p.dimension.id !== c.dimension.id) continue;
+    const d = near(p.location, c.location);
+    if (d <= bd) { best = p; bd = d; }
+  }
+  return best;
+}
+
 function ownerOf(c) {
   let pid;
-  try { pid = c.getComponent("minecraft:tameable")?.tamedToPlayerId; } catch {}
-  if (!pid) return undefined;
-  return world.getAllPlayers().find(p => p.id === pid);
+  try { pid = c.getDynamicProperty(OWNER); } catch {}
+  if (!pid) { try { pid = c.getComponent("minecraft:tameable")?.tamedToPlayerId; } catch {} }
+  if (pid) return players().find(p => p.id === pid);
+  // a cormorant tamed before the owner was saved: the nearest player within 16 claims it once, for good,
+  // so it does not switch to whoever happens to be closest on a later dive
+  const p = nearestPlayer(c, 16);
+  if (p) { try { c.setDynamicProperty(OWNER, p.id); } catch {} }
+  return p;
 }
+
+// only players within `max` blocks; used so a tame without a known feeder is credited only when nobody
+// else is close enough to have been the one feeding
+function playersNear(c, max) {
+  return players().filter(p => p.isValid && p.dimension.id === c.dimension.id && near(p.location, c.location) <= max);
+}
+const isTameFood = it => { try { return !!it && it.hasTag("minecraft:is_fish"); } catch { return false; } };
+
+try {
+  world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
+    if (ev.target?.typeId !== CORM || !ev.player || !isTameFood(ev.itemStack)) return;   // only a fish offered
+    const prev = feeder.get(ev.target.id);
+    if (prev && prev.pid !== ev.player.id && system.currentTick - prev.tick <= 5) return; // first feeder keeps it
+    feeder.set(ev.target.id, { pid: ev.player.id, tick: system.currentTick });
+  });
+} catch {}
+try {
+  world.afterEvents.dataDrivenEntityTrigger.subscribe(ev => {
+    const c = ev.entity;
+    if (ev.eventId !== `${NS}:on_tame` || c?.typeId !== CORM) return;
+    const f = feeder.get(c.id);
+    feeder.delete(c.id);
+    let p = f && system.currentTick - f.tick <= 5 && players().find(x => x.id === f.pid);
+    if (!p) { const close = playersNear(c, 8); if (close.length === 1) p = close[0]; }   // never guess between players
+    if (p) { try { c.setDynamicProperty(OWNER, p.id); } catch {} }
+  }, { entityTypes: [CORM], eventTypes: [`${NS}:on_tame`] });
+} catch {}
 
 function findWater(c) {
   const dim = c.dimension, b = c.location;
@@ -62,14 +115,24 @@ function dive(c, owner, water) {
   st.phase = "under";
   try { c.triggerEvent(`${NS}:dive`); } catch {}
   setProp(c, "diving", true);
-  try { c.teleport({ x: water.x, y: water.y - 0.4, z: water.z }); } catch {}
+  // A full body under: the water is at least 2 deep, so its feet go into the lower block and its
+  // back stays below the surface. Held there every 2 ticks: behavior.float and buoyancy would
+  // otherwise pop it straight back up between script updates (v1.4.1: it only ever bobbed).
+  // The hold is the only thing keeping it down: the dive event no longer switches gravity off, since
+  // removing that group afterwards also removed the base physics and the cormorant floated into the sky.
+  const under = { x: water.x, y: water.y - 1, z: water.z };
+  try { c.teleport(under); } catch {}
   snd(dim, "random.splash", water, 1.1, 0.6);
   fx(dim, "minecraft:water_splash_particle", { x: water.x, y: water.y + 1, z: water.z });
   let t = 0;
   const h = system.runInterval(() => {
-    t += 10;
+    t += 2;
     if (!c.isValid) { system.clearRun(h); state.delete(c.id); return; }
-    if (t < 60) { fx(dim, "minecraft:water_wake_particle", { x: water.x + Math.random() - 0.5, y: water.y + 0.95, z: water.z + Math.random() - 0.5 }); return; }
+    if (t < 60) {
+      try { c.teleport(under); } catch {}
+      if (t % 10 === 0) fx(dim, "minecraft:water_wake_particle", { x: water.x + Math.random() - 0.5, y: water.y + 0.95, z: water.z + Math.random() - 0.5 });
+      return;
+    }
     system.clearRun(h);
     // up again, a fish in its beak
     const fish = pickFish(dim, water);
@@ -81,7 +144,7 @@ function dive(c, owner, water) {
     fx(dim, "minecraft:water_splash_particle", { x: water.x, y: water.y + 1, z: water.z });
     snd(dim, `${NS}.cormorant`, water, 1.1, 0.7);
     system.runTimeout(() => deliver(c, owner, fish), 40);
-  }, 10);
+  }, 2);
 }
 
 function deliver(c, owner, fish) {
@@ -147,3 +210,4 @@ system.runTimeout(() => {
     } catch {}
   }
 }, 40);
+export const _stateForTests = state;

@@ -14,10 +14,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [RP]')
 BP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [BP]')
-try:
-    FONT = ImageFont.truetype(r'C:\Windows\Fonts\msjh.ttc', 15)
-except OSError:                     # not on Windows: labels in the default font (Chinese may not show)
-    FONT = ImageFont.load_default()
+FONT = ImageFont.truetype(r'C:\Windows\Fonts\msjh.ttc', 15)
 
 
 def load(path):

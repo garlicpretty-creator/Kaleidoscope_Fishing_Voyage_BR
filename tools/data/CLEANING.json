@@ -415,49 +415,45 @@
     ]
   },
   "kaleidoscope_fishing:loach": {
-    "index": 33,
+    "index": 35,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
-      2
+      1
     ],
     "scales": false,
     "bones": 1,
     "extra": []
   },
   "kaleidoscope_fishing:mudskipper": {
-    "index": 34,
+    "index": 36,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
-      2
+      1
     ],
     "scales": false,
     "bones": 1,
     "extra": []
   },
   "kaleidoscope_fishing:golden_croaker": {
-    "index": 35,
+    "index": 37,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
       4
     ],
     "scales": true,
-    "bones": 1,
+    "bones": 2,
     "extra": [
       [
         "kaleidoscope_fishing:fish_roe",
-        0.25
-      ],
-      [
-        "minecraft:gold_nugget",
-        0.25
+        0.4
       ]
     ]
   },
   "kaleidoscope_fishing:chorus_carp": {
-    "index": 36,
+    "index": 38,
     "out": [
       "kaleidoscope_fishing:chorus_sashimi",
-      4
+      3
     ],
     "scales": true,
     "bones": 1,
@@ -469,32 +465,37 @@
     ]
   },
   "kaleidoscope_fishing:ender_angler": {
-    "index": 37,
+    "index": 39,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
-      4
+      3
     ],
     "scales": false,
     "bones": 2,
     "extra": [
       [
         "minecraft:ender_pearl",
-        0.1
+        0.5
       ]
     ]
   },
   "kaleidoscope_fishing:blazefin": {
-    "index": 38,
+    "index": 40,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
-      3
+      2
     ],
     "scales": true,
     "bones": 1,
-    "extra": []
+    "extra": [
+      [
+        "minecraft:blaze_powder",
+        0.3
+      ]
+    ]
   },
   "kaleidoscope_fishing:lava_eel": {
-    "index": 39,
+    "index": 41,
     "out": [
       "kaleidoscope_fishing:eel_fillet",
       3
@@ -504,204 +505,33 @@
     "extra": []
   },
   "kaleidoscope_fishing:magma_koi": {
-    "index": 40,
+    "index": 42,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
-      4
+      3
     ],
     "scales": true,
     "bones": 1,
     "extra": [
       [
         "minecraft:magma_cream",
-        0.1
+        0.3
       ]
     ]
   },
   "kaleidoscope_fishing:lava_dragon_koi": {
-    "index": 41,
+    "index": 43,
     "out": [
       "kaleidoscope_fishing:white_fish_fillet",
       6
     ],
     "scales": true,
-    "bones": 2,
-    "extra": []
-  },
-  "kaleidoscope_fishing:shrimp": {
-    "index": 42,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:shrimp_meat",
-      1
-    ],
-    "bones": 0,
-    "extra": [],
-    "last": [
-      [
-        "kaleidoscope_fishing:shrimp_shell",
-        1
-      ]
-    ]
-  },
-  "kaleidoscope_fishing:purpur_shrimp": {
-    "index": 43,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:shrimp_meat",
-      1
-    ],
-    "bones": 0,
-    "extra": [],
-    "last": [
-      [
-        "kaleidoscope_fishing:shrimp_shell",
-        1
-      ]
-    ]
-  },
-  "kaleidoscope_fishing:cave_crayfish": {
-    "index": 44,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:shrimp_meat",
-      2
-    ],
-    "bones": 0,
-    "extra": [],
-    "last": [
-      [
-        "kaleidoscope_fishing:shrimp_shell",
-        1
-      ]
-    ]
-  },
-  "kaleidoscope_fishing:lobster": {
-    "index": 45,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:shrimp_meat",
-      3
-    ],
-    "bones": 0,
-    "extra": [],
-    "last": [
-      [
-        "kaleidoscope_fishing:shrimp_shell",
-        2
-      ]
-    ]
-  },
-  "kaleidoscope_fishing:crab": {
-    "index": 46,
-    "first": 2,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:crab_meat",
-      1
-    ],
-    "bones": 0,
-    "gut": [
-      [
-        "kaleidoscope_fishing:crab_shell",
-        1
-      ]
-    ],
+    "bones": 3,
     "extra": [
       [
-        "kaleidoscope_fishing:crab_roe",
+        "kaleidoscope_fishing:fish_roe",
         0.5
       ]
     ]
-  },
-  "kaleidoscope_fishing:basalt_crab": {
-    "index": 47,
-    "first": 2,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:crab_meat",
-      1
-    ],
-    "bones": 0,
-    "gut": [
-      [
-        "kaleidoscope_fishing:crab_shell",
-        1
-      ]
-    ],
-    "extra": [
-      [
-        "kaleidoscope_fishing:crab_roe",
-        0.5
-      ]
-    ]
-  },
-  "kaleidoscope_fishing:glow_crab": {
-    "index": 48,
-    "first": 2,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:crab_meat",
-      2
-    ],
-    "bones": 0,
-    "gut": [
-      [
-        "kaleidoscope_fishing:crab_shell",
-        1
-      ],
-      [
-        "kaleidoscope_fishing:crab_roe",
-        1
-      ]
-    ],
-    "extra": []
-  },
-  "kaleidoscope_fishing:king_crab": {
-    "index": 49,
-    "first": 2,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:crab_meat",
-      4
-    ],
-    "bones": 0,
-    "gut": [
-      [
-        "kaleidoscope_fishing:crab_shell",
-        2
-      ],
-      [
-        "kaleidoscope_fishing:crab_roe",
-        1
-      ]
-    ],
-    "extra": []
-  },
-  "kaleidoscope_fishing:moon_jellyfish": {
-    "index": 50,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:jellyfish_skin",
-      2
-    ],
-    "bones": 0,
-    "extra": []
-  },
-  "kaleidoscope_fishing:chorus_jellyfish": {
-    "index": 51,
-    "first": 3,
-    "scales": false,
-    "out": [
-      "kaleidoscope_fishing:jellyfish_skin",
-      2
-    ],
-    "bones": 0,
-    "extra": []
   }
 }

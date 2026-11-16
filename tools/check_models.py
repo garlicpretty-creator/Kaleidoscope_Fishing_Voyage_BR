@@ -85,9 +85,12 @@ def cube_box(c):
 
 
 def rotate_point(p, pivot, rot):
-    """Bedrock rotates bones/cubes X then Y then Z (degrees) around the pivot."""
+    """Bedrock rotates bones/cubes X then Y then Z (degrees) around the pivot. Bedrock's X and Y angles have the
+    opposite sign to a right-handed rotation (Blockbench negates them on export; tools/render_models.py does too):
+    a cube north of its pivot with rotation [-90, 0, 0] swings up, not down."""
     x, y, z = (p[i] - pivot[i] for i in range(3))
     rx, ry, rz = (math.radians(a) for a in rot)
+    rx, ry = -rx, -ry
     y, z = y * math.cos(rx) - z * math.sin(rx), y * math.sin(rx) + z * math.cos(rx)
     x, z = x * math.cos(ry) + z * math.sin(ry), -x * math.sin(ry) + z * math.cos(ry)
     x, y = x * math.cos(rz) - y * math.sin(rz), x * math.sin(rz) + y * math.cos(rz)

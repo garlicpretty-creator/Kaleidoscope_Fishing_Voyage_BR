@@ -140,7 +140,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
 });
 
 // ---------------------------------------------------------------- eating / removing
-function clearAll(s) {
+function clearAll(s, dim) {
   for (const c of s.cells) { try { c.block?.setType("minecraft:air"); } catch {} }
 }
 
@@ -189,7 +189,7 @@ const feastComponent = {
     if (stage >= MAX) {
       // empty block: once the whole feast is empty, clear it and give the container back
       if (s.cells.every(c => !c.block || Number(c.block.permutation.getState(STAGE) ?? 0) >= MAX)) {
-        clearAll(s);
+        clearAll(s, dim);
         drop(dim, s.def.remains, centreOf(s));
         try { dim.playSound("dig.wood", centreOf(s)); } catch {}
       }
@@ -211,7 +211,7 @@ const feastComponent = {
     if (!s) return;
     const untouched = Number(brokenBlockPermutation.getState(STAGE) ?? 0) === 0 &&
       s.cells.every(c => !c.block || Number(c.block.permutation.getState(STAGE) ?? 0) === 0);
-    clearAll(s);
+    clearAll(s, block.dimension);
     if (player?.getGameMode() === GameMode.Creative) return;
     drop(block.dimension, untouched ? [s.def.item] : s.def.remains, centreOf(s));
   },

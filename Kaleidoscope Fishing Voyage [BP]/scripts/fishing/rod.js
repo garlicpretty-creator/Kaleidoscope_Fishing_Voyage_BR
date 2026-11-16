@@ -11,17 +11,20 @@
 //            it closer; reeling during pull strains the line and can snap it.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, moonPhase, tideState, timeSlot, weatherOf } from "./water.js";
-import { BAITS, CATCH_BY_ID, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
-import { KEEPSAKES, PARTS, RODS } from "../data/generated.js";
-import { getRecords, recordCatch } from "../journal/records.js";
+import { BAITS, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
+import { KEEPSAKES } from "../data/generated.js";
+import { getRecords } from "../journal/records.js";
+import { RODS } from "../data/generated.js";
+import { recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
 // v1.5: the fishing minigame (Stardew-style). Pure logic in minigame.js, the world switch in minigameSwitch.js.
 import { advance, hud, hudDue, newGame } from "./minigame.js";
-import { charsetFor, minigameOn } from "./minigameSwitch.js";
+import { charset, minigameOn } from "./minigameSwitch.js";
 import { MG } from "../data/minigame.js";
+import { CATCH_BY_ID } from "./loot.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";
@@ -30,12 +33,9 @@ const LINE = `${NS}:fishing_line`;
 const TICK = 2;
 const MAX_AGE = 2400;
 const MAX_DIST = 32;
-const KEEPSAKE_AGAIN = 0.25;
-// 1.4.0: a part made from a keepsake counts as the part it was made from where a legend asks for one
-// (PARTS[].as: the Emperor Bone Hook as a Bone Hook, the River Lord Whisker Line as a Wire Line).
-const partAs = id => PARTS[id]?.as ?? id;
 
 const sessions = new Map();   // playerId -> session
+export const _sessionsForTests = sessions;
 const lastUse = new Map();
 let loop;
 
@@ -103,7 +103,7 @@ function consumeOne(player, typeId) {
 // the next bait in the bag (or none) and the wait for a bite starts over; returns true then.
 function baitGone(s) {
   if (!s.bait || s.bait === LURE || hasItem(s.player, s.bait)) return false;
-  s.bait = findBait(s.player);
+  s.bait = findBait(s.player) ?? (s.fx?.lure ? LURE : undefined);   // a lure hook takes over again
   return true;
 }
 
@@ -137,14 +137,12 @@ function landCatch(player, s, from) {
   if (cls) { try { stack.setLore(loreFor(cls, rec.newBest ? s.size : undefined)); } catch {} }
   const start = { x: from.x, y: from.y + 0.4, z: from.z };
   const pl = player.location;
-  // A carried Fish Creel takes catches straight in, legends too; record fish stay out as trophies
-  // (the creel only remembers species and size class, so a record would lose its length).
+  // A carried Fish Creel takes ordinary catches straight in; record fish stay out as trophies.
   const legend = LEGEND_SET.has(s.catchId);
   if (legend) { try { stack.setLore([...(stack.getLore() ?? []), "§d✦"]); } catch {} }
-  // v1.4: the first legend of its kind brings its keepsake; a later one brings another one time in four
-  // (keepsakes are used up when made into tackle parts)
-  if (legend && KEEPSAKES[s.catchId] && (rec.first || Math.random() < KEEPSAKE_AGAIN)) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
-  const stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
+  // v1.4: the first legend of its kind brings its keepsake
+  if (legend && rec.first && KEEPSAKES[s.catchId]) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
+  const stored = !rec.newBest && !legend && tryStore(player, s.catchId, 1, cls) === 0;
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
     try { dim.spawnItem(stack, player.location).clearVelocity(); } catch {}
@@ -217,7 +215,7 @@ function hookFish(player, s) {
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
     moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
-    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
+    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: s.parts?.hook, line: s.parts?.line, dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }
@@ -369,6 +367,8 @@ function gear(player) {
 }
 
 function startWaiting(s) {
+  // a legend that got away: the bobber loses its gold for the next ordinary bite
+  try { if (s.bobber.getProperty(`${NS}:style`) === LEGEND_STYLE) s.bobber.setProperty(`${NS}:style`, s.fx.style ?? (endPond(s) ? ENDER_STYLE : 0)); } catch {}
   const [lo, hi] = s.rod.bite;
   const rain = isRaining(s.bobber.dimension);
   const g = gear(s.player);
@@ -422,7 +422,7 @@ function tick() {
       const slot = mainhand(p);
       if (!slot?.hasItem() || slot.typeId !== s.rodId || p.dimension.id !== b.dimension.id) { endSession(pid); continue; }
       const pl = p.location, bl = b.location;
-      if (dist2(pl, bl) > MAX_DIST * MAX_DIST) { s.phase === "pull" ? snapLine(p, s) : endSession(pid); continue; }
+      if (dist2(pl, bl) > MAX_DIST * MAX_DIST) { ["pull", "rest", "game"].includes(s.phase) ? snapLine(p, s) : endSession(pid); continue; }   // a hooked fish snaps the line
       s.age += TICK;
       if (s.age > MAX_AGE && !["pull", "rest", "game"].includes(s.phase)) { endSession(pid); continue; }
       const dim = b.dimension;
@@ -504,9 +504,15 @@ function tick() {
           startWaiting(s);
           continue;
         }
-        const text = hud(g, charsetFor(p));
+        const text = hud(g, charset());
         if (hudDue(s.hud, text, s.age, g.inside)) {
-          try { p.onScreenDisplay.setActionBar(text); } catch {}
+          // 1.4.0: each line gets a short label (reel track / catch progress) in the player's language
+          const [track, bar] = text.split("\n");
+          try {
+            p.onScreenDisplay.setActionBar({ rawtext: [
+              { text: "§7" }, { translate: "kaleidoscope_fishing.minigame.label_reel" }, { text: " " + track + "\n§7" },
+              { translate: "kaleidoscope_fishing.minigame.label_progress" }, { text: " " + bar }] });
+          } catch {}
           s.hud = { text, at: s.age, inside: g.inside };
         }
       } else if (s.phase === "pull") {
@@ -552,6 +558,7 @@ world.afterEvents.itemUse.subscribe(ev => useRodItem(ev.source, ev.itemStack));
 
 // v1.5: whether each angler is holding the use key with a rod (the minigame's only input)
 const holding = new Map();
+export const _holdingForTests = holding;
 world.afterEvents.itemStartUse.subscribe(ev => {
   if (!ev.source || !RODS[ev.itemStack?.typeId]) return;
   holding.set(ev.source.id, true);

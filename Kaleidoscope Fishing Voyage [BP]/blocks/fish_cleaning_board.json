@@ -64,6 +64,10 @@
         "kfv_fish_cleaning_board": {
           "texture": "kfv_fish_cleaning_board",
           "render_method": "alpha_test"
+        },
+        "kfv_board_fish": {
+          "texture": "kfv_board_fish",
+          "render_method": "alpha_test"
         }
       },
       "minecraft:light_dampening": 0,
@@ -679,6 +683,12 @@
         }
       },
       {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 33 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_33_1"
+        }
+      },
+      {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 33 && q.block_state('kaleidoscope_fishing:cut') == 2",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_33_2"
@@ -688,6 +698,12 @@
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 33 && q.block_state('kaleidoscope_fishing:cut') == 3",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_33_3"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 34 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_34_1"
         }
       },
       {
@@ -703,12 +719,6 @@
         }
       },
       {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 35 && q.block_state('kaleidoscope_fishing:cut') == 1",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_35_1"
-        }
-      },
-      {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 35 && q.block_state('kaleidoscope_fishing:cut') == 2",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_35_2"
@@ -721,12 +731,6 @@
         }
       },
       {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 36 && q.block_state('kaleidoscope_fishing:cut') == 1",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_36_1"
-        }
-      },
-      {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 36 && q.block_state('kaleidoscope_fishing:cut') == 2",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_36_2"
@@ -736,6 +740,12 @@
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 36 && q.block_state('kaleidoscope_fishing:cut') == 3",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_36_3"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 37 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_37_1"
         }
       },
       {
@@ -799,12 +809,6 @@
         }
       },
       {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:cut') == 1",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_41_1"
-        }
-      },
-      {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 41 && q.block_state('kaleidoscope_fishing:cut') == 2",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_41_2"
@@ -817,87 +821,39 @@
         }
       },
       {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_42_1"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:cut') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_42_2"
+        }
+      },
+      {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 42 && q.block_state('kaleidoscope_fishing:cut') == 3",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_shrimp_3"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_42_3"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_43_1"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:cut') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_43_2"
         }
       },
       {
         "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 43 && q.block_state('kaleidoscope_fishing:cut') == 3",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_shrimp_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 44 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_shrimp_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 45 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_shrimp_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:cut') == 2",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_2"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 46 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:cut') == 2",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_2"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 47 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:cut') == 2",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_2"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 48 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:cut') == 2",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_2"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 49 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_crab_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 50 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_jelly_3"
-        }
-      },
-      {
-        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 51 && q.block_state('kaleidoscope_fishing:cut') == 3",
-        "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_jelly_3"
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_43_3"
         }
       }
     ]

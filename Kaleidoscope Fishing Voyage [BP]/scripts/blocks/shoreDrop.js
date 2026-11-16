@@ -18,9 +18,8 @@ const shoreDrop = {
     if (!player || player.getGameMode() === GameMode.Creative) return;
     const p = arg?.params ?? {};
     const min = p.min ?? 1, max = p.max ?? 3;
-    const self = brokenBlockPermutation?.type?.id ?? `${NS}:oyster_bed`;
-    const drop = hasSilkTouch(player) ? new ItemStack(self, 1)
-      : new ItemStack(p.item ?? `${NS}:oyster`, min + Math.floor(Math.random() * (max - min + 1)));
+    if (hasSilkTouch(player)) return;                    // the engine drops the block itself
+    const drop = new ItemStack(p.item ?? `${NS}:oyster`, min + Math.floor(Math.random() * (max - min + 1)));
     try { block.dimension.spawnItem(drop, block.center()); } catch {}
   },
 };

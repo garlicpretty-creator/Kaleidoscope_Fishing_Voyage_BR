@@ -412,31 +412,17 @@
       "minecraft:oak_slab"
     ]
   },
-  "kaleidoscope_fishing:river_lord_casserole_block": {
-    "item": "kaleidoscope_fishing:river_lord_casserole",
-    "parts": [
-      [
-        0,
-        0,
-        0
-      ]
-    ],
+  "kaleidoscope_fishing:lava_dragon_koi_stone_grill_block": {
+    "bites": 3,
     "dirs": [
       0,
       1,
       2,
       3
     ],
-    "bites": 4,
-    "nutrition": 5,
-    "saturation": 0.9,
-    "remains": [
-      "minecraft:cauldron"
-    ],
-    "face": true
-  },
-  "kaleidoscope_fishing:dragon_koi_sizzle_block": {
-    "item": "kaleidoscope_fishing:dragon_koi_sizzle",
+    "item": "kaleidoscope_fishing:lava_dragon_koi_stone_grill",
+    "light": 6,
+    "nutrition": 3,
     "parts": [
       [
         0,
@@ -449,17 +435,32 @@
         1
       ]
     ],
+    "remains": [
+      "minecraft:polished_blackstone_slab"
+    ],
+    "saturation": 0.8
+  },
+  "kaleidoscope_fishing:river_lord_catfish_clay_pot_block": {
+    "bites": 4,
     "dirs": [
       0,
       1,
       2,
       3
     ],
-    "bites": 3,
+    "face": true,
+    "item": "kaleidoscope_fishing:river_lord_catfish_clay_pot",
     "nutrition": 4,
-    "saturation": 0.8,
+    "parts": [
+      [
+        0,
+        0,
+        0
+      ]
+    ],
     "remains": [
-      "minecraft:cobblestone"
-    ]
+      "minecraft:decorated_pot"
+    ],
+    "saturation": 0.8
   }
 }

@@ -78,7 +78,7 @@ function trySpot(player) {
 
 function nearCount(dimId, p) {
   let n = 0;
-  for (const s of spots.values()) if (s.dim === dimId && (s.x - p.x) ** 2 + (s.z - p.z) ** 2 <= RANGE * RANGE) n++;
+  for (const s of spots.values()) if (s.dim === dimId && Math.abs(s.x - p.x) <= RANGE + 1 && Math.abs(s.z - p.z) <= RANGE + 1) n++;   // same square trySpot picks from
   return n;
 }
 
@@ -132,3 +132,5 @@ world.afterEvents.playerBreakBlock.subscribe(ev => {
   if (!onBeach(ev.dimension, loc)) return;
   try { ev.dimension.spawnItem(new ItemStack(CLAM, 1), at); } catch {}
 });
+
+export const _spotsForTests = spots;

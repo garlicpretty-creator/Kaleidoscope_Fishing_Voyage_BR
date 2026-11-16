@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_anchor",
+    "metalness_emissive_roughness": "kfv_anchor_mer",
+    "normal": "kfv_anchor_normal"
+  }
+}

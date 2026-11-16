@@ -209,11 +209,11 @@
     "kfv_lava_fishing_rod": {
       "textures": "textures/items/kfv_lava_fishing_rod"
     },
+    "kfv_shrimp_trap": {
+      "textures": "textures/items/kfv_shrimp_trap"
+    },
     "kfv_angler_journal": {
       "textures": "textures/items/kfv_angler_journal"
-    },
-    "kfv_tide_clock": {
-      "textures": "textures/items/kfv_tide_clock"
     },
     "kfv_bamboo_hat": {
       "textures": "textures/items/kfv_bamboo_hat"
@@ -262,24 +262,6 @@
     },
     "kfv_fish_roe": {
       "textures": "textures/items/kfv_fish_roe"
-    },
-    "kfv_shrimp_meat": {
-      "textures": "textures/items/kfv_shrimp_meat"
-    },
-    "kfv_shrimp_shell": {
-      "textures": "textures/items/kfv_shrimp_shell"
-    },
-    "kfv_crab_meat": {
-      "textures": "textures/items/kfv_crab_meat"
-    },
-    "kfv_crab_roe": {
-      "textures": "textures/items/kfv_crab_roe"
-    },
-    "kfv_crab_shell": {
-      "textures": "textures/items/kfv_crab_shell"
-    },
-    "kfv_jellyfish_skin": {
-      "textures": "textures/items/kfv_jellyfish_skin"
     },
     "kfv_fish_scale_jelly": {
       "textures": "textures/items/kfv_fish_scale_jelly"
@@ -347,6 +329,24 @@
     "kfv_recipe_scrap": {
       "textures": "textures/items/kfv_recipe_scrap"
     },
+    "kfv_fish_cleaning_board": {
+      "textures": "textures/items/kfv_fish_cleaning_board"
+    },
+    "kfv_fish_scale": {
+      "textures": "textures/items/kfv_fish_scale"
+    },
+    "kfv_fishing_lantern": {
+      "textures": "textures/items/kfv_fishing_lantern"
+    },
+    "kfv_tackle_rack": {
+      "textures": "textures/items/kfv_tackle_rack"
+    },
+    "kfv_fish_tank": {
+      "textures": "textures/items/kfv_fish_tank"
+    },
+    "kfv_fishing_net": {
+      "textures": "textures/items/kfv_fishing_net"
+    },
     "kfv_fish_print": {
       "textures": "textures/items/kfv_fish_print"
     },
@@ -382,6 +382,9 @@
     },
     "kfv_skipjack": {
       "textures": "textures/items/kfv_skipjack"
+    },
+    "kfv_drying_rack": {
+      "textures": "textures/items/kfv_drying_rack"
     },
     "kfv_air_dried_fish": {
       "textures": "textures/items/kfv_air_dried_fish"
@@ -581,23 +584,11 @@
     "kfv_lure_hook": {
       "textures": "textures/items/kfv_lure_hook"
     },
-    "kfv_emperor_bone_hook": {
-      "textures": "textures/items/kfv_emperor_bone_hook"
-    },
     "kfv_glow_line": {
       "textures": "textures/items/kfv_glow_line"
     },
-    "kfv_whisker_line": {
-      "textures": "textures/items/kfv_whisker_line"
-    },
     "kfv_feather_bobber": {
       "textures": "textures/items/kfv_feather_bobber"
-    },
-    "kfv_dragon_scale_bobber": {
-      "textures": "textures/items/kfv_dragon_scale_bobber"
-    },
-    "kfv_frost_scale_bobber": {
-      "textures": "textures/items/kfv_frost_scale_bobber"
     },
     "kfv_live_shrimp": {
       "textures": "textures/items/kfv_live_shrimp"
@@ -635,21 +626,6 @@
     "kfv_shrimp_paste_fried_rice": {
       "textures": "textures/items/kfv_shrimp_paste_fried_rice"
     },
-    "kfv_stir_fried_shrimp": {
-      "textures": "textures/items/kfv_stir_fried_shrimp"
-    },
-    "kfv_crab_congee": {
-      "textures": "textures/items/kfv_crab_congee"
-    },
-    "kfv_shrimp_noodle_soup": {
-      "textures": "textures/items/kfv_shrimp_noodle_soup"
-    },
-    "kfv_crab_roe_rice": {
-      "textures": "textures/items/kfv_crab_roe_rice"
-    },
-    "kfv_jellyfish_salad": {
-      "textures": "textures/items/kfv_jellyfish_salad"
-    },
     "kfv_river_lord_catfish": {
       "textures": "textures/items/kfv_river_lord_catfish"
     },
@@ -668,23 +644,11 @@
     "kfv_dragon_scale": {
       "textures": "textures/items/kfv_dragon_scale"
     },
-    "kfv_emperor_tuna_fin": {
-      "textures": "textures/items/kfv_emperor_tuna_fin"
-    },
-    "kfv_frostlake_scale": {
-      "textures": "textures/items/kfv_frostlake_scale"
-    },
     "kfv_emperor_whole_tuna": {
       "textures": "textures/items/kfv_emperor_whole_tuna"
     },
     "kfv_frostlake_platter": {
       "textures": "textures/items/kfv_frostlake_platter"
-    },
-    "kfv_river_lord_casserole": {
-      "textures": "textures/items/kfv_river_lord_casserole"
-    },
-    "kfv_dragon_koi_sizzle": {
-      "textures": "textures/items/kfv_dragon_koi_sizzle"
     },
     "kfv_glass_float": {
       "textures": "textures/items/kfv_glass_float"
@@ -694,6 +658,12 @@
     },
     "kfv_dried_fish_string": {
       "textures": "textures/items/kfv_dried_fish_string"
+    },
+    "kfv_lava_dragon_koi_stone_grill": {
+      "textures": "textures/items/kfv_lava_dragon_koi_stone_grill"
+    },
+    "kfv_river_lord_catfish_clay_pot": {
+      "textures": "textures/items/kfv_river_lord_catfish_clay_pot"
     }
   }
 }

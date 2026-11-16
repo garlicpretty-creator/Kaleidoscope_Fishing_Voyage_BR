@@ -44,15 +44,19 @@ const SLOTS = ["dawn", "day", "dusk", "night"];
 /** registered catches: id -> entry (with .source); registered baits: id -> {biteFactor, source} */
 const catches = new Map();
 const baits = new Map();
-const itemExists = id => { try { return !!ItemTypes.get(id); } catch { return false; } };
+let itemExists = id => { try { return !!ItemTypes.get(id); } catch { return false; } };
 let builtinBait = () => false;     // set by loot.js (avoids a circular import)
 let onChange = () => {};           // loot.js rebuilds its lookups
 
 /** Live views for loot.js. */
 export const externalCatches = () => [...catches.values()];
+export const externalBait = id => baits.get(id);
 export const externalBaits = () => [...baits.values()];
 /** loot.js wires these at load (builtin bait test, change callback). */
 export function _wire(isBuiltinBait, changed) { builtinBait = isBuiltinBait; onChange = changed; }
+/** Tests only. */
+export function _setItemExists(fn) { itemExists = fn; }
+export function _clearRegistry() { catches.clear(); baits.clear(); onChange(); }
 
 function warn(what) { try { console.warn(`[Fishing Voyage] Rejected ${what}`); } catch {} }
 const num = (v, [lo, hi]) => typeof v === "number" && Number.isFinite(v) && v >= lo && v <= hi;

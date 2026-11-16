@@ -13,11 +13,13 @@
         "default": "geometry.kaleidoscope_fishing.heron"
       },
       "animations": {
-        "move": "animation.kaleidoscope_fishing.heron.move"
+        "move": "animation.kaleidoscope_fishing.heron.move",
+        "look_at_target": "animation.common.look_at_target"
       },
       "scripts": {
         "animate": [
-          "move"
+          "move",
+          "look_at_target"
         ]
       },
       "render_controllers": [
