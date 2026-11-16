@@ -1,39 +1,65 @@
+<p align="center">
+  <img src="docs/banner.png" alt="Kaleidoscope Fishing Voyage" width="640">
+</p>
+
 # 森羅物語：漁歌 / Kaleidoscope Cookery: Fishing Voyage
 
 森羅物語：廚房（基岩版移植）的非官方釣魚與海鮮附屬包。
 An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleidoscope Cookery.
+
+**目前版本 / Latest：1.4.0** · [下載 / Download](../../releases/latest) · [更新公告 / Release notes](RELEASE_NOTES_v1.4.0.md)
 
 > **需要 / Requires:** 森羅物語：廚房（Kaleidoscope Cookery，基岩版移植，作者 Loyallay）1.6.1 以上。
 > 本附屬包不修改森羅物語的任何檔案，只透過它公開的 Script Event API 註冊配方和手帳頁面。
 
 ## 內容
 
-- **釣魚**：大魚上鉤時的收線小遊戲，竹、漁歌、熔岩、末影四種釣竿，可自由搭配鉤、線、浮標和餌。
-- **漁獲**：淡水、海水、洞穴、下界、末地的魚與海鮮，以及四條傳說魚：河伯鯰、藍鰭皇鮪、冰湖主、熔岩龍鯉。
-- **加工**：曬魚架（魚乾、鹹魚、烏魚子）、魚露甕（魚露、蝦醬）、魚案板。
-- **料理與宴席**：湯、粥、飯、麵、清蒸、煎烤、炸物、壽司，以及鮪魚大體、生魚片船等宴席。
-- **裝飾**：魚缸、漁燈、錨、漁獲木箱、玻璃浮球、漁網牆飾、魚乾串、魚拓等。
-- **生物**：鸕鶿、鷺鷥、海鷗、漁販。
-- **漁歌手帳**：圖鑑、食譜與潮汐。
+- **釣魚**：大魚上鉤時的收線小遊戲，竹、漁歌、熔岩、末影四種釣竿，可自由搭配鉤、線、浮標和餌。雷雨魚群、月相魚汛與潮汐都會影響漁況。
+- **漁獲**：52 種，分布在 15 種水域：淡水、海水、紅樹林、河口、洞穴、冰下、下界、末地。另有四條傳說魚：河伯鯰、藍鰭皇鮪、冰湖主、熔岩龍鯉。
+- **加工**：曬魚架（風乾魚、鹹魚、魷魚乾、柴魚、烏魚子、飛魚一夜干）、魚露甕（魚露、蝦醬）、魚案板（41 種魚，每一刀外觀都會變）。
+- **料理與宴席**：湯、粥、飯、麵、清蒸、煎烤、炸物、壽司，共 84 道配方，都登錄在森羅廚房的鍋具與圖鑑；另有鮪魚大體、生魚片船、龍鯉石板燒等 16 種可放置的宴席。
+- **裝飾**：魚缸、漁燈、錨、漁獲木箱、玻璃浮球、漁網牆飾、魚乾串、魚拓等；海岸與河岸會自然生成碼頭。
+- **生物**：鸕鶿（可馴服，會潛水幫你抓魚）、鷺鷥、海鷗、漁販（每天加倍收購兩種魚）。
+- **漁歌手帳**：依水域分頁的圖鑑、食譜與潮汐。
+- **光影**：支援 Vibrant Visuals / RTX 材質。
 - **給其他附屬包的 API**：`kaleidoscope_fishing:register_bait`、`kaleidoscope_fishing:register_catch`，可以註冊新的餌和漁獲。
 
 ## Features
 
-- **Fishing**: a reeling minigame for big catches; four rods (bamboo, voyage, lava, ender) with interchangeable hooks, lines, bobbers and baits.
-- **Catches**: freshwater, sea, cave, Nether and End fish and seafood, plus four legendary fish.
-- **Processing**: drying rack (dried fish, salted fish, karasumi), fish sauce jar (fish sauce, shrimp paste), fish cleaning board.
-- **Dishes and feasts**: soups, congee, rice and noodle dishes, steamed and grilled fish, sushi, and feast blocks.
-- **Decor**: fish tanks, lanterns, anchor, catch crate, glass floats, net walls, fish prints and more.
-- **Mobs**: cormorant, heron, seagull and the fish merchant.
-- **Angler's journal**: catch log, recipes and tides.
+- **Fishing**: a reeling minigame for big catches; four rods (bamboo, voyage, lava, ender) with interchangeable hooks, lines, bobbers and baits. Storm schools, moon-phase runs and tides change what bites.
+- **Catches**: 52 species across 15 waters (freshwater, sea, mangrove, estuary, cave, under ice, Nether, End), plus four legendary fish.
+- **Processing**: drying rack (dried and salted fish, dried squid, katsuobushi, karasumi, dried flying fish), fish sauce jar (fish sauce, shrimp paste), and the fish cleaning board (41 fish, each cut shown on the board).
+- **Dishes and feasts**: 84 recipes registered with Cookery's stations and guidebook, and 16 placeable feasts.
+- **Decor**: fish tanks, lanterns, anchor, catch crate, glass floats, net walls, fish prints and more; piers generate on coasts and river banks.
+- **Mobs**: cormorant (tameable, dives and fishes for you), heron, seagull and the fish merchant (pays double for two fish each day).
+- **Angler's journal**: catch log by water, recipes and tides.
+- **Shaders**: Vibrant Visuals / RTX materials.
 - **Add-on API**: other add-ons can register baits and catches through script events.
 
 ## 安裝 / Installation
 
 1. 先安裝森羅物語：廚房 1.6.1 以上。 / Install Kaleidoscope Cookery 1.6.1 or newer first.
-2. 從 [Releases](../../releases) 下載 `.mcaddon`，點兩下匯入 Minecraft。 / Download the `.mcaddon` from Releases and open it.
-   Releases 還沒有檔案的話，可以照下面「從原始碼打包」自己產生。 / If Releases is still empty, build it from source as below.
+2. 從 [Releases](../../releases/latest) 下載 `.mcaddon`，點兩下匯入 Minecraft。 / Download the `.mcaddon` from [Releases](../../releases/latest) and open it.
 3. 在世界設定中同時啟用森羅物語與漁歌的行為包、資源包。 / Enable both add-ons' behaviour and resource packs in the world settings.
+4. 從舊版升級：先刪掉舊的漁歌再匯入新版，並先備份世界。 / Upgrading: remove the old Fishing Voyage first, and back up your world.
+
+不想玩收線小遊戲，可以輸入 `/scriptevent kaleidoscope_fishing:minigame off`。
+To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame off`.
+
+## 給其他附屬包 / For add-on authors
+
+其他附屬包可以用 Script Event 註冊自己的餌和漁獲。 / Other add-ons can register their own baits and catches through script events.
+
+| 事件 / Event | 方向 / Direction | 用途 / Purpose |
+|---|---|---|
+| `kaleidoscope_fishing:api_ready` | 漁歌 → 你 | 載入後送出，回報版本與能力 / sent after load, with version and capabilities |
+| `kaleidoscope_fishing:api_ping` | 你 → 漁歌 | 請漁歌再送一次 `api_ready` / asks for `api_ready` again |
+| `kaleidoscope_fishing:register_bait` | 你 → 漁歌 | `{"api":1,"source":"<ns>","baits":[{"id":"<item>","biteFactor":0.7}]}` |
+| `kaleidoscope_fishing:register_catch` | 你 → 漁歌 | `{"api":1,"source":"<ns>","catches":[{"id":"<item>","w":6,"waters":["river"],"size":[20,60]}]}` |
+
+- 只能註冊自己命名空間的物品；每次載入世界，收到 `api_ready` 之後要重新註冊。 / Register only items of your own namespace, again on every world load after `api_ready`.
+- 完整的欄位與限制寫在 `scripts/fishing/registry.js` 開頭的註解。 / The full field list and limits are in the header of `scripts/fishing/registry.js`.
+- 帶 `kaleidoscope_cookery:kitchen_knife` 標籤的刀都能在魚案板使用。 / Any knife tagged `kaleidoscope_cookery:kitchen_knife` works on the fish cleaning board.
 
 ## 從原始碼打包 / Building from source
 
