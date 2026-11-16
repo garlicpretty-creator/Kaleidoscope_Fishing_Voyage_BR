@@ -18,6 +18,7 @@ import { RODS } from "../data/generated.js";
 import { recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
 import { emitCaught } from "../api/host.js";
+import { enchantLevel, luckFactor, luckSize, lureTicks } from "../util/enchant.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
@@ -66,6 +67,10 @@ const dist2 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2;
 
 function mainhand(player) {
   try { return player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand); } catch { return undefined; }
+}
+/** The rod stack in the player's hand (for its enchantments), or undefined. */
+function heldRod(player) {
+  try { const slot = mainhand(player); return slot?.hasItem() && RODS[slot.typeId] ? slot.getItem() : undefined; } catch { return undefined; }
 }
 const isCreative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
 
@@ -214,14 +219,17 @@ function hookFish(player, s) {
   }
   const school = !!schoolNear(dim, s.bobber.location, 6);
   const depth = (s.ctx?.depth ?? 0) + s.fx.depth;           // a weighted bobber sinks the bait deeper
+  const luck = enchantLevel(heldRod(player), "luck_of_the_sea");       // 1.5.0: the rod's own enchantments count
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
+    luck: luckFactor(luck),
     moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
     rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: s.parts?.hook, line: s.parts?.line, dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }
-  s.size = rollSize(s.catchId, s.rod.tier + s.fx.size);
+  s.size = LEGEND_SET.has(s.catchId) ? rollSize(s.catchId, s.rod.tier + s.fx.size)
+    : luckSize(luck, () => rollSize(s.catchId, s.rod.tier + s.fx.size));
   // v1.5: a fish with a body length plays the minigame (junk, treasure, shrimp and crabs land at once)
   const entry = CATCH_BY_ID[s.catchId];
   if (minigameOn() && entry?.size && s.size !== undefined) {
@@ -379,7 +387,7 @@ function startWaiting(s) {
   const factor = (s.bait ? BAITS[s.bait]?.biteFactor ?? 1 : 1) * (rain ? 0.8 : 1) *
     (g.hat ? 0.85 : 1) * (g.coat && rain ? 0.8 : 1) * (school ? 0.55 : 1) *
     s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1);
-  s.biteAt = s.age + Math.round(randInt(lo, hi) * factor);
+  s.biteAt = s.age + lureTicks(Math.round(randInt(lo, hi) * factor), enchantLevel(heldRod(s.player), "lure"));   // 1.5.0: Lure
 }
 
 // v1.3: End ponds. A missed bite makes the bobber blink 1-3 blocks across the water.

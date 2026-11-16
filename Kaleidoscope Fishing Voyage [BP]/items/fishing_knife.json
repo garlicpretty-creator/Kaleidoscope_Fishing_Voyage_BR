@@ -17,6 +17,16 @@
       "minecraft:durability": {
         "max_durability": 250
       },
+      "minecraft:repairable": {
+        "repair_items": [
+          {
+            "items": [
+              "minecraft:iron_ingot"
+            ],
+            "repair_amount": "query.max_durability * 0.25"
+          }
+        ]
+      },
       "minecraft:damage": 4,
       "minecraft:hand_equipped": true,
       "minecraft:enchantable": {

@@ -826,4 +826,81 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 ok(log.messages.length === startupMessages && startupMessages === 0, `no chat text at all during the whole play-through (${log.messages.length}: ${log.messages.slice(0, 3).join(' | ')})`);
 ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no chat text through commands either');
 
+// ================================================================ 1.5.0: wolves, cats and the knife's Looting
+{
+  const PETS = await importScript('creatures/pets.js');
+  const animal = (typeId, { isTamed = false, target, hp = 10, max = 10 } = {}) => {
+    const a = { typeId, id: 'a' + Math.random(), isValid: true, dimension: D, location: { x: 3, y: 64, z: 3 }, target, tamedBy: undefined, effects: [],
+      health: { currentValue: hp, effectiveMax: max, setCurrentValue(v) { this.currentValue = v; } },
+      addEffect(id, t, o) { a.effects.push([id, t, o?.amplifier]); },
+      getComponent(n) {
+        if (n === 'minecraft:is_tamed') return a.tamedBy || isTamed ? {} : undefined;
+        if (n === 'minecraft:tameable') return a.tamedBy || isTamed ? undefined : { tame(p) { a.tamedBy = p; return true; } };
+        if (n === 'minecraft:health') return a.health;
+        return undefined;
+      } };
+    return a;
+  };
+  const offerTo = (a, rnd) => withRandom(rnd, () => interactEntity(a));
+
+  // Fish Bones and the wolf
+  let wolf = animal('minecraft:wolf');
+  clearInv(); P.hold(NS + 'fish_bones', 3);
+  let ev = offerTo(wolf, 0.9);
+  ok(ev.cancel && !wolf.tamedBy && inv('fish_bones') === 2, `wolf: Fish Bones are taken; two times in three the wolf is not tamed yet (${inv('fish_bones')} left)`);
+  offerTo(wolf, 0);
+  ok(wolf.tamedBy === P && inv('fish_bones') === 1, 'wolf: one chance in three, the wolf is tamed to the player who offered');
+  ev = offerTo(wolf, 0);
+  ok(inv('fish_bones') === 1, 'wolf: a tamed wolf takes no more Fish Bones');
+  wolf = animal('minecraft:wolf', { target: P });
+  offerTo(wolf, 0);
+  ok(!wolf.tamedBy && inv('fish_bones') === 1, 'wolf: an angry wolf cannot be tamed and eats nothing');
+  P.hold('minecraft:stick', 1); wolf = animal('minecraft:wolf');
+  ok(!interactEntity(wolf).cancel && !wolf.tamedBy, 'wolf: only Fish Bones do it');
+  P.mode = GameMode.Creative; P.hold(NS + 'fish_bones', 1); wolf = animal('minecraft:wolf');
+  offerTo(wolf, 0);
+  ok(wolf.tamedBy === P && inv('fish_bones') === 1, 'wolf: creative mode keeps the Fish Bones');
+  P.mode = GameMode.Survival;
+
+  // our fish and the cat
+  let cat = animal('minecraft:cat');
+  clearInv(); P.hold(NS + 'carp', 2);
+  ev = offerTo(cat, 0);
+  ok(ev.cancel && cat.tamedBy === P && inv('carp') === 1, 'cat: a carp tames a stray cat (one chance in three), and is eaten');
+  for (const [id, why] of [[NS + 'emperor_tuna', 'a legend'], [NS + 'shrimp', 'shellfish'], [NS + 'crab', 'a crab'], ['minecraft:stick', 'a stick']]) {
+    cat = animal('minecraft:cat'); clearInv(); P.hold(id, 1);
+    ok(!interactEntity(cat).cancel && !cat.tamedBy && P.held()?.amount === 1, `cat: ${why} is not offered to a cat`);
+  }
+  ok(PETS.isCatFish(new ItemStack(NS + 'sweetfish', 1)) && PETS.isCatFish(new ItemStack(NS + 'lobster', 1)) === new ItemStack(NS + 'lobster', 1).hasTag('minecraft:is_fish'),
+    'cat: what counts is the fish tag, as for the cormorant');
+  cat = animal('minecraft:cat', { isTamed: true, hp: 6, max: 10 }); clearInv(); P.hold(NS + 'carp', 2);
+  interactEntity(cat);
+  ok(cat.health.currentValue === 8 && inv('carp') === 1, `cat: a hurt, tamed cat eats a fish and heals a heart (${cat.health.currentValue}/10)`);
+  cat = animal('minecraft:cat', { isTamed: true, hp: 10, max: 10 });
+  interactEntity(cat);
+  ok(inv('carp') === 1, 'cat: a healthy tamed cat is not fed');
+
+  // stray cats stand still for a player who holds a fish and walks
+  const stray = animal('minecraft:cat'), pet = animal('minecraft:cat', { isTamed: true });
+  const getEntities0 = D.getEntities;
+  D.getEntities = o => (o?.type === 'minecraft:cat' ? [stray, pet] : getEntities0(o));
+  clearInv(); P.hold(NS + 'carp', 1); P.isSprinting = false;
+  PETS.holdStrays();
+  ok(stray.effects.length === 1 && stray.effects[0][0] === 'slowness' && pet.effects.length === 0, 'cat: a stray stands still while a walking player holds a fish; a tamed cat is left alone');
+  P.isSprinting = true; PETS.holdStrays();
+  ok(stray.effects.length === 1, 'cat: sprinting at it does not hold a stray');
+  P.isSprinting = false; P.hold(NS + 'emperor_tuna', 1); PETS.holdStrays();
+  ok(stray.effects.length === 1, 'cat: a legend in hand does not hold a stray');
+  D.getEntities = getEntities0;
+
+  // Looting on the knife
+  const IP = S.ItemStack.prototype, getComponent0 = IP.getComponent;
+  IP.getComponent = function (n) { return n === 'minecraft:enchantable' && this.typeId === NS + 'fishing_knife' ? { getEnchantment: id => (id === 'looting' ? { level: 3 } : undefined) } : getComponent0.call(this, n); };
+  clearInv(); P.hold(NS + 'fishing_knife', 1); drops();
+  let tubes = 0;
+  for (let i = 0; i < 200; i++) { fire('world.afterEvents.entityDie', { deadEntity: { typeId: 'minecraft:squid', dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true }, damageSource: { damagingEntity: P } }); tubes += drops().reduce((a, d) => a + d.amount, 0); }
+  IP.getComponent = getComponent0;
+  ok(tubes > 500 && tubes <= 1000, `knife: Looting III brings more squid (200 kills gave ${tubes}; 1-2 each without it, up to 5 with)`);
+}
+
 finish('play (world)');

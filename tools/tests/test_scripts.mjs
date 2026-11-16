@@ -7,6 +7,7 @@
 //   6. 1.5.0: price registration, the event broadcast, the state / record / catalog requests
 //   7. 1.5.0: the handshakes with Herbal, Harvest and Ranching; checked against their own API code when those
 //      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
+//   8. 1.5.0: Lure, Luck of the Sea and Unbreaking where our own scripts do the work
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -260,6 +261,36 @@ if (ranchRepo) {
     `Ranching's own API knows every feed kind and capability we use (${[...new Set(G.RANCHING_FEEDS.map(f => f.kind))].join(', ')})`);
   ok(G.RANCHING_FEEDS.every(f => !feeds.includes(`"${f.item}"`)), 'none of the feeds we register is already built into Ranching (it would be refused)');
 } else console.log('NOTE Ranching repository not found next to this one: register_feed checked against our reading of its API only');
+
+// ---------- 8. enchantments our scripts honour (1.5.0) ----------
+const E = await imp('util/enchant.js');
+const enchanted = levels => ({ getComponent: n => (n === 'minecraft:enchantable' ? { getEnchantment: id => (levels[id] ? { level: levels[id] } : undefined) } : undefined) });
+ok(E.enchantLevel(enchanted({ lure: 2 }), 'lure') === 2 && E.enchantLevel(enchanted({}), 'lure') === 0 && E.enchantLevel(undefined, 'lure') === 0
+  && E.enchantLevel({ getComponent() { throw new Error('x'); } }, 'lure') === 0, 'enchantLevel reads a level, and is 0 for no enchantment, no stack or a stack that throws');
+ok([0, 1, 2, 3].map(l => E.lureTicks(200, l)).join() === '200,170,140,110', 'Lure: a 200-tick wait becomes 170 / 140 / 110 at levels 1-3');
+ok(E.lureTicks(50, 3) === 40 && E.lureTicks(18, 3) === 18 && E.lureTicks(18, 0) === 18, 'Lure: never under 2 s by itself, and never longer than the wait without it');
+ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(E.luckFactor(9) - 1.45) < 1e-9, 'Luck of the Sea: +15 % per level, capped at level 3');
+{
+  let n = 0; const rolls = [40, 70];
+  ok(E.luckSize(0, () => rolls[n++], () => 0) === 40 && n === 1, 'Luck of the Sea: without it the size is rolled once');
+  n = 0; ok(E.luckSize(3, () => rolls[n++], () => 0) === 70 && n === 2, 'Luck of the Sea: when it strikes, the larger of two rolls is kept');
+  n = 0; ok(E.luckSize(3, () => rolls[n++], () => 0.99) === 40 && n === 1, 'Luck of the Sea: most casts roll once all the same');
+  ok(E.luckSize(3, () => undefined, () => 0) === undefined, 'Luck of the Sea: an unsized catch stays unsized');
+}
+{
+  let worn = 0; for (let i = 0; i < 6000; i++) if (E.wears(3)) worn++;
+  ok(E.wears(0) === true && worn > 1200 && worn < 1800, `Unbreaking III spares about three uses in four (${worn}/6000 wore the tool)`);
+}
+{
+  // Luck of the Sea reaches the catch table: the less common sized fish come up more often, legends do not
+  const rareIds = new Set(G.CATCHES.filter(c => c.size && c.w <= 12 && !c.req).map(c => c.id));
+  const sea = { waters: new Set(['ocean', 'deep_ocean']), depth: 12, slot: 'day', tier: 2, rod: true, moon: 2, caught: new Set() };
+  const share = luck => { let r = 0; for (let i = 0; i < 30000; i++) if (rareIds.has(L.rollCatch({ ...sea, luck }))) r++; return r / 30000; };
+  const plain = share(1), lucky = share(E.luckFactor(3));
+  ok(lucky > plain * 1.12, `Luck of the Sea III brings up more of the less common fish (${(plain * 100).toFixed(1)} % -> ${(lucky * 100).toFixed(1)} %)`);
+  const src = readFileSync(join(BP, 'scripts', 'fishing', 'loot.js'), 'utf8');
+  ok(/!e\.req\) w \*= ctx\.luck/.test(src), 'Luck of the Sea leaves the legends (entries with req) alone');
+}
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

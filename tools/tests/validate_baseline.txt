@@ -1,6 +1,7 @@
 # Known validate.py findings that are not real problems (2026-11-15).
 # Recipe and feature-rule ids are not item/block ids, and Cookery's own ids live in the Cookery pack.
 # tools/run_tests.py fails only on findings that are not listed here.
+UNDEFINED_ID kaleidoscope_fishing:bone_meal_from_fish_bones ['bone_meal_from_fish_bones.json']
 UNDEFINED_ID kaleidoscope_fishing:bone_meal_from_fish_meal ['bone_meal_from_fish_meal.json']
 UNDEFINED_ID kaleidoscope_fishing:dashi ['generated.js']
 UNDEFINED_ID kaleidoscope_fishing:fish_meal_from_bones ['fish_meal_from_bones.json']

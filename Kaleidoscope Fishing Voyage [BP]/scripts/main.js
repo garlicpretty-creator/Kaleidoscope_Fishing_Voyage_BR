@@ -29,4 +29,5 @@ import "./blocks/villageDecor.js";
 import "./world/schools.js";
 import "./creatures/seagull.js";
 import "./creatures/cormorant.js";
+import "./creatures/pets.js";      // 1.5.0: Fish Bones tame wolves, our fish tame cats
 import "./world/merchant.js";

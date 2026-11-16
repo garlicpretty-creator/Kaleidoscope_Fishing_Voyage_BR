@@ -126,6 +126,7 @@ export function rollCatch(ctx, rand = Math.random) {
     if (e.tier_bonus && tier >= 2) w *= e.tier_bonus;
     if (ctx.school) w *= e.school ?? ((e.size && e.w <= 12) ? 1.8 : 1);   // a school draws the less common fish up (v1.4: or the entry's own factor)
     if (e.size && e.w <= 12) w *= ctx.rare || 1;                       // copper / gold hooks
+    if (e.size && e.w <= 12 && !e.req) w *= ctx.luck || 1;             // 1.5.0: Luck of the Sea on the rod; never a legend
     if (ctx.shallow && ctx.shallow !== 1 && e.max_depth !== undefined && e.max_depth <= 6) w *= ctx.shallow;   // v1.4 feather bobber
     return w;
   }, rand);

@@ -22,6 +22,7 @@ import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { emit } from "../api/host.js";
+import { enchantLevel, wears } from "../util/enchant.js";
 
 const NS = "kaleidoscope_fishing";
 const CUT = `${NS}:cut`, SIZE = `${NS}:size`;
@@ -51,6 +52,7 @@ function wearKnife(player, slot) {
     const it = slot.getItem();
     const d = it?.getComponent("minecraft:durability");
     if (!d) return;
+    if (!wears(enchantLevel(it, "unbreaking"))) return;      // 1.5.0: Unbreaking spares the knife here as it does in a fight
     if (d.damage + 1 >= d.maxDurability) {
       slot.setItem(undefined);
       try { player.playSound("random.break"); } catch {}

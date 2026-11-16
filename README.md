@@ -82,7 +82,7 @@ python tools/run_tests.py     # 跑全部離線測試
 | 項目 | 檢查內容 |
 |---|---|
 | `build.py check` | `generated.js` 和 `tools/data` 一致 |
-| `validate.py` | 交叉檢查所有 ID 引用。目前固定有 30 項「問題」是誤報（配方和地物規則的 ID 不是物品 ID、森羅物語自己的 ID），列在 `tools/tests/validate_baseline.txt`；只有出現新的項目才算失敗 |
+| `validate.py` | 交叉檢查所有 ID 引用。目前固定有 31 項「問題」是誤報（配方和地物規則的 ID 不是物品 ID、森羅物語自己的 ID），列在 `tools/tests/validate_baseline.txt`；只有出現新的項目才算失敗 |
 | `check_models.py` | 3D 模型結構。有 10 個模型借用森羅物語的幾何，要把 `Kaleidoscope-Cookery-*.mcaddon` 放在本資料夾的上一層才會一起驗證，否則會註明「未驗證」 |
 | `tests/test_pack.py` | JSON、manifest、物品 icon、光影材質、創造模式選單、方塊放置設定、生怪蛋、世界結構 |
 | `tests/test_scripts.mjs` | 用模擬的遊戲環境載入全部腳本，測試自訂元件註冊、給其他附屬包的 API、傳說魚條件、1.4 新魚種 |
