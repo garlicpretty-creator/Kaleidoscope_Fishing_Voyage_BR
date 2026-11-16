@@ -26,6 +26,7 @@ import "./blocks/drying.js";
 import "./blocks/iceHole.js";
 import "./blocks/fishSauceJar.js";
 import "./blocks/villageDecor.js";
+import "./blocks/tideClock.js";     // 1.5.0: the Tide Clock hung on a wall
 import "./world/schools.js";
 import "./creatures/seagull.js";
 import "./creatures/cormorant.js";

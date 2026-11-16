@@ -112,7 +112,8 @@ def tide_clock():
     """Step 2: the Tide Clock. Its model, texture and icon come from tools/gen_tide_clock.py; the moving hand and
     the moon are Molang in the resource pack (animations/tide_clock.animation.json, the render controller)."""
     name = ('Tide Clock', '潮汐鐘', '潮汐钟')
-    c.item('tide_clock', stack=1)
+    # 1.5.0: used on a wall it hangs there (blocks/tide_clock.json below); in the hand it is still the dial
+    c.item('tide_clock', stack=1, components={'minecraft:block_placer': {'block': c.full('tide_clock'), 'replace_block_item': True}})
     c.names('tide_clock', *name)
     c.icon('tide_clock')
     c.catalog('tide_clock', 'angler_journal')
@@ -129,10 +130,58 @@ def tide_clock():
          '只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。']), name, stack=1, recipes=[recipe])
 
 
+def wall_tide_clock():
+    """Step 2: the Tide Clock as a block on a wall. Model: tools/gen_tide_clock.py; hand and moon: blocks/tideClock.js."""
+    import os
+    ns = c.NS
+    hand, moon = f'{ns}:hand', f'{ns}:moon'
+    visible = {f'hand_{i}': f"q.block_state('{hand}') == {i}" for i in range(16)}
+    visible.update({                         # as the held clock's render controller: 0 full .. 4 new .. 7 waxing gibbous
+        'moon_l2': f"q.block_state('{moon}') <= 3",
+        'moon_l1': f"q.block_state('{moon}') <= 2 || q.block_state('{moon}') == 7",
+        'moon_r1': f"q.block_state('{moon}') <= 1 || q.block_state('{moon}') >= 6",
+        'moon_r2': f"q.block_state('{moon}') == 0 || q.block_state('{moon}') >= 5",
+    })
+    box = {'origin': [-6, 2, 6], 'size': [12, 12, 2]}
+    turn = {'north': 0, 'east': 270, 'south': 180, 'west': 90}
+    c.write_json(os.path.join(c.BP, 'blocks', 'tide_clock.json'), {'format_version': '1.21.60', 'minecraft:block': {
+        'description': {'identifier': c.full('tide_clock'), 'states': {hand: list(range(16)), moon: list(range(8))},
+                        'traits': {'minecraft:placement_direction': {'enabled_states': ['minecraft:cardinal_direction'], 'y_rotation_offset': 180.0}}},
+        'components': {
+            'minecraft:display_name': f'%{ns}.display.item.tide_clock',
+            'minecraft:material_instances': {'*': {'texture': 'kfv_tide_clock', 'render_method': 'alpha_test'}},
+            'minecraft:geometry': {'identifier': 'geometry.kaleidoscope_fishing.wall_tide_clock', 'bone_visibility': visible},
+            'minecraft:light_dampening': 0, 'minecraft:collision_box': box, 'minecraft:selection_box': box,
+            'minecraft:destructible_by_mining': {'seconds_to_destroy': 0.4}, 'minecraft:map_color': '#C9A24A',
+            'minecraft:loot': f'loot_tables/{ns}/blocks/tide_clock.json',
+            f'{ns}:wall_decor': {}, f'{ns}:tide_clock': {},
+            'minecraft:tick': {'interval_range': [100, 100], 'looping': True}},
+        'permutations': [{'condition': f"q.block_state('minecraft:cardinal_direction') == '{d}'",
+                          'components': {'minecraft:transformation': {'rotation': [0, r, 0]}}} for d, r in turn.items()]}})
+    c.write_json(os.path.join(c.BP, 'loot_tables', ns, 'blocks', 'tide_clock.json'),
+                 {'pools': [{'rolls': 1, 'entries': [{'type': 'item', 'name': c.full('tide_clock')}]}]})
+    path = os.path.join(c.RP, 'textures', 'terrain_texture.json')
+    t = c.read_json(path)
+    t['texture_data']['kfv_tide_clock'] = {'textures': 'textures/entity/kfv_tide_clock'}
+    c.write_json(path, t)
+    g = c.data('GUIDEBOOK_JSON')
+    for e in g['entries']:
+        if e['id'] == c.full('tide_clock'):
+            extra = {'en_US': 'Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back.',
+                     'zh_TW': '對牆面使用就掛上去，指針和月相照樣會動。打掉就拿回來。', 'zh_CN': '对墙面使用就挂上去，指针和月相照样会动。打掉就拿回来。'}
+            for code, text in extra.items():
+                if text not in e['mechanicsByLocale'][code]:
+                    e['mechanicsByLocale'][code].append(text)
+            e['mechanics'] = list(e['mechanicsByLocale']['en_US'])
+            e['kinds'] = ['item', 'block']
+    c.save('GUIDEBOOK_JSON', g)
+
+
 if __name__ == '__main__':
     legends()
     creel()
     journal()
     merchant_order()
     tide_clock()
+    wall_tide_clock()
     print('1.5.0 content written; now run: python tools/build.py build')

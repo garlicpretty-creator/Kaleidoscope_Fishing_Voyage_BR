@@ -360,6 +360,9 @@
     },
     "kfv_river_lord_catfish_clay_pot": {
       "textures": "textures/blocks/kfv_river_lord_catfish_clay_pot"
+    },
+    "kfv_tide_clock": {
+      "textures": "textures/entity/kfv_tide_clock"
     }
   }
 }

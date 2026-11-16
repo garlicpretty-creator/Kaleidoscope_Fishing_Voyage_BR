@@ -1,10 +1,10 @@
-"""Tide Clock (潮汐鐘): the held model and its texture; with --icon, the 16x16 item icon too.
+"""Tide Clock (潮汐鐘): the held model, the wall model and their texture; with --icon, the 16x16 item icon too.
 
   python tools/gen_tide_clock.py                    model and texture
   python tools/gen_tide_clock.py --icon <picture>   also the item icon, made from the author's picture
 
-Writes models/entity/tide_clock.geo.json and textures/entity/kfv_tide_clock.png; --icon writes
-textures/items/kfv_tide_clock.png. Each texture gets its texture set and RTX maps. Safe to run again.
+Writes models/entity/tide_clock.geo.json, models/blocks/tide_clock.geo.json and textures/entity/kfv_tide_clock.png;
+--icon writes textures/items/kfv_tide_clock.png. Each texture gets its texture set and RTX maps. Safe to run again.
 
 The clock is a brass disc held flat in the hand, read from above with "forward" at the top:
   hand      one turn per tide (12000 ticks). It points at the blue arc while the tide is high.
@@ -13,6 +13,11 @@ The clock is a brass disc held flat in the hand, read from above with "forward" 
 Everything that carries meaning is a cube, not a painted mark, so nothing depends on how a face's texture is
 mirrored. The turning and the moon are Molang in animations/tide_clock.animation.json and
 render_controllers/kfv_tide_clock.render_controllers.json; they follow fishing/water.js tideState().
+The hand turns clockwise (a negative Y rotation: Bedrock's Y angle runs the other way round).
+
+On a wall (1.5.0) the same dial is a block, 1.5 times the size, with the blue arc at the top. A block cannot run
+Molang on the time of day, so the hand is one of 16 bones, 22.5 degrees apart, and blocks/tideClock.js shows the
+right one through a block state; the moon strips are bones too.
 """
 import json, os, sys
 from PIL import Image
@@ -83,6 +88,56 @@ def geometry():
         'bones': bones}]}
 
 
+WALL = 1.5                      # the wall dial is this many times the held one
+WALL_Y, WALL_Z = 8, 8           # its centre's height, and the wall it hangs on (the block's south side)
+
+
+def wall_cube(x0, x1, y0, y1, z0, z1, top, side=None):
+    """The held dial's box, stood up against the wall: its far rim is the top, its upper side faces the room
+    (north), and the holder's left is still on the viewer's left."""
+    def face(name):
+        c, r, _ = SWATCH[name]
+        return {'uv': [c * 4 + 1, r * 4 + 1], 'uv_size': [2, 2]}
+    side = side or top
+    X0, X1 = x0 * WALL, x1 * WALL
+    Y0_, Y1_ = WALL_Y - z1 * WALL, WALL_Y - z0 * WALL
+    Z0, Z1 = WALL_Z - y1 * WALL, WALL_Z - y0 * WALL
+    return {'origin': [round(X0, 3), round(Y0_, 3), round(Z0, 3)], 'size': [round(X1 - X0, 3), round(Y1_ - Y0_, 3), round(Z1 - Z0, 3)],
+            'uv': {'north': face(top), 'south': face(side), 'up': face(side), 'down': face(side), 'east': face(side), 'west': face(side)}}
+
+
+HAND_STEPS = 16
+
+
+def wall_geometry():
+    case = [
+        wall_cube(-3.5, 3.5, 0, 1.0, -3.5, 3.5, 'brass', 'brass_dark'),
+        wall_cube(-4.0, 4.0, 0, 0.9, -2.5, 2.5, 'brass', 'brass_dark'),
+        wall_cube(-2.5, 2.5, 0, 0.9, -4.0, 4.0, 'brass', 'brass_dark'),
+        wall_cube(-3.0, 3.0, 1.0, 1.1, -3.0, 3.0, 'face'),
+        wall_cube(-1.5, 1.5, 1.1, 1.16, -3.0, -2.4, 'high'),
+        wall_cube(1.5, 2.4, 1.1, 1.16, -2.7, -2.0, 'high'),
+        wall_cube(-2.4, -1.5, 1.1, 1.16, -2.7, -2.0, 'high'),
+        wall_cube(-0.4, 0.4, 1.1, 1.16, 2.5, 3.0, 'low'),
+        wall_cube(-1.0, 1.0, 1.1, 1.13, 0.6, 2.2, 'night'),
+        wall_cube(-0.35, 0.35, 1.2, 1.32, -0.35, 0.35, 'pin'),
+    ]
+    centre = [0, WALL_Y, round(WALL_Z - 1.2 * WALL, 3)]
+    bones = [{'name': 'root', 'pivot': [0, 0, 0]}, {'name': 'dial', 'parent': 'root', 'pivot': [0, WALL_Y, WALL_Z], 'cubes': case}]
+    for i in range(HAND_STEPS):
+        # a positive Z rotation turns the hand clockwise for someone facing the dial
+        bones.append({'name': f'hand_{i}', 'parent': 'dial', 'pivot': centre, 'rotation': [0, 0, round(i * 360 / HAND_STEPS, 3)],
+                      'cubes': [wall_cube(-0.2, 0.2, 1.2, 1.28, -2.5, 0.3, 'hand')]})
+    strips = {'moon_l2': (0.5, 1.0, 0.9, 1.9), 'moon_l1': (0.0, 0.5, 0.6, 2.2),
+              'moon_r1': (-0.5, 0.0, 0.6, 2.2), 'moon_r2': (-1.0, -0.5, 0.9, 1.9)}
+    for n, (x0, x1, z0, z1) in strips.items():
+        bones.append({'name': n, 'parent': 'dial', 'pivot': [0, WALL_Y, WALL_Z], 'cubes': [wall_cube(x0, x1, 1.13, 1.17, z0, z1, 'moon')]})
+    return {'format_version': '1.12.0', 'minecraft:geometry': [{
+        'description': {'identifier': 'geometry.kaleidoscope_fishing.wall_tide_clock', 'texture_width': 16, 'texture_height': 16,
+                        'visible_bounds_width': 2, 'visible_bounds_height': 2, 'visible_bounds_offset': [0, 0.5, 0]},
+        'bones': bones}]}
+
+
 def sheet():
     im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
     for c, r, colour in SWATCH.values():
@@ -148,7 +203,11 @@ def main():
     tex = os.path.join(RP, 'textures', 'entity', 'kfv_tide_clock.png')
     sheet().save(tex)
     texture_set(tex, ('heightmap', '_height'))
-    print('wrote', geo, tex, sep='\n  ')
+    wall = os.path.join(RP, 'models', 'blocks', 'tide_clock.geo.json')
+    with open(wall, 'w', encoding='utf-8', newline='\n') as f:
+        json.dump(wall_geometry(), f, indent=2)
+        f.write('\n')
+    print('wrote', geo, wall, tex, sep='\n  ')
     if len(sys.argv) == 3 and sys.argv[1] == '--icon':
         ico = os.path.join(RP, 'textures', 'items', 'kfv_tide_clock.png')
         icon_from(sys.argv[2]).save(ico)

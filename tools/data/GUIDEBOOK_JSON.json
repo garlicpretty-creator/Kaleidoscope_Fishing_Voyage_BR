@@ -7418,7 +7418,8 @@
    "id": "kaleidoscope_fishing:tide_clock",
    "category": "tools",
    "kinds": [
-    "item"
+    "item",
+    "block"
    ],
    "stack": 1,
    "icon": "textures/items/kfv_tide_clock",
@@ -7441,23 +7442,27 @@
     "en_US": [
      "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
      "The small moon near the low mark shows tonight's moon phase.",
-     "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still."
+     "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.",
+     "Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back."
     ],
     "zh_TW": [
      "拿在手上低頭看盤面。指針每一次潮汐轉一圈：指著遠端的藍色弧段時是漲潮，其他位置是退潮。",
      "靠近退潮記號的小月亮顯示今晚的月相。",
-     "只有拿在手上時才會動：在物品欄或物品展示框裡圖案是靜止的。"
+     "只有拿在手上時才會動：在物品欄或物品展示框裡圖案是靜止的。",
+     "對牆面使用就掛上去，指針和月相照樣會動。打掉就拿回來。"
     ],
     "zh_CN": [
      "拿在手上低头看盘面。指针每一次潮汐转一圈：指着远端的蓝色弧段时是涨潮，其他位置是退潮。",
      "靠近退潮记号的小月亮显示今晚的月相。",
-     "只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。"
+     "只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。",
+     "对墙面使用就挂上去，指针和月相照样会动。打掉就拿回来。"
     ]
    },
    "mechanics": [
     "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
     "The small moon near the low mark shows tonight's moon phase.",
-    "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still."
+    "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.",
+    "Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back."
    ]
   }
  ],

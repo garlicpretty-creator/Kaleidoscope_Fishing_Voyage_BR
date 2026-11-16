@@ -868,6 +868,40 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
     }
     ok(wrong === 0, `tide clock: the hand is on the blue arc exactly while the tide is high, through all 8 moon phases (${checked} moments, ${name}; ${wrong} wrong)`);
   }
+  // on a wall: the block shows one of 16 hand positions and the moon through block states
+  {
+    const TC = await importScript('blocks/tideClock.js');
+    const def = blockDefs.get(NS + 'tide_clock');
+    const states = def.description.states, vis2 = def.components['minecraft:geometry'].bone_visibility;
+    const geo = JSON.parse(readFileSync(join(RPdir, 'models', 'blocks', 'tide_clock.geo.json'), 'utf8'))['minecraft:geometry'][0];
+    const bones = geo.bones.map(b => b.name);
+    ok(states[NS + 'hand'].length === TC.HAND_STEPS && states[NS + 'moon'].length === 8
+      && Array.from({ length: TC.HAND_STEPS }, (_, i) => `hand_${i}`).every(b => bones.includes(b) && vis2[b] === `q.block_state('${NS}hand') == ${i_(b)}`),
+      `wall tide clock: ${TC.HAND_STEPS} hand bones, each shown by its own block state value`);
+    function i_(b) { return Number(b.split('_')[1]); }
+    const hands = geo.bones.filter(b => b.name.startsWith('hand_'));
+    ok(hands.every(b => Math.abs(b.rotation[2] - i_(b.name) * 22.5) < 1e-6 && b.rotation[0] === 0 && b.rotation[1] === 0), 'wall tide clock: the hands stand 22.5 degrees apart, clockwise');
+    let wrong = 0;
+    const HIGH = new Set([14, 15, 0, 1, 2]), SURE = new Set([15, 0, 1]);
+    for (let moon = 0; moon < 8; moon++) for (let t = 0; t < 24000; t += 125) {
+      clock.day = t; clock.moon = moon;
+      const step = TC.handStep(t, moon), high = W.tideState() === 'high';
+      if ((high && !HIGH.has(step)) || (SURE.has(step) && !high)) wrong++;
+    }
+    ok(wrong === 0, `wall tide clock: at high tide the hand is within the blue arc at the top, and near its middle only at high tide (${wrong} wrong)`);
+    // the block follows the world
+    const b = D.place(NS + 'tide_clock', { x: 700, y: 64, z: 700 });
+    let tc; for (const fn of S.__subs['system.beforeEvents.startup'] ?? []) fn({ blockComponentRegistry: { registerCustomComponent: (n, c2) => { if (n === NS + 'tide_clock') tc = c2; } }, itemComponentRegistry: { registerCustomComponent() {} }, customCommandRegistry: { registerCommand() {}, registerEnum() {} } });
+    clock.day = 3000; clock.moon = 0; tc.onPlace({ block: b });
+    const first = [b.permutation.getState(NS + 'hand'), b.permutation.getState(NS + 'moon')];
+    clock.day = 9000; clock.moon = 3; tc.onTick({ block: b });
+    const second = [b.permutation.getState(NS + 'hand'), b.permutation.getState(NS + 'moon')];
+    ok(first.join() === `${TC.handStep(3000, 0)},0` && second.join() === `${TC.handStep(9000, 3)},3` && first[0] === 4 && second[0] === 9,
+      `wall tide clock: the block sets its hand and moon when placed and on its tick (${first} then ${second})`);
+    for (const m of [0, 3, 4, 5]) ok(Object.entries(vis2).filter(([bn]) => bn.startsWith('moon_')).map(([, e]) => !!new Function('q', `return ${e};`)({ block_state: () => m })).filter(Boolean).length === [4, 3, 2, 1, 0, 1, 2, 3][m],
+      `wall tide clock: moon phase ${m} lights ${[4, 3, 2, 1, 0, 1, 2, 3][m]} strip(s)`);
+    D.place('minecraft:air', { x: 700, y: 64, z: 700 });
+  }
   clock.day = day0; clock.moon = moon0;
   const vis = Object.assign({}, ...JSON.parse(readFileSync(join(RPdir, 'render_controllers', 'kfv_tide_clock.render_controllers.json'), 'utf8'))
     .render_controllers['controller.render.kfv_tide_clock'].part_visibility.filter(v => !('*' in v)));

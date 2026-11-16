@@ -13,7 +13,11 @@
         "value": "%kaleidoscope_fishing.display.item.tide_clock"
       },
       "minecraft:icon": "kfv_tide_clock",
-      "minecraft:max_stack_size": 1
+      "minecraft:max_stack_size": 1,
+      "minecraft:block_placer": {
+        "block": "kaleidoscope_fishing:tide_clock",
+        "replace_block_item": true
+      }
     }
   }
 }
