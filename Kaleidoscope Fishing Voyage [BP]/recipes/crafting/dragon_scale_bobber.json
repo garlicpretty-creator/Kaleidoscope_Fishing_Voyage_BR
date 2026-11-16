@@ -1,0 +1,31 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:dragon_scale_bobber"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:dragon_scale"
+      },
+      {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:dragon_scale_bobber",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:dragon_scale"
+      },
+      {
+        "item": "kaleidoscope_fishing:bamboo_bobber"
+      }
+    ]
+  }
+}

@@ -253,5 +253,25 @@
     "id": "kaleidoscope_fishing:cave_crayfish",
     "nameKey": "kaleidoscope_fishing.name.cave_crayfish",
     "icon": "textures/items/kfv_cave_crayfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:river_lord_catfish",
+    "nameKey": "kaleidoscope_fishing.name.river_lord_catfish",
+    "icon": "textures/items/kfv_river_lord_catfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:emperor_tuna",
+    "nameKey": "kaleidoscope_fishing.name.emperor_tuna",
+    "icon": "textures/items/kfv_emperor_tuna"
+  },
+  {
+    "id": "kaleidoscope_fishing:frostlake_char",
+    "nameKey": "kaleidoscope_fishing.name.frostlake_char",
+    "icon": "textures/items/kfv_frostlake_char"
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_dragon_koi",
+    "nameKey": "kaleidoscope_fishing.name.lava_dragon_koi",
+    "icon": "textures/items/kfv_lava_dragon_koi"
   }
 ]

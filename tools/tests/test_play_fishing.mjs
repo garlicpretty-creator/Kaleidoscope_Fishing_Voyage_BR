@@ -640,6 +640,16 @@ function fishForLegend(atFn, rodId, max = 800) {   // a frostlake char is ~1.5% 
   const out = P.inv.slots.find((s, i) => s && i !== 5 && s.typeId === fid);
   ok(!!out && (!cls || out.getLore().some(l => (l.match(/◆/g) ?? []).length === Number(cls))), `fish creel: picking a fish puts it in the pockets with its size mark (${fid}, ${JSON.stringify(out?.getLore())})`);
   ok(!creel()[key], 'fish creel: it is taken out of the creel');
+  // 1.5.0: a legend goes into the creel too, and comes out with its ✦
+  {
+    const BK = await importScript('tools/basket.js');
+    const before = Object.values(creel()).reduce((a, b) => a + b, 0);
+    ok(BK.tryStore(P, NS + 'emperor_tuna', 1, 3) === 0 && creel()[NS + 'emperor_tuna#3'] === 1 && Object.values(creel()).reduce((a, b) => a + b, 0) === before + 1,
+      `fish creel: a legend goes in (${JSON.stringify(creel())})`);
+    const out = BK.takeOut(NS + 'emperor_tuna', 1, 3);
+    ok(out.getLore().includes('§d✦') && out.getLore().some(l => l.includes('◆◆◆')) && !BK.takeOut(NS + 'carp', 1, 2).getLore().includes('§d✦'),
+      `fish creel: a legend comes out with its ✦ and its size mark (${JSON.stringify(out.getLore())})`);
+  }
   // a shrimp trap empties into a carried creel
   const trap = D.place(NS + 'shrimp_trap', { x: 2, y: 61, z: 12 });
   P.selectedSlotIndex = 0; P.hold('kaleidoscope_cookery:caterpillar', 1); use(trap); tick(trap);

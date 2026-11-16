@@ -12,7 +12,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, moonPhase, tideState, timeSlot, weatherOf } from "./water.js";
 import { BAITS, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
-import { KEEPSAKES } from "../data/generated.js";
+import { KEEPSAKES, PARTS } from "../data/generated.js";
 import { getRecords } from "../journal/records.js";
 import { RODS } from "../data/generated.js";
 import { recordCatch } from "../journal/records.js";
@@ -68,6 +68,9 @@ const dist2 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2;
 function mainhand(player) {
   try { return player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand); } catch { return undefined; }
 }
+export const KEEPSAKE_AGAIN = 0.25;       // a legend caught again drops its keepsake one time in four
+/** What a part counts as when a legend asks for a hook or a line (1.5.0: the Emperor Bone Hook is a Bone Hook). */
+export const partAs = id => PARTS[id]?.as ?? id;
 /** The rod stack in the player's hand (for its enchantments), or undefined. */
 function heldRod(player) {
   try { const slot = mainhand(player); return slot?.hasItem() && RODS[slot.typeId] ? slot.getItem() : undefined; } catch { return undefined; }
@@ -146,9 +149,10 @@ function landCatch(player, s, from) {
   // A carried Fish Creel takes ordinary catches straight in; record fish stay out as trophies.
   const legend = LEGEND_SET.has(s.catchId);
   if (legend) { try { stack.setLore([...(stack.getLore() ?? []), "§d✦"]); } catch {} }
-  // v1.4: the first legend of its kind brings its keepsake
-  if (legend && rec.first && KEEPSAKES[s.catchId]) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
-  const stored = !rec.newBest && !legend && tryStore(player, s.catchId, 1, cls) === 0;
+  // v1.4: the first legend of its kind brings its keepsake. 1.5.0: a later one does now and then, so tackle made of it can be made again
+  if (legend && KEEPSAKES[s.catchId] && (rec.first || Math.random() < KEEPSAKE_AGAIN)) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
+  // 1.5.0: a legend goes into the creel like any catch (it comes out with its ✦); only a record stays in the hand
+  const stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
   emitCaught(player, s.catchId, { via: "rod", size: s.size, cls, rec });       // 1.5.0: other packs hear every landed catch
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
@@ -224,7 +228,7 @@ function hookFish(player, s) {
     luck: luckFactor(luck),
     moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
-    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: s.parts?.hook, line: s.parts?.line, dim: dim.id,
+    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }

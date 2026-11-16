@@ -292,5 +292,32 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(/!e\.req\) w \*= ctx\.luck/.test(src), 'Luck of the Sea leaves the legends (entries with req) alone');
 }
 
+// ---------- 9. legend keepsakes and tackle, legends in the creel (1.5.0) ----------
+{
+  const ROD = await imp('fishing/rod.js');
+  const PT = await imp('fishing/parts.js');
+  ok(G.LEGENDS.every(id => G.KEEPSAKES[id]), `every legend has a keepsake (${G.LEGENDS.filter(id => G.KEEPSAKES[id]).length}/${G.LEGENDS.length})`);
+  ok(ROD.partAs(`${NS}emperor_bone_hook`) === `${NS}bone_hook` && ROD.partAs(`${NS}whisker_line`) === `${NS}wire_line`
+    && ROD.partAs(`${NS}gold_hook`) === `${NS}gold_hook` && ROD.partAs(undefined) === undefined,
+    'the Emperor Bone Hook counts as a Bone Hook and the Whisker Line as a Wire Line; other parts are themselves');
+  const lord = byId[`${NS}river_lord_catfish`], lordCtx = { rod: true, tier: 3, thunder: true, raining: true, moon: 2, slot: 'night', caught: new Set() };
+  ok(L.reqOk(lord, { ...lordCtx, hook: ROD.partAs(`${NS}emperor_bone_hook`) }) && !L.reqOk(lord, { ...lordCtx, hook: ROD.partAs(`${NS}gold_hook`) }),
+    'the River Lord Catfish takes an Emperor Bone Hook, and still not a Gold Hook');
+  ok(ROD.KEEPSAKE_AGAIN > 0 && ROD.KEEPSAKE_AGAIN < 1, `a legend caught again drops its keepsake now and then (${ROD.KEEPSAKE_AGAIN})`);
+  const styles = Object.values(G.PARTS).map(p => p.style ?? 0);
+  const bob = JSON.parse(readFileSync(join(BP, 'entities', 'bobber.json'), 'utf8'))['minecraft:entity'].description.properties[`${NS}style`];
+  const RPdir = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]');
+  const skins = JSON.parse(readFileSync(join(RPdir, 'render_controllers', 'kfv_bobber.render_controllers.json'), 'utf8')).render_controllers['controller.render.kfv_bobber'].arrays.textures['Array.skins'];
+  const client = JSON.parse(readFileSync(join(RPdir, 'entity', 'bobber.entity.json'), 'utf8'))['minecraft:client_entity'].description.textures;
+  ok(Math.max(...styles) <= bob.range[1] && skins.length === bob.range[1] + 1 && skins.every(t => client[t.split('.')[1]] && existsSync(join(RPdir, client[t.split('.')[1]] + '.png'))),
+    `every bobber style has a skin: styles up to ${Math.max(...styles)}, property 0..${bob.range[1]}, ${skins.length} textures`);
+  ok(Object.values(G.LINE_STYLE).every(n => existsSync(join(RPdir, 'particles', `${n}.json`)) && existsSync(join(RPdir, 'textures', 'particle', `kfv_${n}.png`))),
+    `every line colour has its particle and texture (${Object.values(G.LINE_STYLE).join(', ')})`);
+  const fx = PT.effects({ hook: `${NS}emperor_bone_hook`, line: `${NS}whisker_line`, bobber: `${NS}frost_scale_bobber` });
+  ok(fx.rare === 1.5 && fx.size === 1 && fx.strain === 2 && fx.depth === 6 && fx.night === 0.75 && fx.style === 8 && fx.line === 'line_whisker' && fx.wear === 0,
+    `the legend tackle works as tackle (${JSON.stringify(fx)})`);
+  ok(G.LEGENDS.every(id => G.BASKET_ITEMS.some(b => b.id === id)), 'the Fish Creel has a place for every legend');
+}
+
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

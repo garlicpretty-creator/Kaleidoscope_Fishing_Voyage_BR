@@ -664,6 +664,24 @@
     },
     "kfv_river_lord_catfish_clay_pot": {
       "textures": "textures/items/kfv_river_lord_catfish_clay_pot"
+    },
+    "kfv_emperor_tuna_fin": {
+      "textures": "textures/items/kfv_emperor_tuna_fin"
+    },
+    "kfv_frostlake_scale": {
+      "textures": "textures/items/kfv_frostlake_scale"
+    },
+    "kfv_emperor_bone_hook": {
+      "textures": "textures/items/kfv_emperor_bone_hook"
+    },
+    "kfv_whisker_line": {
+      "textures": "textures/items/kfv_whisker_line"
+    },
+    "kfv_dragon_scale_bobber": {
+      "textures": "textures/items/kfv_dragon_scale_bobber"
+    },
+    "kfv_frost_scale_bobber": {
+      "textures": "textures/items/kfv_frost_scale_bobber"
     }
   }
 }
