@@ -65,6 +65,7 @@ To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame of
 - 只能註冊自己命名空間的物品；每次載入世界，收到 `api_ready` 之後要重新註冊。 / Register only items of your own namespace, again on every world load after `api_ready`.
 - 完整的介面文件：[`docs/API.md`](docs/API.md)。 / Full reference: [`docs/API.md`](docs/API.md).
 - 1.5.0 的企劃書：[`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)；遊戲內檢測表：[`docs/TEST_CHECKLIST_1.5.md`](docs/TEST_CHECKLIST_1.5.md)。 / The 1.5.0 plan and in-game checklist.
+- 1.6.0 企劃書（草案，無字的漁港）：[`docs/PLAN_1.6.0.md`](docs/PLAN_1.6.0.md)。 / The 1.6.0 plan (draft).
 - 帶 `kaleidoscope_cookery:kitchen_knife` 標籤的刀都能在魚案板使用。 / Any knife tagged `kaleidoscope_cookery:kitchen_knife` works on the fish cleaning board.
 
 ## 從原始碼打包 / Building from source
