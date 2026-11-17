@@ -68,7 +68,8 @@
         "cherry_trout": "geometry.kaleidoscope_fishing.tank_fish.cherry_trout",
         "creek_shrimp": "geometry.kaleidoscope_fishing.tank_fish.creek_shrimp",
         "echo_ray": "geometry.kaleidoscope_fishing.tank_fish.echo_ray",
-        "sculk_lanternfish": "geometry.kaleidoscope_fishing.tank_fish.sculk_lanternfish"
+        "sculk_lanternfish": "geometry.kaleidoscope_fishing.tank_fish.sculk_lanternfish",
+        "aurora_icefish": "geometry.kaleidoscope_fishing.tank_fish.aurora_icefish"
       },
       "animations": {
         "swim": "animation.kaleidoscope_fishing.tank_fish.swim",

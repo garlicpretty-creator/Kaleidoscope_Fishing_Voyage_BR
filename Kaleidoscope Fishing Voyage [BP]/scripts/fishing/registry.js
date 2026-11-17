@@ -38,7 +38,8 @@ export const EV = {
   catch: `${SOURCE}:register_catch`,
   price: `${SOURCE}:register_price`,
 };
-export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog"];
+export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog", "sky"];
+const SKIES = ["meteor", "aurora"];          // world/sky.js (not imported: it imports the host, which imports this)
 export const LIMITS = Object.freeze({ w: [1, 20], biteFactor: [0.5, 1], size: [1, 500], fight: [0, 3], depth: [0, 64],
   factor: [0, 3], moonBoost: [1, 2], price: [0.05, 3], perSource: 64 });
 
@@ -116,7 +117,7 @@ function catchEntry(e, source) {
     for (const k of ["high", "low"]) if (e.tide[k] !== undefined) { if (!num(e.tide[k], LIMITS.factor)) return `${e.id}: tide.${k}`; out.tide[k] = e.tide[k]; }
   }
   for (const k of ["rain", "cold", "dawn_dusk", "school", "tier_bonus"]) if (e[k] !== undefined) { if (!num(e[k], LIMITS.factor)) return `${e.id}: ${k} 0..3`; out[k] = e[k]; }
-  if (e.sky !== undefined) return `${e.id}: sky events are not supported in 1.4`;
+  if (e.sky !== undefined) { if (!SKIES.includes(e.sky)) return `${e.id}: sky must be "meteor" or "aurora"`; out.sky = e.sky; }
   const knownBait = id => typeof id === "string" && ID_RE.test(id) && (builtinBait(id) || baits.has(id));
   if (e.bait !== undefined) {
     if (!e.bait || typeof e.bait !== "object") return `${e.id}: bait`;

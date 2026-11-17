@@ -2265,5 +2265,44 @@
         ]
       }
     ]
+  },
+  "kaleidoscope_fishing:meteor_marlin": {
+    "index": 62,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            8,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
+    ]
   }
 }

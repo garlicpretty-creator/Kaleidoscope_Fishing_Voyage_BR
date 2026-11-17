@@ -9,6 +9,7 @@ import { getRecords } from "./records.js";
 import { moonPhase, tideState } from "../fishing/water.js";
 import { showRecipes } from "./recipes.js";
 import { orderNear, wantsNear } from "../world/merchant.js";
+import { skyTonight } from "../world/sky.js";
 import { charsetFor, minigameOn, setCharsetFor, setMinigame } from "../fishing/minigameSwitch.js";
 
 const NS = "kaleidoscope_fishing";
@@ -16,7 +17,7 @@ const JOURNAL = `${NS}:angler_journal`;
 const t = (key, ...with_) => with_.length ? { translate: `${NS}.journal.${key}`, with: with_.map(String) } : { translate: `${NS}.journal.${key}` };
 const nameOf = sp => ({ translate: `${NS}.name.${sp.key}` });
 const UNKNOWN_ICON = "textures/items/kfv_unknown_fish";
-const GROUP_ORDER = ["freshwater", "wetland", "sea", "ice", "lava", "end", "cave", "legend"];
+const GROUP_ORDER = ["freshwater", "wetland", "sea", "ice", "lava", "end", "cave", "secret", "sky", "legend"];   // 1.5.0: hidden waters, sky
 // groups in page order: the known ones first, then any group the data adds later
 export const GROUPS = [...GROUP_ORDER, ...JOURNAL_SPECIES.map(sp => sp.group ?? "freshwater")]
   .filter((g, i, a) => a.indexOf(g) === i && JOURNAL_SPECIES.some(sp => (sp.group ?? "freshwater") === g));
@@ -102,6 +103,8 @@ async function showTide(player) {
   const tw = (key, inner) => ({ translate: `${NS}.journal.${key}`, with: { rawtext: [{ translate: `${NS}.journal.${inner}` }] } });
   line(tw("tide_now", `tide_${tideState()}`));
   line(tw("moon_now", `moon_${moonPhase()}`));
+  const sky = skyTonight();                             // 1.5.0: only from dusk, only on a night that has one
+  if (sky) line(t(`sky_${sky}`));
   // v1.4: what the fish merchant wants today, if one is about
   const wants = wantsNear(player);
   if (wants === undefined) line(t("market_none"));

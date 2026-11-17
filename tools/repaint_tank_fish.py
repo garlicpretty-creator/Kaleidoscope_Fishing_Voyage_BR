@@ -43,11 +43,13 @@ CLONES = {
     'mycelium_flounder': ('carp', []), 'spore_seahorse': ('smelt', []), 'cherry_trout': ('rainbow_trout', []),
     'creek_shrimp': ('shrimp', []), 'echo_ray': ('crab', ['legl1', 'legr1', 'legl2', 'legr2', 'legl3', 'legr3']),
     'sculk_lanternfish': ('smelt', []),
+    'aurora_icefish': ('smelt', []),
 }
 TARGETS.update({'blazefin': ('fish', 'lava'), 'magma_koi': ('fish', 'lava'), 'lava_eel': ('fish', 'lava'),
                 'basalt_crab': ('crust', 'shell'), 'oyster': ('crust', 'shell'),
                 'mycelium_flounder': ('fish', 'mottle'), 'spore_seahorse': ('fish', 'dots'), 'cherry_trout': ('fish', 'spots'),
-                'creek_shrimp': ('crust', 'shrimp'), 'echo_ray': ('crust', 'glow'), 'sculk_lanternfish': ('fish', 'dots')})
+                'creek_shrimp': ('crust', 'shrimp'), 'echo_ray': ('crust', 'glow'), 'sculk_lanternfish': ('fish', 'dots'),
+                'aurora_icefish': ('fish', 'dots')})
 EXTRA = {   # hand-picked accents the icons cannot give
     'emperor_tuna': {'accent': (242, 194, 48)}, 'river_lord_catfish': {'accent': (216, 189, 106)},
     'frostlake_char': {'accent': (240, 140, 120)}, 'lava_dragon_koi': {'accent': (255, 190, 60)},

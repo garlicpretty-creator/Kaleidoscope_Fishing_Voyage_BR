@@ -391,7 +391,18 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
   const gf = blockDefs.get(NS + 'glass_float');
   const loot = gf?.components?.['minecraft:loot'];
   const lootOk = loot && JSON.parse(readFileSync(join(BP, loot), 'utf8')).pools?.[0]?.entries?.[0]?.name === NS + 'glass_float';
-  ok(!!gf && !Object.keys(gf.components).some(k => k.startsWith(NS)) && lootOk, 'glass float: pure decor (no script component), breaking gives itself back');
+  ok(!!gf && Object.keys(gf.components).filter(k => k.startsWith(NS)).join() === NS + 'star_float' && lootOk,
+    'glass float: decor whose only script is the star sand (1.5.0), breaking gives itself back');
+  {
+    const fl = D.place(NS + 'glass_float', { x: spot(), y: 64, z: 0 });
+    clearInv(); P.hold(NS + 'carp', 1); use(fl);
+    ok(fl.typeId === NS + 'glass_float' && inv('carp') === 1, 'glass float: anything but star sand does nothing');
+    clearInv(); P.hold(NS + 'star_sand', 2); use(fl);
+    const gl = blockDefs.get(NS + 'glowing_glass_float');
+    const gloot = JSON.parse(readFileSync(join(BP, gl.components['minecraft:loot']), 'utf8')).pools[0].entries[0].name;
+    ok(fl.typeId === NS + 'glowing_glass_float' && inv('star_sand') === 1 && gl.components['minecraft:light_emission'] > 0 && gloot === NS + 'glowing_glass_float',
+      `glass float: star sand makes it glow, one is used (${fl.typeId}, ${inv('star_sand')} left), and it drops itself`);
+  }
   for (const id of ['anchor', 'catch_crate', 'dried_fish_string', 'net_wall']) {
     const l = blockDefs.get(NS + id)?.components?.['minecraft:loot'];
     ok(l && existsSync(join(BP, l)) && JSON.parse(readFileSync(join(BP, l), 'utf8')).pools?.[0]?.entries?.[0]?.name === NS + id, `${id}: breaking gives itself back`);
@@ -1066,6 +1077,52 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   for (let i = 0; i < 200; i++) { fire('world.afterEvents.entityDie', { deadEntity: { typeId: 'minecraft:squid', dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true }, damageSource: { damagingEntity: P } }); tubes += drops().reduce((a, d) => a + d.amount, 0); }
   IP.getComponent = getComponent0;
   ok(tubes > 300 && tubes <= 800, `knife: Looting III brings more squid (200 kills gave ${tubes}; one each without it, up to 4 with)`);
+}
+
+// ================================================================ 1.5.0: sky events
+{
+  const Sk = await importScript('world/sky.js');
+  const { _spotsForTests: spots } = await importScript('events/clamDigging.js');
+  const J = await importScript('journal/journal.js');
+  const skyEvts = () => sent.filter(e => e.id === NS + 'evt').map(e => JSON.parse(e.msg)).filter(m => m.t === 'sky');
+  const at = (day, time) => { clock.abs = day * 24000 + time; clock.day = time; };
+  const day0 = Math.ceil(clock.abs / 24000) + 10;
+  sent.splice(0); weather = 'Clear';
+  at(day0, 6000); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && !skyEvts().length, 'sky: nothing is rolled by day');
+  at(day0, 12000); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === 'meteor' && skyEvts().length === 1 && skyEvts()[0].kind === 'meteor' && skyEvts()[0].phase === 'start' && skyEvts()[0].dim === 'minecraft:overworld' && !('p' in skyEvts()[0]),
+    `sky: rolled at dusk, the start is broadcast as a world event (${JSON.stringify(skyEvts()[0])})`);
+  at(day0, 15000); Sk.watchSky(() => 0.99);
+  ok(Sk.skyTonight() === 'meteor' && skyEvts().length === 1, 'sky: one roll a night (a later look changes nothing)');
+  Sk._resetSkyForTests();
+  ok(Sk.skyTonight() === 'meteor', 'sky: a restart remembers tonight (world property)');
+  // what the night changes: drawn sky, star sand, the journal line
+  P.location = { x: 0.5, y: 70, z: 0.5 }; biome = 'minecraft:plains';
+  const np = log.particles.length;
+  ok(Sk.drawSky(() => 0.3) === 1 && log.particles.slice(np).includes(NS + 'meteor'), 'sky: the meteors are drawn over a player under the open sky');
+  const x = spot(); spots.set(`minecraft:overworld|${x},64,0`, { dim: 'minecraft:overworld', x, y: 64, z: 0, ends: clock.abs + 2400 });
+  drops();
+  const got = withRandom(0.1, () => { fire('world.afterEvents.playerBreakBlock', { block: D.getBlock({ x, y: 64, z: 0 }), brokenBlockPermutation: S.BlockPermutation.resolve('minecraft:sand'), player: P, dimension: D, itemStackBeforeBreak: new ItemStack('minecraft:iron_shovel', 1) }); return drops(); });
+  ok(got.some(d => d.id === NS + 'star_sand'), `sky: on a meteor night a bubbling spot can give Star Sand as well (${got.map(d => d.id.split(':')[1])})`);
+  // dawn
+  at(day0 + 1, 100); sent.splice(0); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && skyEvts().length === 1 && skyEvts()[0].phase === 'end' && skyEvts()[0].kind === 'meteor', 'sky: at dawn it is over, and the end is broadcast');
+  Sk.watchSky(() => 0.05);
+  ok(skyEvts().length === 1, 'sky: the end is broadcast once');
+  // rain at dusk cancels a meteor shower, the aurora is only felt in the cold
+  at(day0 + 1, 12500); weather = 'Rain'; sent.splice(0); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && !skyEvts().length, 'sky: a meteor shower rolled in the rain is cancelled, nothing is broadcast');
+  weather = 'Clear';
+  at(day0 + 2, 12500); Sk.watchSky(() => 0.15);
+  ok(Sk.skyTonight() === 'aurora' && Sk.skyAt(true) === 'aurora' && Sk.skyAt(false) === '', 'sky: the aurora counts only in the cold');
+  at(day0 + 2, 16000);
+  const np2 = log.particles.length;
+  biome = 'minecraft:plains'; Sk.drawSky(() => 0.3);
+  const warm = log.particles.length - np2;
+  biome = 'minecraft:snowy_plains'; Sk.drawSky(() => 0.3);
+  ok(warm === 0 && log.particles.slice(np2).includes(NS + 'aurora'), 'sky: the aurora is drawn only over a player in a cold biome');
+  biome = 'minecraft:plains';
 }
 
 finish('play (world)');

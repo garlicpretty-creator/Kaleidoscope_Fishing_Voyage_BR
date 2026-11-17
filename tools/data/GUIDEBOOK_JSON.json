@@ -9001,6 +9001,120 @@
      "result": "kaleidoscope_fishing:echo_ray_pot"
     }
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:meteor_marlin",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_meteor_marlin",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Open and deep sea, only on a meteor-shower night. Huge, fast and very hard to land; specks of starlight on its back. Too big for a tank."
+    ],
+    "zh_TW": [
+     "海域與深海，只在流星雨的夜晚。巨大、快、非常難拉上來；背上有星光般的斑點。太大了，放不進魚缸。"
+    ],
+    "zh_CN": [
+     "海域与深海，只在流星雨的夜晚。巨大、快、非常难拉上来；背上有星光般的斑点。太大了，放不进鱼缸。"
+    ]
+   },
+   "mechanics": [
+    "Open and deep sea, only on a meteor-shower night. Huge, fast and very hard to land; specks of starlight on its back. Too big for a tank."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:aurora_icefish",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_aurora_icefish",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Under the ice, only on an aurora night (seen from a cold biome). Small and see-through; it shows the colours of the sky. Cooked whole; it stands in for Smelt."
+    ],
+    "zh_TW": [
+     "冰面底下，只在極光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映著天上的顏色。整條入菜，可以代替公魚。"
+    ],
+    "zh_CN": [
+     "冰面底下，只在极光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映着天上的颜色。整条入菜，可以代替公鱼。"
+    ]
+   },
+   "mechanics": [
+    "Under the ice, only on an aurora night (seen from a cold biome). Small and see-through; it shows the colours of the sky. Cooked whole; it stands in for Smelt."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:star_sand",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_star_sand",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:star_sand",
+      "kaleidoscope_fishing:fish_meal"
+     ],
+     "count": 4,
+     "time": 0,
+     "result": "kaleidoscope_fishing:glow_bait"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tiny star-shaped grains. On a meteor-shower night, bubbling beach sand dug with a shovel sometimes gives one as well. With Fish Meal it makes 4 Glow Bait; used on a placed Glass Float it makes the float glow."
+    ],
+    "zh_TW": [
+     "一粒粒小星星形狀的沙。流星雨的夜晚，用鏟子挖海灘冒泡的沙地，有時會多挖到一個。和魚粉做成發光餌 ×4；對放好的玻璃浮球使用，浮球會發光。"
+    ],
+    "zh_CN": [
+     "一粒粒小星星形状的沙。流星雨的夜晚，用铲子挖海滩冒泡的沙地，有时会多挖到一个。和鱼粉做成发光饵 ×4；对放好的玻璃浮球使用，浮球会发光。"
+    ]
+   },
+   "mechanics": [
+    "Tiny star-shaped grains. On a meteor-shower night, bubbling beach sand dug with a shovel sometimes gives one as well. With Fish Meal it makes 4 Glow Bait; used on a placed Glass Float it makes the float glow."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:glowing_glass_float",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_glowing_glass_float",
+   "recipes": [],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one."
+    ],
+    "zh_TW": [
+     "抹了星砂的玻璃浮球，會發出柔和的光。拿星砂對放好的玻璃浮球使用就會變成這個。"
+    ],
+    "zh_CN": [
+     "抹了星砂的玻璃浮球，会发出柔和的光。拿星砂对放好的玻璃浮球使用就会变成这个。"
+    ]
+   },
+   "mechanics": [
+    "A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one."
+   ]
   }
  ],
  "names": {
@@ -9346,7 +9460,11 @@
    "kaleidoscope_fishing:mushroom_flounder_stew": "Mushroom and Flounder Stew",
    "kaleidoscope_fishing:cherry_trout_rice": "Cherry Trout Rice",
    "kaleidoscope_fishing:fried_creek_shrimp": "Fried Creek Shrimp",
-   "kaleidoscope_fishing:echo_ray_pot": "Echo Ray Pot"
+   "kaleidoscope_fishing:echo_ray_pot": "Echo Ray Pot",
+   "kaleidoscope_fishing:meteor_marlin": "Meteor Marlin",
+   "kaleidoscope_fishing:aurora_icefish": "Aurora Icefish",
+   "kaleidoscope_fishing:star_sand": "Star Sand",
+   "kaleidoscope_fishing:glowing_glass_float": "Glowing Glass Float"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9690,7 +9808,11 @@
    "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌燉鰈魚",
    "kaleidoscope_fishing:cherry_trout_rice": "櫻鱒炊飯",
    "kaleidoscope_fishing:fried_creek_shrimp": "炸溪蝦",
-   "kaleidoscope_fishing:echo_ray_pot": "回音魟魚煲"
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟魚煲",
+   "kaleidoscope_fishing:meteor_marlin": "流星旗魚",
+   "kaleidoscope_fishing:aurora_icefish": "極光銀魚",
+   "kaleidoscope_fishing:star_sand": "星砂",
+   "kaleidoscope_fishing:glowing_glass_float": "發光玻璃浮球"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10034,7 +10156,11 @@
    "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌炖鲽鱼",
    "kaleidoscope_fishing:cherry_trout_rice": "樱鳟炊饭",
    "kaleidoscope_fishing:fried_creek_shrimp": "炸溪虾",
-   "kaleidoscope_fishing:echo_ray_pot": "回音魟鱼煲"
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟鱼煲",
+   "kaleidoscope_fishing:meteor_marlin": "流星旗鱼",
+   "kaleidoscope_fishing:aurora_icefish": "极光银鱼",
+   "kaleidoscope_fishing:star_sand": "星砂",
+   "kaleidoscope_fishing:glowing_glass_float": "发光玻璃浮球"
   }
  },
  "text": {

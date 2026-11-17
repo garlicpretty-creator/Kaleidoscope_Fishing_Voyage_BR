@@ -10,8 +10,9 @@
 //          sold     id, n, paid   fish sold to the Fish Merchant (paid in emeralds)
 //          order_filled  id, n   the player handed in the last fish of the merchant's order
 //          tide     state ("high" | "low")   world event, no "p": the tide turned
+//          sky      kind ("meteor" | "aurora"), phase ("start" at dusk | "end" at dawn), dim   world event   "sky"
 //   in   kaleidoscope_fishing:state_request   {"api":1,"source":"<ns>","req"?}                   capability "state"
-//   out  kaleidoscope_fishing:state           {"api":1,"to":"<ns>","req"?,"ok":true,"tide","moon","slot","day"}
+//   out  kaleidoscope_fishing:state           {"api":1,"to":"<ns>","req"?,"ok":true,"tide","moon","slot","day","sky"}
 //   in   kaleidoscope_fishing:record_request  {"api":1,"source":"<ns>","req"?,"p":"<player.id>","id"?}   "records"
 //   out  kaleidoscope_fishing:record          with "id": {"ok":true,"id","n","best"?}
 //                                             without: {"ok":true,"caught","total","legends","legendTotal"}
@@ -27,6 +28,7 @@ import { getRecords } from "../journal/records.js";
 import { moonPhase, tideState, timeSlot } from "../fishing/water.js";
 import { BAITS, LURE } from "../fishing/loot.js";
 import { API, SOURCE, externalCatches } from "../fishing/registry.js";
+import { skyTonight } from "../world/sky.js";
 
 export const EVT = `${SOURCE}:evt`;
 const REQ = { state: `${SOURCE}:state_request`, record: `${SOURCE}:record_request`, catalog: `${SOURCE}:catalog_request` };
@@ -71,7 +73,7 @@ function playerOf(id) {
 function state(m) {
   let day = 0;
   try { day = world.getDay(); } catch {}
-  reply("state", m, { ok: true, tide: tideState(), moon: moonPhase(), slot: timeSlot(), day });
+  reply("state", m, { ok: true, tide: tideState(), moon: moonPhase(), slot: timeSlot(), day, sky: skyTonight() || "none" });
 }
 
 function record(m) {
@@ -91,8 +93,8 @@ function record(m) {
 const KINDS = {
   catches: () => [
     ...CATCHES.map(c => ({ id: c.id, waters: c.waters ?? [], ...(GROUP[c.id] ? { group: GROUP[c.id] } : {}),
-      ...(c.size ? { size: c.size } : {}), ...(LEGEND.has(c.id) ? { legend: true } : {}) })),
-    ...externalCatches().map(c => ({ id: c.id, waters: c.waters ?? [], ...(c.size ? { size: c.size } : {}), source: c.source })),
+      ...(c.size ? { size: c.size } : {}), ...(LEGEND.has(c.id) ? { legend: true } : {}), ...(c.sky ? { sky: c.sky } : {}) })),
+    ...externalCatches().map(c => ({ id: c.id, waters: c.waters ?? [], ...(c.size ? { size: c.size } : {}), ...(c.sky ? { sky: c.sky } : {}), source: c.source })),
   ],
   baits: () => Object.entries(BAITS).filter(([id]) => id !== LURE)
     .map(([id, b]) => ({ id, biteFactor: b.biteFactor, ...(b.source ? { source: b.source } : {}) })),

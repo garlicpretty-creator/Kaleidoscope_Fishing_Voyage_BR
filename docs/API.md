@@ -39,6 +39,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `state` | 1.5.0 | 可以查詢潮汐、月相、時段：`state_request` |
 | `records` | 1.5.0 | 可以查詢玩家的釣魚紀錄：`record_request` |
 | `catalog` | 1.5.0 | 可以查詢漁獲與餌的清單：`catalog_request` |
+| `sky` | 1.5.0 | 有天象（流星雨、極光之夜）：漁獲可以設 `sky`，`state` 回報今晚的天象，`evt` 廣播 `sky` |
 
 用之前先確認清單裡有；1.4.0 的漁歌只有 `bait`、`catch`。
 
@@ -82,10 +83,11 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `rain`、`cold`、`dawn_dusk`、`school` | 下雨、寒冷、晨昏、魚群的倍率 | 0–3 |
 | `bait` | 特定餌的倍率 `{"<餌>":1.5}` | 0–3；餌必須是內建或已註冊的 |
 | `needBait` | 只有用這些餌才上鉤 | 同上 |
+| `sky` | 只在這種天象的夜晚上鉤（1.5.0，要有 `sky` capability） | `"meteor"`（流星雨）或 `"aurora"`（極光之夜；只在寒冷的地方算數） |
 
-水域：`river`、`lake`、`swamp`、`mangrove`、`estuary`、`beach`、`ocean`、`warm_ocean`、`cold_ocean`、`deep_ocean`、`cave`、`ice`、`lava`、`end_pond`、`void`。
+水域：`river`、`lake`、`swamp`、`mangrove`、`estuary`、`beach`、`ocean`、`warm_ocean`、`cold_ocean`、`deep_ocean`、`cave`、`ice`、`lava`、`end_pond`、`void`；1.5.0 加上 `mushroom`（蘑菇島）、`cherry`（櫻花樹林）、`deep_dark`（深暗之域，和洞穴一樣只出自己的漁獲）。
 
-不接受：`req`（傳說魚條件）、`sky`（天象，1.5.0 之後開放）。
+不接受：`req`（傳說魚條件）。1.4.0 的漁歌收到 `sky` 會拒絕整筆漁獲，先確認 `capabilities` 有 `sky`。
 
 ### 漁販收購價 — `register_price`（1.5.0）
 
@@ -110,6 +112,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `sold` | `id`、`n`、`paid` | 把魚賣給漁販；`n` 是他收下的數量，`paid` 是這次拿到的綠寶石 |
 | `order_filled` | `id`、`n` | 玩家交齊了漁販的訂單（`n` 條 `id`），剛拿到獎勵 |
 | `tide` | `state`：`high` 或 `low` | 潮汐轉換。世界事件，沒有 `p` |
+| `sky` | `kind`（`meteor` 或 `aurora`）、`phase`（黃昏 `start`、清晨 `end`）、`dim` | 天象開始與結束。世界事件，沒有 `p`；格式和 A Witch Way 的 `aww:evt` `sky` 相同，草本那類已經會聽 AWW 天象的包可以共用處理 |
 
 `caught` 的欄位：
 
@@ -134,13 +137,14 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 回覆 `kaleidoscope_fishing:state`：
 
 ```json
-{"api":1,"to":"my_pack","req":"1","ok":true,"tide":"high","moon":0,"slot":"dawn","day":12}
+{"api":1,"to":"my_pack","req":"1","ok":true,"tide":"high","moon":0,"slot":"dawn","day":12,"sky":"none"}
 ```
 
 - `tide`：`high` 或 `low`。
 - `moon`：0 滿月 … 4 新月 … 7。
 - `slot`：`dawn`、`day`、`dusk`、`night`。
 - `day`：世界的天數。
+- `sky`：今晚的天象，`meteor`、`aurora` 或 `none`。只在黃昏到隔天清晨之間有值；極光不分地點都回報 `aurora`，是否在寒冷的地方由你判斷。
 
 ### 玩家的釣魚紀錄 — `record_request`（1.5.0）
 
@@ -203,6 +207,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | 讓漁販收自己的魚 | `register_price` |
 | 玩家釣到魚、釣到傳說魚、破紀錄時做反應 | 聽 `evt` 的 `caught`，看 `legend`、`first`、`record` |
 | 依潮汐或月相改變自己的內容 | `state_request`，並聽 `evt` 的 `tide` |
+| 天象之夜給自己的東西加成（作物、藥草、動物） | 聽 `evt` 的 `sky`（`start` 到 `end` 之間），或在 `state` 看 `sky` |
 | 任務或成就要知道玩家釣過什麼 | `record_request` |
 | 列出漁歌有哪些魚（做手冊頁、掉落表） | `catalog_request` |
 

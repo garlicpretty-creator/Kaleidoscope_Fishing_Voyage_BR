@@ -303,5 +303,15 @@
     "id": "kaleidoscope_fishing:sculk_lanternfish",
     "nameKey": "kaleidoscope_fishing.name.sculk_lanternfish",
     "icon": "textures/items/kfv_sculk_lanternfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:meteor_marlin",
+    "nameKey": "kaleidoscope_fishing.name.meteor_marlin",
+    "icon": "textures/items/kfv_meteor_marlin"
+  },
+  {
+    "id": "kaleidoscope_fishing:aurora_icefish",
+    "nameKey": "kaleidoscope_fishing.name.aurora_icefish",
+    "icon": "textures/items/kfv_aurora_icefish"
   }
 ]

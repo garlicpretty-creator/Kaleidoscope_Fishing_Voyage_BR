@@ -375,6 +375,9 @@
     },
     "kfv_lava_fish_tank": {
       "textures": "textures/blocks/kfv_lava_fish_tank"
+    },
+    "kfv_glowing_glass_float": {
+      "textures": "textures/blocks/kfv_glowing_glass_float"
     }
   }
 }

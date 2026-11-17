@@ -823,6 +823,18 @@
     },
     "kfv_echo_ray_pot": {
       "textures": "textures/items/kfv_echo_ray_pot"
+    },
+    "kfv_meteor_marlin": {
+      "textures": "textures/items/kfv_meteor_marlin"
+    },
+    "kfv_aurora_icefish": {
+      "textures": "textures/items/kfv_aurora_icefish"
+    },
+    "kfv_star_sand": {
+      "textures": "textures/items/kfv_star_sand"
+    },
+    "kfv_glowing_glass_float": {
+      "textures": "textures/items/kfv_glowing_glass_float"
     }
   }
 }

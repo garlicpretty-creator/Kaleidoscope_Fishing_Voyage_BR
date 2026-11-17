@@ -627,8 +627,14 @@
     "recipe": {
       "id": "kaleidoscope_fishing:wok/smelt_tempura",
       "ingredients": [
-        "kaleidoscope_fishing:smelt",
-        "kaleidoscope_fishing:smelt",
+        [
+          "kaleidoscope_fishing:smelt",
+          "kaleidoscope_fishing:aurora_icefish"
+        ],
+        [
+          "kaleidoscope_fishing:smelt",
+          "kaleidoscope_fishing:aurora_icefish"
+        ],
         "kaleidoscope_cookery:flour",
         "minecraft:egg"
       ],
@@ -1325,7 +1331,8 @@
         "kaleidoscope_cookery:rice",
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         "kaleidoscope_fishing:white_fish_fillet"
       ],

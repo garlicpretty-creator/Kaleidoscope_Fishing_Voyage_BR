@@ -814,19 +814,16 @@ NEW_FISH = {
 }
 
 
-def new_waters():
-    """Step 10: three new waters and their six fish, a journal page for them, and four dishes (plan 8)."""
+def _add_fish(table, group, after):
+    """Items, names, habitat, catches, journal page, creel, price, board, guide page for each fish of a table like NEW_FISH."""
     S = NS
-    J = f'{c.NS}.journal.'
-    c.lang(J + 'group_secret', 'Hidden Waters', '秘境', '秘境', packs=(c.RP,))
     catches = c.data('CATCHES')
     journal = c.data('JOURNAL_SPECIES')
     basket = c.data('BASKET_ITEMS')
     prices = c.data('MERCHANT_PRICES')
     board = c.data('CLEANING')
     next_board = max(f['index'] for f in board.values()) + 1
-    after = 'cave_crayfish'
-    for key, (name, where, entry, sized, edible, fish_tag, price, cut, pattern) in NEW_FISH.items():
+    for key, (name, where, entry, sized, edible, fish_tag, price, cut, pattern) in table.items():
         comp = {}
         if edible:
             comp = food(*edible)
@@ -843,7 +840,7 @@ def new_waters():
         c.catalog(key, after)
         after = key
         catches = [x for x in catches if x['id'] != S + key] + [{'id': S + key, **entry}]
-        journal = [x for x in journal if x['id'] != S + key] + [{'id': S + key, 'key': key, 'icon': f'textures/items/kfv_{key}', 'sized': sized, 'group': 'secret'}]
+        journal = [x for x in journal if x['id'] != S + key] + [{'id': S + key, 'key': key, 'icon': f'textures/items/kfv_{key}', 'sized': sized, 'group': group}]
         basket = [x for x in basket if x['id'] != S + key] + [{'id': S + key, 'nameKey': f'{c.NS}.name.{key}', 'icon': f'textures/items/kfv_{key}'}]
         prices[S + key] = price
         if cut:
@@ -866,25 +863,31 @@ def new_waters():
         c.guide(key, 'fish' if fish_tag else 'seafood', where, name, stack=64, food=food_info)
     c.save('CATCHES', catches); c.save('JOURNAL_SPECIES', journal); c.save('BASKET_ITEMS', basket)
     c.save('MERCHANT_PRICES', prices); c.save('CLEANING', board)
-    # minigame swimming patterns
     mp = os.path.join(c.BP, 'scripts', 'data', 'minigame.js')
     js = open(mp, encoding='utf-8').read()
-    for key, v in NEW_FISH.items():
+    for key, v in table.items():
         pat = v[8]
         if pat and f"'{S}{key}'" not in js:
             js = js.replace("export const PATTERN = {\n", f"export const PATTERN = {{\n  '{S}{key}': '{pat}',   // 1.5.0\n", 1)
     with open(mp, 'w', encoding='utf-8', newline='\n') as f:
         f.write(js)
-    # cormorants take the new fish too
     cp = os.path.join(c.BP, 'entities', 'cormorant.json')
     e = c.read_json(cp)
     groups = e['minecraft:entity']['component_groups']
-    fishy = [S + k for k, v in NEW_FISH.items() if v[5]]
+    fishy = [S + k for k, v in table.items() if v[5]]
     for lst in (groups[f'{c.NS}:wild']['minecraft:tameable']['tame_items'], groups[f'{c.NS}:wild']['minecraft:behavior.tempt']['items']):
         lst += [f for f in fishy if f not in lst]
     heal = groups[f'{c.NS}:tamed']['minecraft:healable']['items']
     heal += [{'item': f, 'heal_amount': 4} for f in fishy if f not in [h['item'] for h in heal]]
     c.write_json(cp, e)
+
+
+def new_waters():
+    """Step 10: three new waters and their six fish, a journal page for them, and four dishes (plan 8)."""
+    S = NS
+    J = f'{c.NS}.journal.'
+    c.lang(J + 'group_secret', 'Hidden Waters', '秘境', '秘境', packs=(c.RP,))
+    _add_fish(NEW_FISH, 'secret', 'cave_crayfish')
     # dishes
     for key, name, n, sat, how, bowl in [
         ('mushroom_flounder_stew', ('Mushroom and Flounder Stew', '菇菌燉鰈魚', '菇菌炖鲽鱼'), 8, 0.7,
@@ -912,6 +915,114 @@ def new_waters():
     c.save('KC_RECIPES', table)
 
 
+SKY_FISH = {
+    'meteor_marlin': (('Meteor Marlin', '流星旗魚', '流星旗鱼'),
+        ('Open and deep sea, only on a meteor-shower night. Huge, fast and very hard to land; specks of starlight on its back. Too big for a tank.',
+         '海域與深海，只在流星雨的夜晚。巨大、快、非常難拉上來；背上有星光般的斑點。太大了，放不進魚缸。',
+         '海域与深海，只在流星雨的夜晚。巨大、快、非常难拉上来；背上有星光般的斑点。太大了，放不进鱼缸。'),
+        {'w': 3, 'waters': ['ocean', 'deep_ocean', 'warm_ocean'], 'sky': 'meteor', 'tier': 2, 'size': [180, 350], 'fight': 6}, True, (3, 0.3), True, 2.5,
+        {'first': 1, 'cuts': 'fish', 'fillet': 8, 'bones': 2}, 'dash'),
+    'aurora_icefish': (('Aurora Icefish', '極光銀魚', '极光银鱼'),
+        ('Under the ice, only on an aurora night (seen from a cold biome). Small and see-through; it shows the colours of the sky. Cooked whole; it stands in for Smelt.',
+         '冰面底下，只在極光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映著天上的顏色。整條入菜，可以代替公魚。',
+         '冰面底下，只在极光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映着天上的颜色。整条入菜，可以代替公鱼。'),
+        {'w': 14, 'waters': ['ice'], 'sky': 'aurora', 'size': [5, 10], 'fight': 0}, True, (1, 0.2), True, 0.6, None, None),
+}
+
+
+def sky_events():
+    """Step 11: sky events (plan 10): the two sky fish, star sand, the glowing glass float, the journal's Sky page;
+    the starfin rises into the sea under meteors, and the aurora stands in for the Frostlake Char's new moon."""
+    S = NS
+    J = f'{c.NS}.journal.'
+    c.lang(J + 'group_sky', 'Sky', '天象', '天象', packs=(c.RP,))
+    c.lang(J + 'sky_meteor', '§eTonight: a meteor shower.§r Starfins come up into the sea, the Meteor Marlin bites, and bubbling beach sand may hold Star Sand.',
+           '§e今晚的天象：流星雨。§r星鰭魚浮上海面，流星旗魚會咬鉤，海灘冒泡的沙地可能挖到星砂。',
+           '§e今晚的天象：流星雨。§r星鳍鱼浮上海面，流星旗鱼会咬钩，海滩冒泡的沙地可能挖到星砂。', packs=(c.RP,))
+    c.lang(J + 'sky_aurora', '§bTonight: an aurora,§r seen in cold biomes. Fish under the ice bite sooner, the Aurora Icefish comes up, and the Frostlake Char does not wait for the new moon.',
+           '§b今晚的天象：極光之夜§r（寒冷的生物群系看得到）。冰下的魚咬鉤比較快，極光銀魚會出現，冰湖主不必等新月。',
+           '§b今晚的天象：极光之夜§r（寒冷的生物群系看得到）。冰下的鱼咬钩比较快，极光银鱼会出现，冰湖主不必等新月。', packs=(c.RP,))
+    _add_fish(SKY_FISH, 'sky', 'sculk_lanternfish')
+    catches = c.data('CATCHES')
+    for e in catches:
+        if e['id'] == S + 'starfin':
+            e['sky_waters'] = {'meteor': ['ocean', 'deep_ocean', 'warm_ocean', 'cold_ocean']}
+        if e['id'] == S + 'frostlake_char':
+            e['req']['sky_moon'] = 'aurora'
+    c.save('CATCHES', catches)
+    c.lang(f'{c.NS}.habitat.starfin',
+           'Rare, deep in the void (Ender Fishing Rod): the bait has to hang deep, so fit a Weighted Bobber. On a meteor-shower night it also comes up in the deep sea. A long fight. Slow falling and night vision.',
+           '稀有，在虛空深處（末影釣竿）：餌要垂得夠深，得裝上重墜浮標。流星雨的夜晚也會出現在海裡較深的地方。拉扯很久。吃了緩降又有夜視。',
+           '稀有，在虚空深处（末影钓竿）：饵要垂得够深，得装上重坠浮标。流星雨的夜晚也会出现在海里较深的地方。拉扯很久。吃了缓降又有夜视。', packs=(c.RP,))
+    c.lang(f'{c.NS}.habitat.frostlake_char',
+           'Under the ice at dawn after a new moon, or at dawn after an aurora night. A tip-up will never take it; fish for it by hand.',
+           '新月後的清晨，冰面底下；極光之夜後的清晨也可以。插旗浮標釣不到，要親手釣。',
+           '新月后的清晨，冰面底下；极光之夜后的清晨也可以。插旗浮标钓不到，要亲手钓。', packs=(c.RP,))
+    # the icefish in smelt dishes
+    for r in c.data('KC_RECIPES'):
+        ing = r['recipe'].get('ingredients') or []
+        if any(S + 'smelt' in (i if isinstance(i, list) else [i]) for i in ing) and r['recipe']['id'].startswith(S + 'wok/'):
+            c.kc_alternative(r['recipe']['id'].split(':')[1], 'smelt', 'aurora_icefish')
+    # ---- star sand
+    name = ('Star Sand', '星砂', '星砂')
+    c.item('star_sand', stack=64, group='ingredients')
+    c.names('star_sand', *name)
+    c.icon('star_sand')
+    c.catalog('star_sand', 'glow_bait')
+    bait = c.recipe_file('crafting', 'glow_bait_from_star_sand', {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
+        'description': {'identifier': S + 'glow_bait_from_star_sand'}, 'tags': ['crafting_table'],
+        'ingredients': [{'item': S + 'star_sand'}, {'item': S + 'fish_meal'}],
+        'result': {'item': S + 'glow_bait', 'count': 4}, 'unlock': [{'item': S + 'star_sand'}]}})
+    c.guide('star_sand', 'ingredients', (
+        'Tiny star-shaped grains. On a meteor-shower night, bubbling beach sand dug with a shovel sometimes gives one as well. With Fish Meal it makes 4 Glow Bait; used on a placed Glass Float it makes the float glow.',
+        '一粒粒小星星形狀的沙。流星雨的夜晚，用鏟子挖海灘冒泡的沙地，有時會多挖到一個。和魚粉做成發光餌 ×4；對放好的玻璃浮球使用，浮球會發光。',
+        '一粒粒小星星形状的沙。流星雨的夜晚，用铲子挖海滩冒泡的沙地，有时会多挖到一个。和鱼粉做成发光饵 ×4；对放好的玻璃浮球使用，浮球会发光。'), name, stack=64,
+        recipes=[{'method': 'Crafting Table', 'ingredients': [S + 'star_sand', S + 'fish_meal'], 'count': 4, 'time': 0, 'result': S + 'glow_bait'}])
+    # ---- the glowing glass float
+    src = c.read_json(os.path.join(c.BP, 'blocks', 'glass_float.json'))
+    src['minecraft:block']['components'][S + 'star_float'] = {}
+    c.write_json(os.path.join(c.BP, 'blocks', 'glass_float.json'), src)
+    blk = c.read_json(os.path.join(c.BP, 'blocks', 'glass_float.json'))
+    b = blk['minecraft:block']
+    b['description']['identifier'] = S + 'glowing_glass_float'
+    comp = b['components']
+    comp.pop(S + 'star_float')
+    comp['minecraft:display_name'] = f'%{c.NS}.display.item.glowing_glass_float'
+    comp['minecraft:material_instances'] = {'*': {'texture': 'kfv_glowing_glass_float', 'render_method': 'alpha_test'}}
+    comp['minecraft:light_emission'] = 12
+    comp['minecraft:map_color'] = '#9FE8E0'
+    comp['minecraft:loot'] = f'loot_tables/{c.NS}/blocks/glowing_glass_float.json'
+    c.write_json(os.path.join(c.BP, 'blocks', 'glowing_glass_float.json'), blk)
+    c.write_json(os.path.join(c.BP, 'loot_tables', c.NS, 'blocks', 'glowing_glass_float.json'),
+                 {'pools': [{'rolls': 1, 'entries': [{'type': 'item', 'name': S + 'glowing_glass_float'}]}]})
+    it = c.read_json(os.path.join(c.BP, 'items', 'glass_float.json'))
+    d = it['minecraft:item']
+    d['description']['identifier'] = S + 'glowing_glass_float'
+    d['components']['minecraft:display_name'] = {'value': f'%{c.NS}.display.item.glowing_glass_float'}
+    d['components']['minecraft:icon'] = 'kfv_glowing_glass_float'
+    d['components']['minecraft:block_placer'] = {'block': S + 'glowing_glass_float', 'replace_block_item': True}
+    c.write_json(os.path.join(c.BP, 'items', 'glowing_glass_float.json'), it)
+    gname = ('Glowing Glass Float', '發光玻璃浮球', '发光玻璃浮球')
+    c.names('glowing_glass_float', *gname, placeable=True)
+    c.icon('glowing_glass_float')
+    tp = os.path.join(c.RP, 'textures', 'terrain_texture.json')
+    t = c.read_json(tp)
+    t['texture_data']['kfv_glowing_glass_float'] = {'textures': 'textures/blocks/kfv_glowing_glass_float'}
+    c.write_json(tp, t)
+    c.catalog('glowing_glass_float', 'glass_float')
+    g = c.data('GUIDEBOOK_JSON')
+    text = ('A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one.',
+            '抹了星砂的玻璃浮球，會發出柔和的光。拿星砂對放好的玻璃浮球使用就會變成這個。',
+            '抹了星砂的玻璃浮球，会发出柔和的光。拿星砂对放好的玻璃浮球使用就会变成这个。')
+    entry = {'id': S + 'glowing_glass_float', 'category': 'decor' if any(e.get('category') == 'decor' for e in g['entries']) else 'tools',
+             'kinds': ['item', 'block'], 'stack': 64, 'icon': 'textures/items/kfv_glowing_glass_float',
+             'recipes': [], 'mechanicsByLocale': {'en_US': [text[0]], 'zh_TW': [text[1]], 'zh_CN': [text[2]]}, 'mechanics': [text[0]]}
+    g['entries'] = [e for e in g['entries'] if e['id'] != entry['id']] + [entry]
+    for code, n in zip(c.LANGS, gname):
+        g['names'][code][entry['id']] = n
+    c.save('GUIDEBOOK_JSON', g)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -929,4 +1040,5 @@ if __name__ == '__main__':
     tub_and_salt_pan()
     lava_tank()
     new_waters()
+    sky_events()
     print('1.5.0 content written; now run: python tools/build.py build')

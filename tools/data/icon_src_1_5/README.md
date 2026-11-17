@@ -14,5 +14,7 @@ Not here, or not final:
 - 2026-11-17, second round: Shrimp Head (from a hand drawing, image to image), Peeled Shrimp, Shrimp Shells, Crab Shell,
   Crab Roe, Jellyfish Strips, Dried Shell-on Shrimp, Whole Squid and Squid Tentacles were generated again (six or
   twelve each) and replaced. The hand drawing of the Shrimp Head is still `shrimp_head()` in tools/icons_1_5.py.
+- 2026-11-17, third round: Meteor Marlin and Star Sand were generated again (twelve each) and replaced; the first
+  Marlin had no clear bill or sail, the first Star Sand read as gold nuggets.
 - `chutoro.png`, `otoro.png`, `bonito_sashimi.png` all came out as the same red block: the finished icons recolour
   them (medium pink with fat lines, pale pink marbled, dark red with a silver skin edge) so the three tell apart.

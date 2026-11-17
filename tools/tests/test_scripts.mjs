@@ -8,6 +8,8 @@
 //   7. 1.5.0: the handshakes with Herbal, Harvest and Ranching; checked against their own API code when those
 //      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
 //   8. 1.5.0: Lure, Luck of the Sea and Unbreaking where our own scripts do the work
+//   9-11. 1.5.0: legend keepsakes, the cleaning board's per-cut format, the new waters
+//   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -82,7 +84,7 @@ for (let i = 0; i < 4000; i++) {
 }
 ok(withBait > 0 && without === 0, `a registered catch bites only on its bait (${withBait}/4000 with it, ${without}/4000 without)`);
 const rejected = (body, why) => { const n = warns.length; const r = send('catch', { catches: [body] }); ok(r === 0 && warns.length > n, `rejected: ${why}`); };
-rejected({ id: 'testpack:sky_fish', w: 5, sky: 'blood_moon' }, 'an entry with a sky field');
+rejected({ id: 'testpack:sky_fish', w: 5, sky: 'blood_moon' }, 'an entry with an unknown sky');
 rejected({ id: 'testpack:fake_legend', w: 5, req: { weather: 'thunder' } }, 'an entry with legend conditions (req)');
 rejected({ id: `${NS}carp`, w: 5 }, "an entry using Fishing Voyage's own id");
 rejected({ id: 'testpack:heavy', w: 99 }, 'a weight out of range');
@@ -106,6 +108,7 @@ for (const id of G.LEGENDS ?? []) {
   const name = id.slice(NS.length);
   ok(count(ctx, id, 20000) > 0, `${name} is caught when every condition holds (${JSON.stringify(r)})`);
   for (const k of Object.keys(r)) {
+    if (k === 'sky_moon') continue;                     // 1.5.0: not a condition, a sky that stands in for the moon (section 12)
     const bad = { ...ctx };
     if (k === 'weather') { bad.thunder = false; bad.raining = false; }
     else if (k === 'hook') bad.hook = `${NS}copper_hook`;
@@ -384,6 +387,61 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
     `the six new fish have a journal page, a creel place, a price and a tank model (${sp})`);
   ok(['mycelium_flounder', 'cherry_trout', 'creek_shrimp', 'echo_ray', 'sculk_lanternfish'].every(k => G.CLEANING[NS + k]) && !G.CLEANING[NS + 'spore_seahorse'],
     'they go on the Fish Cleaning Board, except the seahorse');
+}
+
+// ---------- 12. sky events (1.5.0) ----------
+{
+  const Sk = await imp('world/sky.js');
+  let seq = 0;
+  const fixed = v => () => v;
+  ok(Sk.rollSky(0, false, fixed(0.05)).sky === 'meteor' && Sk.rollSky(0, false, fixed(0.15)).sky === 'aurora' && Sk.rollSky(0, false, fixed(0.5)).sky === '',
+    'roll: meteor under 10%, aurora under 22.5%, else a quiet night');
+  ok(Sk.rollSky(3, false, fixed(0.5)).quiet === 4 && Sk.rollSky(3, false, fixed(0.05)).quiet === 0, 'roll: a quiet night counts one more, a sky resets the count');
+  const pity = Sk.rollSky(Sk.PITY, false, fixed(0.99));
+  ok(Sk.PITY === 10 && pity.sky === 'meteor' && pity.quiet === 0 && Sk.rollSky(Sk.PITY, true, fixed(0.99)).sky === 'aurora',
+    'pity: after 10 quiet nights the next one always has a sky (the aurora when it rains)');
+  const wet = Sk.rollSky(4, true, fixed(0.05));
+  ok(wet.sky === '' && wet.cancelled && wet.quiet === 4, 'rain at dusk: the meteor shower is cancelled and the night does not count');
+  let n = { meteor: 0, aurora: 0, '': 0 }, q = 0, longest = 0, run = 0;
+  const rnd = () => { seq = (seq * 1103515245 + 12345) % 2147483648; return seq / 2147483648; };
+  for (let i = 0; i < 20000; i++) { const r = Sk.rollSky(q, false, rnd); n[r.sky]++; q = r.quiet; run = r.sky ? 0 : run + 1; longest = Math.max(longest, run); }
+  ok(longest <= Sk.PITY && n.meteor + n.aurora > 20000 / 5.5 && n.meteor + n.aurora < 20000 / 3.5,
+    `20000 nights: a sky about every 4-5 nights (${n.meteor} meteor, ${n.aurora} aurora), never more than 10 quiet in a row (${longest})`);
+
+  const roll = (ctx, k) => { const got = {}; for (let i = 0; i < k; i++) { const id = L.rollCatch(ctx); got[id] = (got[id] ?? 0) + 1; } return got; };
+  const base = { depth: 14, rod: true, tier: 2, moon: 2, caught: new Set(), raining: false, slot: 'night' };
+  let g = roll({ ...base, waters: new Set(['ocean', 'deep_ocean']), sky: 'meteor' }, 30000);
+  ok(g[`${NS}meteor_marlin`] > 0 && g[`${NS}starfin`] > 0, `meteor night, deep sea: the Meteor Marlin and the starfin (${g[`${NS}meteor_marlin`]}, ${g[`${NS}starfin`]})`);
+  g = roll({ ...base, waters: new Set(['ocean', 'deep_ocean']), sky: '' }, 30000);
+  ok(!g[`${NS}meteor_marlin`] && !g[`${NS}starfin`], 'a quiet night at sea: neither');
+  g = roll({ ...base, waters: new Set(['ocean', 'deep_ocean']), sky: 'meteor', tier: 1 }, 30000);
+  ok(!g[`${NS}meteor_marlin`], 'the Meteor Marlin needs a better rod (tier 2)');
+  g = roll({ ...base, waters: new Set(['ice']), cold: true, sky: 'aurora' }, 20000);
+  const g0 = roll({ ...base, waters: new Set(['ice']), cold: true, sky: '' }, 20000);
+  ok(g[`${NS}aurora_icefish`] > 0 && !g0[`${NS}aurora_icefish`], `aurora night under the ice: the Aurora Icefish, and only then (${g[`${NS}aurora_icefish`]})`);
+  const charCtx = { ...base, waters: new Set(['ice']), cold: true, slot: 'dawn', moon: 2 };
+  ok(roll({ ...charCtx, sky: 'aurora' }, 20000)[`${NS}frostlake_char`] > 0 && !roll({ ...charCtx, sky: '' }, 20000)[`${NS}frostlake_char`],
+    'the Frostlake Char: the aurora stands in for the new moon, a quiet night does not');
+  ok(Sk.skyAt(true) === '' && Sk.skyAt(false) === '', 'skyAt: no sky by day (the clock is at noon)');
+  ok(G.JOURNAL_SPECIES.filter(s => s.group === 'sky').map(s => s.key).sort().join() === 'aurora_icefish,meteor_marlin'
+    && G.TANK_FISH.includes(`${NS}aurora_icefish`) && !G.TANK_FISH.includes(`${NS}meteor_marlin`)
+    && G.CLEANING[`${NS}meteor_marlin`] && !G.CLEANING[`${NS}aurora_icefish`],
+    'the Sky page has both fish; the icefish goes in a tank, not on the board; the marlin the other way round');
+
+  // the API: registered sky catches, the capability, the state reply
+  console.log = () => {};
+  R._clearRegistry();
+  const reg = e => R.onRegister({ id: `${NS}register_catch`, message: JSON.stringify({ api: 1, source: 'testpack', catches: [e] }) });
+  const good = reg({ id: 'testpack:comet_eel', w: 5, waters: ['ocean'], sky: 'meteor' });
+  const bad = reg({ id: 'testpack:comet_eel2', w: 5, waters: ['ocean'], sky: 'eclipse' });
+  console.log = log;
+  ok(good === 1 && bad === 0 && R.CAPABILITIES.includes('sky'), 'register_catch takes sky "meteor" / "aurora", refuses any other; api_ready lists "sky"');
+  g = roll({ ...base, waters: new Set(['ocean']), depth: 6, sky: 'meteor' }, 20000);
+  const g2 = roll({ ...base, waters: new Set(['ocean']), depth: 6, sky: '' }, 20000);
+  ok(g['testpack:comet_eel'] > 0 && !g2['testpack:comet_eel'], 'a registered sky catch bites only on its night');
+  R._clearRegistry();
+  const st2 = ask('state', {});
+  ok(st2.out[0]?.sky === 'none', `state_request answers sky "none" on a quiet day (${JSON.stringify(st2.out[0])})`);
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

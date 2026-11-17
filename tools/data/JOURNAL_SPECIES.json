@@ -404,5 +404,19 @@
     "icon": "textures/items/kfv_sculk_lanternfish",
     "sized": true,
     "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:meteor_marlin",
+    "key": "meteor_marlin",
+    "icon": "textures/items/kfv_meteor_marlin",
+    "sized": true,
+    "group": "sky"
+  },
+  {
+    "id": "kaleidoscope_fishing:aurora_icefish",
+    "key": "aurora_icefish",
+    "icon": "textures/items/kfv_aurora_icefish",
+    "sized": true,
+    "group": "sky"
   }
 ]

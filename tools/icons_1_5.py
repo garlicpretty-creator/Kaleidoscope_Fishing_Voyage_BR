@@ -123,7 +123,8 @@ GENERATED = ['shrimp_head', 'shrimp_meat', 'shrimp_shell', 'crab_shell', 'crab_r
              'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish',
              'purged_clam', 'clam_steamed_egg',
              'mycelium_flounder', 'spore_seahorse', 'cherry_trout', 'creek_shrimp', 'echo_ray', 'sculk_lanternfish',
-             'mushroom_flounder_stew', 'cherry_trout_rice', 'fried_creek_shrimp', 'echo_ray_pot']
+             'mushroom_flounder_stew', 'cherry_trout_rice', 'fried_creek_shrimp', 'echo_ray_pot',
+             'meteor_marlin', 'aurora_icefish', 'star_sand']
 # Dried Shell-on Shrimp sun-browned, so it is not taken for Salted Shrimp or Shrimp Shells
 RAMP = {'dried_shell_shrimp': ['#2a140c', '#5a3018', '#8a5a30', '#b48450', '#d8b07a']}
 # The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.
@@ -250,9 +251,52 @@ def entity_textures():
     Image.new('RGBA', (4, 4), rgb('#3a261c') + (255,)).save(os.path.join(os.path.dirname(ITEMS), 'particle', 'kfv_line_whisker.png'))
 
 
+def glowing_float():
+    """1.5.0: the Glowing Glass Float, the Glass Float's block texture and icon brightened to a starlit teal with a few
+    gold specks; its MER map glows (emissive) wherever the glass is."""
+    import random
+    rnd = random.Random(11)
+    for folder in ('blocks', 'items'):
+        d = os.path.join(os.path.dirname(ITEMS), folder)
+        src = Image.open(os.path.join(d, 'kfv_glass_float.png')).convert('RGBA')
+        im = src.copy()
+        px = im.load()
+        glassy = []
+        for y in range(im.height):
+            for x in range(im.width):
+                r, g, b, a = px[x, y]
+                if not a:
+                    continue
+                if g > r + 10 and g >= b - 30:                # the green glass
+                    l = (r + g + b) / 3
+                    px[x, y] = (int(min(255, 60 + l * 0.6)), int(min(255, 150 + l * 0.5)), int(min(255, 150 + l * 0.5)), a)
+                    glassy.append((x, y))
+        for x, y in rnd.sample(glassy, max(1, len(glassy) // 18)):
+            px[x, y] = (255, 236, 150, px[x, y][3])
+        path = os.path.join(d, 'kfv_glowing_glass_float.png')
+        im.save(path)
+        ts = path[:-4] + '.texture_set.json'
+        with open(ts, 'w', encoding='utf-8', newline='\n') as f:
+            json.dump({'format_version': '1.16.100', 'minecraft:texture_set': {
+                'color': 'kfv_glowing_glass_float', 'metalness_emissive_roughness': 'kfv_glowing_glass_float_mer',
+                **({'heightmap': 'kfv_glowing_glass_float_height'} if folder == 'blocks' else {'normal': 'kfv_glowing_glass_float_normal'})}}, f, indent=2)
+            f.write('\n')
+        mer_src = os.path.join(d, 'kfv_glass_float_mer.png')
+        if os.path.exists(mer_src):
+            Image.open(mer_src).save(path[:-4] + '_mer.png')
+        pbr.refresh(path)
+        mer = Image.open(path[:-4] + '_mer.png').convert('RGBA')
+        mp = mer.load()
+        for x, y in glassy:                                   # the glass glows
+            m = mp[x, y]
+            mp[x, y] = (m[0], 200, m[2], 255)
+        mer.save(path[:-4] + '_mer.png')
+
+
 if __name__ == '__main__':
     icons = build()
     for name, im in icons.items():
         write(name, im)
     entity_textures()
+    glowing_float()
     print('wrote', len(icons), 'icons:', ', '.join(icons), '+ 2 bobber skins and the whisker line')

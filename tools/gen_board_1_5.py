@@ -47,6 +47,7 @@ CATCH = {
     'creek_shrimp':       (None, 'shrimp', 16, 1.0, (0.0, 0.15)),
     'echo_ray':           (None, 'flatfish', 26, 1.5, None),
     'sculk_lanternfish':  (None, 'fish', 7.0, 1.0, True),
+    'meteor_marlin':      (None, 'fish', 15.0, 2.5, True),     # step 11
 }
 _board = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'CLEANING.json'), encoding='utf-8'))
 for _k, _v in list(CATCH.items()):

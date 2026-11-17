@@ -62,7 +62,8 @@
             "Geometry.cherry_trout",
             "Geometry.creek_shrimp",
             "Geometry.echo_ray",
-            "Geometry.sculk_lanternfish"
+            "Geometry.sculk_lanternfish",
+            "Geometry.aurora_icefish"
           ]
         }
       },

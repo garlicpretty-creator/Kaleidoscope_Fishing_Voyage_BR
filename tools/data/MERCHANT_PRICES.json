@@ -42,5 +42,7 @@
   "kaleidoscope_fishing:cherry_trout": 0.3333,
   "kaleidoscope_fishing:creek_shrimp": 0.2,
   "kaleidoscope_fishing:echo_ray": 0.5,
-  "kaleidoscope_fishing:sculk_lanternfish": 1.0
+  "kaleidoscope_fishing:sculk_lanternfish": 1.0,
+  "kaleidoscope_fishing:meteor_marlin": 2.5,
+  "kaleidoscope_fishing:aurora_icefish": 0.6
 }

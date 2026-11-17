@@ -328,9 +328,10 @@ setComps(await boot());
   const form = log.forms[n];
   const keys = (form?.buttons ?? []).map(b => b.t?.translate ?? String(b.t));
   ok(!!form, `journal: using it opens the index (${keys.length} buttons)`);
-  const want = ['recipes', 'tide', 'group_freshwater', 'group_wetland', 'group_sea', 'group_ice', 'group_lava', 'group_end', 'group_cave', 'group_legend'];
-  ok(want.every(k => keys.includes('kaleidoscope_fishing.journal.' + k)), 'journal: recipes, tides and the eight water groups are there');
-  ok(!keys.some(k => /title_|contest|longline|group_sky|hints|cleaning/.test(k)), `journal: no titles, contest, longline, sky, hint or cleaning pages (${keys.map(k => k.split('.').pop()).join(', ')})`);
+  const want = ['recipes', 'tide', 'group_freshwater', 'group_wetland', 'group_sea', 'group_ice', 'group_lava', 'group_end', 'group_cave', 'group_secret', 'group_sky', 'group_legend'];
+  ok(want.every(k => keys.includes('kaleidoscope_fishing.journal.' + k)) && keys.indexOf('kaleidoscope_fishing.journal.group_legend') > keys.indexOf('kaleidoscope_fishing.journal.group_sky'),
+    'journal: recipes, tides and the ten groups are there (1.5.0: Hidden Waters and Sky, legends last)');
+  ok(!keys.some(k => /title_|contest|longline|hints|cleaning/.test(k)), `journal: no titles, contest, longline, hint or cleaning pages (${keys.map(k => k.split('.').pop()).join(', ')})`);
   const icons = (form?.buttons ?? []).map(b => b.icon).filter(Boolean);
   const RP = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]');
   const missing = icons.filter(i => !existsSync(join(RP, i + '.png')));

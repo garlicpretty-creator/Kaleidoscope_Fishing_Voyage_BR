@@ -19,6 +19,7 @@ import { recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
 import { emitCaught } from "../api/host.js";
 import { enchantLevel, luckFactor, luckSize, lureTicks } from "../util/enchant.js";
+import { AURORA_BITE, skyAt } from "../world/sky.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
@@ -226,7 +227,7 @@ function hookFish(player, s) {
   const luck = enchantLevel(heldRod(player), "luck_of_the_sea");       // 1.5.0: the rod's own enchantments count
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
     luck: luckFactor(luck),
-    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
+    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow, sky: skyAt(!!s.ctx?.cold),
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
     rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
@@ -390,7 +391,8 @@ function startWaiting(s) {
   const school = !!schoolNear(s.bobber.dimension, s.bobber.location, 6);
   const factor = (s.bait ? BAITS[s.bait]?.biteFactor ?? 1 : 1) * (rain ? 0.8 : 1) *
     (g.hat ? 0.85 : 1) * (g.coat && rain ? 0.8 : 1) * (school ? 0.55 : 1) *
-    s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1);
+    s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1) *
+    (s.ctx?.waters?.has("ice") && skyAt(true) === "aurora" ? AURORA_BITE : 1);   // 1.5.0: the aurora wakes the ice
   s.biteAt = s.age + lureTicks(Math.round(randInt(lo, hi) * factor), enchantLevel(heldRod(s.player), "lure"));   // 1.5.0: Lure
 }
 

@@ -15,6 +15,7 @@ import { RODS, TIP_UP_LIMIT } from "../data/generated.js";
 import { useRodItem } from "../fishing/rod.js";
 import { rollCatch, rollSize } from "../fishing/loot.js";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, timeSlot } from "../fishing/water.js";
+import { AURORA_BITE, skyAt } from "../world/sky.js";
 import { LARGE, MEDIUM, classOf, loreFor, rangeOf } from "../fishing/size.js";
 import { recordCatch } from "../journal/records.js";
 import { emitCaught } from "../api/host.js";
@@ -89,7 +90,7 @@ function liveOwned(player) {
 function landTipUp(player, block) {
   const dim = block.dimension;
   const ctx = analyzeWater(dim, { x: block.x + 0.5, y: block.y - 0.1, z: block.z + 0.5 });
-  const id = rollCatch({ ...ctx, slot: timeSlot(), raining: isRaining(dim), tier: 1, school: false, rare: 1 });
+  const id = rollCatch({ ...ctx, slot: timeSlot(), raining: isRaining(dim), tier: 1, school: false, rare: 1, sky: skyAt(ctx.cold) });
   let cm = rollSize(id, 1);
   let cls = cm !== undefined ? classOf(id, cm) : 0;
   if (cls === LARGE) {                     // a tip-up's light line never holds a big one
@@ -157,7 +158,7 @@ const iceHole = {
     const dim = block.dimension, at = top(block);
     if (!isWater(dim.getBlock({ x: block.x, y: block.y - 1, z: block.z }))) return;
     if (tip === 1) {
-      if (Math.random() < BITE_CHANCE) {
+      if (Math.random() < BITE_CHANCE / (skyAt(true) === "aurora" ? AURORA_BITE : 1)) {   // 1.5.0: the aurora wakes the ice
         setTip(block, 2, 0);
         if (someoneNear(dim, at)) snd(dim, "block.bell.hit", at, 1.7, 0.7);
         fx(dim, "minecraft:water_splash_particle", { x: at.x, y: block.y, z: at.z }, 5);

@@ -34,3 +34,5 @@ import "./creatures/seagull.js";
 import "./creatures/cormorant.js";
 import "./creatures/pets.js";      // 1.5.0: Fish Bones tame wolves, our fish tame cats
 import "./world/merchant.js";
+import "./world/sky.js";         // 1.5.0: meteor showers and aurora nights
+import "./blocks/glassFloat.js";   // 1.5.0: star sand makes a glass float glow
