@@ -19,16 +19,18 @@
         "ground": "animation.kaleidoscope_fishing.seagull.ground"
       },
       "scripts": {
+        "initialize": [
+          "variable.kfv_off = math.random(0, 9);",
+          "variable.kfv_cat = 0;variable.kfv_swt = 0;"
+        ],
         "animate": [
           "fly",
           "swoop",
           "ground",
           "look_at_target"
         ],
-        "initialize": [
-          "variable.kfv_off = math.random(0, 9);"
-        ],
         "pre_animation": [
+          "variable.kfv_cat = variable.kfv_cat ?? 0;variable.kfv_swt = variable.kfv_swt ?? 0;",
           "variable.kfv_swt = query.property('kaleidoscope_fishing:swoop') ? variable.kfv_swt + math.min(query.delta_time, 0.1) : 0;",
           "variable.kfv_cat = query.property('kaleidoscope_fishing:carrying') ? variable.kfv_cat + math.min(query.delta_time, 0.1) : 0;",
           "variable.kfv_flare = query.property('kaleidoscope_fishing:swoop') * math.clamp((variable.kfv_swt - 1.1) / 0.2, 0, 1);",

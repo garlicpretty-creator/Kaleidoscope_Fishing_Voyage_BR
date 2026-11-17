@@ -55,15 +55,17 @@
         "gesture": "animation.kaleidoscope_fishing.fish_merchant.gesture"
       },
       "scripts": {
+        "initialize": [
+          "variable.kfv_off = math.random(0, 12);",
+          "variable.kfv_gt = 0;"
+        ],
         "animate": [
           "move",
           "gesture",
           "look_at_target"
         ],
-        "initialize": [
-          "variable.kfv_off = math.random(0, 12);"
-        ],
         "pre_animation": [
+          "variable.kfv_gt = variable.kfv_gt ?? 0;",
           "variable.kfv_gt = query.property('kaleidoscope_fishing:gesture') > 0 ? variable.kfv_gt + math.min(query.delta_time, 0.1) : 0;",
           "variable.kfv_bow = (query.property('kaleidoscope_fishing:gesture') == 1) * math.sin(math.clamp(variable.kfv_gt / 1.2, 0, 1) * 180);",
           "variable.kfv_no = (query.property('kaleidoscope_fishing:gesture') == 2) * math.clamp(variable.kfv_gt / 0.1, 0, 1) * math.clamp(1 - variable.kfv_gt / 1.0, 0, 1);",

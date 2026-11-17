@@ -79,7 +79,11 @@
         "bubbler": "controller.animation.kaleidoscope_fishing.tank_fish.bubbles"
       },
       "scripts": {
+        "initialize": [
+          "variable.g = 0;variable.gp = 0;variable.pc = 0;variable.tb = 0;variable.tsm = 0;variable.tt = 0;variable.wp = 0;variable.wpc = 0;"
+        ],
         "pre_animation": [
+          "variable.g = variable.g ?? 0;variable.gp = variable.gp ?? 0;variable.pc = variable.pc ?? 0;variable.tb = variable.tb ?? 0;variable.tsm = variable.tsm ?? 0;variable.tt = variable.tt ?? 0;variable.wp = variable.wp ?? 0;variable.wpc = variable.wpc ?? 0;",
           "v.kind = q.property('kaleidoscope_fishing:kind');",
           "v.seed = q.property('kaleidoscope_fishing:seed');",
           "v.sc = q.property('kaleidoscope_fishing:scale') / 100;",

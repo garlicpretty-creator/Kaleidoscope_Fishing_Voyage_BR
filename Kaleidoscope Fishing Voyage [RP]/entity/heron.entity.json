@@ -18,15 +18,17 @@
         "hunt": "animation.kaleidoscope_fishing.heron.hunt"
       },
       "scripts": {
+        "initialize": [
+          "variable.kfv_off = math.random(0, 12);",
+          "variable.kfv_hc = 0;variable.kfv_hs = 0;variable.kfv_pkt = 0;"
+        ],
         "animate": [
           "move",
           "hunt",
           "look_at_target"
         ],
-        "initialize": [
-          "variable.kfv_off = math.random(0, 12);"
-        ],
         "pre_animation": [
+          "variable.kfv_hc = variable.kfv_hc ?? 0;variable.kfv_hs = variable.kfv_hs ?? 0;variable.kfv_pkt = variable.kfv_pkt ?? 0;",
           "variable.kfv_pkt = query.property('kaleidoscope_fishing:pecking') ? variable.kfv_pkt + math.min(query.delta_time, 0.1) : 0;",
           "variable.kfv_hc = query.property('kaleidoscope_fishing:pecking') ? math.clamp(variable.kfv_pkt / 0.3, 0, 1) : math.max(0, variable.kfv_hc - math.min(query.delta_time, 0.1) * 2.5);",
           "variable.kfv_hs = query.property('kaleidoscope_fishing:pecking') ? math.clamp((variable.kfv_pkt - 0.6) / 0.08, 0, 1) : math.max(0, variable.kfv_hs - math.min(query.delta_time, 0.1) * 2.5);",
