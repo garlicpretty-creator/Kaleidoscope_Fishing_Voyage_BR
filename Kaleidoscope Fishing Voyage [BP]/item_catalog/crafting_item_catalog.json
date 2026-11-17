@@ -21,7 +21,6 @@
               "kaleidoscope_fishing:shrimp",
               "kaleidoscope_fishing:crab",
               "kaleidoscope_fishing:clam",
-              "kaleidoscope_fishing:purged_clam",
               "kaleidoscope_fishing:oyster",
               "kaleidoscope_fishing:sweetfish",
               "kaleidoscope_fishing:hairtail",
@@ -37,7 +36,6 @@
               "kaleidoscope_fishing:saury",
               "kaleidoscope_fishing:squid_tube",
               "kaleidoscope_fishing:whole_squid",
-              "kaleidoscope_fishing:squid_tentacles",
               "kaleidoscope_fishing:raw_laver",
               "kaleidoscope_fishing:laver_rock",
               "kaleidoscope_fishing:skipjack",
@@ -139,7 +137,10 @@
               "kaleidoscope_fishing:dried_flying_fish",
               "kaleidoscope_fishing:fish_sauce",
               "kaleidoscope_fishing:shrimp_paste",
-              "kaleidoscope_fishing:xo_sauce"
+              "kaleidoscope_fishing:xo_sauce",
+              "kaleidoscope_fishing:purged_clam",
+              "kaleidoscope_fishing:squid_tentacles",
+              "kaleidoscope_fishing:star_sand"
             ]
           },
           {
@@ -295,7 +296,6 @@
               "kaleidoscope_fishing:fishing_knife",
               "kaleidoscope_fishing:fish_meal_bait",
               "kaleidoscope_fishing:glow_bait",
-              "kaleidoscope_fishing:star_sand",
               "kaleidoscope_fishing:cormorant_ring",
               "kaleidoscope_fishing:copper_hook",
               "kaleidoscope_fishing:gold_hook",
@@ -322,7 +322,8 @@
               "kaleidoscope_fishing:emperor_bone_hook",
               "kaleidoscope_fishing:whisker_line",
               "kaleidoscope_fishing:dragon_scale_bobber",
-              "kaleidoscope_fishing:frost_scale_bobber"
+              "kaleidoscope_fishing:frost_scale_bobber",
+              "kaleidoscope_fishing:fishing_skiff"
             ]
           },
           {
@@ -352,8 +353,7 @@
               "kaleidoscope_fishing:anchor",
               "kaleidoscope_fishing:net_wall",
               "kaleidoscope_fishing:dried_fish_string",
-              "kaleidoscope_fishing:catch_crate",
-              "kaleidoscope_fishing:fishing_skiff"
+              "kaleidoscope_fishing:catch_crate"
             ]
           },
           {

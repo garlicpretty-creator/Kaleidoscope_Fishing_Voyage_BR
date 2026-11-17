@@ -87,6 +87,18 @@ listed = [e if isinstance(e, str) else e.get('name') for c in cat['minecraft:cra
           for g in c.get('groups', []) for e in g.get('items', [])]
 dups = sorted({x for x in listed if listed.count(x) > 1})
 ok(not dups, f'creative catalog has no duplicates ({len(listed)} entries)' + ('' if not dups else ': ' + ', '.join(dups)))
+# an item's own menu group must be the catalog group it is listed in, or the game logs a warning per item
+group_of = {(e if isinstance(e, str) else e.get('name')): g['group_identifier']['name']
+            for c in cat['minecraft:crafting_items_catalog']['categories'] for g in c.get('groups', []) for e in g.get('items', [])}
+clash = []
+for p, j in jsons.items():
+    top = j.get('minecraft:item') or j.get('minecraft:block') if isinstance(j, dict) else None
+    if not top or not p.startswith(BP):
+        continue
+    ident = top.get('description', {}).get('identifier'); g = top.get('description', {}).get('menu_category', {}).get('group')
+    if g and ident in group_of and group_of[ident] != g:
+        clash.append(f'{ident.split(":")[1]} ({g.split(".")[-1]} / catalog {group_of[ident].split(".")[-1]})')
+ok(not clash, 'every item\'s menu group matches its catalog group' + ('' if not clash else ': ' + ', '.join(clash)))
 
 # blocks with a 2D inventory icon: an item of the same id places the block, which faces the player
 blocks = {j['minecraft:block']['description']['identifier']: j['minecraft:block']
