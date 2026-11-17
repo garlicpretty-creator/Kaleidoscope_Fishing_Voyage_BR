@@ -177,6 +177,34 @@ def wall_tide_clock():
     c.save('GUIDEBOOK_JSON', g)
 
 
+def cleaning_format():
+    """Step 3: every catch on the Fish Cleaning Board lists its own cuts. 1.4's fixed three cuts (scale, gut,
+    fillet) are rewritten in the new form with the same result; tools/tests/cleaning_1_4.json keeps the old table
+    and tools/tests/test_scripts.mjs checks the two agree for every fish.
+
+      "first": the board's stage when the fish is laid down (1 whole; 2 for a fish with nothing to scale)
+      "cuts":  [{"act": what the knife does (sound and particles), "out": [[item, count, chance?, "sized"?], ...]}]
+               "sized": the count goes up by one for a large fish and down by one for a small one (never under 1)
+    Each cut moves the board on one stage; the last one clears it."""
+    table = c.data('CLEANING')
+    for fish in table.values():
+        if 'cuts' in fish:
+            continue
+        cuts = []
+        if fish['scales']:
+            cuts.append({'act': 'scale', 'out': [[NS + 'fish_scales', 1]]})
+        cuts.append({'act': 'gut', 'out': [[NS + 'fish_offal', 1]] + [[i, 1, ch] for i, ch in fish['extra']]})
+        last = [[fish['out'][0], fish['out'][1], 1, 'sized']]
+        if fish['bones']:
+            last.append([NS + 'fish_bones', fish['bones']])
+        cuts.append({'act': 'fillet', 'out': last})
+        for k in ('out', 'scales', 'bones', 'extra'):
+            del fish[k]
+        fish['first'] = 4 - len(cuts)
+        fish['cuts'] = cuts
+    c.save('CLEANING', table)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -184,4 +212,5 @@ if __name__ == '__main__':
     merchant_order()
     tide_clock()
     wall_tide_clock()
+    cleaning_format()
     print('1.5.0 content written; now run: python tools/build.py build')

@@ -1,8 +1,7 @@
-// ## Fish Cleaning Board (魚案板): a whole fish is worked with a knife in three cuts.
-//   1 scale  -> Fish Scales           (skipped for scaleless fish: eel, catfish, hairtail, saury,
-//                                       anglerfish, octopus, pufferfish)
-//   2 gut    -> Fish Offal, sometimes Fish Roe (octopus: Ink Sac)
-//   3 fillet -> more fillets / sashimi than Cookery's chopping board, plus Fish Bones
+// ## Fish Cleaning Board (魚案板): a whole catch is worked with a knife, one cut at a time.
+// 1.5.0: every catch lists its own cuts (tools/data/CLEANING.json: "first" stage and "cuts"). A fish is still
+// scaled, gutted and filleted (a scaleless one starts at the gut); shrimp, crab, squid and the rest list theirs.
+// The board's `cut` state is the stage on show: laid down at `first`, one stage on per cut, cleared by the last.
 // Any item tagged kaleidoscope_cookery:kitchen_knife counts as a knife. No text: the fish on
 // the board changes (scales flaked off, belly opened) and each cut has its own sound.
 // v1.3.3: a fish taken back before the first cut keeps its "★ N cm" (and a name tag): keep.js.
@@ -26,8 +25,21 @@ import { enchantLevel, wears } from "../util/enchant.js";
 
 const NS = "kaleidoscope_fishing";
 const CUT = `${NS}:cut`, SIZE = `${NS}:size`;
-// Size class of the fish on the board (0 none): a large fish gives one more fillet, a small one one less.
-const yieldOf = (fish, cls) => Math.max(1, fish.out[1] + (cls === LARGE ? 1 : cls === SMALL ? -1 : 0));
+// What one cut gives. An output marked "sized" grows by one for a large catch and shrinks by one for a small one.
+const countOf = (row, cls) => (row[3] === "sized" ? Math.max(1, row[1] + (cls === LARGE ? 1 : cls === SMALL ? -1 : 0)) : row[1]);
+/** The stacks a cut gives: [id, n], chance outputs rolled with `rand`. Exported for tests. */
+export function cutYield(cut, cls, rand = Math.random) {
+  const out = [];
+  for (const row of cut.out) if ((row[2] ?? 1) >= 1 || rand() < row[2]) out.push([row[0], countOf(row, cls)]);
+  return out;
+}
+// The sound and particles of each kind of cut.
+const ACT_FX = {
+  scale: ["mob.sheep.shear", 1.4, "minecraft:basic_crit_particle"], gut: ["mob.slime.small", 1.2],
+  fillet: ["dig.wood", 1.3, "minecraft:basic_crit_particle"], head: ["mob.turtle.baby.step", 1.1, "minecraft:basic_crit_particle"],
+  shell: ["random.break", 1.6], devein: ["mob.slime.small", 1.5], open: ["random.break", 1.2, "minecraft:basic_crit_particle"],
+  legs: ["dig.wood", 1.6], tentacle: ["mob.slime.small", 0.9], bone: ["dig.wood", 0.9], rub: ["dig.sand", 1.4],
+};
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
 
@@ -92,12 +104,12 @@ const cleaningBoard = {
       const size = readSize(held).cls;
       stash(key, keepOf(held));
       if (!creative(player)) { if (held.amount <= 1) slot.setItem(undefined); else { held.amount -= 1; slot.setItem(held); } }
-      saveBoard(block, size, c.index, c.scales ? 1 : 2);
-      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.scales ? 1 : 2).withState(SIZE, size));
+      saveBoard(block, size, c.index, c.first);
+      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.first).withState(SIZE, size));
       fx(block, "mob.fish.flop", 1.0);
       return;
     }
-    const first = fish.scales ? 1 : 2;
+    const first = fish.first;
     if (!held) {                                         // changed your mind before the first cut
       if (cut === first) { give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0)); }
       else refuse(player, "board_finish_knife");
@@ -108,23 +120,16 @@ const cleaningBoard = {
     if (!knife) return refuse(player, "board_need_knife");
     wearKnife(player, slot);
     if (cut === first) stash(key, undefined);            // once the knife is in, the fish is food: its record is let go
-    if (cut === 1) {                                     // scale
-      give(player, block, `${NS}:fish_scales`);
-      saveBoard(block, cls, idx, 2);
-      block.setPermutation(p.withState(CUT, 2));
-      fx(block, "mob.sheep.shear", 1.4, "minecraft:basic_crit_particle");
-    } else if (cut === 2) {                              // gut
-      give(player, block, `${NS}:fish_offal`);
-      for (const [id, chance] of fish.extra) if (Math.random() < chance) give(player, block, id);
-      saveBoard(block, cls, idx, 3);
-      block.setPermutation(p.withState(CUT, 3));
-      fx(block, "mob.slime.small", 1.2);
-    } else {                                             // fillet
-      give(player, block, fish.out[0], yieldOf(fish, cls));
-      give(player, block, `${NS}:fish_bones`, fish.bones);
+    const step = Math.max(0, Math.min(fish.cuts.length - 1, cut - first));   // a board from before 1.5.0 carries on where it was
+    const this_ = fish.cuts[step];
+    for (const [id, n] of cutYield(this_, cls)) give(player, block, id, n);
+    fx(block, ...(ACT_FX[this_.act] ?? ACT_FX.fillet));
+    if (step < fish.cuts.length - 1) {
+      saveBoard(block, cls, idx, first + step + 1);
+      block.setPermutation(p.withState(CUT, first + step + 1));
+    } else {
       saveSize(block, undefined);
       block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
-      fx(block, "dig.wood", 1.3, "minecraft:basic_crit_particle");
       emit("cleaned", player, { id: fish.id });
     }
   },
@@ -134,12 +139,13 @@ const cleaningBoard = {
   },
 };
 
-/** What a board holds: [id, n, cls, keep?] stacks to make. Exported for tests. */
+/** What a board holds: [id, n, cls, keep?] stacks to make. Before the first cut, the whole catch; after it, what
+ *  the last cut would give (its sure outputs; what earlier cuts gave was handed out with them). Exported for tests. */
 export function boardContents(idx, cut, cls, keep) {
   const fish = BY_INDEX[idx];
   if (!fish) return [];
-  if (cut === (fish.scales ? 1 : 2) || !cut) return [[fish.id, 1, cls, keep]];
-  return [[fish.out[0], yieldOf(fish, cls), 0], [`${NS}:fish_bones`, fish.bones, 0]];
+  if (cut === fish.first || !cut) return [[fish.id, 1, cls, keep]];
+  return fish.cuts[fish.cuts.length - 1].out.filter(row => (row[2] ?? 1) >= 1).map(row => [row[0], countOf(row, cls), 0]);
 }
 function dropBoard(dim, pos, perm) {
   const rec = readData("cb", dim, pos);

@@ -449,7 +449,8 @@ function piston(b) { b.setType('minecraft:air'); fire('world.afterEvents.pistonA
     holdStack(stack('grey_mullet', 1)); use(c2); P.hold(NS + 'fishing_knife', 1); use(c2);
     const gm = CLEANING[NS + 'grey_mullet'];
     remove(c2); d = drops();
-    ok(sortIds(d) === [gm.out[0], NS + 'fish_bones'].sort().join() && d.find(x => x.id === gm.out[0])?.amount === gm.out[1],
+    const last = gm.cuts[gm.cuts.length - 1].out;
+    ok(sortIds(d) === last.map(r => r[0]).sort().join() && d.find(x => x.id === last[0][0])?.amount === last[0][1],
       `${how}: a half-cut board gives the fillets and bones the last cut would (${dropIds(d)})`);
   }
 }

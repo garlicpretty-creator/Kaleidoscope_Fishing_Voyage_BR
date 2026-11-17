@@ -319,5 +319,37 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(G.LEGENDS.every(id => G.BASKET_ITEMS.some(b => b.id === id)), 'the Fish Creel has a place for every legend');
 }
 
+// ---------- 10. the Fish Cleaning Board's per-cut format gives what 1.4 gave (1.5.0) ----------
+{
+  const CB = await imp('blocks/cleaning.js');
+  const OLD = JSON.parse(readFileSync(join(ROOT, 'tools', 'tests', 'cleaning_1_4.json'), 'utf8'));
+  // 1.4's rules, written out: scale (if any) -> scales; gut -> offal and chance extras; fillet -> sized fillets and bones
+  const oldCuts = (f, cls, rolls) => {
+    const out = [];
+    if (f.scales) out.push([[`${NS}fish_scales`, 1]]);
+    out.push([[`${NS}fish_offal`, 1], ...f.extra.filter((e, i) => rolls[i] < e[1]).map(e => [e[0], 1])]);
+    out.push([[f.out[0], Math.max(1, f.out[1] + (cls === 3 ? 1 : cls === 1 ? -1 : 0))], ...(f.bones > 0 ? [[`${NS}fish_bones`, f.bones]] : [])]);
+    return out;
+  };
+  const bad = [];
+  for (const [id, f] of Object.entries(OLD)) {
+    const n = G.CLEANING[id];
+    if (!n || n.index !== f.index || n.first !== (f.scales ? 1 : 2)) { bad.push(`${id}: index or first stage`); continue; }
+    for (const cls of [0, 1, 2, 3]) for (const rolls of [[0], [0.999]]) {
+      const want = JSON.stringify(oldCuts(f, cls, f.extra.map(() => rolls[0])));
+      const got = JSON.stringify(n.cuts.map(cut => CB.cutYield(cut, cls, () => rolls[0])));
+      if (want !== got) bad.push(`${id} size ${cls}: ${got} != ${want}`);
+    }
+    for (const cls of [0, 2, 3]) {
+      const gotDrop = JSON.stringify(CB.boardContents(f.index, 3, cls));
+      const wantDrop = JSON.stringify([[f.out[0], Math.max(1, f.out[1] + (cls === 3 ? 1 : 0)), 0], ...(f.bones > 0 ? [[`${NS}fish_bones`, f.bones, 0]] : [])]);
+      if (gotDrop !== wantDrop) bad.push(`${id} half-cut drop: ${gotDrop} != ${wantDrop}`);
+    }
+  }
+  ok(!bad.length, bad.length ? `board format: ${bad.length} differences: ${bad.slice(0, 3).join(' | ')}` : `board format: all ${Object.keys(OLD).length} fish of 1.4 give exactly what they gave, cut by cut, at every size`);
+  ok(Object.values(G.CLEANING).every(f => f.first >= 1 && f.first + f.cuts.length - 1 <= 3 && f.cuts.every(c => c.out.length && c.out.every(r => typeof r[0] === 'string' && r[1] >= 1))),
+    'board format: every catch fits the board (stages 1-3) and every cut gives something');
+}
+
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

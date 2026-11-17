@@ -1,537 +1,1587 @@
 {
   "kaleidoscope_fishing:carp": {
     "index": 1,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.25
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.25
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:grass_carp": {
     "index": 2,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": []
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:catfish": {
     "index": 3,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:yellow_croaker": {
     "index": 4,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.3
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.3
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:mackerel": {
     "index": 5,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:sea_bream": {
     "index": 6,
-    "out": [
-      "kaleidoscope_fishing:sea_bream_sashimi",
-      4
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:sea_bream_sashimi",
+            4,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:tuna": {
     "index": 7,
-    "out": [
-      "kaleidoscope_fishing:tuna_sashimi",
-      6
-    ],
-    "scales": true,
-    "bones": 2,
-    "extra": []
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:tuna_sashimi",
+            6,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:eel": {
     "index": 8,
-    "out": [
-      "kaleidoscope_fishing:eel_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:eel_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:hairtail": {
     "index": 9,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:grouper": {
     "index": 10,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      4
-    ],
-    "scales": true,
-    "bones": 2,
-    "extra": []
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            4,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:sweetfish": {
     "index": 11,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": []
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "minecraft:cod": {
     "index": 12,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.25
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.25
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "minecraft:salmon": {
     "index": 13,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.5
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:saury": {
     "index": 14,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:anglerfish": {
     "index": 15,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      4
-    ],
-    "scales": false,
-    "bones": 2,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            4,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:octopus": {
     "index": 16,
-    "out": [
-      "kaleidoscope_fishing:octopus_slices",
-      4
-    ],
-    "scales": false,
-    "bones": 0,
-    "extra": [
-      [
-        "minecraft:ink_sac",
-        0.6
-      ]
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "minecraft:ink_sac",
+            1,
+            0.6
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:octopus_slices",
+            4,
+            1,
+            "sized"
+          ]
+        ]
+      }
     ]
   },
   "minecraft:tropical_fish": {
     "index": 17,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      1
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": []
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "minecraft:pufferfish": {
     "index": 18,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:skipjack": {
     "index": 19,
-    "out": [
-      "kaleidoscope_fishing:tuna_sashimi",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:tuna_sashimi",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:smelt": {
     "index": 20,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      1
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:rainbow_trout": {
     "index": 21,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.4
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.4
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:arctic_char": {
     "index": 22,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 2,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.3
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.3
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:void_eel": {
     "index": 23,
-    "out": [
-      "kaleidoscope_fishing:eel_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:eel_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:starfin": {
     "index": 24,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.3
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.3
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:sea_bass": {
     "index": 25,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:grey_mullet": {
     "index": 26,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:mullet_roe",
-        1.0
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:mullet_roe",
+            1,
+            1.0
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:snakehead": {
     "index": 27,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.2
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.2
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:flying_fish": {
     "index": 28,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:flying_fish_roe",
-        0.6
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:flying_fish_roe",
+            1,
+            0.6
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:cave_blindfish": {
     "index": 29,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      1
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:river_lord_catfish": {
     "index": 30,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      6
-    ],
-    "scales": false,
-    "bones": 3,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.5
-      ]
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            6,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            3
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:emperor_tuna": {
     "index": 31,
-    "out": [
-      "kaleidoscope_fishing:tuna_sashimi",
-      8
-    ],
-    "scales": true,
-    "bones": 3,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.5
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:tuna_sashimi",
+            8,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            3
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:frostlake_char": {
     "index": 32,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      5
-    ],
-    "scales": true,
-    "bones": 2,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.5
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            5,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:loach": {
     "index": 35,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      1
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:mudskipper": {
     "index": 36,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      1
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:golden_croaker": {
     "index": 37,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      4
-    ],
-    "scales": true,
-    "bones": 2,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.4
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.4
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            4,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:chorus_carp": {
     "index": 38,
-    "out": [
-      "kaleidoscope_fishing:chorus_sashimi",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.25
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.25
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:chorus_sashimi",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:ender_angler": {
     "index": 39,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 2,
-    "extra": [
-      [
-        "minecraft:ender_pearl",
-        0.5
-      ]
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "minecraft:ender_pearl",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            2
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:blazefin": {
     "index": 40,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      2
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "minecraft:blaze_powder",
-        0.3
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "minecraft:blaze_powder",
+            1,
+            0.3
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:lava_eel": {
     "index": 41,
-    "out": [
-      "kaleidoscope_fishing:eel_fillet",
-      3
-    ],
-    "scales": false,
-    "bones": 1,
-    "extra": []
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:eel_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   },
   "kaleidoscope_fishing:magma_koi": {
     "index": 42,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      3
-    ],
-    "scales": true,
-    "bones": 1,
-    "extra": [
-      [
-        "minecraft:magma_cream",
-        0.3
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "minecraft:magma_cream",
+            1,
+            0.3
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
     ]
   },
   "kaleidoscope_fishing:lava_dragon_koi": {
     "index": 43,
-    "out": [
-      "kaleidoscope_fishing:white_fish_fillet",
-      6
-    ],
-    "scales": true,
-    "bones": 3,
-    "extra": [
-      [
-        "kaleidoscope_fishing:fish_roe",
-        0.5
-      ]
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            6,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            3
+          ]
+        ]
+      }
     ]
   }
 }
