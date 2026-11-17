@@ -323,8 +323,8 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
   holdStack(stack('carp', 1, ['§f◆◆', '§6★ 77 cm'])); use(t);
   breakBlock(t);
   const d = drops();
-  ok(d.length === 1 && d[0].id === NS + 'carp' && d[0].lore.includes('§6★ 77 cm') && fishIn(tag).length === 0,
-    `fish tank: breaking it drops the record carp with its "★ 77 cm" (${dropIds(d)} ${JSON.stringify(d[0]?.lore)})`);
+  ok(d.length === 1 && d[0].id === NS + 'carp' && d[0].lore.includes('§6★§r§7§7') && fishIn(tag).length === 0,
+    `fish tank: breaking it drops the record carp; its old "★ 77 cm" comes back as the 1.6.0 ★ with 77 hidden (${dropIds(d)} ${JSON.stringify(d[0]?.lore)})`);
   // tank removed without a player (explosion / piston): the 10 s sweep drops the fish where the entity swam
   const t2 = D.place(NS + 'fish_tank', { x, y: 64, z: 3 });
   holdStack(stack('tuna', 1)); use(t2);
@@ -1276,7 +1276,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   const farmedStack = PD.fishStack({ id: NS + 'carp', cls: 2, f: 1 });
   ok(SZ.isFarmed(farmedStack) && !SZ.isFarmed(stack('carp', 1, ['§f◆◆'])) && SZ.readSize(farmedStack).cls === 2, 'pond: a farmed fish is marked ✿ and keeps its size mark');
   const wild = PD.fishStack({ id: NS + 'carp', cls: 3, k: { lore: ['§6◆◆◆', '§6★ 80 cm'] } });
-  ok(wild.getLore().includes('§6★ 80 cm') && !SZ.isFarmed(wild), 'pond: a wild fish that did not grow comes back with its record mark');
+  ok(wild.getLore().includes('§6★§r§8§0') && SZ.readSize(wild).cm === 80 && !SZ.isFarmed(wild), 'pond: a wild fish that did not grow comes back with its record mark (1.6.0: ★ only, 80 cm kept)');
   // a second feeder on the same water
   const ev = { block: D.getBlock({ x: x - 1, y: 64, z: 1 }), player: P, permutationToPlace: fd.permutation, cancel: false };
   c.beforeOnPlayerPlace(ev);

@@ -4,7 +4,7 @@
 // Everything beyond the plain class mark now waits in a world property under the block's position
 // (the Large Fish Tank keeps it in its own fish list) until the fish comes back out.
 import { world } from "@minecraft/server";
-import { applyClass, markOf, readSize } from "../fishing/size.js";
+import { applyClass, markOf, readSize, upgradeLore } from "../fishing/size.js";
 
 const NS = "kaleidoscope_fishing";
 
@@ -15,7 +15,7 @@ export const keepKey = (kind, dim, p) => `${NS}:${kind}:${dim.id}:${p.x},${p.y},
 export function keepOf(stack) {
   if (!stack) return undefined;
   let lore = [], name;
-  try { lore = (stack.getLore() ?? []).filter(l => typeof l === "string"); } catch {}
+  try { lore = upgradeLore((stack.getLore() ?? []).filter(l => typeof l === "string")); } catch {}   // 1.6.0: old "★ N cm" goes in as the new ★
   try { name = stack.nameTag || undefined; } catch {}
   const plain = lore.length === 0 || (lore.length === 1 && lore[0] === markOf(readSize(stack).cls));
   if (plain && !name) return undefined;
@@ -29,7 +29,7 @@ export function keepOf(stack) {
 export function fishOut(stack, cls, keep) {
   applyClass(stack, cls);
   if (keep && typeof keep === "object") {
-    if (Array.isArray(keep.lore) && keep.lore.length) { try { stack.setLore(keep.lore.map(String)); } catch {} }
+    if (Array.isArray(keep.lore) && keep.lore.length) { try { stack.setLore(upgradeLore(keep.lore.map(String))); } catch {} }
     if (typeof keep.name === "string" && keep.name) { try { stack.nameTag = keep.name; } catch {} }
   }
   return stack;

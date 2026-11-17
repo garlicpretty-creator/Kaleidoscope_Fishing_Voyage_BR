@@ -379,7 +379,12 @@ function fit(rodId, parts) {
   const parts = readParts(r);
   ok(r?.typeId === rodItem('bamboo') && parts.hook === NS + 'bone_hook' && parts.line === NS + 'hemp_line' && parts.bobber === NS + 'bamboo_bobber',
     `tackle rack: hook, line and bobber are fitted to the rod (${JSON.stringify(parts)})`);
-  ok(r.getLore().length === 3, `tackle rack: the parts are listed under the rod's name (${r.getLore().length} lines)`);
+  {
+    const { G } = await importScript('data/glyphs.js');
+    const want = `§r${G[NS + 'bone_hook']} ${G[NS + 'hemp_line']} ${G[NS + 'bamboo_bobber']}`;
+    ok(r.getLore().length === 1 && r.getLore()[0] === want && !/[A-Za-z]/.test(r.getLore()[0].replace(/§./g, '')),
+      `tackle rack: the parts show under the rod's name as three glyphs, hook, line, bobber, no words (1.6.0: ${JSON.stringify(r.getLore())})`);
+  }
   ok(st(rack, 'rod_a') === 0 && st(rack, 'rod_b') === 0, 'tackle rack: the rod is taken back (rack empty)');
   // swap the hook: the old one comes back
   P.hold(rodItem('bamboo')); P.inv.setItem(0, r); use(rack);

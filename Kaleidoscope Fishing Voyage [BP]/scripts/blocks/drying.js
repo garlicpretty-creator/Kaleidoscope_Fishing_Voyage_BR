@@ -13,7 +13,7 @@
 // kind and stage on the rack's next block tick.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { DRYING, FISH_ALIAS } from "../data/generated.js";
-import { applyClass } from "../fishing/size.js";
+import { applyClass, upgradeLore } from "../fishing/size.js";
 import { isRaining } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
@@ -67,7 +67,7 @@ const stateOf = perm => ({ kind: Number(perm.getState(KIND) ?? 0), count: Number
 // v1.2.0: the fish's whole description (size mark, "★ N cm" of a record) comes back with it
 const rawStack = it => {
   const s = new ItemStack(it.id, 1);
-  if (Array.isArray(it.lore) && it.lore.length) { try { s.setLore(it.lore); } catch {} return s; }
+  if (Array.isArray(it.lore) && it.lore.length) { try { s.setLore(upgradeLore(it.lore)); } catch {} return s; }   // 1.6.0: old "★ N cm" comes back as ★
   return it.cls ? applyClass(s, it.cls) : s;           // racks filled by v1.2.0-pre2..pre7
 };
 const productOf = kind => DRYING.kinds[kind]?.product;
@@ -97,7 +97,7 @@ const dryingRack = {
       if (count >= DRYING.max) return refuseAt(player, "rack_full", block, DRYING.max);
       {
         let lore = [];
-        try { lore = held.getLore() ?? []; } catch {}
+        try { lore = upgradeLore(held.getLore() ?? []); } catch {}
         d.items.push({ id, lore });
         if (count === 0) { d.p = 0; }
         d.t = now();

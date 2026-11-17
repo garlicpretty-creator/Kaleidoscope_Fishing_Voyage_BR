@@ -2,7 +2,7 @@
 // No text: the needle, the hung rods and the print show everything.
 import { EnchantmentTypes, EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { CATCHES, FISH_ALIAS, RODS, TANK_FISH } from "../data/generated.js";
-import { LARGE, MEDIUM, SMALL, applyClass, readSize } from "../fishing/size.js";
+import { LARGE, MEDIUM, SMALL, applyClass, readSize, upgradeStack } from "../fishing/size.js";
 import { isPart, readParts, slotOf, writeParts } from "../fishing/parts.js";
 import { readFishIndex, withFishIndex } from "./fishState.js";
 import { PRINTABLE, printIndex } from "../data/tank.js";
@@ -44,6 +44,7 @@ const fishScale = {
     }
     const [lo, hi] = SIZE[canon(stack.typeId)];
     const { cls, cm, record } = readSize(stack);
+    if (upgradeStack(stack)) { try { slot.setItem(stack); } catch {} }   // 1.6.0: an old "★ N cm" becomes the new ★
     const exact = record && cm !== undefined;
     const target = exact ? Math.max(0, Math.min(7, Math.round((cm - lo) / Math.max(1, hi - lo) * 7))) : CLASS_NEEDLE[cls || MEDIUM];
     // the needle overshoots to the end, then settles on the fish's mark
@@ -195,6 +196,7 @@ const fishPrint = {
     const idx = stack ? printIndex(canon(stack.typeId)) : 0;
     if (idx <= 0) return;                             // v1.3's new tank species have no print (1.4's do)
     const { cls, record } = readSize(stack);
+    if (upgradeStack(stack)) { try { slot.setItem(stack); } catch {} }   // 1.6.0: an old "★ N cm" becomes the new ★
     const tier = record ? 4 : (cls || MEDIUM);
     block.setPermutation(withFishIndex(block.permutation, idx).withState(PRINT_TIER, tier));
     snd(block, "item.book.page_turn", 0.8, 0.9);

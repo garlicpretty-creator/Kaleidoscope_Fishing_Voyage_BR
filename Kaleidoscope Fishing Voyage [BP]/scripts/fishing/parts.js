@@ -2,6 +2,7 @@
 // They are stored on the rod itself (an ItemStack dynamic property; rods never stack), so the
 // rod keeps them wherever it goes. What they do is in tools/data.py (PARTS).
 import { LINE_STYLE, PARTS } from "../data/generated.js";
+import { itemGlyph } from "../data/glyphs.js";
 
 const NS = "kaleidoscope_fishing";
 const KEY = `${NS}:parts`;
@@ -16,12 +17,17 @@ export function readParts(stack) {
   } catch { return {}; }
 }
 
-/** Store the parts on the rod and list them under its name (in the player's language). */
+/** The rod's lore: one line of the fitted parts' glyphs, hook, line, bobber (1.6.0; no names). */
+export function partsLore(parts) {
+  const line = SLOTS.map(k => parts?.[k]).filter(id => PARTS[id]).map(id => itemGlyph(id)).join(" ");
+  return line ? [`§r${line}`] : [];
+}
+
+/** Store the parts on the rod and show them under its name as pictures (1.6.0: glyphs, no text). */
 export function writeParts(stack, parts) {
   const clean = Object.fromEntries(SLOTS.filter(k => PARTS[parts?.[k]]).map(k => [k, parts[k]]));
   try { stack.setDynamicProperty(KEY, Object.keys(clean).length ? JSON.stringify(clean) : undefined); } catch {}
-  const ids = SLOTS.map(k => clean[k]).filter(Boolean);
-  try { stack.setLore(ids.map(id => ({ translate: `${NS}.name.${id.split(":")[1]}` }))); }
+  try { stack.setLore(partsLore(clean)); }
   catch { try { stack.setLore([]); } catch {} }
   return stack;
 }

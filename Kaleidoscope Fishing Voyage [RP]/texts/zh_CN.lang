@@ -770,7 +770,6 @@ kaleidoscope_fishing.pond.close=关闭
 kaleidoscope_fishing.pond.pick=点一条鱼把它捞起来。
 kaleidoscope_fishing.display.item.fertilized_roe=受精卵\n§9§o森罗物语：渔歌§r
 kaleidoscope_fishing.name.fertilized_roe=受精卵
-kaleidoscope_fishing.lore.roe_of=鱼种：%1$s
 kaleidoscope_fishing.display.item.fishing_skiff=钓鱼小船\n§9§o森罗物语：渔歌§r
 kaleidoscope_fishing.name.fishing_skiff=钓鱼小船
 kaleidoscope_fishing.display.item.jellyfish_radish=海蜇拌萝卜丝\n§9§o森罗物语：渔歌§r

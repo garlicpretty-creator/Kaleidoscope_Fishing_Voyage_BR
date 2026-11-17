@@ -12,6 +12,7 @@ import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
 import { CATCHES } from "../data/generated.js";
+import { fishGlyph } from "../data/glyphs.js";
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
 
 const NS = "kaleidoscope_fishing";
@@ -61,7 +62,7 @@ export function tubContents(fill, r) {
 function roeBack(id) {
   const s = new ItemStack(ROE_ITEM, 1);
   try { s.setDynamicProperty(ROE_PROP, id); } catch {}
-  try { s.setLore([{ translate: `${NS}.lore.roe_of`, with: { rawtext: [{ translate: `${NS}.name.${id.split(":")[1]}` }] } }]); } catch {}
+  try { s.setLore([`§r${fishGlyph(id)}`]); } catch {}   // 1.6.0: the fish's picture, no words (the species is ROE_PROP)
   return s;
 }
 /** Two small farmed fish of a kind, hatched in the tub. */

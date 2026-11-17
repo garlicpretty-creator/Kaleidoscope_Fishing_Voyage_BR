@@ -13,6 +13,7 @@
 //   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
+//   18. 1.6.0: lore keeps only symbols: the record ★ hides its length, old "★ N cm" is converted; rod and roe lore are glyphs
 //   17. 1.6.0: glyph characters: every catch, water, dish, ingredient, station and tackle part has one
 //   16. 1.6.0: every refusal key the scripts use has one of the four categories (util/hint.js)
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
@@ -616,6 +617,48 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(dots(3, 5) === G['dot.full'].repeat(3) + G['dot.empty'].repeat(2) && dots(9, 5) === G['dot.full'].repeat(5) && dots(-1, 2) === G['dot.empty'].repeat(2) && dots(0, 0) === '',
     'glyphs: dots(n, max) gives n filled and max - n empty dots, clamped');
   ok(PLACEHOLDERS.every(n => hasGlyph(n)) && !PLACEHOLDERS.some(n => ids.includes(n) && n.startsWith('kaleidoscope_fishing:')), `glyphs: ${PLACEHOLDERS.length} placeholders listed; none of our own fish is one`);
+}
+
+// ---------- 18. 1.6.0: lore keeps only symbols ----------
+{
+  const SZ = await imp('fishing/size.js');
+  const { G } = await imp('data/glyphs.js');
+  const { partsLore } = await imp('fishing/parts.js');
+  const fake = (typeId, lore = [], maxAmount = 64) => {
+    const dyn = new Map();
+    return { typeId, maxAmount, _lore: [...lore], getLore() { return [...this._lore]; }, setLore(l) { this._lore = [...l]; },
+      getDynamicProperty: k => dyn.get(k), setDynamicProperty(k, v) { if (maxAmount !== 1) throw new Error('stackable'); dyn.set(k, v); }, dyn };
+  };
+  const visible = l => l.replace(/§./g, '');
+  const lore = SZ.loreFor(SZ.LARGE, 77);
+  ok(lore.length === 2 && visible(lore[1]) === '★' && !/cm|\d/.test(visible(lore.join(''))), `lore: a record shows only ★, no length or "cm" (${JSON.stringify(lore)})`);
+  const rec = fake(NS + 'carp', lore);
+  const r = SZ.readSize(rec);
+  ok(r.cls === SZ.LARGE && r.cm === 77 && r.record, 'lore: the hidden length reads back (77 cm, record, large)');
+  const old = fake(NS + 'carp', ['§f◆◆', '§6★ 45 cm']);
+  const ro = SZ.readSize(old);
+  ok(ro.cls === 2 && ro.cm === 45 && ro.record, 'lore: an old "★ 45 cm" fish still reads as a 45 cm record');
+  ok(SZ.upgradeStack(old) && old.getLore()[1] === SZ.recordLine(45) && SZ.readSize(old).cm === 45 && !SZ.upgradeStack(old),
+    `lore: upgradeStack turns "★ 45 cm" into ★ with the length hidden, once (${JSON.stringify(old.getLore())})`);
+  ok(JSON.stringify(SZ.upgradeLore(['§6◆◆◆', '§6★ 120 cm', '§d✦'])) === JSON.stringify(['§6◆◆◆', SZ.recordLine(120), '§d✦']), 'lore: upgradeLore leaves the other lines alone');
+  const one = fake('testpack:big_fish', [], 1);
+  SZ.setRecord(one, 63);
+  ok(one.dyn.get(SZ.CM_KEY) === 63 && SZ.readSize(one).cm === 63, 'lore: a stack that does not stack also keeps the length in kaleidoscope_fishing:cm');
+  const fish = fake(NS + 'carp', ['§7◆']);
+  SZ.setRecord(fish, 30);
+  ok(!fish.dyn.size && SZ.readSize(fish).cm === 30 && fish.getLore()[0] === '§7◆', 'lore: a stacking fish keeps it in the lore line only (no dynamic property on stackable items)');
+  const bare = fake(NS + 'carp', []);
+  bare.getDynamicProperty = () => 50;
+  ok(SZ.readSize(bare).cm === 50 && SZ.readSize(bare).record, 'lore: the dynamic property alone is read too');
+  const pl = partsLore({ hook: NS + 'gold_hook', line: NS + 'wire_line', bobber: NS + 'glow_bobber' });
+  ok(pl.length === 1 && visible(pl[0]) === `${G[NS + 'gold_hook']} ${G[NS + 'wire_line']} ${G[NS + 'glow_bobber']}` && partsLore({}).length === 0,
+    'lore: a rod shows its hook, line and bobber as three glyphs; no parts, no lore');
+  const glyphOnly = s => [...visible(s)].every(c => c === ' ' || (c.charCodeAt(0) >= 0xE000 && c.charCodeAt(0) <= 0xF8FF));
+  ok(glyphOnly(pl[0]), 'lore: the rod line has nothing but glyphs');
+  for (const f of ['blocks/pond.js', 'blocks/tub.js']) {
+    const src = readFileSync(join(BP, 'scripts', f), 'utf8');
+    ok(!src.includes('lore.roe_of') && /setLore\(\[`§r\$\{fishGlyph\(id\)\}`\]\)/.test(src), `lore: ${f} labels roe with the fish's glyph, not its name`);
+  }
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

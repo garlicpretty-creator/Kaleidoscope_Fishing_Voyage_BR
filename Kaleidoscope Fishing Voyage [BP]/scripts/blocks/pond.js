@@ -20,6 +20,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 import { CATCHES, FISH_ALIAS, POND, POND_FEEDS, TANK_FISH } from "../data/generated.js";
+import { fishGlyph } from "../data/glyphs.js";
 import { FIT, TANK_KIND } from "../data/tank.js";
 import { FARMED_MARK, LARGE, MEDIUM, SMALL, isFarmed, markOf, readSize } from "../fishing/size.js";
 import { fishOut, keepOf } from "./keep.js";
@@ -177,7 +178,7 @@ export function fishStack(f, n = 1) {
 export function roeStack(id) {
   const s = new ItemStack(ROE_ITEM, 1);
   try { s.setDynamicProperty(ROE_PROP, id); } catch {}
-  try { s.setLore([{ translate: `${NS}.lore.roe_of`, with: { rawtext: [{ translate: `${NS}.name.${id.split(":")[1]}` }] } }]); } catch {}
+  try { s.setLore([`§r${fishGlyph(id)}`]); } catch {}   // 1.6.0: the fish's picture, no words (the species is ROE_PROP)
   return s;
 }
 /** Everything a feeder holds, as stacks. */
