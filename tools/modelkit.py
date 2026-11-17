@@ -17,7 +17,8 @@ from PIL import Image
 
 
 def rgba(h):
-    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5)) + (255,)
+    """'#rrggbb', or '#rrggbbaa' for a see-through colour (glass)."""
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5)) + ((int(h[7:9], 16),) if len(h) == 9 else (255,))
 
 
 class Atlas:
@@ -35,12 +36,12 @@ class Atlas:
         per_row = (self.w - self.x0) // self.cell
         cx, cy = self.x0 + (n % per_row) * self.cell, self.y0 + (n // per_row) * self.cell
         assert cy + self.cell <= self.h, 'atlas is full'
-        r, g, b, _ = rgba(colour)
+        r, g, b, alpha = rgba(colour)
         rnd = random.Random(colour)
         for y in range(cy, cy + self.cell):
             for x in range(cx, cx + self.cell):
                 d = rnd.randint(-noise, noise)
-                self.image.putpixel((x, y), (max(0, min(255, r + d)), max(0, min(255, g + d)), max(0, min(255, b + d)), 255))
+                self.image.putpixel((x, y), (max(0, min(255, r + d)), max(0, min(255, g + d)), max(0, min(255, b + d)), alpha))
         self.cells[colour] = (cx + 1, cy + 1)
         return self.cells[colour]
 

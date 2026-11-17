@@ -8682,6 +8682,49 @@
    "mechanics": [
     "Silky egg steamed with Purged Clams; only clams without grit will do."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lava_fish_tank",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_lava_fish_tank",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:basalt",
+      "minecraft:glass",
+      "minecraft:basalt",
+      "minecraft:obsidian",
+      "minecraft:lava_bucket",
+      "minecraft:obsidian",
+      "minecraft:basalt",
+      "minecraft:glass",
+      "minecraft:basalt"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:lava_fish_tank"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either)."
+    ],
+    "zh_TW": [
+     "像燈一樣發光，可以養一隻熔岩生物：焰鰭魚、熔岩鰻、熔岩錦鯉、玄武岩蟹或熔岩龍鯉。拿牠對缸使用就放進去，空手取回；尺寸、紀錄和名字都會保留。不會點燃周圍。一般的魚放不進去，這幾種熔岩生物也放不進一般魚缸（熔岩龍鯉兩種都可以）。"
+    ],
+    "zh_CN": [
+     "像灯一样发光，可以养一只熔岩生物：焰鳍鱼、熔岩鳗、熔岩锦鲤、玄武岩蟹或熔岩龙鲤。拿它对缸使用就放进去，空手取回；尺寸、纪录和名字都会保留。不会点燃周围。一般的鱼放不进去，这几种熔岩生物也放不进一般鱼缸（熔岩龙鲤两种都可以）。"
+    ]
+   },
+   "mechanics": [
+    "Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either)."
+   ]
   }
  ],
  "names": {
@@ -9013,7 +9056,11 @@
    "kaleidoscope_fishing:salt_pan": "Salt Pan",
    "kaleidoscope_fishing:purged_clam": "Purged Clam",
    "kaleidoscope_fishing:clam_steamed_egg": "Steamed Egg with Clams",
-   "minecraft:terracotta": "Terracotta"
+   "minecraft:terracotta": "Terracotta",
+   "minecraft:basalt": "Basalt",
+   "minecraft:obsidian": "Obsidian",
+   "minecraft:lava_bucket": "Lava Bucket",
+   "kaleidoscope_fishing:lava_fish_tank": "Lava Fish Tank"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9343,7 +9390,11 @@
    "kaleidoscope_fishing:salt_pan": "曬鹽盤",
    "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
    "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
-   "minecraft:terracotta": "陶瓦"
+   "minecraft:terracotta": "陶瓦",
+   "minecraft:basalt": "玄武岩",
+   "minecraft:obsidian": "黑曜石",
+   "minecraft:lava_bucket": "岩漿桶",
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩魚缸"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -9673,7 +9724,11 @@
    "kaleidoscope_fishing:salt_pan": "晒盐盘",
    "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
    "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
-   "minecraft:terracotta": "陶瓦"
+   "minecraft:terracotta": "陶瓦",
+   "minecraft:basalt": "玄武岩",
+   "minecraft:obsidian": "黑曜石",
+   "minecraft:lava_bucket": "熔岩桶",
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩鱼缸"
   }
  },
  "text": {

@@ -262,6 +262,34 @@ setComps(await boot());
   P.hold(NS + 'carp', 1); use(t);
   ok(JSON.stringify(t.permutation.getAllStates()) !== before && inv('carp') === 0, `fish tank: a carp goes in (${JSON.stringify(t.permutation.getAllStates())})`);
 }
+// ---------- 1.5.0: lava fish tank, and the oyster ----------
+{
+  const T = await importScript('blocks/tanks.js');
+  const { TANK_FISH } = await importScript('data/generated.js');
+  const { TANK_KIND, FIT } = await importScript('data/tank.js');
+  const idxOf = id => TANK_FISH.indexOf(NS + id) + 1;
+  const fishIn = b => b.permutation.getState(NS + 'fish') + 16 * b.permutation.getState(NS + 'fish_bank');
+  for (const n of ['blazefin', 'lava_eel', 'magma_koi', 'basalt_crab', 'lava_dragon_koi']) {
+    clearInv(); const lt = place(NS + 'lava_fish_tank'); P.hold(NS + n, 1); use(lt);
+    ok(inv(n) === 0 && fishIn(lt) === idxOf(n), `lava fish tank: a ${n.replace(/_/g, ' ')} goes in`);
+    P.hold(undefined); use(lt);
+    ok(inv(n) === 1 && fishIn(lt) === 0, `lava fish tank: and comes back out`);
+  }
+  clearInv(); const lt = place(NS + 'lava_fish_tank'); P.hold(NS + 'carp', 1); use(lt);
+  ok(inv('carp') === 1 && fishIn(lt) === 0, 'lava fish tank: a water fish is refused');
+  for (const n of ['blazefin', 'lava_eel', 'magma_koi', 'basalt_crab']) {
+    clearInv(); const wt = place(NS + 'fish_tank'); P.hold(NS + n, 1); use(wt);
+    ok(inv(n) === 1, `fish tank: a ${n.replace(/_/g, ' ')} is refused (it needs the lava tank)`);
+  }
+  clearInv(); const wt = place(NS + 'fish_tank'); P.hold(NS + 'lava_dragon_koi', 1); use(wt);
+  ok(inv('lava_dragon_koi') === 0, 'fish tank: the Lava Dragon Koi still goes in a water tank, as in 1.4');
+  clearInv(); const ot = place(NS + 'fish_tank'); P.hold(NS + 'oyster', 1); use(ot);
+  ok(inv('oyster') === 0 && fishIn(ot) === idxOf('oyster'), 'fish tank: an oyster goes in');
+  const o = idxOf('oyster') - 1;
+  ok(FIT[o].every(t => t.every(r => r[1] === 0)) && TANK_KIND[o] === TANK_KIND[idxOf('crab') - 1], 'fish tank: the oyster sits still on the bottom (no span to walk)');
+  ok(TANK_FISH.length === FIT.length && TANK_FISH.length === TANK_KIND.length, `fish tank: every species has its placement rows (${TANK_FISH.length})`);
+  ok(T.tankIndex(NS + 'blazefin', true) > 0 && T.tankIndex(NS + 'blazefin') === 0 && T.tankIndex(NS + 'carp', true) === 0, 'tankIndex: lava creatures for the lava tank only, water fish for the water tanks only');
+}
 
 {
   const { FIT, TANK_KIND } = await importScript('data/tank.js');

@@ -28,6 +28,16 @@ const TURN = { north: 0, east: 1, south: 2, west: 3 };   // quarter turns clockw
 const REPLACEABLE = new Set(["minecraft:air", "minecraft:short_grass", "minecraft:fern", "minecraft:snow_layer", "minecraft:leaf_litter"]);
 const TAG = "kfv_tank:";                        // kfv_tank:s:x,y,z (Fish Tank) / kfv_tank:l:x,y,z (Large, anchor block)
 const canon = id => FISH_ALIAS[id] ?? id;
+// 1.5.0: lava creatures live in the Lava Fish Tank (blocks/lava_fish_tank.json: params {"lava": true}); the Lava
+// Dragon Koi was allowed in a water tank in 1.4 and still is. Water creatures do not go in the lava tank.
+export const LAVA_ONLY = new Set([`${NS}:blazefin`, `${NS}:magma_koi`, `${NS}:lava_eel`, `${NS}:basalt_crab`]);
+export const LAVA_OK = new Set([...LAVA_ONLY, `${NS}:lava_dragon_koi`]);
+/** The tank index of what is held, if this kind of tank takes it (0 when it does not). Exported for tests. */
+export function tankIndex(id, lava = false) {
+  const c = canon(id);
+  if (lava ? !LAVA_OK.has(c) : LAVA_ONLY.has(c)) return 0;
+  return TANK_FISH.indexOf(c) + 1;
+}
 
 const mainhand = p => p.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
 const creative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
@@ -140,13 +150,13 @@ function syncSmall(block, perm = block.permutation) {
 }
 
 const fishTank = {
-  onPlayerInteract({ block, player }) {
+  onPlayerInteract({ block, player }, arg) {
     if (!player) return;
     const slot = mainhand(player);
     const held = slot?.hasItem() ? slot.typeId : "";
     const now = smallData(block);
     const cur = now.idx;
-    const idx = TANK_FISH.indexOf(canon(held)) + 1;
+    const idx = tankIndex(held, !!arg?.params?.lava);
     const at = smallCentre(block);
     if (idx > 0 && cur === 0) {
       const stack = slot.getItem();
@@ -172,7 +182,7 @@ const fishTank = {
       syncSmall(block, perm);
       return;
     }
-    if (held) refuse(player, idx > 0 ? "tank_occupied" : "tank_not_fish");
+    if (held) refuse(player, idx > 0 ? "tank_occupied" : LAVA_OK.has(canon(held)) !== !!arg?.params?.lava ? "tank_wrong_kind" : "tank_not_fish");
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     const { idx: cur, cls } = smallData(block, brokenBlockPermutation);
@@ -230,7 +240,7 @@ const largeTank = {
     const fish = readLarge(dim, t);
     const slot = mainhand(player);
     const held = slot?.hasItem() ? slot.typeId : "";
-    const idx = TANK_FISH.indexOf(canon(held)) + 1;
+    const idx = tankIndex(held);
     if (idx > 0) {
       if (fish.length >= CAP) { snd(dim, t.centre, "random.click", 0.6, 0.5); return refuse(player, "tank_full", CAP); }
       const stack = slot.getItem();

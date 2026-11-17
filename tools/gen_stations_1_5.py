@@ -1,4 +1,4 @@
-"""Blocks added in 1.5.0 for processing: the Wooden Tub (木盆) and the Salt Pan (曬鹽盤). First-pass models made of
+"""Blocks added in 1.5.0: the Wooden Tub (木盆), the Salt Pan (曬鹽盤) and the Lava Fish Tank (熔岩魚缸). First-pass models made of
 boxes coloured from a swatch atlas (tools/modelkit.py), for refining in Blockbench later.
 
   python tools/gen_stations_1_5.py
@@ -59,6 +59,25 @@ def salt_pan():
     return a, bones
 
 
+def lava_tank():
+    """The Lava Fish Tank: basalt posts and rims, smoked glass, a bed of lava with a darker crust, and a glowing back.
+    The fish is the tank fish entity, as in the Fish Tank; it swims in the space above the lava bed."""
+    a = Atlas(64, 64)
+    basalt, basalt_dark = '#4a4a50', '#2c2c32'
+    cubes = [box(-7, 7, 0, 1, -5, 5, basalt, basalt_dark, atlas=a), box(-7, 7, 12, 13, -5, 5, basalt, basalt_dark, atlas=a)]
+    for x in (-7, 6):
+        for z in (-5, 4):
+            cubes.append(box(x, x + 1, 1, 12, z, z + 1, basalt, basalt_dark, atlas=a))
+    glass = '#2a1a1a60'
+    cubes += [box(-6, 6, 1, 12, -4.9, -4.8, glass, atlas=a), box(-6, 6, 1, 12, 4.8, 4.9, glass, atlas=a),
+              box(-6.9, -6.8, 1, 12, -4, 4, glass, atlas=a), box(6.8, 6.9, 1, 12, -4, 4, glass, atlas=a)]
+    lava = [box(-6.8, 6.8, 1, 3, -4.8, 4.8, '#ff8a1e', '#e2581a', atlas=a),
+            box(-6.8, 6.8, 3, 3.3, -4.8, 4.8, '#c43a12', atlas=a),
+            box(-6.7, 6.7, 3.3, 11.8, 4.5, 4.75, '#7a1c0c', atlas=a)]                   # the glow at the back
+    bones = [{'name': 'root', 'pivot': [0, 0, 0]}, bone('frame', cubes), bone('lava', lava)]
+    return a, bones
+
+
 def write(name, atlas, bones):
     geo = os.path.join(RP, 'models', 'blocks', f'{name}.geo.json')
     write_geometries(geo, [{'description': {'identifier': f'geometry.{NS}.{name}', 'texture_width': atlas.w, 'texture_height': atlas.h,
@@ -95,7 +114,8 @@ def book_picture(name, show):
 
 
 def main():
-    for name, make, show in (('wooden_tub', tub, ('root', 'tub', 'brine', 'clams')), ('salt_pan', salt_pan, ('root', 'pan', 'salt'))):
+    for name, make, show in (('wooden_tub', tub, ('root', 'tub', 'brine', 'clams')), ('salt_pan', salt_pan, ('root', 'pan', 'salt')),
+                             ('lava_fish_tank', lava_tank, ('root', 'frame', 'lava'))):
         atlas, bones = make()
         write(name, atlas, bones)
         book_picture(name, show)

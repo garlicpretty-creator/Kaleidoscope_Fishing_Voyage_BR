@@ -372,6 +372,9 @@
     },
     "kfv_salt_pan": {
       "textures": "textures/blocks/kfv_salt_pan"
+    },
+    "kfv_lava_fish_tank": {
+      "textures": "textures/blocks/kfv_lava_fish_tank"
     }
   }
 }

@@ -736,6 +736,50 @@ def tub_and_salt_pan():
            text=('Silky egg steamed with Purged Clams; only clams without grit will do.', '用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐過沙的蛤蜊。', '用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐过沙的蛤蜊。'))
 
 
+def lava_tank():
+    """Step 9: the Lava Fish Tank (plan 6). The block is the Fish Tank's, with its own model (tools/gen_stations_1_5.py),
+    light, and the tank component told it holds lava; the four new lava creatures' tank models come from
+    tools/gen_tank_1_5.py, which also adds the oyster to the ordinary tanks."""
+    S = NS
+    src = c.read_json(os.path.join(c.BP, 'blocks', 'fish_tank.json'))
+    blk = src['minecraft:block']
+    blk['description']['identifier'] = S + 'lava_fish_tank'
+    comp = blk['components']
+    comp['minecraft:display_name'] = f'%{c.NS}.display.item.lava_fish_tank'
+    comp['minecraft:material_instances'] = {'*': {'texture': 'kfv_lava_fish_tank', 'render_method': 'blend'}}
+    comp['minecraft:geometry'] = f'geometry.{c.NS}.lava_fish_tank'
+    comp['minecraft:light_emission'] = 10
+    comp['minecraft:map_color'] = '#C43A12'
+    comp['minecraft:loot'] = f'loot_tables/{c.NS}/blocks/lava_fish_tank.json'
+    comp.pop('minecraft:liquid_detection', None)
+    comp[S + 'fish_tank'] = {'lava': True}
+    c.write_json(os.path.join(c.BP, 'blocks', 'lava_fish_tank.json'), src)
+    c.write_json(os.path.join(c.BP, 'loot_tables', c.NS, 'blocks', 'lava_fish_tank.json'), {'pools': [{'rolls': 1, 'entries': [{'type': 'item', 'name': S + 'lava_fish_tank'}]}]})
+    name = ('Lava Fish Tank', '熔岩魚缸', '熔岩鱼缸')
+    c.names('lava_fish_tank', *name)
+    c.catalog('lava_fish_tank', 'large_fish_tank')
+    keys = {'B': 'minecraft:basalt', 'G': 'minecraft:glass', 'O': 'minecraft:obsidian', 'L': 'minecraft:lava_bucket'}
+    pattern = ['BGB', 'OLO', 'BGB']
+    c.write_json(os.path.join(c.BP, 'recipes', 'crafting', 'lava_fish_tank.json'), {'format_version': '1.20.10', 'minecraft:recipe_shaped': {
+        'description': {'identifier': S + 'lava_fish_tank'}, 'tags': ['crafting_table'], 'pattern': pattern,
+        'key': {k: {'item': v} for k, v in keys.items()}, 'result': {'item': S + 'lava_fish_tank', 'count': 1},
+        'unlock': [{'item': 'minecraft:lava_bucket'}]}})
+    for item, names in [('minecraft:basalt', ('Basalt', '玄武岩', '玄武岩')), ('minecraft:glass', ('Glass', '玻璃', '玻璃')),
+                        ('minecraft:obsidian', ('Obsidian', '黑曜石', '黑曜石')), ('minecraft:lava_bucket', ('Lava Bucket', '岩漿桶', '熔岩桶'))]:
+        c.guide_name(item, *names)
+    text = ('Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either).',
+            '像燈一樣發光，可以養一隻熔岩生物：焰鰭魚、熔岩鰻、熔岩錦鯉、玄武岩蟹或熔岩龍鯉。拿牠對缸使用就放進去，空手取回；尺寸、紀錄和名字都會保留。不會點燃周圍。一般的魚放不進去，這幾種熔岩生物也放不進一般魚缸（熔岩龍鯉兩種都可以）。',
+            '像灯一样发光，可以养一只熔岩生物：焰鳍鱼、熔岩鳗、熔岩锦鲤、玄武岩蟹或熔岩龙鲤。拿它对缸使用就放进去，空手取回；尺寸、纪录和名字都会保留。不会点燃周围。一般的鱼放不进去，这几种熔岩生物也放不进一般鱼缸（熔岩龙鲤两种都可以）。')
+    g = c.data('GUIDEBOOK_JSON')
+    entry = {'id': S + 'lava_fish_tank', 'category': 'tools', 'kinds': ['item', 'block'], 'stack': 64, 'icon': 'textures/ui/kfv_book/kfv_lava_fish_tank',
+             'recipes': [{'method': 'Crafting Table', 'ingredients': [keys[ch] for row in pattern for ch in row], 'count': 1, 'time': 0, 'result': S + 'lava_fish_tank'}],
+             'mechanicsByLocale': {'en_US': [text[0]], 'zh_TW': [text[1]], 'zh_CN': [text[2]]}, 'mechanics': [text[0]]}
+    g['entries'] = [e for e in g['entries'] if e['id'] != entry['id']] + [entry]
+    for code, t in zip(c.LANGS, name):
+        g['names'][code][S + 'lava_fish_tank'] = t
+    c.save('GUIDEBOOK_JSON', g)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -751,4 +795,5 @@ if __name__ == '__main__':
     squid_and_tuna()
     dried_fish()
     tub_and_salt_pan()
+    lava_tank()
     print('1.5.0 content written; now run: python tools/build.py build')

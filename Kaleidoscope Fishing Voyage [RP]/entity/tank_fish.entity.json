@@ -57,7 +57,12 @@
         "frostlake_char": "geometry.kaleidoscope_fishing.tank_fish.frostlake_char",
         "lava_dragon_koi": "geometry.kaleidoscope_fishing.tank_fish.lava_dragon_koi",
         "shrimp": "geometry.kaleidoscope_fishing.tank_fish.shrimp",
-        "purpur_shrimp": "geometry.kaleidoscope_fishing.tank_fish.purpur_shrimp"
+        "purpur_shrimp": "geometry.kaleidoscope_fishing.tank_fish.purpur_shrimp",
+        "blazefin": "geometry.kaleidoscope_fishing.tank_fish.blazefin",
+        "magma_koi": "geometry.kaleidoscope_fishing.tank_fish.magma_koi",
+        "lava_eel": "geometry.kaleidoscope_fishing.tank_fish.lava_eel",
+        "basalt_crab": "geometry.kaleidoscope_fishing.tank_fish.basalt_crab",
+        "oyster": "geometry.kaleidoscope_fishing.tank_fish.oyster"
       },
       "animations": {
         "swim": "animation.kaleidoscope_fishing.tank_fish.swim",

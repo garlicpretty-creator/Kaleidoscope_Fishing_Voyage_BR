@@ -33,6 +33,15 @@ TARGETS = {
     'shrimp': ('crust', 'shrimp'), 'purpur_shrimp': ('crust', 'shrimp'),
     'octopus': ('octo', 'octo'), 'moon_jellyfish': ('jelly', 'rings'), 'chorus_jellyfish': ('jelly', 'chorus'),
 }
+# 1.5.0: creatures with no model of their own yet: a copy of a template's geometry (less the bones listed), then
+# painted from their own icon like the rest. The Lava Fish Tank's four, and the oyster for the Fish Tank.
+CLONES = {
+    'blazefin': ('carp', []), 'magma_koi': ('lava_dragon_koi', []), 'lava_eel': ('eel', []),
+    'basalt_crab': ('crab', []),
+    'oyster': ('crab', ['legl1', 'legr1', 'legl2', 'legr2', 'legl3', 'legr3']),
+}
+TARGETS.update({'blazefin': ('fish', 'lava'), 'magma_koi': ('fish', 'lava'), 'lava_eel': ('fish', 'lava'),
+                'basalt_crab': ('crust', 'shell'), 'oyster': ('crust', 'shell')})
 EXTRA = {   # hand-picked accents the icons cannot give
     'emperor_tuna': {'accent': (242, 194, 48)}, 'river_lord_catfish': {'accent': (216, 189, 106)},
     'frostlake_char': {'accent': (240, 140, 120)}, 'lava_dragon_koi': {'accent': (255, 190, 60)},
@@ -333,6 +342,12 @@ def paint_eye_on_head(px, regions, p, species):
 
 def main():
     geo = json.load(open(BASE_GEO, encoding='utf-8'))
+    byid = {g['description']['identifier'].split('tank_fish.')[-1]: g for g in geo['minecraft:geometry']}
+    for new, (tpl, drop) in CLONES.items():
+        g = json.loads(json.dumps(byid[tpl]))
+        g['description']['identifier'] = f'geometry.kaleidoscope_fishing.tank_fish.{new}'
+        g['bones'] = [b for b in g['bones'] if b['name'] not in drop]
+        geo['minecraft:geometry'].append(g)
     base = Image.open(BASE_ATLAS).convert('RGBA')
     atlas = base.resize((base.width * S, base.height * S), Image.NEAREST)
     # clear everything below the kept fish (the old flat strips of the repainted species)

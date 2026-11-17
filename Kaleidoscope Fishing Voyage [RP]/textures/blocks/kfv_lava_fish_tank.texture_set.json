@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_lava_fish_tank",
+    "metalness_emissive_roughness": "kfv_lava_fish_tank_mer",
+    "heightmap": "kfv_lava_fish_tank_height"
+  }
+}
