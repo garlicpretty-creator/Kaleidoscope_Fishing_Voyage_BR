@@ -21,6 +21,9 @@ import { externalTank } from "../fishing/registry.js";
 const NS = "kaleidoscope_fishing";
 const FISH_ID = `${NS}:tank_fish`;
 const SMALL_ID = `${NS}:fish_tank`;
+// 1.5.0: the Lava Fish Tank runs the same one-block tank component, so its creatures carry the same "s" tag.
+// The sweep must count it as a live tank, or it drops the creature every 10 s while the tank spawns it again.
+const SMALL_TANKS = new Set([SMALL_ID, `${NS}:lava_fish_tank`]);
 const LARGE_BLOCK = `${NS}:large_fish_tank_block`, LARGE_ITEM = `${NS}:large_fish_tank`;
 const SIZE_STATE = `${NS}:size`, PART = `${NS}:part`, DIR = `${NS}:dir`;
 const CAP = 4;                                  // fish in a Large Fish Tank
@@ -396,7 +399,7 @@ function sweep() {
       try { block = dim.getBlock(pos); } catch { continue; }       // not loaded: leave it alone
       if (!block) continue;
       if (m[1] === "s") {
-        if (block.typeId === SMALL_ID) continue;
+        if (SMALL_TANKS.has(block.typeId)) continue;
         const idx = prop(e, "kfv:idx"), cls = prop(e, "kfv:cls") ?? 0;
         const keep = unstash(keepKey("tk", dim, pos));
         writeData("tk", dim, pos, undefined);                      // v1.5.5: the tank's record goes too

@@ -332,6 +332,14 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
   advance(200, ['tanks.js']);
   const d2 = drops();
   ok(d2.length === 1 && d2[0].id === NS + 'tuna', `fish tank: a tank gone without a player gives its fish back on the sweep (${dropIds(d2)})`);
+  // 1.5.0 playtest: the sweep counted only the water tank as a tank, so a Lava Fish Tank's creature was dropped every
+  // 10 s and spawned again from the block state - an endless copy of the fish
+  const tl = D.place(NS + 'lava_fish_tank', { x, y: 64, z: 9 });
+  clearInv(); holdStack(stack('blazefin', 1)); use(tl); drops();
+  advance(600, ['tanks.js']);
+  const dl = drops();
+  ok(inv('blazefin') === 0 && dl.length === 0 && fishIn(`kfv_tank:s:${x},64,9`).length === 1,
+    `lava fish tank: its blazefin stays in through three sweeps, nothing is dropped (${dropIds(dl) || 'no drops'})`);
   clearInv(); P.hold('minecraft:stick', 1); const t3 = D.place(NS + 'fish_tank', { x, y: 64, z: 6 });
   const s3 = log.sounds.length; clock.abs += 20; use(t3);
   ok(st(t3, 'fish') === 0 && log.sounds.slice(s3).includes('note.bass'), 'fish tank: a stick is refused with the refusal sound');
