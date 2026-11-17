@@ -20,6 +20,7 @@ import { tryStore } from "../tools/basket.js";
 import { emitCaught } from "../api/host.js";
 import { enchantLevel, luckFactor, luckSize, lureTicks } from "../util/enchant.js";
 import { AURORA_BITE, skyAt } from "../world/sky.js";
+import { BOAT_DEPTH, LANTERN_BITE, boatOf, lanternOn, stow } from "../world/boat.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
@@ -153,7 +154,8 @@ function landCatch(player, s, from) {
   // v1.4: the first legend of its kind brings its keepsake. 1.5.0: a later one does now and then, so tackle made of it can be made again
   if (legend && KEEPSAKES[s.catchId] && (rec.first || Math.random() < KEEPSAKE_AGAIN)) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
   // 1.5.0: a legend goes into the creel like any catch (it comes out with its ✦); only a record stays in the hand
-  const stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
+  let stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
+  if (!stored && !rec.newBest && stow(player, stack) === undefined) stored = true;   // 1.5.0: the skiff's hold
   emitCaught(player, s.catchId, { via: "rod", size: s.size, cls, rec });       // 1.5.0: other packs hear every landed catch
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
@@ -223,18 +225,19 @@ function hookFish(player, s) {
     if (s.bait && !consumeOne(player, s.bait)) s.bait = undefined;
   }
   const school = !!schoolNear(dim, s.bobber.location, 6);
-  const depth = (s.ctx?.depth ?? 0) + s.fx.depth;           // a weighted bobber sinks the bait deeper
+  const boat = !!boatOf(player);                           // 1.5.0: fishing from a boat
+  const depth = (s.ctx?.depth ?? 0) + s.fx.depth + (boat ? BOAT_DEPTH : 0);   // a weighted bobber sinks the bait deeper
   const luck = enchantLevel(heldRod(player), "luck_of_the_sea");       // 1.5.0: the rod's own enchantments count
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
     luck: luckFactor(luck),
-    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow, sky: skyAt(!!s.ctx?.cold),
+    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow, sky: skyAt(!!s.ctx?.cold), boat,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
     rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }
   s.size = LEGEND_SET.has(s.catchId) ? rollSize(s.catchId, s.rod.tier + s.fx.size)
-    : luckSize(luck, () => rollSize(s.catchId, s.rod.tier + s.fx.size));
+    : luckSize(luck, () => rollSize(s.catchId, s.rod.tier + s.fx.size + (boat ? 1 : 0)));
   // v1.5: a fish with a body length plays the minigame (junk, treasure, shrimp and crabs land at once)
   const entry = CATCH_BY_ID[s.catchId];
   if (minigameOn() && entry?.size && s.size !== undefined) {
@@ -392,7 +395,8 @@ function startWaiting(s) {
   const factor = (s.bait ? BAITS[s.bait]?.biteFactor ?? 1 : 1) * (rain ? 0.8 : 1) *
     (g.hat ? 0.85 : 1) * (g.coat && rain ? 0.8 : 1) * (school ? 0.55 : 1) *
     s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1) *
-    (s.ctx?.waters?.has("ice") && skyAt(true) === "aurora" ? AURORA_BITE : 1);   // 1.5.0: the aurora wakes the ice
+    (s.ctx?.waters?.has("ice") && skyAt(true) === "aurora" ? AURORA_BITE : 1) *  // 1.5.0: the aurora wakes the ice
+    (s.fx.night === 1 && lanternOn(s.player) ? LANTERN_BITE : 1);                  // 1.5.0: the skiff's lantern, not with a Glow Bobber
   s.biteAt = s.age + lureTicks(Math.round(randInt(lo, hi) * factor), enchantLevel(heldRod(s.player), "lure"));   // 1.5.0: Lure
 }
 

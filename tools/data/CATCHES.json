@@ -918,7 +918,8 @@
       180,
       350
     ],
-    "fight": 6
+    "fight": 6,
+    "boat": 2
   },
   {
     "id": "kaleidoscope_fishing:aurora_icefish",

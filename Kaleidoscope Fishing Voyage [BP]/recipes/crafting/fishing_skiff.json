@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_skiff"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:oak_boat"
+      },
+      {
+        "item": "kaleidoscope_fishing:catch_crate"
+      },
+      {
+        "item": "kaleidoscope_fishing:fishing_lantern"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:fishing_skiff",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:oak_boat"
+      },
+      {
+        "item": "kaleidoscope_fishing:catch_crate"
+      },
+      {
+        "item": "kaleidoscope_fishing:fishing_lantern"
+      }
+    ]
+  }
+}

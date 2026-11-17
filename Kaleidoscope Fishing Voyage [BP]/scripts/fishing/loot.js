@@ -127,6 +127,7 @@ export function rollCatch(ctx, rand = Math.random) {
     if (e.tide && ctx.tide && e.tide[ctx.tide]) w *= e.tide[ctx.tide];
     if (e.dawn_dusk && (ctx.slot === "dawn" || ctx.slot === "dusk")) w *= e.dawn_dusk;
     if (e.rain && ctx.raining) w *= e.rain;
+    if (e.boat && ctx.boat) w *= e.boat;                                // 1.5.0: e.g. the Meteor Marlin from a boat
     if (e.cold && ctx.cold) w *= e.cold;
     if (e.bait && ctx.bait && e.bait[ctx.bait]) w *= e.bait[ctx.bait];
     if (e.tier_bonus && tier >= 2) w *= e.tier_bonus;

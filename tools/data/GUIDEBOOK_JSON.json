@@ -9182,6 +9182,42 @@
    "mechanics": [
     "Roe spawned in a fish pond and taken out from the feeder's list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fishing_skiff",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_fishing_skiff",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_boat",
+      "kaleidoscope_fishing:catch_crate",
+      "kaleidoscope_fishing:fishing_lantern"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:fishing_skiff"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls."
+    ],
+    "zh_TW": [
+     "一人座的小船，有魚艙和一盞漁燈。對水使用就能放下。在船上釣魚，餌多垂 4 格、大魚稍微多一點（任何船都有這個效果）；流星旗魚比較容易上鉤。魚簍收不下的漁獲會進魚艙（27 格：蹲下對船使用打開）。夜晚漁燈讓魚咬鉤稍快（和夜光浮標不疊加）。拿漁網對它使用，船尾掛上拖網（蹲下再用一次收回）：在水深 8 格以上的海面航行，大約每 64 格撈到 1～2 條小魚進魚艙，魚艙滿了就停；拖網撈 32 次會破。"
+    ],
+    "zh_CN": [
+     "一人座的小船，有鱼舱和一盏渔灯。对水使用就能放下。在船上钓鱼，饵多垂 4 格、大鱼稍微多一点（任何船都有这个效果）；流星旗鱼比较容易上钩。鱼篓收不下的渔获会进鱼舱（27 格：蹲下对船使用打开）。夜晚渔灯让鱼咬钩稍快（和夜光浮标不叠加）。拿渔网对它使用，船尾挂上拖网（蹲下再用一次收回）：在水深 8 格以上的海面航行，大约每 64 格捞到 1～2 条小鱼进鱼舱，鱼舱满了就停；拖网捞 32 次会破。"
+    ]
+   },
+   "mechanics": [
+    "A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls."
+   ]
   }
  ],
  "names": {
@@ -9534,7 +9570,9 @@
    "kaleidoscope_fishing:glowing_glass_float": "Glowing Glass Float",
    "kaleidoscope_fishing:pond_feeder": "Fish Pond Feeder",
    "minecraft:barrel": "Barrel",
-   "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe"
+   "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe",
+   "minecraft:oak_boat": "Oak Boat",
+   "kaleidoscope_fishing:fishing_skiff": "Fishing Skiff"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9885,7 +9923,9 @@
    "kaleidoscope_fishing:glowing_glass_float": "發光玻璃浮球",
    "kaleidoscope_fishing:pond_feeder": "魚池餵食台",
    "minecraft:barrel": "木桶",
-   "kaleidoscope_fishing:fertilized_roe": "受精卵"
+   "kaleidoscope_fishing:fertilized_roe": "受精卵",
+   "minecraft:oak_boat": "橡木船",
+   "kaleidoscope_fishing:fishing_skiff": "釣魚小船"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10236,7 +10276,9 @@
    "kaleidoscope_fishing:glowing_glass_float": "发光玻璃浮球",
    "kaleidoscope_fishing:pond_feeder": "鱼池喂食台",
    "minecraft:barrel": "木桶",
-   "kaleidoscope_fishing:fertilized_roe": "受精卵"
+   "kaleidoscope_fishing:fertilized_roe": "受精卵",
+   "minecraft:oak_boat": "橡木船",
+   "kaleidoscope_fishing:fishing_skiff": "钓鱼小船"
   }
  },
  "text": {

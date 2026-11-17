@@ -773,3 +773,5 @@ kaleidoscope_fishing.pond.pick=點一條魚把牠撈起來。
 kaleidoscope_fishing.display.item.fertilized_roe=受精卵\n§9§o森羅物語：漁歌§r
 kaleidoscope_fishing.name.fertilized_roe=受精卵
 kaleidoscope_fishing.lore.roe_of=魚種：%1$s
+kaleidoscope_fishing.display.item.fishing_skiff=釣魚小船\n§9§o森羅物語：漁歌§r
+kaleidoscope_fishing.name.fishing_skiff=釣魚小船

@@ -344,7 +344,8 @@
               "kaleidoscope_fishing:anchor",
               "kaleidoscope_fishing:net_wall",
               "kaleidoscope_fishing:dried_fish_string",
-              "kaleidoscope_fishing:catch_crate"
+              "kaleidoscope_fishing:catch_crate",
+              "kaleidoscope_fishing:fishing_skiff"
             ]
           },
           {

@@ -1,0 +1,29 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fishing_skiff",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.tools"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.fishing_skiff"
+      },
+      "minecraft:icon": "kfv_fishing_skiff",
+      "minecraft:max_stack_size": 1,
+      "minecraft:entity_placer": {
+        "entity": "kaleidoscope_fishing:fishing_skiff",
+        "use_on": [
+          "minecraft:water",
+          "minecraft:flowing_water"
+        ]
+      },
+      "minecraft:liquid_clipped": {
+        "value": true
+      }
+    }
+  }
+}

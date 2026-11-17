@@ -82,6 +82,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `moon`、`moon_boost` | `"full"`，或月相編號陣列（0 滿月 … 4 新月）加倍率 | `moon_boost` 1–2 |
 | `tide` | `{"high":倍率,"low":倍率}` | 各 0–3 |
 | `rain`、`cold`、`dawn_dusk`、`school` | 下雨、寒冷、晨昏、魚群的倍率 | 0–3 |
+| `boat` | 在船上釣的倍率（1.5.0） | 0–3 |
 | `bait` | 特定餌的倍率 `{"<餌>":1.5}` | 0–3；餌必須是內建或已註冊的 |
 | `needBait` | 只有用這些餌才上鉤 | 同上 |
 | `sky` | 只在這種天象的夜晚上鉤（1.5.0，要有 `sky` capability） | `"meteor"`（流星雨）或 `"aurora"`（極光之夜；只在寒冷的地方算數） |

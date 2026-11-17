@@ -9,6 +9,7 @@
 //      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
 //   8. 1.5.0: Lure, Luck of the Sea and Unbreaking where our own scripts do the work
 //   9-11. 1.5.0: legend keepsakes, the cleaning board's per-cut format, the new waters
+//   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
@@ -469,6 +470,23 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(PD.mealsOf('testpack:corn_mash') === 0, 'register_pond_feed: gone when the registry is cleared');
   const M2 = await imp('world/merchant.js');
   ok(M2.FARMED_PRICE === 0.6, 'merchant: farmed fish at 60%');
+}
+
+// ---------- 14. boats and the Fishing Skiff (1.5.0) ----------
+{
+  const B = await imp('world/boat.js');
+  let r = B.trawlStep(0, 10, 12);
+  ok(r.gone === 10 && r.hauls === 0 && B.trawlStep(60, 10, 12).hauls === 1 && B.trawlStep(60, 10, 12).gone === 6, 'trawl: one haul for every 64 blocks sailed');
+  ok(B.trawlStep(60, 10, 5).hauls === 0 && B.trawlStep(60, 10, 5).gone === 60, 'trawl: nothing over water less than 8 deep');
+  ok(B.trawlStep(0, 500, 12).hauls === 0, 'trawl: a jump (teleport) is not sailing');
+  const hauls = Array.from({ length: 400 }, () => B.haul()).flat();
+  ok(hauls.every(h => B.TRAWL_CATCH.some(([id]) => id === h.typeId)) && hauls.length >= 400 && hauls.length <= 800,
+    'trawl: each haul is 1-2 common small fish (their small mark is checked in the world play test)');
+  ok(B.TRAWL_CATCH.every(([id]) => !G.LEGENDS.includes(id) && !G.CATCHES.find(c => c.id === id)?.sky), 'trawl: never a legend or a sky fish');
+  const roll = (ctx, k) => { let n = 0; for (let i = 0; i < k; i++) if (L.rollCatch(ctx) === `${NS}meteor_marlin`) n++; return n; };
+  const base = { depth: 14, rod: true, tier: 2, moon: 2, caught: new Set(), raining: false, slot: 'night', sky: 'meteor', waters: new Set(['ocean', 'deep_ocean']) };
+  const onBoat = roll({ ...base, boat: true }, 40000), ashore = roll({ ...base, boat: false }, 40000);
+  ok(onBoat > ashore * 1.4, `the Meteor Marlin bites more readily from a boat (${onBoat} vs ${ashore} in 40000)`);
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

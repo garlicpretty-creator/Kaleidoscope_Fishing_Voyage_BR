@@ -1134,6 +1134,31 @@ def fish_pond():
         food={'nutrition': 2, 'saturation': 0.4})
 
 
+def fishing_skiff():
+    """Step 14: the Fishing Skiff (plan 8): its item, recipe, names and guide page. The entity and model come from
+    tools/gen_skiff_1_5.py, the scripts from world/boat.js."""
+    S = NS
+    c.item('fishing_skiff', stack=1, group='tools', components={
+        'minecraft:entity_placer': {'entity': S + 'fishing_skiff', 'use_on': ['minecraft:water', 'minecraft:flowing_water']},
+        'minecraft:liquid_clipped': {'value': True}})
+    name = ('Fishing Skiff', '釣魚小船', '钓鱼小船')
+    c.names('fishing_skiff', *name)
+    c.icon('fishing_skiff')
+    c.catalog('fishing_skiff', 'catch_crate')
+    rec = c.shapeless('fishing_skiff', ['minecraft:oak_boat', 'catch_crate', 'fishing_lantern'])
+    c.guide_name('minecraft:oak_boat', 'Oak Boat', '橡木船', '橡木船')
+    c.guide('fishing_skiff', 'tools', (
+        'A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls.',
+        '一人座的小船，有魚艙和一盞漁燈。對水使用就能放下。在船上釣魚，餌多垂 4 格、大魚稍微多一點（任何船都有這個效果）；流星旗魚比較容易上鉤。魚簍收不下的漁獲會進魚艙（27 格：蹲下對船使用打開）。夜晚漁燈讓魚咬鉤稍快（和夜光浮標不疊加）。拿漁網對它使用，船尾掛上拖網（蹲下再用一次收回）：在水深 8 格以上的海面航行，大約每 64 格撈到 1～2 條小魚進魚艙，魚艙滿了就停；拖網撈 32 次會破。',
+        '一人座的小船，有鱼舱和一盏渔灯。对水使用就能放下。在船上钓鱼，饵多垂 4 格、大鱼稍微多一点（任何船都有这个效果）；流星旗鱼比较容易上钩。鱼篓收不下的渔获会进鱼舱（27 格：蹲下对船使用打开）。夜晚渔灯让鱼咬钩稍快（和夜光浮标不叠加）。拿渔网对它使用，船尾挂上拖网（蹲下再用一次收回）：在水深 8 格以上的海面航行，大约每 64 格捞到 1～2 条小鱼进鱼舱，鱼舱满了就停；拖网捞 32 次会破。'),
+        name, stack=1, recipes=[rec])
+    catches = c.data('CATCHES')
+    for e in catches:
+        if e['id'] == S + 'meteor_marlin':
+            e['boat'] = 2
+    c.save('CATCHES', catches)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -1154,4 +1179,5 @@ if __name__ == '__main__':
     sky_events()
     shore_growth()
     fish_pond()
+    fishing_skiff()
     print('1.5.0 content written; now run: python tools/build.py build')

@@ -121,7 +121,7 @@ function catchEntry(e, source) {
     out.tide = {};
     for (const k of ["high", "low"]) if (e.tide[k] !== undefined) { if (!num(e.tide[k], LIMITS.factor)) return `${e.id}: tide.${k}`; out.tide[k] = e.tide[k]; }
   }
-  for (const k of ["rain", "cold", "dawn_dusk", "school", "tier_bonus"]) if (e[k] !== undefined) { if (!num(e[k], LIMITS.factor)) return `${e.id}: ${k} 0..3`; out[k] = e[k]; }
+  for (const k of ["rain", "cold", "dawn_dusk", "school", "tier_bonus", "boat"]) if (e[k] !== undefined) { if (!num(e[k], LIMITS.factor)) return `${e.id}: ${k} 0..3`; out[k] = e[k]; }
   if (e.sky !== undefined) { if (!SKIES.includes(e.sky)) return `${e.id}: sky must be "meteor" or "aurora"`; out.sky = e.sky; }
   const knownBait = id => typeof id === "string" && ID_RE.test(id) && (builtinBait(id) || baits.has(id));
   if (e.bait !== undefined) {

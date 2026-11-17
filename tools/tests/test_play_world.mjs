@@ -1278,4 +1278,29 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(drops().some(d => d.id === NS + 'fertilized_roe'), 'tub: a tub broken while hatching gives the roe back');
 }
 
+// ================================================================ 1.5.0: the Fishing Skiff
+{
+  const B = await importScript('world/boat.js');
+  const items = [];
+  const container = { emptySlotsCount: 27, addItem(st) { items.push(st); this.emptySlotsCount--; return undefined; } };
+  const props = new Map(), dyn = new Map();
+  const skiff = { typeId: NS + 'fishing_skiff', id: 'sk1', isValid: true, dimension: D, location: { x: 0.5, y: 64, z: 0.5 },
+    getComponent: n => (n === 'minecraft:inventory' ? { container } : undefined),
+    getProperty: k => props.get(k) ?? 0, setProperty: (k, v) => props.set(k, v),
+    getDynamicProperty: k => dyn.get(k), setDynamicProperty: (k, v) => dyn.set(k, v) };
+  const riding = P.getComponent; P.getComponent = n => (n === 'minecraft:riding' ? { entityRidingOn: skiff } : riding.call(P, n));
+  ok(B.boatOf(P) === skiff && B.onSkiff(P), 'skiff: a player sitting in it is on a boat');
+  const left = B.stow(P, stack('carp', 1, ['§f◆◆']));
+  ok(left === undefined && items.length === 1 && items[0].typeId === NS + 'carp', 'skiff: a catch goes into the hold');
+  clearInv(); P.hold(NS + 'fishing_net', 1); P.isSneaking = false;
+  ok(B.useNet(P, skiff, P.held()) && props.get(NS + 'trawl') === 1 && inv('fishing_net') === 0, 'skiff: a net hangs the trawl (the net is used)');
+  P.isSneaking = true; P.hold(NS + 'fishing_net', 1);
+  ok(B.useNet(P, skiff, P.held()) && props.get(NS + 'trawl') === 0 && inv('fishing_net') === 2, 'skiff: crouching, a net takes the trawl in (the net comes back)');
+  P.isSneaking = false;
+  const h = B.haul(() => 0.6);
+  ok(h.length === 1 && h[0].typeId === NS + 'saury' && h[0].getLore()[0] === '§7◆', `skiff: a trawl haul is small (${h.map(x => x.typeId)})`);
+  P.getComponent = riding;
+  ok(B.boatOf(P) === undefined && B.stow(P, stack('carp', 1)) !== undefined, 'skiff: off the boat nothing is stowed');
+}
+
 finish('play (world)');

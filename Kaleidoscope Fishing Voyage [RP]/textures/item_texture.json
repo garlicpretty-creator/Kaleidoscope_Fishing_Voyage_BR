@@ -838,6 +838,9 @@
     },
     "kfv_fertilized_roe": {
       "textures": "textures/items/kfv_fertilized_roe"
+    },
+    "kfv_fishing_skiff": {
+      "textures": "textures/items/kfv_fishing_skiff"
     }
   }
 }
