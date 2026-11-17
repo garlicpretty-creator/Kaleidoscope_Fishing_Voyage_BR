@@ -7793,7 +7793,8 @@
     "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
    ],
    "usedBy": [
-    "kaleidoscope_fishing:jellyfish_salad"
+    "kaleidoscope_fishing:jellyfish_salad",
+    "kaleidoscope_fishing:jellyfish_radish"
    ]
   },
   {
@@ -9218,6 +9219,46 @@
    "mechanics": [
     "A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_radish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_radish",
+   "food": {
+    "nutrition": 5,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "minecraft:carrot",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:jellyfish_radish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Crunchy jellyfish strips tossed with shredded carrot and a little oil."
+    ],
+    "zh_TW": [
+     "脆脆的海蜇皮拌上蘿蔔絲和一點油。"
+    ],
+    "zh_CN": [
+     "脆脆的海蜇皮拌上萝卜丝和一点油。"
+    ]
+   },
+   "mechanics": [
+    "Crunchy jellyfish strips tossed with shredded carrot and a little oil."
+   ]
   }
  ],
  "names": {
@@ -9572,7 +9613,8 @@
    "minecraft:barrel": "Barrel",
    "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe",
    "minecraft:oak_boat": "Oak Boat",
-   "kaleidoscope_fishing:fishing_skiff": "Fishing Skiff"
+   "kaleidoscope_fishing:fishing_skiff": "Fishing Skiff",
+   "kaleidoscope_fishing:jellyfish_radish": "Jellyfish and Carrot Salad"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9925,7 +9967,8 @@
    "minecraft:barrel": "木桶",
    "kaleidoscope_fishing:fertilized_roe": "受精卵",
    "minecraft:oak_boat": "橡木船",
-   "kaleidoscope_fishing:fishing_skiff": "釣魚小船"
+   "kaleidoscope_fishing:fishing_skiff": "釣魚小船",
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌蘿蔔絲"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10278,7 +10321,8 @@
    "minecraft:barrel": "木桶",
    "kaleidoscope_fishing:fertilized_roe": "受精卵",
    "minecraft:oak_boat": "橡木船",
-   "kaleidoscope_fishing:fishing_skiff": "钓鱼小船"
+   "kaleidoscope_fishing:fishing_skiff": "钓鱼小船",
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌萝卜丝"
   }
  },
  "text": {

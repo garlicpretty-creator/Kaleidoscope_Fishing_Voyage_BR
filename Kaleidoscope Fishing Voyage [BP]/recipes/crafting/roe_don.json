@@ -12,10 +12,10 @@
         "item": "kaleidoscope_cookery:cooked_rice"
       },
       {
-        "item": "kaleidoscope_fishing:fish_roe"
+        "tag": "kaleidoscope_fishing:fish_roe_any"
       },
       {
-        "item": "kaleidoscope_fishing:fish_roe"
+        "tag": "kaleidoscope_fishing:fish_roe_any"
       },
       {
         "item": "kaleidoscope_fishing:nori"
@@ -28,9 +28,6 @@
     "unlock": [
       {
         "item": "kaleidoscope_cookery:cooked_rice"
-      },
-      {
-        "item": "kaleidoscope_fishing:fish_roe"
       },
       {
         "item": "kaleidoscope_fishing:nori"

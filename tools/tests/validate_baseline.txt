@@ -7,6 +7,7 @@ UNDEFINED_ID kaleidoscope_fishing:bone_meal_from_fish_meal ['bone_meal_from_fish
 UNDEFINED_ID kaleidoscope_fishing:dashi ['generated.js']
 UNDEFINED_ID kaleidoscope_fishing:fish_meal_from_bones ['fish_meal_from_bones.json']
 UNDEFINED_ID kaleidoscope_fishing:fish_meal_from_dried_fish ['fish_meal_from_dried_fish.json']
+UNDEFINED_ID kaleidoscope_fishing:fish_roe_any ['roe_don.json', 'sushi_platter.json', 'temaki_stand.json']
 UNDEFINED_ID kaleidoscope_fishing:fish_stock ['generated.js']
 UNDEFINED_ID kaleidoscope_fishing:fishing_hut ['fishing_hut_feature.json']
 UNDEFINED_ID kaleidoscope_fishing:fishing_hut_feature ['fishing_hut_feature.json', 'fishing_hut_rule.json']

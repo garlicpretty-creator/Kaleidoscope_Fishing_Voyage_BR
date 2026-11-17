@@ -256,6 +256,22 @@ function dropAll(dim, t, withTank) {
   for (const [idx, cls, keep] of fish) { const out = fishStack(idx, cls, keep); if (out) { try { dim.spawnItem(out, at); } catch {} } }
 }
 
+// 1.5.0 (plan 12): kelp or seagrass, any coral, or sand used on a Large Fish Tank changes its bottom (the state
+// `decor` on both halves: 0 as it always was, 1 water plants, 2 coral, 3 sand). The same again puts it back.
+const DECOR = `${NS}:decor`;
+/** The bottom an item asks for (0 = none). Exported for tests. */
+export function decorOf(id) {
+  if (id === "minecraft:kelp" || id === "minecraft:seagrass") return 1;
+  if (/^minecraft:.*coral/.test(id)) return 2;
+  if (id === "minecraft:sand") return 3;
+  return 0;
+}
+function setDecor(dim, t, d) {
+  for (const c of [t.anchor, t.other]) {
+    try { const b = dim.getBlock(c); if (b?.typeId === LARGE_BLOCK) b.setPermutation(b.permutation.withState(DECOR, d)); } catch {}
+  }
+}
+
 const largeTank = {
   onPlayerInteract({ block, player }) {
     if (!player) return;
@@ -264,6 +280,15 @@ const largeTank = {
     const fish = readLarge(dim, t);
     const slot = mainhand(player);
     const held = slot?.hasItem() ? slot.typeId : "";
+    const deco = decorOf(held);
+    if (deco) {
+      let now = 0;
+      try { now = Number(block.permutation.getState(DECOR) ?? 0); } catch {}
+      setDecor(dim, t, now === deco ? 0 : deco);
+      snd(dim, t.centre, deco === 3 ? "dig.sand" : "random.splash", 1.2, 0.6);
+      splash(dim, t.centre, 4);
+      return;
+    }
     const idx = tankIndex(held);
     if (idx > 0) {
       if (fish.length >= CAP) { snd(dim, t.centre, "random.click", 0.6, 0.5); return refuse(player, "tank_full", CAP); }

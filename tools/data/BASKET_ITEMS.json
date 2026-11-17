@@ -313,5 +313,10 @@
     "id": "kaleidoscope_fishing:aurora_icefish",
     "nameKey": "kaleidoscope_fishing.name.aurora_icefish",
     "icon": "textures/items/kfv_aurora_icefish"
+  },
+  {
+    "id": "kaleidoscope_fishing:whole_squid",
+    "nameKey": "kaleidoscope_fishing.name.whole_squid",
+    "icon": "textures/items/kfv_whole_squid"
   }
 ]

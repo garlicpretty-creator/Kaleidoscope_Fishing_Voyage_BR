@@ -841,6 +841,9 @@
     },
     "kfv_fishing_skiff": {
       "textures": "textures/items/kfv_fishing_skiff"
+    },
+    "kfv_jellyfish_radish": {
+      "textures": "textures/items/kfv_jellyfish_radish"
     }
   }
 }

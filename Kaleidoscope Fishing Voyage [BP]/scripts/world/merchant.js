@@ -116,6 +116,8 @@ export const ORDER_REWARDS = [
   { w: 30, give: () => [new ItemStack(`${NS}:recipe_scrap`, 1)] },
   { w: 30, give: () => [new ItemStack([`${NS}:copper_hook`, `${NS}:hemp_line`, `${NS}:bamboo_bobber`][randInt(0, 2)], 1)] },
   { w: 25, give: () => [new ItemStack(Math.random() < 0.5 ? `${NS}:fish_meal_bait` : `${NS}:glow_bait`, 8)] },
+  { w: 8, give: () => [new ItemStack(`${NS}:wooden_tub`, 1)] },         // 1.5.0: the tub and the pond feeder
+  { w: 8, give: () => [new ItemStack(`${NS}:pond_feeder`, 1)] },
   { w: 15, give: () => [new ItemStack("minecraft:emerald", 6)] },
 ];
 function setOrder(m) {

@@ -44,5 +44,15 @@
   "kaleidoscope_fishing:echo_ray": 0.5,
   "kaleidoscope_fishing:sculk_lanternfish": 1.0,
   "kaleidoscope_fishing:meteor_marlin": 2.5,
-  "kaleidoscope_fishing:aurora_icefish": 0.6
+  "kaleidoscope_fishing:aurora_icefish": 0.6,
+  "kaleidoscope_fishing:shrimp": 0.15,
+  "kaleidoscope_fishing:crab": 0.4,
+  "kaleidoscope_fishing:oyster": 0.3,
+  "kaleidoscope_fishing:purpur_shrimp": 0.4,
+  "kaleidoscope_fishing:basalt_crab": 0.8,
+  "kaleidoscope_fishing:cave_crayfish": 0.3,
+  "kaleidoscope_fishing:loach": 0.15,
+  "kaleidoscope_fishing:mudskipper": 0.2,
+  "minecraft:tropical_fish": 0.2,
+  "minecraft:pufferfish": 0.3
 }

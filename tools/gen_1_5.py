@@ -3,7 +3,7 @@
   python tools/icons_1_5.py && python tools/gen_1_5.py && python tools/build.py build
 """
 import content as c
-import os
+import json, os
 c.os = os
 
 NS = c.NS + ':'
@@ -1159,6 +1159,50 @@ def fishing_skiff():
     c.save('CATCHES', catches)
 
 
+def small_additions():
+    """Step 16 (plan 12): the jellyfish salad with radish, Fertilized Roe for any roe recipe, the prices still missing,
+    the whole squid in the creel."""
+    S = NS
+    c.dish('jellyfish_radish', ('Jellyfish and Carrot Salad', '海蜇拌蘿蔔絲', '海蜇拌萝卜丝'), 5, 0.6,
+           [('crafting', ['jellyfish_skin', 'minecraft:carrot', 'kaleidoscope_cookery:oil'], None)],
+           after='jellyfish_salad',
+           text=('Crunchy jellyfish strips tossed with shredded carrot and a little oil.', '脆脆的海蜇皮拌上蘿蔔絲和一點油。', '脆脆的海蜇皮拌上萝卜丝和一点油。'))
+    c.guide_name('minecraft:carrot', 'Carrot', '胡蘿蔔', '胡萝卜')
+    # Fertilized Roe stands in for fish roe in the crafting recipes (a tag both carry)
+    tag = S + 'fish_roe_any'
+    for key in ('fish_roe', 'fertilized_roe'):
+        path = os.path.join(c.BP, 'items', f'{key}.json')
+        j = c.read_json(path)
+        comp = j['minecraft:item']['components']
+        tags = comp.setdefault('minecraft:tags', {'tags': []})['tags']
+        if tag not in tags:
+            tags.append(tag)
+        c.write_json(path, j)
+    used = []
+    for name in ('roe_don', 'sushi_platter', 'temaki_stand'):
+        path = os.path.join(c.BP, 'recipes', 'crafting', f'{name}.json')
+        j = c.read_json(path)
+        txt = json.dumps(j)
+        if f'"item": "{S}fish_roe"' in txt:
+            j = json.loads(txt.replace(f'{{"item": "{S}fish_roe"}}', f'{{"tag": "{tag}"}}'))
+            body = next(iter(v for k, v in j.items() if k.startswith('minecraft:recipe')))
+            body['unlock'] = [u for u in body.get('unlock', []) if u.get('tag') != tag] or [{'item': S + 'fish_roe'}]
+            c.write_json(path, j)
+        used.append(f'{name}.json')
+    c._baseline(tag, "', '".join(sorted(used)))
+    # prices the release left out (legends stay unsellable)
+    prices = c.data('MERCHANT_PRICES')
+    for id_, p in ((S + 'shrimp', 0.15), (S + 'crab', 0.4), (S + 'oyster', 0.3), (S + 'purpur_shrimp', 0.4), (S + 'basalt_crab', 0.8),
+                   (S + 'cave_crayfish', 0.3), (S + 'loach', 0.15), (S + 'mudskipper', 0.2), ('minecraft:tropical_fish', 0.2),
+                   ('minecraft:pufferfish', 0.3)):
+        prices.setdefault(id_, p)
+    c.save('MERCHANT_PRICES', prices)
+    basket = c.data('BASKET_ITEMS')
+    if not any(b['id'] == S + 'whole_squid' for b in basket):
+        basket.append({'id': S + 'whole_squid', 'nameKey': f'{c.NS}.name.whole_squid', 'icon': 'textures/items/kfv_whole_squid'})
+    c.save('BASKET_ITEMS', basket)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -1180,4 +1224,5 @@ if __name__ == '__main__':
     shore_growth()
     fish_pond()
     fishing_skiff()
+    small_additions()
     print('1.5.0 content written; now run: python tools/build.py build')

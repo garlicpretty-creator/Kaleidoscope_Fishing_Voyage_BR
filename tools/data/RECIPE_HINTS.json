@@ -1900,5 +1900,26 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:jellyfish_radish",
+    "nameKey": "kaleidoscope_fishing.name.jellyfish_radish",
+    "icon": "textures/items/kfv_jellyfish_radish",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.jellyfish_skin",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
   }
 ]
