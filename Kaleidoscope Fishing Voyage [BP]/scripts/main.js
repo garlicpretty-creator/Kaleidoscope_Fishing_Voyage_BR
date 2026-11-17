@@ -8,6 +8,7 @@ import "./kc/guidebookPublisher.js";
 import "./fishing/registry.js";   // v1.6.2: register_bait / register_catch for other packs
 import "./api/host.js";           // 1.5.0: events, and the state / record / catalog requests
 import "./api/family.js";         // 1.5.0: handshakes with Herbal, Harvest and Ranching
+import "./api/burntTeaStart.js";    // handshakes with Order To Cook and Grilling (burnt-tea-dev)
 import "./fishing/rod.js";
 import "./fishing/minigameSwitch.js";
 import "./events/foodEffects.js";
