@@ -1023,6 +1023,46 @@ def sky_events():
     c.save('GUIDEBOOK_JSON', g)
 
 
+def shore_growth():
+    """Step 12: Oyster Beds and Laver Rocks grow (plan 7.1). A `growth` state (2 grown, the default, so beds the world
+    made and 1.4 beds count as grown; 0 just set down; 1 small) shown by scaling the grown model down; a block tick
+    for the script (blocks/shoreDrop.js); harvest 2-4."""
+    S = NS
+    rot = {'north': 0, 'east': 270, 'south': 180, 'west': 90}
+    scale = {2: None, 1: [0.8, 0.65, 0.8], 0: [0.55, 0.4, 0.55]}
+    texts = {
+        'oyster_bed': ('Oysters', '牡蠣', '牡蛎', 'on beaches by the water', '長在海灘水邊', '长在海滩水边', 'a bed', '整塊', '整块'),
+        'laver_rock': ('Laver', '紫菜', '紫菜', 'on beaches and stony shores', '長在海灘與石岸', '长在海滩与石岸', 'the rock', '整塊', '整块'),
+    }
+    g = c.data('GUIDEBOOK_JSON')
+    for key, (en, tw, cn, en_w, tw_w, cn_w, en_b, tw_b, cn_b) in texts.items():
+        path = os.path.join(c.BP, 'blocks', f'{key}.json')
+        j = c.read_json(path)
+        b = j['minecraft:block']
+        b['description']['states'] = {S + 'growth': [2, 0, 1]}
+        comp = b['components']
+        comp['minecraft:tick'] = {'interval_range': [400, 600], 'looping': True}
+        comp[S + 'shore_drop']['harvest'] = [2, 4]
+        perms = []
+        for stage in (2, 1, 0):
+            for d, r in rot.items():
+                t = {'rotation': [0, r, 0]}
+                if scale[stage]:
+                    t.update({'scale': scale[stage], 'scale_pivot': [0, -0.5, 0]})
+                perms.append({'condition': f"q.block_state('minecraft:cardinal_direction') == '{d}' && q.block_state('{S}growth') == {stage}",
+                              'components': {'minecraft:transformation': t}})
+        b['permutations'] = perms
+        c.write_json(path, j)
+        text = (f'Grows {en_w}. Set down under water on sand, gravel or stone by the sea, it grows (just set down, small, grown: about a day each, twice as fast at low tide). Use a grown one with an empty hand or a knife to gather 2-4 {en}; it goes back to small. Broken grown it gives 1-3 {en}, not yet grown only 1; Silk Touch keeps {en_b}.',
+                f'{tw_w}。放在海邊水裡的沙、礫石或石頭上會長大（剛放下、小、成熟，每段大約一天，退潮時快一倍）。成熟後空手或拿刀使用，採下 {tw} 2～4 個，回到「小」繼續長。成熟時打掉得 1～3 個，還沒長大只得 1 個；絲綢之觸可以{tw_b}帶走。',
+                f'{cn_w}。放在海边水里的沙、砾石或石头上会长大（刚放下、小、成熟，每段大约一天，退潮时快一倍）。成熟后空手或拿刀使用，采下 {cn} 2～4 个，回到“小”继续长。成熟时打掉得 1～3 个，还没长大只得 1 个；精准采集可以{cn_b}带走。')
+        for e in g['entries']:
+            if e['id'] == S + key:
+                e['mechanicsByLocale'] = {'en_US': [text[0]], 'zh_TW': [text[1]], 'zh_CN': [text[2]]}
+                e['mechanics'] = [text[0]]
+    c.save('GUIDEBOOK_JSON', g)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -1041,4 +1081,5 @@ if __name__ == '__main__':
     lava_tank()
     new_waters()
     sky_events()
+    shore_growth()
     print('1.5.0 content written; now run: python tools/build.py build')

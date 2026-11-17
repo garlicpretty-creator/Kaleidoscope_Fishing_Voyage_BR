@@ -1125,4 +1125,59 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   biome = 'minecraft:plains';
 }
 
+// ================================================================ 1.5.0: oyster beds and laver rocks grow
+{
+  const SD = await importScript('blocks/shoreDrop.js');
+  const c = comps.get(NS + 'shore_drop');
+  const params = blockDefs.get(NS + 'oyster_bed').components[NS + 'shore_drop'];
+  const G_ = NS + 'growth';
+  const x = spot();
+  D.place('minecraft:sand', { x, y: 63, z: 0 });
+  const bed = D.place(NS + 'oyster_bed', { x, y: 64, z: 0 });
+  ok(st(bed, 'growth') === 2, 'oyster bed: one the world made (or a 1.4 one) is grown');
+  const ev = { permutationToPlace: bed.permutation, cancel: false };
+  c.beforeOnPlayerPlace(ev);
+  bed.setPermutation(ev.permutationToPlace);
+  ok(st(bed, 'growth') === 0, 'oyster bed: one a player sets down starts small');
+  biome = 'minecraft:beach'; bed.isWaterlogged = true; clock.moon = 0; clock.day = 6000;
+  const tickBed = () => guard('tick oyster bed', () => c.onTick({ block: bed }, { params }));
+  tickBed(); clock.abs += 20000; tickBed();
+  ok(st(bed, 'growth') === 0, 'oyster bed: not grown after a short while');
+  clock.abs += 600; tickBed();
+  ok(SD.canGrow(bed) && st(bed, 'growth') === 0, 'oyster bed: under water, on sand, by the sea it can grow');
+  clock.abs += 10000; tickBed();
+  ok(st(bed, 'growth') === 1, `oyster bed: about a day later it is one stage on (${st(bed, 'growth')})`);
+  clock.abs += 200000; tickBed();
+  ok(st(bed, 'growth') === 2, 'oyster bed: out of reach for days, it catches up and stops at grown');
+  // fresh water and dry land do not grow
+  const r = SD.grow(undefined, 0, 1000, true);
+  ok(r.p === 0 && r.stage === 0 && SD.grow({ p: 0, t: 1000, stage: 0 }, 0, 1100, true).p === 200 && SD.grow({ p: 0, t: 1000, stage: 0 }, 0, 1100, false).p === 100,
+    'growth: twice as fast at low tide');
+  biome = 'minecraft:river';
+  ok(!SD.canGrow(bed), 'oyster bed: a river is fresh water, it does not grow there');
+  biome = 'minecraft:beach'; bed.isWaterlogged = false;
+  ok(!SD.canGrow(bed), 'oyster bed: out of the water it does not grow');
+  bed.isWaterlogged = true;
+  // harvest
+  drops(); clearInv(); P.hold(NS + 'carp', 1); use(bed);
+  ok(!drops().length && st(bed, 'growth') === 2, 'oyster bed: a fish in hand does not harvest');
+  clearInv(); use(bed);
+  let d = drops();
+  ok(d.length === 1 && d[0].id === NS + 'oyster' && d[0].amount >= 2 && d[0].amount <= 4 && st(bed, 'growth') === 1,
+    `oyster bed: a grown bed gives ${d[0]?.amount} oysters to an empty hand and goes back to small`);
+  use(bed);
+  ok(!drops().length, 'oyster bed: a small one gives nothing yet');
+  clearInv(); breakBlock(bed);
+  d = drops();
+  ok(d.length === 1 && d[0].amount === 1, 'oyster bed: broken before it is grown it gives a single oyster');
+  const reef = D.place(NS + 'laver_rock', { x: spot(), y: 64, z: 0 });
+  clearInv(); P.hold(NS + 'fishing_knife', 1); use(reef);
+  d = drops();
+  ok(d.length === 1 && d[0].id === NS + 'raw_laver' && d[0].amount >= 2 && st(reef, 'growth') === 1, 'laver rock: a knife harvests a grown one too');
+  const perms = blockDefs.get(NS + 'oyster_bed').permutations;
+  ok(perms.length === 12 && perms.filter(p => p.components['minecraft:transformation'].scale).length === 8,
+    'oyster bed: four facings for each of the three stages, the two young ones drawn smaller');
+  biome = 'minecraft:plains';
+}
+
 finish('play (world)');
