@@ -1,6 +1,7 @@
 # Known validate.py findings that are not real problems (2026-11-15).
 # Recipe and feature-rule ids are not item/block ids, and Cookery's own ids live in the Cookery pack.
 # tools/run_tests.py fails only on findings that are not listed here.
+LOOT kombu_tea.json loot_tables/kaleidoscope_cookery/blocks/empty.json
 UNDEFINED_ID kaleidoscope_fishing:bone_meal_from_fish_bones ['bone_meal_from_fish_bones.json']
 UNDEFINED_ID kaleidoscope_fishing:bone_meal_from_fish_meal ['bone_meal_from_fish_meal.json']
 UNDEFINED_ID kaleidoscope_fishing:dashi ['generated.js']
@@ -23,12 +24,14 @@ UNDEFINED_ID kaleidoscope_fishing:nigiri_bream ['nigiri_bream.json']
 UNDEFINED_ID kaleidoscope_fishing:nigiri_tuna ['nigiri_tuna.json']
 UNDEFINED_ID kaleidoscope_fishing:oyster_bed_feature ['oyster_bed_feature.json', 'oyster_bed_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:oyster_bed_rule ['oyster_bed_rule.json']
+UNDEFINED_ID kaleidoscope_fishing:raw_crab_roe_bun_from_roe ['raw_crab_roe_bun_from_roe.json']
+UNDEFINED_ID kaleidoscope_fishing:raw_har_gow_from_shrimp_meat ['raw_har_gow_from_shrimp_meat.json']
 UNDEFINED_ID kaleidoscope_fishing:river_hut ['river_hut_feature.json']
 UNDEFINED_ID kaleidoscope_fishing:river_hut_feature ['river_hut_feature.json', 'river_hut_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:river_hut_rule ['river_hut_rule.json']
+UNDEFINED_ID kaleidoscope_fishing:roe_paste ['crab_roe_rice.json', 'raw_crab_roe_bun_from_roe.json']
 UNDEFINED_ID kaleidoscope_fishing:salt_from_bucket ['salt_from_bucket.json']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring ['starry_spring_feature.json']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring_feature ['starry_spring_feature.json', 'starry_spring_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring_rule ['starry_spring_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:tray ['generated.js']
-LOOT kombu_tea.json loot_tables/kaleidoscope_cookery/blocks/empty.json

@@ -140,7 +140,7 @@ P.location = { x: 0.5, y: 65, z: 0.5 };
   fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
   const recs = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_recipe');
   const bases = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_stockpot_base');
-  ok(KC_RECIPES.length === 84 && recs.length === 84, `bridge: api_ready -> all 84 recipes registered (${recs.length} of ${KC_RECIPES.length})`);
+  ok(KC_RECIPES.length >= 84 && recs.length === KC_RECIPES.length, `bridge: api_ready -> every recipe is registered (${recs.length} of ${KC_RECIPES.length}; 1.4.0 had 84)`);
   const parsed = recs.map(e => { try { return JSON.parse(e.msg); } catch { return null; } });
   ok(parsed.every(p => p && p.api === 1 && p.source === 'kaleidoscope_fishing' && p.kind && p.recipe?.id), 'bridge: every recipe message is valid JSON with api, source, kind and recipe.id');
   const longest = Math.max(...sent.slice(n0).map(e => e.msg.length));

@@ -712,6 +712,30 @@
     },
     "kfv_jellyfish_skin": {
       "textures": "textures/items/kfv_jellyfish_skin"
+    },
+    "kfv_stir_fried_shrimp": {
+      "textures": "textures/items/kfv_stir_fried_shrimp"
+    },
+    "kfv_crab_congee": {
+      "textures": "textures/items/kfv_crab_congee"
+    },
+    "kfv_shrimp_noodle_soup": {
+      "textures": "textures/items/kfv_shrimp_noodle_soup"
+    },
+    "kfv_crab_roe_rice": {
+      "textures": "textures/items/kfv_crab_roe_rice"
+    },
+    "kfv_jellyfish_salad": {
+      "textures": "textures/items/kfv_jellyfish_salad"
+    },
+    "kfv_boiled_shrimp": {
+      "textures": "textures/items/kfv_boiled_shrimp"
+    },
+    "kfv_steamed_crab_leg": {
+      "textures": "textures/items/kfv_steamed_crab_leg"
+    },
+    "kfv_grilled_crab_leg": {
+      "textures": "textures/items/kfv_grilled_crab_leg"
     }
   }
 }

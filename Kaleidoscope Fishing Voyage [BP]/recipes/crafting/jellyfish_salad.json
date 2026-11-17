@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:jellyfish_salad"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:jellyfish_skin"
+      },
+      {
+        "item": "kaleidoscope_fishing:jellyfish_skin"
+      },
+      {
+        "item": "kaleidoscope_cookery:lettuce"
+      },
+      {
+        "item": "kaleidoscope_cookery:red_chili"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:jellyfish_salad",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:jellyfish_skin"
+      }
+    ]
+  }
+}

@@ -1098,6 +1098,16 @@
      "count": 2,
      "time": 0,
      "result": "kaleidoscope_fishing:raw_har_gow"
+    },
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_dough",
+      "kaleidoscope_fishing:shrimp_meat"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:raw_har_gow"
     }
    ],
    "usedBy": [
@@ -1133,7 +1143,8 @@
     "kaleidoscope_fishing:starfin_soup",
     "kaleidoscope_fishing:blazefin_soup",
     "kaleidoscope_fishing:sea_bass_soup",
-    "kaleidoscope_fishing:lobster_congee"
+    "kaleidoscope_fishing:lobster_congee",
+    "kaleidoscope_fishing:crab_congee"
    ]
   },
   {
@@ -2810,7 +2821,8 @@
     "kaleidoscope_fishing:roe_don",
     "kaleidoscope_fishing:temaki_stand",
     "kaleidoscope_fishing:okaka_rice",
-    "kaleidoscope_fishing:flying_fish_roe_temaki"
+    "kaleidoscope_fishing:flying_fish_roe_temaki",
+    "kaleidoscope_fishing:crab_roe_rice"
    ]
   },
   {
@@ -3210,6 +3222,16 @@
      "ingredients": [
       "kaleidoscope_cookery:raw_dough",
       "kaleidoscope_fishing:crab"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:raw_crab_roe_bun"
+    },
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_dough",
+      "kaleidoscope_fishing:crab_roe"
      ],
      "count": 2,
      "time": 0,
@@ -6184,6 +6206,20 @@
      "count": 1,
      "time": 400,
      "result": "kaleidoscope_fishing:crab_leg_hot_pot"
+    },
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:dashi_bucket",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_cookery:lettuce",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 400,
+     "result": "kaleidoscope_fishing:crab_leg_hot_pot"
     }
    ]
   },
@@ -6377,6 +6413,9 @@
    },
    "mechanics": [
     "Bait. Some of the shrimp taken from a Shrimp Trap are still alive. Sea bass and lobster love it."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:boiled_shrimp"
    ]
   },
   {
@@ -7509,6 +7548,10 @@
    },
    "mechanics": [
     "Sometimes found in a lobster's head. Stands in for Crab Roe."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_roe_rice",
+    "kaleidoscope_fishing:raw_crab_roe_bun"
    ]
   },
   {
@@ -7532,6 +7575,10 @@
    },
    "mechanics": [
     "Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:shrimp_noodle_soup",
+    "kaleidoscope_fishing:fish_stock_bucket"
    ]
   },
   {
@@ -7559,6 +7606,16 @@
    },
    "mechanics": [
     "A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack's shrimp dishes."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:stir_fried_shrimp",
+    "kaleidoscope_fishing:shrimp_noodle_soup",
+    "kaleidoscope_fishing:raw_har_gow",
+    "kaleidoscope_fishing:shrimp_scrambled_eggs",
+    "kaleidoscope_fishing:seafood_congee",
+    "kaleidoscope_fishing:seafood_chow_mein",
+    "kaleidoscope_fishing:paella",
+    "kaleidoscope_fishing:seafood_hot_pot"
    ]
   },
   {
@@ -7582,6 +7639,9 @@
    },
    "mechanics": [
     "Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fish_stock_bucket"
    ]
   },
   {
@@ -7609,6 +7669,10 @@
    },
    "mechanics": [
     "Found under a crab's shell, in one crab of two (always in a Glow Crab or a King Crab)."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_roe_rice",
+    "kaleidoscope_fishing:raw_crab_roe_bun"
    ]
   },
   {
@@ -7636,6 +7700,10 @@
    },
    "mechanics": [
     "Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_congee",
+    "kaleidoscope_fishing:seafood_hot_pot"
    ]
   },
   {
@@ -7659,6 +7727,11 @@
    },
    "mechanics": [
     "Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:steamed_crab_leg",
+    "kaleidoscope_fishing:grilled_crab_leg",
+    "kaleidoscope_fishing:crab_leg_hot_pot"
    ]
   },
   {
@@ -7686,6 +7759,226 @@
    },
    "mechanics": [
     "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:jellyfish_salad"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:stir_fried_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_stir_fried_shrimp",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_cookery:green_chili",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:stir_fried_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_congee",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_congee",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:fish_stock_bucket",
+      "kaleidoscope_cookery:rice",
+      "kaleidoscope_fishing:crab_meat",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:crab_congee"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_noodle_soup",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_noodle_soup",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_noodles",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_shell"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:shrimp_noodle_soup"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe_rice",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe_rice",
+   "food": {
+    "nutrition": 10,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:cooked_rice",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:nori",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:crab_roe_rice"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_salad",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_salad",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:red_chili",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:jellyfish_salad"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:boiled_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_boiled_shrimp",
+   "food": {
+    "nutrition": 7,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:boiled_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:steamed_crab_leg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_steamed_crab_leg",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Steamer",
+     "ingredients": [
+      "kaleidoscope_fishing:crab_leg"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:steamed_crab_leg"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:grilled_crab_leg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_grilled_crab_leg",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.5
+   },
+   "recipes": [
+    {
+     "method": "Furnace",
+     "ingredients": [
+      "kaleidoscope_fishing:crab_leg"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:grilled_crab_leg"
+    }
    ]
   }
  ],
@@ -7988,7 +8281,15 @@
    "kaleidoscope_fishing:crab_roe": "Crab Roe",
    "kaleidoscope_fishing:crab_meat": "Crab Meat",
    "kaleidoscope_fishing:crab_leg": "Crab Leg",
-   "kaleidoscope_fishing:jellyfish_skin": "Jellyfish Strips"
+   "kaleidoscope_fishing:jellyfish_skin": "Jellyfish Strips",
+   "kaleidoscope_fishing:stir_fried_shrimp": "Stir-fried Shrimp",
+   "kaleidoscope_fishing:crab_congee": "Crab Congee",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "Shrimp Noodle Soup",
+   "kaleidoscope_fishing:crab_roe_rice": "Crab Roe Rice Bowl",
+   "kaleidoscope_fishing:jellyfish_salad": "Jellyfish Salad",
+   "kaleidoscope_fishing:boiled_shrimp": "Boiled Shrimp",
+   "kaleidoscope_fishing:steamed_crab_leg": "Steamed Crab Legs",
+   "kaleidoscope_fishing:grilled_crab_leg": "Grilled Crab Legs"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -8288,7 +8589,15 @@
    "kaleidoscope_fishing:crab_roe": "蟹黃",
    "kaleidoscope_fishing:crab_meat": "蟹肉",
    "kaleidoscope_fishing:crab_leg": "蟹腳",
-   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮"
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒蝦仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鮮蝦湯麵",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黃蓋飯",
+   "kaleidoscope_fishing:jellyfish_salad": "涼拌海蜇皮",
+   "kaleidoscope_fishing:boiled_shrimp": "白灼蝦",
+   "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹腳",
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹腳"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -8588,7 +8897,15 @@
    "kaleidoscope_fishing:crab_roe": "蟹黄",
    "kaleidoscope_fishing:crab_meat": "蟹肉",
    "kaleidoscope_fishing:crab_leg": "蟹脚",
-   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮"
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒虾仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鲜虾汤面",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黄盖饭",
+   "kaleidoscope_fishing:jellyfish_salad": "凉拌海蜇皮",
+   "kaleidoscope_fishing:boiled_shrimp": "白灼虾",
+   "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹脚",
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹脚"
   }
  },
  "text": {

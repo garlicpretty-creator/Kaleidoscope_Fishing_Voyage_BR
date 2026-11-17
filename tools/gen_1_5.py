@@ -3,6 +3,8 @@
   python tools/icons_1_5.py && python tools/gen_1_5.py && python tools/build.py build
 """
 import content as c
+import os
+c.os = os
 
 NS = c.NS + ':'
 
@@ -271,6 +273,75 @@ def shellfish_board():
     c.save('CLEANING', table)
 
 
+def shellfish_dishes():
+    """Step 4: dishes from what the board now gives, and the old dishes taking it too."""
+    S = NS
+    roe = {'tag': S + 'roe_paste', 'shown': S + 'crab_roe'}            # crab roe, or lobster tomalley in its place
+    for key in ('crab_roe', 'lobster_tomalley'):
+        path = c.os.path.join(c.BP, 'items', f'{key}.json')
+        j = c.read_json(path)
+        tags = j['minecraft:item']['components'].setdefault('minecraft:tags', {'tags': []})['tags']
+        if S + 'roe_paste' not in tags:
+            tags.append(S + 'roe_paste')
+        c.write_json(path, j)
+    after = 'crab_leg_hot_pot'
+    for key, name, n, sat, how, bowl, fx in [
+        ('stir_fried_shrimp', ('Stir-fried Shrimp', '清炒蝦仁', '清炒虾仁'), 8, 0.7,
+         [('wok', ['shrimp_meat', 'shrimp_meat', 'kaleidoscope_cookery:green_chili', 'minecraft:carrot'], None)], True, None),
+        ('crab_congee', ('Crab Congee', '蟹肉粥', '蟹肉粥'), 9, 0.8,
+         [('stockpot', ['kaleidoscope_cookery:rice', 'crab_meat', 'minecraft:carrot'], {'base': S + 'fish_stock'})], True, [('regeneration', 100, 0)]),
+        ('shrimp_noodle_soup', ('Shrimp Noodle Soup', '鮮蝦湯麵', '鲜虾汤面'), 9, 0.8,
+         [('stockpot', ['kaleidoscope_cookery:raw_noodles', 'shrimp_meat', 'shrimp_shell'], None)], True, None),
+        ('crab_roe_rice', ('Crab Roe Rice Bowl', '蟹黃蓋飯', '蟹黄盖饭'), 10, 0.8,
+         [('crafting', ['kaleidoscope_cookery:cooked_rice', roe, roe, 'nori', 'minecraft:bowl'], None)], False, [('absorption', 600, 0)]),
+        ('jellyfish_salad', ('Jellyfish Salad', '涼拌海蜇皮', '凉拌海蜇皮'), 6, 0.6,
+         [('crafting', ['jellyfish_skin', 'jellyfish_skin', 'kaleidoscope_cookery:lettuce', 'kaleidoscope_cookery:red_chili', 'minecraft:bowl'], None)], False, [('water_breathing', 600, 0)]),
+        ('boiled_shrimp', ('Boiled Shrimp', '白灼蝦', '白灼虾'), 7, 0.6,
+         [('stockpot', ['live_shrimp', 'live_shrimp', 'live_shrimp', 'live_shrimp'], {'time': 200})], True, None),
+        ('steamed_crab_leg', ('Steamed Crab Legs', '清蒸蟹腳', '清蒸蟹脚'), 4, 0.6, [('steamer', ['crab_leg'], None)], False, None),
+        ('grilled_crab_leg', ('Grilled Crab Legs', '炭烤蟹腳', '炭烤蟹脚'), 4, 0.5, [('furnace', ['crab_leg'], None)], False, None),
+    ]:
+        # a crafted dish in a bowl gives the bowl back when eaten, like the stockpot and wok dishes
+        c.dish(key, name, n, sat, how, bowl=bowl or any(m == 'crafting' and 'minecraft:bowl' in i for m, i, _ in how),
+               effects=fx, after=after)
+        after = key
+    # ---- the old dishes take the board's products
+    for rid, plain, alt in [('wok/shrimp_scrambled_eggs', 'shrimp', 'shrimp_meat'), ('stockpot/seafood_congee', 'shrimp', 'shrimp_meat'),
+                            ('wok/seafood_chow_mein', 'shrimp', 'shrimp_meat'), ('wok/paella', 'shrimp', 'shrimp_meat'),
+                            ('stockpot/seafood_hot_pot', 'shrimp', 'shrimp_meat'), ('stockpot/seafood_hot_pot', 'crab', 'crab_meat'),
+                            ('stockpot/fish_stock', 'fish_bones', 'shrimp_shell'), ('stockpot/fish_stock', 'fish_bones', 'crab_shell')]:
+        c.kc_alternative(rid, plain, alt)
+    c.kc_recipe('stockpot_exact', {'id': S + 'stockpot/crab_leg_hot_pot_from_legs', 'ingredients': [S + 'crab_leg'] * 3 + ['kaleidoscope_cookery:lettuce', 'minecraft:carrot'],
+                                   'result': S + 'crab_leg_hot_pot', 'count': 1, 'time': 400, 'base': S + 'dashi', 'carrier': 'minecraft:bowl', 'finishedKind': 'default'})
+    c.recipe_file('crafting', 'raw_har_gow_from_shrimp_meat', {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
+        'description': {'identifier': S + 'raw_har_gow_from_shrimp_meat'}, 'tags': ['crafting_table'],
+        'ingredients': [{'item': 'kaleidoscope_cookery:raw_dough'}, {'item': S + 'shrimp_meat'}],
+        'result': {'item': S + 'raw_har_gow', 'count': 2}, 'unlock': [{'item': S + 'shrimp_meat'}]}})
+    c.recipe_file('crafting', 'raw_crab_roe_bun_from_roe', {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
+        'description': {'identifier': S + 'raw_crab_roe_bun_from_roe'}, 'tags': ['crafting_table'],
+        'ingredients': [{'item': 'kaleidoscope_cookery:raw_dough'}, {'tag': S + 'roe_paste'}],
+        'result': {'item': S + 'raw_crab_roe_bun', 'count': 2}, 'unlock': [{'item': S + 'crab_roe'}]}})
+    # validate.py reads an item tag in a recipe as an item id
+    c._baseline(S + 'roe_paste', "crab_roe_rice.json', 'raw_crab_roe_bun_from_roe.json")
+    # the guidebook shows the new ways
+    g = c.data('GUIDEBOOK_JSON')
+    extra = {S + 'raw_har_gow': {'method': 'Crafting Table', 'ingredients': ['kaleidoscope_cookery:raw_dough', S + 'shrimp_meat'], 'count': 2, 'time': 0, 'result': S + 'raw_har_gow'},
+             S + 'raw_crab_roe_bun': {'method': 'Crafting Table', 'ingredients': ['kaleidoscope_cookery:raw_dough', S + 'crab_roe'], 'count': 2, 'time': 0, 'result': S + 'raw_crab_roe_bun'},
+             S + 'crab_leg_hot_pot': {'method': 'Stockpot', 'ingredients': [S + 'dashi_bucket', S + 'crab_leg', S + 'crab_leg', S + 'crab_leg', 'kaleidoscope_cookery:lettuce', 'minecraft:carrot'], 'count': 1, 'time': 400, 'result': S + 'crab_leg_hot_pot'},
+             S + 'fish_stock_bucket': None}
+    for e in g['entries']:
+        r = extra.get(e['id'])
+        if r and r not in e.setdefault('recipes', []):
+            e['recipes'].append(r)
+    c.save('GUIDEBOOK_JSON', g)
+    for item, user in [('shrimp_meat', 'raw_har_gow'), ('crab_roe', 'raw_crab_roe_bun'), ('crab_leg', 'crab_leg_hot_pot'),
+                       ('shrimp_shell', 'fish_stock_bucket'), ('crab_shell', 'fish_stock_bucket'), ('shrimp_meat', 'shrimp_scrambled_eggs'),
+                       ('shrimp_meat', 'seafood_congee'), ('shrimp_meat', 'seafood_chow_mein'), ('shrimp_meat', 'paella'),
+                       ('shrimp_meat', 'seafood_hot_pot'), ('crab_meat', 'seafood_hot_pot'), ('lobster_tomalley', 'crab_roe_rice'),
+                       ('lobster_tomalley', 'raw_crab_roe_bun')]:
+        c.guide_used_by(item, user)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -280,4 +351,5 @@ if __name__ == '__main__':
     wall_tide_clock()
     cleaning_format()
     shellfish_board()
+    shellfish_dishes()
     print('1.5.0 content written; now run: python tools/build.py build')

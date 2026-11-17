@@ -26,7 +26,8 @@
       },
       "minecraft:tags": {
         "tags": [
-          "minecraft:is_food"
+          "minecraft:is_food",
+          "kaleidoscope_fishing:roe_paste"
         ]
       }
     }
