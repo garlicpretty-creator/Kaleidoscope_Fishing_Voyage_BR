@@ -7,7 +7,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, tick, wait, breakBlock, place, inv, st, clearInv, drops, P, NS, D, log, flush,
-  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts, ItemStack } from './sim/play.mjs';
+  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts, ItemStack, clock } from './sim/play.mjs';
 setComps(await boot());
 
 // ---------- drying rack ----------
@@ -206,6 +206,53 @@ setComps(await boot());
   ok(inv('crab') === 1 && st(c, 'cut') === 0, 'cleaning board: a crab can be taken back before the first cut');
   clearInv(); P.hold(NS + 'oyster', 1); use(c);
   ok(inv('oyster') === 1 && st(c, 'cut') === 0, 'cleaning board: an oyster is still refused');
+}
+
+// ---------- 1.5.0: wooden tub (purging clams) ----------
+{
+  clearInv(); drops(); const t = place(NS + 'wooden_tub');
+  P.hold(NS + 'clam', 1); use(t);
+  ok(st(t, 'fill') === 0 && inv('clam') === 1, 'wooden tub: clams need brine first');
+  P.hold('minecraft:water_bucket', 1); use(t);
+  ok(st(t, 'fill') === 1 && inv('minecraft:bucket') === 1, `wooden tub: a water bucket fills it and the bucket comes back empty (fill ${st(t, 'fill')})`);
+  P.hold(NS + 'sea_salt', 1); use(t);
+  ok(st(t, 'fill') === 2 && inv('sea_salt') === 0, 'wooden tub: salt turns the water into brine');
+  P.hold(NS + 'clam', 9); for (let i = 0; i < 9; i++) use(t);
+  ok(st(t, 'fill') === 3 && inv('clam') === 1, `wooden tub: up to 8 clams soak in it (${9 - inv('clam')} went in)`);
+  P.hold(undefined); use(t);
+  ok(st(t, 'fill') === 3 && !inv('purged_clam'), 'wooden tub: nothing comes out before they are done');
+  wait(t, 12400);
+  ok(st(t, 'fill') === 4, `wooden tub: after half a day they are purged (fill ${st(t, 'fill')})`);
+  P.hold(undefined); use(t);
+  ok(inv('purged_clam') === 8 && st(t, 'fill') === 2, `wooden tub: an empty hand takes out 8 purged clams and the brine stays (${inv('purged_clam')}, fill ${st(t, 'fill')})`);
+  P.hold(NS + 'clam', 2); use(t); use(t);
+  breakBlock(t); const d = drops();
+  ok(d.filter(x => x.id === NS + 'clam').reduce((a, x) => a + x.amount, 0) === 2, `wooden tub: breaking it gives back the clams soaking in it (${d.map(x => x.id.split(':')[1])})`);
+  const t2 = place(NS + 'wooden_tub'); clearInv(); P.hold('minecraft:water_bucket', 1); use(t2); P.hold('minecraft:bucket', 1); use(t2);
+  ok(st(t2, 'fill') === 0 && inv('minecraft:water_bucket') === 1, 'wooden tub: an empty bucket drains it');
+}
+
+// ---------- 1.5.0: salt pan ----------
+{
+  const getBiome0 = D.getBiome;
+  clearInv(); drops(); const s1 = place(NS + 'salt_pan');
+  D.getBiome = () => ({ id: 'minecraft:plains' });
+  P.hold('minecraft:water_bucket', 1); use(s1);
+  ok(st(s1, 'stage') === 0 && inv('minecraft:water_bucket') === 1, 'salt pan: away from the sea it takes no water');
+  D.getBiome = () => ({ id: 'minecraft:beach' });
+  use(s1);
+  ok(st(s1, 'stage') === 1 && inv('minecraft:bucket') === 1, 'salt pan: by the sea a water bucket fills it');
+  wait(s1, 6400, 40);
+  ok(st(s1, 'stage') === 2, `salt pan: half dry after half a day of sun (stage ${st(s1, 'stage')})`);
+  const day0 = clock.day; clock.day = 18000;         // night: nothing dries
+  wait(s1, 8000, 50);
+  ok(st(s1, 'stage') === 2, 'salt pan: nothing dries at night');
+  clock.day = day0;
+  wait(s1, 6400, 40);
+  ok(st(s1, 'stage') === 3, `salt pan: dry after a whole day of daylight in all (stage ${st(s1, 'stage')})`);
+  P.hold(undefined); use(s1);
+  ok(inv('sea_salt') === 4 && st(s1, 'stage') === 0, `salt pan: an empty hand gathers 4 salt (${inv('sea_salt')})`);
+  D.getBiome = getBiome0;
 }
 
 // ---------- fish tank ----------

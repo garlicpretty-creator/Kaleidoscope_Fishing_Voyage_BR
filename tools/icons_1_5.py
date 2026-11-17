@@ -121,7 +121,8 @@ FINISHED = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell'
             'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
 GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
              'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens',
-             'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish']
+             'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish',
+             'purged_clam', 'clam_steamed_egg']
 # The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.
 CUTS = {
     'chutoro': (['#5a1a22', '#a63a46', '#d9707a', '#f0a0a6', '#fbe0e0'], 3),   # medium pink, thin fat lines

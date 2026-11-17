@@ -26,7 +26,9 @@ import "./blocks/drying.js";
 import "./blocks/iceHole.js";
 import "./blocks/fishSauceJar.js";
 import "./blocks/villageDecor.js";
-import "./blocks/tideClock.js";     // 1.5.0: the Tide Clock hung on a wall
+import "./blocks/tideClock.js";
+import "./blocks/tub.js";          // 1.5.0: the Wooden Tub (purging clams, hatching roe)
+import "./blocks/saltPan.js";      // 1.5.0: the Salt Pan     // 1.5.0: the Tide Clock hung on a wall
 import "./world/schools.js";
 import "./creatures/seagull.js";
 import "./creatures/cormorant.js";

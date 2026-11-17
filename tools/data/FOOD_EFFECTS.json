@@ -408,5 +408,12 @@
       "duration": 100,
       "amplifier": 0
     }
+  ],
+  "kaleidoscope_fishing:clam_steamed_egg": [
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
   ]
 }

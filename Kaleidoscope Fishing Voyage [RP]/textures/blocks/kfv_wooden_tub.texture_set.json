@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_wooden_tub",
+    "metalness_emissive_roughness": "kfv_wooden_tub_mer",
+    "heightmap": "kfv_wooden_tub_height"
+  }
+}

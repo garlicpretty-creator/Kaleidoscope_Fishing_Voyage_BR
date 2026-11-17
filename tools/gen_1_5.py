@@ -655,6 +655,87 @@ def dried_fish():
            [('wok', ['dried_fish', 'dried_fish', 'kaleidoscope_cookery:red_chili', 'kaleidoscope_cookery:oil'], None)], bowl=True, after='dried_shrimp_greens')
 
 
+def station_block(key, name, text, states, visibility, box_, recipe, after, group='cooking_stations'):
+    """A block that is its own inventory item (it shows its 3D model there), with a model from
+    tools/gen_stations_1_5.py whose bones show by state, and a script component of the same name."""
+    S = NS
+    c.write_json(os.path.join(c.BP, 'blocks', f'{key}.json'), {'format_version': '1.21.60', 'minecraft:block': {
+        'description': {'identifier': S + key, 'states': states,
+                        'menu_category': {'category': 'equipment', 'group': f'kaleidoscope_cookery:itemGroup.name.{group}'}},
+        'components': {
+            'minecraft:display_name': f'%{S}display.item.{key}'.replace(':display', '.display'),
+            'minecraft:material_instances': {'*': {'texture': f'kfv_{key}', 'render_method': 'alpha_test'}},
+            'minecraft:geometry': {'identifier': f'geometry.{S.replace(":", ".")}{key}'.replace('..', '.'), 'bone_visibility': visibility},
+            'minecraft:light_dampening': 0, 'minecraft:movable': {'movement_type': 'popped'},
+            'minecraft:collision_box': box_, 'minecraft:selection_box': box_,
+            'minecraft:tick': {'interval_range': [100, 100], 'looping': True},
+            'minecraft:destructible_by_mining': {'seconds_to_destroy': 0.6},
+            'minecraft:loot': f'loot_tables/{c.NS}/blocks/{key}.json', S + key: {}}}})
+    c.write_json(os.path.join(c.BP, 'loot_tables', c.NS, 'blocks', f'{key}.json'), {'pools': [{'rolls': 1, 'entries': [{'type': 'item', 'name': S + key}]}]})
+    c.names(key, *name)
+    c.catalog(key, after)
+    rid, pattern, keys = recipe
+    c.write_json(os.path.join(c.BP, 'recipes', 'crafting', f'{key}.json'), {'format_version': '1.20.10', 'minecraft:recipe_shaped': {
+        'description': {'identifier': S + key}, 'tags': ['crafting_table'], 'pattern': pattern,
+        'key': {k: ({'tag': v[4:]} if v.startswith('tag:') else {'item': v}) for k, v in keys.items()},
+        'result': {'item': S + key, 'count': 1}, 'unlock': [{'item': v} for v in keys.values() if not v.startswith('tag:')][:1]}})
+    shown = [keys[ch] for row in pattern for ch in row if ch != ' ']
+    shown = ['minecraft:oak_planks' if i.startswith('tag:') else i for i in shown]
+    g = c.data('GUIDEBOOK_JSON')
+    entry = {'id': S + key, 'category': 'tools', 'kinds': ['item', 'block'], 'stack': 64, 'icon': f'textures/ui/kfv_book/kfv_{key}',
+             'recipes': [{'method': 'Crafting Table', 'ingredients': shown, 'count': 1, 'time': 0, 'result': S + key}],
+             'mechanicsByLocale': {'en_US': [text[0]], 'zh_TW': [text[1]], 'zh_CN': [text[2]]}, 'mechanics': [text[0]]}
+    g['entries'] = [e for e in g['entries'] if e['id'] != S + key] + [entry]
+    for code, t in zip(c.LANGS, name):
+        g['names'][code][S + key] = t
+    c.save('GUIDEBOOK_JSON', g)
+
+
+def tub_and_salt_pan():
+    """Step 8: the Wooden Tub (purging clams) and the Salt Pan (sea salt from the sun), plan 5.11, 5.12."""
+    S = NS
+    fill = S + 'fill'
+    on = lambda *vals: ' || '.join(f"q.block_state('{fill}') == {v}" for v in vals)
+    station_block('wooden_tub', ('Wooden Tub', '木盆', '木盆'), (
+        'Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it.',
+        '用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。用空桶可以把水舀掉。',
+        '用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。用空桶可以把水舀掉。'),
+        {fill: list(range(7))},
+        {'water': on(1, 5, 6), 'brine': on(2, 3, 4), 'clams': on(3, 4), 'roe': on(5), 'fry': on(6)},
+        {'origin': [-7, 0, -7], 'size': [14, 6, 14]},
+        ('wooden_tub', ['P P', 'PIP'], {'P': 'tag:minecraft:planks', 'I': 'minecraft:iron_ingot'}), 'fish_sauce_jar')
+    stage = S + 'stage'
+    st = lambda *vals: ' || '.join(f"q.block_state('{stage}') == {v}" for v in vals)
+    station_block('salt_pan', ('Salt Pan', '曬鹽盤', '晒盐盘'), (
+        'Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt.',
+        '放在海邊（海洋或海灘）頭上沒有遮蔽的地方，倒入一桶水。只有白天、沒下雨時會曬，累計一整天的日照；下雨會暫停但不會歸零。整盤變白後空手收成鹽 ×4。',
+        '放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。'),
+        {stage: [0, 1, 2, 3]}, {'water': st(1), 'half': st(2), 'salt': st(3)},
+        {'origin': [-8, 0, -8], 'size': [16, 3, 16]},
+        ('salt_pan', ['TTT', 'P P'], {'T': 'minecraft:terracotta', 'P': 'tag:minecraft:planks'}), 'wooden_tub')
+    c.guide_name('minecraft:terracotta', 'Terracotta', '陶瓦', '陶瓦')
+    c.guide_name('minecraft:oak_planks', 'Oak Planks', '橡木材', '橡木木板')
+    c.guide_name('minecraft:iron_ingot', 'Iron Ingot', '鐵錠', '铁锭')
+    # planks tags in recipes read as item ids by validate.py
+    c._baseline('minecraft:planks', "salt_pan.json', 'wooden_tub.json")
+    # ---- purged clams, and what they are for
+    name = ('Purged Clam', '吐沙蛤蜊', '吐沙蛤蜊')
+    c.item('purged_clam', stack=64, group='ingredients')
+    c.names('purged_clam', *name)
+    c.icon('purged_clam')
+    c.catalog('purged_clam', 'clam')
+    c.guide('purged_clam', 'ingredients', (
+        'A clam soaked half a day in brine in a Wooden Tub: no grit left. Every clam dish takes it, and Steamed Egg with Clams takes nothing else.',
+        '在木盆的鹽水裡泡了半天的蛤蜊，沙都吐乾淨了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。', '在木盆的盐水里泡了半天的蛤蜊，沙都吐干净了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。'), name, stack=64)
+    for rid in ('wok/spicy_clams', 'wok/paella', 'stockpot/seafood_hot_pot'):
+        c.kc_alternative(rid, 'clam', 'purged_clam')
+        c.guide_used_by('purged_clam', rid.split('/')[1])
+    c.dish('clam_steamed_egg', ('Steamed Egg with Clams', '蛤蜊蒸蛋', '蛤蜊蒸蛋'), 8, 0.8,
+           [('stockpot', ['purged_clam', 'purged_clam', 'minecraft:egg', 'minecraft:egg'], {'time': 200})], bowl=True,
+           effects=[('regeneration', 100, 0)], after='spicy_clams',
+           text=('Silky egg steamed with Purged Clams; only clams without grit will do.', '用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐過沙的蛤蜊。', '用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐过沙的蛤蜊。'))
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -669,4 +750,5 @@ if __name__ == '__main__':
     dried_shrimp()
     squid_and_tuna()
     dried_fish()
+    tub_and_salt_pan()
     print('1.5.0 content written; now run: python tools/build.py build')

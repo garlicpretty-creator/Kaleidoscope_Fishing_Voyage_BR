@@ -787,6 +787,12 @@
     },
     "kfv_spicy_dried_fish": {
       "textures": "textures/items/kfv_spicy_dried_fish"
+    },
+    "kfv_purged_clam": {
+      "textures": "textures/items/kfv_purged_clam"
+    },
+    "kfv_clam_steamed_egg": {
+      "textures": "textures/items/kfv_clam_steamed_egg"
     }
   }
 }

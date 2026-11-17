@@ -8533,6 +8533,155 @@
      "result": "kaleidoscope_fishing:spicy_dried_fish"
     }
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:wooden_tub",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_wooden_tub",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:iron_ingot",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:wooden_tub"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it."
+    ],
+    "zh_TW": [
+     "用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。用空桶可以把水舀掉。"
+    ],
+    "zh_CN": [
+     "用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。用空桶可以把水舀掉。"
+    ]
+   },
+   "mechanics": [
+    "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:salt_pan",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_salt_pan",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:terracotta",
+      "minecraft:terracotta",
+      "minecraft:terracotta",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:salt_pan"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+    ],
+    "zh_TW": [
+     "放在海邊（海洋或海灘）頭上沒有遮蔽的地方，倒入一桶水。只有白天、沒下雨時會曬，累計一整天的日照；下雨會暫停但不會歸零。整盤變白後空手收成鹽 ×4。"
+    ],
+    "zh_CN": [
+     "放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。"
+    ]
+   },
+   "mechanics": [
+    "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:purged_clam",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_purged_clam",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A clam soaked half a day in brine in a Wooden Tub: no grit left. Every clam dish takes it, and Steamed Egg with Clams takes nothing else."
+    ],
+    "zh_TW": [
+     "在木盆的鹽水裡泡了半天的蛤蜊，沙都吐乾淨了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。"
+    ],
+    "zh_CN": [
+     "在木盆的盐水里泡了半天的蛤蜊，沙都吐干净了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。"
+    ]
+   },
+   "mechanics": [
+    "A clam soaked half a day in brine in a Wooden Tub: no grit left. Every clam dish takes it, and Steamed Egg with Clams takes nothing else."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:spicy_clams",
+    "kaleidoscope_fishing:paella",
+    "kaleidoscope_fishing:seafood_hot_pot",
+    "kaleidoscope_fishing:clam_steamed_egg"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:clam_steamed_egg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_clam_steamed_egg",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:purged_clam",
+      "kaleidoscope_fishing:purged_clam",
+      "minecraft:egg",
+      "minecraft:egg"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:clam_steamed_egg"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Silky egg steamed with Purged Clams; only clams without grit will do."
+    ],
+    "zh_TW": [
+     "用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐過沙的蛤蜊。"
+    ],
+    "zh_CN": [
+     "用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐过沙的蛤蜊。"
+    ]
+   },
+   "mechanics": [
+    "Silky egg steamed with Purged Clams; only clams without grit will do."
+   ]
   }
  ],
  "names": {
@@ -8859,7 +9008,12 @@
    "kaleidoscope_fishing:gutted_fish": "Gutted Fish",
    "kaleidoscope_fishing:gutted_skipjack": "Gutted Skipjack",
    "kaleidoscope_fishing:gutted_flying_fish": "Gutted Flying Fish",
-   "kaleidoscope_fishing:spicy_dried_fish": "Spicy Dried Small Fish"
+   "kaleidoscope_fishing:spicy_dried_fish": "Spicy Dried Small Fish",
+   "kaleidoscope_fishing:wooden_tub": "Wooden Tub",
+   "kaleidoscope_fishing:salt_pan": "Salt Pan",
+   "kaleidoscope_fishing:purged_clam": "Purged Clam",
+   "kaleidoscope_fishing:clam_steamed_egg": "Steamed Egg with Clams",
+   "minecraft:terracotta": "Terracotta"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9184,7 +9338,12 @@
    "kaleidoscope_fishing:gutted_fish": "剖好的魚",
    "kaleidoscope_fishing:gutted_skipjack": "剖好的鰹魚",
    "kaleidoscope_fishing:gutted_flying_fish": "剖好的飛魚",
-   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小魚乾"
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小魚乾",
+   "kaleidoscope_fishing:wooden_tub": "木盆",
+   "kaleidoscope_fishing:salt_pan": "曬鹽盤",
+   "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
+   "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
+   "minecraft:terracotta": "陶瓦"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -9509,7 +9668,12 @@
    "kaleidoscope_fishing:gutted_fish": "剖好的鱼",
    "kaleidoscope_fishing:gutted_skipjack": "剖好的鲣鱼",
    "kaleidoscope_fishing:gutted_flying_fish": "剖好的飞鱼",
-   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小鱼干"
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小鱼干",
+   "kaleidoscope_fishing:wooden_tub": "木盆",
+   "kaleidoscope_fishing:salt_pan": "晒盐盘",
+   "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
+   "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
+   "minecraft:terracotta": "陶瓦"
   }
  },
  "text": {

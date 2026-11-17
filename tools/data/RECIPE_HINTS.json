@@ -1799,5 +1799,22 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:clam_steamed_egg",
+    "nameKey": "kaleidoscope_fishing.name.clam_steamed_egg",
+    "icon": "textures/items/kfv_clam_steamed_egg",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.purged_clam",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        2
+      ]
+    ]
   }
 ]

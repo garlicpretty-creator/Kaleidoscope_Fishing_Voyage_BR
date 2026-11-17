@@ -1,0 +1,77 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:salt_pan",
+      "states": {
+        "kaleidoscope_fishing:stage": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.salt_pan",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_salt_pan",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.salt_pan",
+        "bone_visibility": {
+          "water": "q.block_state('kaleidoscope_fishing:stage') == 1",
+          "half": "q.block_state('kaleidoscope_fishing:stage') == 2",
+          "salt": "q.block_state('kaleidoscope_fishing:stage') == 3"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          3,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          3,
+          16
+        ]
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          100,
+          100
+        ],
+        "looping": true
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.6
+      },
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/salt_pan.json",
+      "kaleidoscope_fishing:salt_pan": {}
+    }
+  }
+}

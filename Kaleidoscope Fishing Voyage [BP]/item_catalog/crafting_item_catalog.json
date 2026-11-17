@@ -21,6 +21,7 @@
               "kaleidoscope_fishing:shrimp",
               "kaleidoscope_fishing:crab",
               "kaleidoscope_fishing:clam",
+              "kaleidoscope_fishing:purged_clam",
               "kaleidoscope_fishing:oyster",
               "kaleidoscope_fishing:sweetfish",
               "kaleidoscope_fishing:hairtail",
@@ -142,6 +143,7 @@
               "kaleidoscope_fishing:oyster_omelette",
               "kaleidoscope_fishing:salt_pepper_shrimp",
               "kaleidoscope_fishing:spicy_clams",
+              "kaleidoscope_fishing:clam_steamed_egg",
               "kaleidoscope_fishing:shrimp_scrambled_eggs",
               "kaleidoscope_fishing:sweet_sour_fish",
               "kaleidoscope_fishing:fish_ball_soup",
@@ -252,7 +254,9 @@
               "kaleidoscope_fishing:fish_scale",
               "kaleidoscope_fishing:tackle_rack",
               "kaleidoscope_fishing:drying_rack",
-              "kaleidoscope_fishing:fish_sauce_jar"
+              "kaleidoscope_fishing:fish_sauce_jar",
+              "kaleidoscope_fishing:wooden_tub",
+              "kaleidoscope_fishing:salt_pan"
             ]
           },
           {

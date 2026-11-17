@@ -117,8 +117,14 @@
     "recipe": {
       "id": "kaleidoscope_fishing:wok/spicy_clams",
       "ingredients": [
-        "kaleidoscope_fishing:clam",
-        "kaleidoscope_fishing:clam",
+        [
+          "kaleidoscope_fishing:clam",
+          "kaleidoscope_fishing:purged_clam"
+        ],
+        [
+          "kaleidoscope_fishing:clam",
+          "kaleidoscope_fishing:purged_clam"
+        ],
         "kaleidoscope_cookery:red_chili",
         "kaleidoscope_cookery:green_chili"
       ],
@@ -400,7 +406,10 @@
           "kaleidoscope_fishing:shrimp",
           "kaleidoscope_fishing:shrimp_meat"
         ],
-        "kaleidoscope_fishing:clam",
+        [
+          "kaleidoscope_fishing:clam",
+          "kaleidoscope_fishing:purged_clam"
+        ],
         "kaleidoscope_cookery:tomato",
         "kaleidoscope_fishing:octopus_slices"
       ],
@@ -440,7 +449,10 @@
           "kaleidoscope_fishing:crab",
           "kaleidoscope_fishing:crab_meat"
         ],
-        "kaleidoscope_fishing:clam",
+        [
+          "kaleidoscope_fishing:clam",
+          "kaleidoscope_fishing:purged_clam"
+        ],
         "kaleidoscope_fishing:fish_ball",
         "kaleidoscope_cookery:lettuce"
       ],
@@ -1428,6 +1440,24 @@
       "count": 1,
       "carrier": "minecraft:bowl",
       "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/clam_steamed_egg",
+      "ingredients": [
+        "kaleidoscope_fishing:purged_clam",
+        "kaleidoscope_fishing:purged_clam",
+        "minecraft:egg",
+        "minecraft:egg"
+      ],
+      "result": "kaleidoscope_fishing:clam_steamed_egg",
+      "count": 1,
+      "time": 200,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
     }
   }
 ]

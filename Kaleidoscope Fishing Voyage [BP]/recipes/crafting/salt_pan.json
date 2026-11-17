@@ -1,0 +1,32 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:salt_pan"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "TTT",
+      "P P"
+    ],
+    "key": {
+      "T": {
+        "item": "minecraft:terracotta"
+      },
+      "P": {
+        "tag": "minecraft:planks"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:salt_pan",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:terracotta"
+      }
+    ]
+  }
+}
