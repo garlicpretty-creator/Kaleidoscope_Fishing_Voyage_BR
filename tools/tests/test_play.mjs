@@ -13,14 +13,14 @@ setComps(await boot());
 // ---------- drying rack ----------
 {
   clearInv(); const r = place(NS + 'drying_rack');
-  P.hold(NS + 'carp', 4);
+  P.hold(NS + 'gutted_fish', 4);
   use(r); use(r); use(r);
-  ok(st(r, 'count') === 3 && inv('carp') === 1, `drying rack: three carp hang (count ${st(r, 'count')}, 1 left in hand)`);
+  ok(st(r, 'count') === 3 && inv('gutted_fish') === 1, `drying rack: three gutted fish hang (count ${st(r, 'count')}, 1 left in hand)`);
   use(r);
-  ok(st(r, 'count') === 3 && inv('carp') === 1, 'drying rack: a fourth fish is refused');
+  ok(st(r, 'count') === 3 && inv('gutted_fish') === 1, 'drying rack: a fourth fish is refused');
   P.hold(undefined); use(r);
-  ok(st(r, 'count') === 2 && inv('carp') === 1, 'drying rack: an empty hand takes one fish back before it is dry');
-  P.selectedSlotIndex = 0; P.hold(NS + 'carp', 1); use(r);
+  ok(st(r, 'count') === 2 && inv('gutted_fish') === 1, 'drying rack: an empty hand takes one fish back before it is dry');
+  P.selectedSlotIndex = 0; P.hold(NS + 'gutted_fish', 1); use(r);
   wait(r, 24100);
   ok(st(r, 'stage') === 1, `drying rack: half dry after one in-game day (stage ${st(r, 'stage')})`);
   wait(r, 24100);
@@ -30,7 +30,7 @@ setComps(await boot());
 }
 {
   clearInv(); const r = place(NS + 'drying_rack');
-  P.hold(NS + 'carp', 2); use(r); use(r);
+  P.hold(NS + 'gutted_fish', 2); use(r); use(r);
   P.hold(NS + 'sea_salt', 1); use(r);
   ok(st(r, 'kind') === 2 && inv('sea_salt') === 0, `drying rack: sea salt turns the batch salted (kind ${st(r, 'kind')})`);
   wait(r, 48200); P.hold(undefined); use(r);
@@ -46,15 +46,15 @@ setComps(await boot());
 }
 {
   clearInv(); const r = place(NS + 'drying_rack');
-  P.hold(NS + 'flying_fish', 1); use(r); wait(r, 24200); P.hold(undefined); use(r);
+  P.hold(NS + 'gutted_flying_fish', 1); use(r); wait(r, 24200); P.hold(undefined); use(r);
   ok(inv('dried_flying_fish') === 1, `drying rack: flying fish becomes dried flying fish after one day (${inv('dried_flying_fish')})`);
 }
 {
   clearInv(); const r = place(NS + 'drying_rack');
-  P.hold(NS + 'carp', 2); use(r); use(r); drops();
+  P.hold(NS + 'gutted_fish', 2); use(r); use(r); drops();
   breakBlock(r);
   const d = drops();
-  ok(d.filter(x => x.id === NS + 'carp').length === 2, `drying rack: breaking it drops the fish on it (${d.map(x => x.id.split(':')[1]).join(', ') || 'nothing'})`);
+  ok(d.filter(x => x.id === NS + 'gutted_fish').length === 2, `drying rack: breaking it drops the fish on it (${d.map(x => x.id.split(':')[1]).join(', ') || 'nothing'})`);
 }
 
 // ---------- fish sauce jar ----------
@@ -175,6 +175,18 @@ setComps(await boot());
   ok(roeCrabs > 8 && roeCrabs < 32, `cleaning board: about one crab in two has roe (${roeCrabs} in 40)`);
   r = cutUp('moon_jellyfish');
   ok(r.stages.join() === '2,3,0' && r.all.fish_offal === 1 && r.all.jellyfish_skin === 2, `cleaning board: a jellyfish takes two cuts, feelers then strips (${r.stages} / ${JSON.stringify(r.all)})`);
+  // 1.5.0: gutted, then taken back with an empty hand: a Gutted Fish for the drying rack
+  for (const [fish, got] of [['carp', 'gutted_fish'], ['catfish', 'gutted_fish'], ['skipjack', 'gutted_skipjack'], ['flying_fish', 'gutted_flying_fish']]) {
+    clearInv(); drops(); P.hold(NS + fish, 1); use(c); P.hold(NS + 'fishing_knife', 1);
+    let g = 0; while (inv('fish_offal') === 0 && g++ < 3) use(c);
+    P.hold(undefined); use(c);
+    ok(inv(got) === 1 && st(c, 'cut') === 0 && !inv('white_fish_fillet') && !inv('fish_bones'), `cleaning board: a ${fish} gutted and taken back is a ${got.replace(/_/g, ' ')}`);
+  }
+  clearInv(); P.hold(NS + 'tuna', 1); use(c); P.hold(NS + 'fishing_knife', 1); use(c); use(c); P.hold(undefined); use(c);
+  ok(st(c, 'cut') === 3 && !inv('gutted_fish'), 'cleaning board: a tuna does not come back gutted (it does not go on the rack)');
+  P.hold(NS + 'fishing_knife', 1); use(c);
+  { const rk = place(NS + 'drying_rack'); clearInv(); P.hold(NS + 'carp', 1); use(rk);
+    ok(st(rk, 'count') === 0 && inv('carp') === 1, 'drying rack: a whole fish is no longer hung (gut it on the board first)'); }
   // 1.5.0: the whole squid, and tuna by part
   let inks = 0;
   for (let i = 0; i < 20; i++) {

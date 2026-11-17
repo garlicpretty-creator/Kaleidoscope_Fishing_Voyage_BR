@@ -91,6 +91,12 @@ def build():
     for name in GENERATED:
         out[name] = outline(margin(hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA'))))
     out['shrimp_head'] = shrimp_head()
+    # the gutted fish: the generated picture as it is, and recoloured for skipjack (dark blue back) and flying fish (blue-silver)
+    gut = lambda: hard(Image.open(os.path.join(SRC, 'gutted_fish.png')).convert('RGBA'))
+    out['gutted_fish'] = outline(margin(gut()))
+    red = lambda c_: hsv(c_)[0] * 360 < 20 or hsv(c_)[0] * 360 > 340      # the open belly keeps its red
+    out['gutted_skipjack'] = outline(margin(recolour(gut(), lambda c_: not red(c_), ['#141a2e', '#2a3a5c', '#5a6e90', '#9aaac2', '#dfe6ee'])))
+    out['gutted_flying_fish'] = outline(margin(recolour(gut(), lambda c_: not red(c_), ['#1a2a44', '#3a5a8a', '#7aa2d0', '#b8d2ee', '#f2f8ff'])))
     # Squid Tentacles: skinned pale, like the pack's Squid Tube, so they do not read as the whole (pink-skinned) squid
     out['squid_tentacles'] = outline(margin(recolour(hard(Image.open(os.path.join(SRC, 'squid_tentacles.png')).convert('RGBA')),
                                                      lambda c_: True, ['#6a4a4a', '#b89a98', '#e6d2cc', '#f6ece6', '#ffffff'])))
@@ -115,7 +121,7 @@ FINISHED = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell'
             'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
 GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
              'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens',
-             'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri']
+             'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish']
 # The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.
 CUTS = {
     'chutoro': (['#5a1a22', '#a63a46', '#d9707a', '#f0a0a6', '#fbe0e0'], 3),   # medium pink, thin fat lines

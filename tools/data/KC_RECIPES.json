@@ -338,16 +338,6 @@
   {
     "kind": "bamboo_tray",
     "recipe": {
-      "id": "kaleidoscope_fishing:tray/dried_fish_mackerel",
-      "input": "kaleidoscope_fishing:mackerel",
-      "result": "kaleidoscope_fishing:dried_fish",
-      "process": "dry",
-      "duration": 1800
-    }
-  },
-  {
-    "kind": "bamboo_tray",
-    "recipe": {
       "id": "kaleidoscope_fishing:tray/dried_fish_croaker",
       "input": "kaleidoscope_fishing:yellow_croaker",
       "result": "kaleidoscope_fishing:dried_fish",
@@ -1409,6 +1399,32 @@
         "kaleidoscope_cookery:oil"
       ],
       "result": "kaleidoscope_fishing:fried_squid_tentacles",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_fish_smelt",
+      "input": "kaleidoscope_fishing:smelt",
+      "result": "kaleidoscope_fishing:dried_fish",
+      "process": "dry",
+      "duration": 1800
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/spicy_dried_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:dried_fish",
+        "kaleidoscope_fishing:dried_fish",
+        "kaleidoscope_cookery:red_chili",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:spicy_dried_fish",
       "count": 1,
       "carrier": "minecraft:bowl",
       "time": 200

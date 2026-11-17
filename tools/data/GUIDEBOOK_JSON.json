@@ -1002,7 +1002,22 @@
     }
    ],
    "usedBy": [
-    "kaleidoscope_fishing:fish_meal"
+    "kaleidoscope_fishing:fish_meal",
+    "kaleidoscope_fishing:spicy_dried_fish"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Small fish dried whole on a bamboo tray: Pond Smelt, Sweetfish or Yellow Croaker. Grind it into Fish Meal, use it as Shrimp Trap bait, or stir-fry it with chili."
+    ],
+    "zh_TW": [
+     "小魚整條放竹匾曬乾：公魚、香魚或小黃魚。可以磨成魚粉、當蝦籠的餌，或和辣椒一起炒。"
+    ],
+    "zh_CN": [
+     "小鱼整条放竹匾晒干：公鱼、香鱼或小黄鱼。可以磨成鱼粉、当虾笼的饵，或和辣椒一起炒。"
+    ]
+   },
+   "mechanics": [
+    "Small fish dried whole on a bamboo tray: Pond Smelt, Sweetfish or Yellow Croaker. Grind it into Fish Meal, use it as Shrimp Trap bait, or stir-fry it with chili."
    ]
   },
   {
@@ -3704,17 +3719,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+     "After the gut, an empty hand takes the fish back whole: a Gutted Fish for the Drying Rack."
     ],
     "zh_TW": [
-     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。所有魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。"
+     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。所有魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。",
+     "剖腹之後空手取回，就是可以掛上曬魚架的「剖好的魚」。"
     ],
     "zh_CN": [
-     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。所有鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。"
+     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。所有鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。",
+     "剖腹之后空手取回，就是可以挂上晒鱼架的「剖好的鱼」。"
     ]
    },
    "mechanics": [
-    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+    "After the gut, an empty hand takes the fish back whole: a Gutted Fish for the Drying Rack."
    ]
   },
   {
@@ -4443,17 +4462,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Hang up to 3 of one kind: whole fish, squid or skipjack. Fish and squid dry in 2 days, skipjack in 3; you can see them darken. Rub Salt on fresh fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+     "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
     ],
     "zh_TW": [
-     "一架掛一種，最多 3 條：整條魚、魷魚或鰹魚。魚和魷魚 2 天曬好，鰹魚要 3 天，看得到顏色慢慢變深。剛掛上的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。"
+     "一架掛一種，最多 3 條：剖好的魚、剖好的鰹魚、剖好的飛魚（在魚案板剖腹後空手取回）、魷魚筒或鹽漬烏魚卵。魚和魷魚 2 天曬好，鰹魚和烏魚卵 3 天，飛魚一夜，看得到顏色慢慢變深。剛掛上的剖好的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。"
     ],
     "zh_CN": [
-     "一架挂一种，最多 3 条：整条鱼、鱿鱼或鲣鱼。鱼和鱿鱼 2 天晒好，鲣鱼要 3 天，看得到颜色慢慢变深。刚挂上的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。"
+     "一架挂一种，最多 3 条：剖好的鱼、剖好的鲣鱼、剖好的飞鱼（在鱼案板剖腹后空手取回）、鱿鱼筒或盐渍乌鱼卵。鱼和鱿鱼 2 天晒好，鲣鱼和乌鱼卵 3 天，飞鱼一夜，看得到颜色慢慢变深。刚挂上的剖好的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。"
     ]
    },
    "mechanics": [
-    "Hang up to 3 of one kind: whole fish, squid or skipjack. Fish and squid dry in 2 days, skipjack in 3; you can see them darken. Rub Salt on fresh fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+    "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
    ]
   },
   {
@@ -4470,17 +4489,17 @@
    },
    "mechanicsByLocale": {
     "en_US": [
-     "Whole fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
+     "A Gutted Fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
     ],
     "zh_TW": [
-     "整條魚在曬魚架上曬 2 天。耐放，直接吃也不錯。"
+     "剖好的魚在曬魚架上曬 2 天。耐放，直接吃也不錯。"
     ],
     "zh_CN": [
-     "整条鱼在晒鱼架上晒 2 天。耐放，直接吃也不错。"
+     "剖好的鱼在晒鱼架上晒 2 天。耐放，直接吃也不错。"
     ]
    },
    "mechanics": [
-    "Whole fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
+    "A Gutted Fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
    ]
   },
   {
@@ -4500,17 +4519,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
+     "A Gutted Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
     ],
     "zh_TW": [
-     "抹了鹽的魚在曬魚架上曬 2 天。鹹香耐飽。"
+     "抹了鹽的剖好的魚在曬魚架上曬 2 天。鹹香耐飽。"
     ],
     "zh_CN": [
-     "抹了盐的鱼在晒鱼架上晒 2 天。咸香耐饱。"
+     "抹了盐的剖好的鱼在晒鱼架上晒 2 天。咸香耐饱。"
     ]
    },
    "mechanics": [
-    "Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
+    "A Gutted Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
    ]
   },
   {
@@ -4556,17 +4575,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
+     "A Gutted Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
     ],
     "zh_TW": [
-     "鰹魚在曬魚架上曬 3 天，硬得像木頭。放到本體的砧板上削成柴魚片。"
+     "剖好的鰹魚在曬魚架上曬 3 天，硬得像木頭。放到本體的砧板上削成柴魚片。"
     ],
     "zh_CN": [
-     "鲣鱼在晒鱼架上晒 3 天，硬得像木头。放到本体的砧板上削成柴鱼片。"
+     "剖好的鲣鱼在晒鱼架上晒 3 天，硬得像木头。放到本体的砧板上削成柴鱼片。"
     ]
    },
    "mechanics": [
-    "Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
+    "A Gutted Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
    ]
   },
   {
@@ -6620,17 +6639,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "A flying fish dried overnight on a Drying Rack. Grill it."
+     "A Gutted Flying Fish dried overnight on a Drying Rack. Grill it."
     ],
     "zh_TW": [
-     "飛魚在曬魚架上曬一夜。拿去烤。"
+     "剖好的飛魚在曬魚架上曬一夜。拿去烤。"
     ],
     "zh_CN": [
-     "飞鱼在晒鱼架上晒一夜。拿去烤。"
+     "剖好的飞鱼在晒鱼架上晒一夜。拿去烤。"
     ]
    },
    "mechanics": [
-    "A flying fish dried overnight on a Drying Rack. Grill it."
+    "A Gutted Flying Fish dried overnight on a Drying Rack. Grill it."
    ],
    "usedBy": [
     "kaleidoscope_fishing:flying_fish_ichiyaboshi"
@@ -8417,6 +8436,103 @@
      "result": "kaleidoscope_fishing:grilled_squid_tentacles"
     }
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_fish",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_fish",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A fish scaled and gutted on the Fish Cleaning Board, taken back with an empty hand instead of being filleted. Hang it on a Drying Rack (rub Salt on it there for Salted Fish)."
+    ],
+    "zh_TW": [
+     "在魚案板上去鱗、剖腹之後，不切片而空手取回的魚。掛上曬魚架曬乾（在架上抹鹽就是鹹魚）。"
+    ],
+    "zh_CN": [
+     "在鱼案板上去鳞、剖腹之后，不切片而空手取回的鱼。挂上晒鱼架晒干（在架上抹盐就是咸鱼）。"
+    ]
+   },
+   "mechanics": [
+    "A fish scaled and gutted on the Fish Cleaning Board, taken back with an empty hand instead of being filleted. Hang it on a Drying Rack (rub Salt on it there for Salted Fish)."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_skipjack",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_skipjack",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A skipjack gutted on the Fish Cleaning Board and taken back. Three days on a Drying Rack make it Katsuobushi."
+    ],
+    "zh_TW": [
+     "在魚案板上剖好、空手取回的鰹魚。在曬魚架上曬三天就是柴魚。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剖好、空手取回的鲣鱼。在晒鱼架上晒三天就是柴鱼。"
+    ]
+   },
+   "mechanics": [
+    "A skipjack gutted on the Fish Cleaning Board and taken back. Three days on a Drying Rack make it Katsuobushi."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_flying_fish",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_flying_fish",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A flying fish gutted on the Fish Cleaning Board and taken back. A night on a Drying Rack makes it Dried Flying Fish."
+    ],
+    "zh_TW": [
+     "在魚案板上剖好、空手取回的飛魚。在曬魚架上曬一夜就是飛魚一夜干。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剖好、空手取回的飞鱼。在晒鱼架上晒一夜就是飞鱼一夜干。"
+    ]
+   },
+   "mechanics": [
+    "A flying fish gutted on the Fish Cleaning Board and taken back. A night on a Drying Rack makes it Dried Flying Fish."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:spicy_dried_fish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_spicy_dried_fish",
+   "food": {
+    "nutrition": 5,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_cookery:red_chili",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:spicy_dried_fish"
+    }
+   ]
   }
  ],
  "names": {
@@ -8449,7 +8565,7 @@
    "kaleidoscope_fishing:salt_bucket": "Salt Bucket",
    "kaleidoscope_fishing:octopus_slices": "Octopus Slices",
    "kaleidoscope_fishing:skewered_sweetfish": "Sweetfish Skewer",
-   "kaleidoscope_fishing:dried_fish": "Dried Fish",
+   "kaleidoscope_fishing:dried_fish": "Dried Small Fish",
    "kaleidoscope_fishing:dried_shrimp": "Dried Shrimp",
    "kaleidoscope_fishing:seasoned_grouper": "Seasoned Grouper",
    "kaleidoscope_fishing:seasoned_sea_bream": "Seasoned Sea Bream",
@@ -8739,7 +8855,11 @@
    "kaleidoscope_fishing:bonito_sashimi": "Bonito Sashimi",
    "kaleidoscope_fishing:otoro_nigiri": "Otoro Nigiri",
    "kaleidoscope_fishing:fried_squid_tentacles": "Fried Squid Tentacles",
-   "kaleidoscope_fishing:grilled_squid_tentacles": "Grilled Squid Tentacles"
+   "kaleidoscope_fishing:grilled_squid_tentacles": "Grilled Squid Tentacles",
+   "kaleidoscope_fishing:gutted_fish": "Gutted Fish",
+   "kaleidoscope_fishing:gutted_skipjack": "Gutted Skipjack",
+   "kaleidoscope_fishing:gutted_flying_fish": "Gutted Flying Fish",
+   "kaleidoscope_fishing:spicy_dried_fish": "Spicy Dried Small Fish"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -8770,7 +8890,7 @@
    "kaleidoscope_fishing:salt_bucket": "鹽桶",
    "kaleidoscope_fishing:octopus_slices": "章魚片",
    "kaleidoscope_fishing:skewered_sweetfish": "香魚串",
-   "kaleidoscope_fishing:dried_fish": "魚乾",
+   "kaleidoscope_fishing:dried_fish": "小魚乾",
    "kaleidoscope_fishing:dried_shrimp": "蝦米",
    "kaleidoscope_fishing:seasoned_grouper": "調味石斑",
    "kaleidoscope_fishing:seasoned_sea_bream": "調味全鯛",
@@ -9060,7 +9180,11 @@
    "kaleidoscope_fishing:bonito_sashimi": "鰹魚生魚片",
    "kaleidoscope_fishing:otoro_nigiri": "大腹握壽司",
    "kaleidoscope_fishing:fried_squid_tentacles": "炸魷魚鬚",
-   "kaleidoscope_fishing:grilled_squid_tentacles": "烤魷魚鬚"
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤魷魚鬚",
+   "kaleidoscope_fishing:gutted_fish": "剖好的魚",
+   "kaleidoscope_fishing:gutted_skipjack": "剖好的鰹魚",
+   "kaleidoscope_fishing:gutted_flying_fish": "剖好的飛魚",
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小魚乾"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -9091,7 +9215,7 @@
    "kaleidoscope_fishing:salt_bucket": "盐桶",
    "kaleidoscope_fishing:octopus_slices": "章鱼片",
    "kaleidoscope_fishing:skewered_sweetfish": "香鱼串",
-   "kaleidoscope_fishing:dried_fish": "鱼干",
+   "kaleidoscope_fishing:dried_fish": "小鱼干",
    "kaleidoscope_fishing:dried_shrimp": "虾米",
    "kaleidoscope_fishing:seasoned_grouper": "调味石斑",
    "kaleidoscope_fishing:seasoned_sea_bream": "调味全鲷",
@@ -9381,7 +9505,11 @@
    "kaleidoscope_fishing:bonito_sashimi": "鲣鱼生鱼片",
    "kaleidoscope_fishing:otoro_nigiri": "大腹握寿司",
    "kaleidoscope_fishing:fried_squid_tentacles": "炸鱿鱼须",
-   "kaleidoscope_fishing:grilled_squid_tentacles": "烤鱿鱼须"
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤鱿鱼须",
+   "kaleidoscope_fishing:gutted_fish": "剖好的鱼",
+   "kaleidoscope_fishing:gutted_skipjack": "剖好的鲣鱼",
+   "kaleidoscope_fishing:gutted_flying_fish": "剖好的飞鱼",
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小鱼干"
   }
  },
  "text": {

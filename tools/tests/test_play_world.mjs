@@ -421,15 +421,15 @@ function piston(b) { b.setType('minecraft:air'); fire('world.afterEvents.pistonA
   for (const [how, remove] of [['explosion', explode], ['piston', piston]]) {
     clearInv(); drops();
     const r = D.place(NS + 'drying_rack', { x: spot(), y: 64, z: 0 });
-    P.hold(NS + 'carp', 2); use(r); use(r); P.hold(NS + 'sea_salt', 1); use(r);
+    P.hold(NS + 'gutted_fish', 2); use(r); use(r); P.hold(NS + 'sea_salt', 1); use(r);
     remove(r);
     let d = drops();
-    ok(sortIds(d) === [NS + 'carp', NS + 'carp', NS + 'sea_salt'].sort().join(), `${how}: a salted drying rack gives back its 2 carp and the salt (${dropIds(d)})`);
+    ok(sortIds(d) === [NS + 'gutted_fish', NS + 'gutted_fish', NS + 'sea_salt'].sort().join(), `${how}: a salted drying rack gives back its 2 fish and the salt (${dropIds(d)})`);
     fire('world.afterEvents.pistonActivate', {}); d = drops();
     ok(!d.length, `${how}: the rack's contents come back only once`);
 
     const r2 = D.place(NS + 'drying_rack', { x: spot(), y: 64, z: 0 });
-    P.hold(NS + 'flying_fish', 2); use(r2); use(r2); P.hold(undefined); r2.__t = 0;
+    P.hold(NS + 'gutted_flying_fish', 2); use(r2); use(r2); P.hold(undefined); r2.__t = 0;
     for (let i = 0; i < 4; i++) { clock.abs += 7000; guard('tick rack', () => comps.get(NS + 'drying_rack').onTick({ block: r2, dimension: D })); }
     const dry = st(r2, 'stage') === 2;
     remove(r2); d = drops();
@@ -704,7 +704,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   // rack
   clearInv(); const rx = 6000; P.location = { x: rx + 10.5, y: 65, z: 0.5 };
   const r = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 0 });
-  P.hold(NS + 'carp', 2); use(r); use(r); P.hold(undefined);
+  P.hold(NS + 'gutted_fish', 2); use(r); use(r); P.hold(undefined);
   const g = gull({ x: rx + 5, y: 70, z: 0 });
   withRandom(0, () => advance(80, ['seagull.js']));
   ok(st(r, 'count') === 1 && g.getProperty(NS + 'carrying') === true && g.events.includes(NS + 'carry'), `seagull: a gull swoops on an unattended drying rack and takes one fish (count ${st(r, 'count')})`);
@@ -727,10 +727,10 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   withRandom(0, () => advance(240, ['seagull.js'])); g3.remove();
   // stealFromRack directly
   const r2 = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 6 });
-  P.hold(NS + 'skipjack', 1); use(r2);
+  P.hold(NS + 'gutted_skipjack', 1); use(r2);
   ok(!stealFromRack(r2) && st(r2, 'count') === 1, 'seagull: gulls leave the hard skipjack loins alone');
   const r3 = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 9 });
-  P.hold(NS + 'carp', 1); use(r3); P.hold(NS + 'sea_salt', 1); use(r3); drops();
+  P.hold(NS + 'gutted_fish', 1); use(r3); P.hold(NS + 'sea_salt', 1); use(r3); drops();
   const took = stealFromRack(r3);
   P.hold(undefined); use(r3);
   ok(took && st(r3, 'count') === 0 && st(r3, 'kind') === 0 && !P.inv.slots.some(Boolean), 'seagull: a gull taking the last salted fish empties the rack');

@@ -775,6 +775,18 @@
     },
     "kfv_grilled_squid_tentacles": {
       "textures": "textures/items/kfv_grilled_squid_tentacles"
+    },
+    "kfv_gutted_fish": {
+      "textures": "textures/items/kfv_gutted_fish"
+    },
+    "kfv_gutted_skipjack": {
+      "textures": "textures/items/kfv_gutted_skipjack"
+    },
+    "kfv_gutted_flying_fish": {
+      "textures": "textures/items/kfv_gutted_flying_fish"
+    },
+    "kfv_spicy_dried_fish": {
+      "textures": "textures/items/kfv_spicy_dried_fish"
     }
   }
 }

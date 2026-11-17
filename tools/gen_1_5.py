@@ -583,6 +583,78 @@ def squid_and_tuna():
            [('furnace', ['squid_tentacles'], None)], after='fried_squid_tentacles')
 
 
+def dried_fish():
+    """Step 7: small fish dry whole on the tray (Dried Small Fish); bigger fish are gutted first and hung (plan 5.8)."""
+    S = NS
+    c.names('dried_fish', 'Dried Small Fish', '小魚乾', '小鱼干')
+    c.guide_name(S + 'dried_fish', 'Dried Small Fish', '小魚乾', '小鱼干')
+    # ---- the tray: whole small fish only (smelt in, mackerel out: a mackerel is split and hung)
+    table = [r for r in c.data('KC_RECIPES') if r['recipe']['id'] != S + 'tray/dried_fish_mackerel']
+    c.save('KC_RECIPES', table)
+    c.kc_recipe('bamboo_tray', {'id': S + 'tray/dried_fish_smelt', 'input': S + 'smelt', 'result': S + 'dried_fish', 'process': 'dry', 'duration': 1800})
+    # ---- gutted fish: taken off the board after the gut, the only thing the rack hangs besides squid and roe
+    after = 'air_dried_fish'
+    for key, name, text in [
+        ('gutted_fish', ('Gutted Fish', '剖好的魚', '剖好的鱼'),
+         ('A fish scaled and gutted on the Fish Cleaning Board, taken back with an empty hand instead of being filleted. Hang it on a Drying Rack (rub Salt on it there for Salted Fish).',
+          '在魚案板上去鱗、剖腹之後，不切片而空手取回的魚。掛上曬魚架曬乾（在架上抹鹽就是鹹魚）。',
+          '在鱼案板上去鳞、剖腹之后，不切片而空手取回的鱼。挂上晒鱼架晒干（在架上抹盐就是咸鱼）。')),
+        ('gutted_skipjack', ('Gutted Skipjack', '剖好的鰹魚', '剖好的鲣鱼'),
+         ('A skipjack gutted on the Fish Cleaning Board and taken back. Three days on a Drying Rack make it Katsuobushi.',
+          '在魚案板上剖好、空手取回的鰹魚。在曬魚架上曬三天就是柴魚。', '在鱼案板上剖好、空手取回的鲣鱼。在晒鱼架上晒三天就是柴鱼。')),
+        ('gutted_flying_fish', ('Gutted Flying Fish', '剖好的飛魚', '剖好的飞鱼')
+         , ('A flying fish gutted on the Fish Cleaning Board and taken back. A night on a Drying Rack makes it Dried Flying Fish.',
+            '在魚案板上剖好、空手取回的飛魚。在曬魚架上曬一夜就是飛魚一夜干。', '在鱼案板上剖好、空手取回的飞鱼。在晒鱼架上晒一夜就是飞鱼一夜干。')),
+    ]:
+        c.item(key, stack=64, group='ingredients')
+        c.names(key, *name)
+        c.icon(key)
+        c.catalog(key, after)
+        c.guide(key, 'ingredients', text, name, stack=64)
+        after = key
+    rack_fish = ['carp', 'grass_carp', 'catfish', 'sweetfish', 'mackerel', 'yellow_croaker', 'sea_bream', 'hairtail', 'grouper', 'saury', 'cod', 'salmon']
+    board = c.data('CLEANING')
+    for fish in rack_fish:
+        board[f'minecraft:{fish}' if fish in ('cod', 'salmon') else S + fish]['gutted'] = S + 'gutted_fish'   # cod and salmon are the game's own
+    board[S + 'skipjack']['gutted'] = S + 'gutted_skipjack'
+    board[S + 'flying_fish']['gutted'] = S + 'gutted_flying_fish'
+    c.save('CLEANING', board)
+    dry = c.data('DRYING')
+    for fish in rack_fish + ['skipjack', 'flying_fish']:
+        for k in (S + fish, f'minecraft:{fish}'):
+            dry['inputs'].pop(k, None)
+    dry['inputs'].update({S + 'gutted_fish': 1, S + 'gutted_skipjack': 4, S + 'gutted_flying_fish': 6})
+    c.save('DRYING', dry)
+    # ---- words
+    g = c.data('GUIDEBOOK_JSON')
+    words = {
+        S + 'drying_rack': (
+            'Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry.',
+            '一架掛一種，最多 3 條：剖好的魚、剖好的鰹魚、剖好的飛魚（在魚案板剖腹後空手取回）、魷魚筒或鹽漬烏魚卵。魚和魷魚 2 天曬好，鰹魚和烏魚卵 3 天，飛魚一夜，看得到顏色慢慢變深。剛掛上的剖好的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。',
+            '一架挂一种，最多 3 条：剖好的鱼、剖好的鲣鱼、剖好的飞鱼（在鱼案板剖腹后空手取回）、鱿鱼筒或盐渍乌鱼卵。鱼和鱿鱼 2 天晒好，鲣鱼和乌鱼卵 3 天，飞鱼一夜，看得到颜色慢慢变深。刚挂上的剖好的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。'),
+        S + 'air_dried_fish': ('A Gutted Fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is.', '剖好的魚在曬魚架上曬 2 天。耐放，直接吃也不錯。', '剖好的鱼在晒鱼架上晒 2 天。耐放，直接吃也不错。'),
+        S + 'salted_fish': ('A Gutted Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling.', '抹了鹽的剖好的魚在曬魚架上曬 2 天。鹹香耐飽。', '抹了盐的剖好的鱼在晒鱼架上晒 2 天。咸香耐饱。'),
+        S + 'katsuobushi': ("A Gutted Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes.", '剖好的鰹魚在曬魚架上曬 3 天，硬得像木頭。放到本體的砧板上削成柴魚片。', '剖好的鲣鱼在晒鱼架上晒 3 天，硬得像木头。放到本体的砧板上削成柴鱼片。'),
+        S + 'dried_flying_fish': ('A Gutted Flying Fish dried overnight on a Drying Rack. Grill it.', '剖好的飛魚在曬魚架上曬一夜。拿去烤。', '剖好的飞鱼在晒鱼架上晒一夜。拿去烤。'),
+        S + 'dried_fish': ('Small fish dried whole on a bamboo tray: Pond Smelt, Sweetfish or Yellow Croaker. Grind it into Fish Meal, use it as Shrimp Trap bait, or stir-fry it with chili.',
+                           '小魚整條放竹匾曬乾：公魚、香魚或小黃魚。可以磨成魚粉、當蝦籠的餌，或和辣椒一起炒。', '小鱼整条放竹匾晒干：公鱼、香鱼或小黄鱼。可以磨成鱼粉、当虾笼的饵，或和辣椒一起炒。'),
+    }
+    for e in g['entries']:
+        if e['id'] in words:
+            en, tw, cn = words[e['id']]
+            e['mechanicsByLocale'] = {'en_US': [en], 'zh_TW': [tw], 'zh_CN': [cn]}
+            e['mechanics'] = [en]
+        if e['id'] == S + 'fish_cleaning_board':
+            for code, extra in {'en_US': 'After the gut, an empty hand takes the fish back whole: a Gutted Fish for the Drying Rack.',
+                                'zh_TW': '剖腹之後空手取回，就是可以掛上曬魚架的「剖好的魚」。', 'zh_CN': '剖腹之后空手取回，就是可以挂上晒鱼架的「剖好的鱼」。'}.items():
+                if extra not in e['mechanicsByLocale'][code]:
+                    e['mechanicsByLocale'][code].append(extra)
+            e['mechanics'] = list(e['mechanicsByLocale']['en_US'])
+    c.save('GUIDEBOOK_JSON', g)
+    c.dish('spicy_dried_fish', ('Spicy Dried Small Fish', '辣炒小魚乾', '辣炒小鱼干'), 5, 0.6,
+           [('wok', ['dried_fish', 'dried_fish', 'kaleidoscope_cookery:red_chili', 'kaleidoscope_cookery:oil'], None)], bowl=True, after='dried_shrimp_greens')
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -596,4 +668,5 @@ if __name__ == '__main__':
     shrimp_head_stock()
     dried_shrimp()
     squid_and_tuna()
+    dried_fish()
     print('1.5.0 content written; now run: python tools/build.py build')

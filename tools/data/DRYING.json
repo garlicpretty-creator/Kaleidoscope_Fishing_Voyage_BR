@@ -32,22 +32,11 @@
     }
   },
   "inputs": {
-    "kaleidoscope_fishing:carp": 1,
-    "kaleidoscope_fishing:grass_carp": 1,
-    "kaleidoscope_fishing:catfish": 1,
-    "kaleidoscope_fishing:sweetfish": 1,
-    "kaleidoscope_fishing:mackerel": 1,
-    "kaleidoscope_fishing:yellow_croaker": 1,
-    "kaleidoscope_fishing:sea_bream": 1,
-    "kaleidoscope_fishing:hairtail": 1,
-    "kaleidoscope_fishing:grouper": 1,
-    "kaleidoscope_fishing:saury": 1,
-    "minecraft:cod": 1,
-    "minecraft:salmon": 1,
     "kaleidoscope_fishing:squid_tube": 3,
-    "kaleidoscope_fishing:skipjack": 4,
     "kaleidoscope_fishing:salted_mullet_roe": 5,
-    "kaleidoscope_fishing:flying_fish": 6
+    "kaleidoscope_fishing:gutted_fish": 1,
+    "kaleidoscope_fishing:gutted_skipjack": 4,
+    "kaleidoscope_fishing:gutted_flying_fish": 6
   },
   "salt": [
     "kaleidoscope_fishing:sea_salt"

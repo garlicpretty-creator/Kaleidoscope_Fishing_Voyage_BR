@@ -41,7 +41,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:grass_carp": {
     "index": 2,
@@ -80,7 +81,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:catfish": {
     "index": 3,
@@ -110,7 +112,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:yellow_croaker": {
     "index": 4,
@@ -154,7 +157,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:mackerel": {
     "index": 5,
@@ -198,7 +202,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:sea_bream": {
     "index": 6,
@@ -242,7 +247,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:tuna": {
     "index": 7,
@@ -349,7 +355,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:grouper": {
     "index": 10,
@@ -388,7 +395,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:sweetfish": {
     "index": 11,
@@ -427,7 +435,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "minecraft:cod": {
     "index": 12,
@@ -471,7 +480,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "minecraft:salmon": {
     "index": 13,
@@ -515,7 +525,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:saury": {
     "index": 14,
@@ -550,7 +561,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
   },
   "kaleidoscope_fishing:anglerfish": {
     "index": 15,
@@ -724,7 +736,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_skipjack"
   },
   "kaleidoscope_fishing:smelt": {
     "index": 20,
@@ -1092,7 +1105,8 @@
           ]
         ]
       }
-    ]
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_flying_fish"
   },
   "kaleidoscope_fishing:cave_blindfish": {
     "index": 29,

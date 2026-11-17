@@ -1778,5 +1778,26 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_dried_fish",
+    "nameKey": "kaleidoscope_fishing.name.spicy_dried_fish",
+    "icon": "textures/items/kfv_spicy_dried_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_fish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
   }
 ]

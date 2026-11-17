@@ -112,6 +112,12 @@ const cleaningBoard = {
     const first = fish.first;
     if (!held) {                                         // changed your mind before the first cut
       if (cut === first) { give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0)); }
+      else if (fish.gutted && cut === guttedStage(fish)) {   // 1.5.0: gutted and not yet filleted, it goes to the drying rack
+        give(player, block, fish.gutted);
+        saveSize(block, undefined);
+        block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+        fx(block, "mob.fish.flop", 1.2);
+      }
       else refuse(player, "board_finish_knife");
       return;
     }
@@ -138,6 +144,12 @@ const cleaningBoard = {
     dropBoard(block.dimension, block, brokenBlockPermutation);
   },
 };
+
+/** The stage a fish is on once its gut cut is done (where an empty hand takes it back gutted). Exported for tests. */
+export function guttedStage(fish) {
+  const g = fish.cuts.findIndex(c => c.act === "gut");
+  return g < 0 ? -1 : fish.first + g + 1;
+}
 
 /** What a board holds: [id, n, cls, keep?] stacks to make. Before the first cut, the whole catch; after it, what
  *  the last cut would give (its sure outputs; what earlier cuts gave was handed out with them). Exported for tests. */
