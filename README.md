@@ -23,7 +23,7 @@ An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleido
 - **生物**：鸕鶿（可馴服，會潛水幫你抓魚）、鷺鷥、海鷗、漁販（每天加倍收購兩種魚，還會下訂單）。魚骨可以馴狼，漁歌的魚可以馴貓。
 - **漁歌手帳**：依水域分頁的圖鑑、食譜、潮汐與天象、設定頁。
 - **光影**：支援 Vibrant Visuals / RTX 材質。
-- **給其他附屬包的 API**：註冊餌、漁獲、漁販價格、魚池飼料、魚案板、魚缸；事件廣播與查詢；和森羅物語：草本、樂牧自動握手。
+- **給其他附屬包的 API**：註冊餌、漁獲、漁販價格、魚池飼料、魚案板、魚缸；事件廣播與查詢；和森羅物語：草本、樂牧自動握手，裝了豐收時多 7 道用豐收作物的料理。
 
 ## Features
 
@@ -36,7 +36,7 @@ An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleido
 - **Mobs**: cormorant (tameable, dives and fishes for you), heron, seagull and the fish merchant (pays double for two fish each day).
 - **Angler's journal**: catch log by water, recipes and tides.
 - **Shaders**: Vibrant Visuals / RTX materials.
-- **Add-on API**: register baits, catches, merchant prices, pond feed, board and tank entries; event broadcasts and queries; handshakes with Kaleidoscope Herbal and Ranching.
+- **Add-on API**: register baits, catches, merchant prices, pond feed, board and tank entries; event broadcasts and queries; handshakes with Kaleidoscope Herbal and Ranching, and 7 more dishes when Kaleidoscope Harvest is installed.
 
 ## 安裝 / Installation
 

@@ -31,5 +31,11 @@
  "kaleidoscope_fishing:anglerfish_hot_pot": 20,
  "kaleidoscope_fishing:lava_eel_don": 25,
  "kaleidoscope_fishing:basalt_crab_pot": 25,
- "kaleidoscope_fishing:blazefin_soup": 30
+ "kaleidoscope_fishing:blazefin_soup": 30,
+ "kaleidoscope_fishing:ginger_clam_soup": 10,
+ "kaleidoscope_fishing:scallion_braised_fish": 5,
+ "kaleidoscope_fishing:garlic_steamed_shrimp": 10,
+ "kaleidoscope_fishing:lemon_fish": -5,
+ "kaleidoscope_fishing:cucumber_jellyfish": -10,
+ "kaleidoscope_fishing:peanut_dried_fish": 10
 }

@@ -11,11 +11,13 @@
 //   Ranching  capability "register_feed": Fish Meal, Dried Fish and (with "feed_1_1") Dried Shrimp go in its
 //             troughs (RANCHING_FEEDS). Ranching answers each with api_result. Ranching itself already takes our
 //             Fish Offal and Fish Bones as feed and registers its own baits with us.
-//   Harvest   not released yet (its proposal names no API of its own): we shake hands and remember what it says,
-//             so recipes that use its crops can be added once its item ids exist. Until then nothing else happens.
+//   Harvest   1.0.0 has no api_ping / api_ready of its own (it talks to Cookery, Herbal, Ranching and Tavern, nobody
+//             asks it anything). So we look for its items instead (harvestPresent): our dishes that use its crops are
+//             sent to Cookery only when they exist (kc/bridge.js checks every ingredient). Should Harvest add an
+//             api_ready later, it is remembered like the others.
 //
 // Registrations in the sister packs last for the world session, like ours: every api_ready sends them again.
-import { system } from "@minecraft/server";
+import { ItemTypes, system } from "@minecraft/server";
 import { HERBAL_HEAT, RANCHING_FEEDS } from "../data/generated.js";
 
 const SOURCE = "kaleidoscope_fishing";
@@ -26,6 +28,11 @@ const info = new Map();                      // namespace -> the pack's api_read
 const warned = new Set();                    // one console line per refusal
 /** The api_ready payload of a sister pack ({api, version, capabilities, ...}), or undefined if it has not answered. */
 export const familyInfo = ns => info.get(ns);
+/** Whether 森羅物語：豐收 is installed: it answered, or its items exist. */
+export function harvestPresent() {
+  if (info.has(FAMILY.harvest)) return true;
+  try { return !!ItemTypes.get(`${FAMILY.harvest}:ginger`); } catch { return false; }
+}
 /** Tests only. */
 export function _resetFamily() { info.clear(); warned.clear(); }
 
@@ -104,3 +111,4 @@ export function pingFamily() {
 system.afterEvents.scriptEventReceive.subscribe(ev => { try { onFamilyEvent(ev); } catch (err) { warnOnce(`${ev?.id}: ${err}`); } },
   { namespaces: Object.values(FAMILY) });
 system.runTimeout(pingFamily, 20);
+system.runTimeout(() => { try { if (harvestPresent()) console.info("[Fishing Voyage] kaleidoscope_harvest found (by its items): its dishes are on"); } catch {} }, 40);

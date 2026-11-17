@@ -844,6 +844,27 @@
     },
     "kfv_jellyfish_radish": {
       "textures": "textures/items/kfv_jellyfish_radish"
+    },
+    "kfv_ginger_clam_soup": {
+      "textures": "textures/items/kfv_ginger_clam_soup"
+    },
+    "kfv_scallion_braised_fish": {
+      "textures": "textures/items/kfv_scallion_braised_fish"
+    },
+    "kfv_garlic_steamed_shrimp": {
+      "textures": "textures/items/kfv_garlic_steamed_shrimp"
+    },
+    "kfv_lemon_fish": {
+      "textures": "textures/items/kfv_lemon_fish"
+    },
+    "kfv_cucumber_jellyfish": {
+      "textures": "textures/items/kfv_cucumber_jellyfish"
+    },
+    "kfv_peanut_dried_fish": {
+      "textures": "textures/items/kfv_peanut_dried_fish"
+    },
+    "kfv_daikon_fishball_soup": {
+      "textures": "textures/items/kfv_daikon_fishball_soup"
     }
   }
 }
