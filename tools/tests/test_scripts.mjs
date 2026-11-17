@@ -13,6 +13,7 @@
 //   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
+//   17. 1.6.0: glyph characters: every catch, water, dish, ingredient, station and tackle part has one
 //   16. 1.6.0: every refusal key the scripts use has one of the four categories (util/hint.js)
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
@@ -573,6 +574,48 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(used.size >= 60 && !missing.length, `refusal keys: all ${used.size} keys the scripts use have a category (missing: ${missing.map(([k, f]) => `${k} in ${f}`).join(', ') || 'none'})`);
   const unused = Object.keys(REASONS).filter(k => !used.has(k));
   ok(!unused.length, `refusal keys: every categorised key is used somewhere (unused: ${unused.join(', ') || 'none'})`);
+}
+
+// ---------- 17. 1.6.0: glyph characters ----------
+{
+  const GL = await imp('data/glyphs.js');
+  const D = await imp('data/generated.js');
+  const { G, PAGES, glyph, hasGlyph, fishGlyph, shadowGlyph, itemGlyph, stationGlyph, idOfKey, dots, PLACEHOLDERS } = GL;
+  const chars = Object.values(G);
+  ok(chars.length > 300 && new Set(chars).size === chars.length, `glyphs: ${chars.length} glyphs, no two share a character`);
+  const pageHex = new Set(Object.values(PAGES).map(h => parseInt(h, 16)));
+  ok(chars.every(c => c.length === 1 && pageHex.has(c.charCodeAt(0) >> 8)), 'glyphs: every glyph is one private-use character on one of the PAGES');
+  const ids = D.CATCHES.map(c => c.id);
+  const noFish = ids.filter(id => !hasGlyph(id) || !hasGlyph(`shadow.${id}`));
+  ok(!noFish.length && ids.every(id => fishGlyph(id) === G[id] && shadowGlyph(id) === G[`shadow.${id}`]),
+    `glyphs: all ${ids.length} catches (legends included) have a picture and a silhouette (missing: ${noFish.join(', ') || 'none'})`);
+  ok(fishGlyph('testpack:mystery_fish') === G['fish.unknown'] && shadowGlyph('testpack:mystery_fish') === G['fish.unknown'] && glyph('no.such') === G['fish.unknown'],
+    'glyphs: another pack\'s fish (or any unknown name) falls back to the generic fish');
+  ok(fishGlyph('kaleidoscope_chinesefood:yellow_croaker') === G['kaleidoscope_fishing:yellow_croaker'], 'glyphs: an aliased fish uses its own glyph');
+  const waters = [...new Set(D.CATCHES.flatMap(c => c.waters ?? []))];
+  const noWater = waters.filter(w => !hasGlyph(`water.${w}`));
+  ok(!noWater.length, `glyphs: all ${waters.length} waters have a symbol (missing: ${noWater.join(', ') || 'none'})`);
+  const symbols = ['time.day', 'time.night', 'time.dawn', 'time.dusk', 'weather.rain', 'weather.thunder', 'tide.high', 'tide.low', 'tide.slack',
+    ...Array.from({ length: 8 }, (_, i) => `moon.${i}`), 'sky.meteor', 'sky.aurora', 'dot.full', 'dot.empty', 'mark.x', 'mark.tick', 'mark.cross',
+    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown'];
+  const noSym = symbols.filter(s => !hasGlyph(s));
+  ok(!noSym.length, `glyphs: the plan's symbols are there (missing: ${noSym.join(', ') || 'none'})`);
+  const tackle = [...Object.keys(D.PARTS), ...Object.keys(D.RODS)].filter(id => !hasGlyph(id));
+  ok(!tackle.length, `glyphs: every hook, line, bobber and rod has a glyph (missing: ${tackle.join(', ') || 'none'})`);
+  const baits = [...new Set(D.CATCHES.flatMap(c => [...Object.keys(c.bait ?? {}), ...(c.req?.bait ? [c.req.bait] : [])]))].filter(id => !hasGlyph(id));
+  ok(!baits.length, `glyphs: every bait the catches like has a glyph (missing: ${baits.join(', ') || 'none'})`);
+  const dishes = D.RECIPE_HINTS.filter(h => !hasGlyph(h.id)).map(h => h.id);
+  ok(D.RECIPE_HINTS.length === 102 && !dishes.length, `glyphs: all ${D.RECIPE_HINTS.length} dishes have a glyph (missing: ${dishes.join(', ') || 'none'})`);
+  const ings = [...new Set(D.RECIPE_HINTS.flatMap(h => h.ingredients.map(i => i[0])))];
+  const noIng = ings.filter(k => !hasGlyph(idOfKey(k)) || itemGlyph(k) === G['item.unknown']);
+  ok(ings.length > 100 && !noIng.length, `glyphs: all ${ings.length} ingredients of the recipe hints have a glyph by their key (missing: ${noIng.join(', ') || 'none'})`);
+  const methods = [...new Set(D.RECIPE_HINTS.map(h => h.method))].filter(m => stationGlyph(m) === G['item.unknown']);
+  ok(!methods.length, `glyphs: every cooking method has a station glyph (missing: ${methods.join(', ') || 'none'})`);
+  ok(idOfKey('kaleidoscope_fishing.ing.minecraft.egg') === 'minecraft:egg' && idOfKey('kaleidoscope_fishing.name.oyster') === 'kaleidoscope_fishing:oyster'
+    && idOfKey('kaleidoscope_fishing.ing.kaleidoscope_cookery.raw_noodles') === 'kaleidoscope_cookery:raw_noodles', 'glyphs: recipe keys turn into item ids');
+  ok(dots(3, 5) === G['dot.full'].repeat(3) + G['dot.empty'].repeat(2) && dots(9, 5) === G['dot.full'].repeat(5) && dots(-1, 2) === G['dot.empty'].repeat(2) && dots(0, 0) === '',
+    'glyphs: dots(n, max) gives n filled and max - n empty dots, clamped');
+  ok(PLACEHOLDERS.every(n => hasGlyph(n)) && !PLACEHOLDERS.some(n => ids.includes(n) && n.startsWith('kaleidoscope_fishing:')), `glyphs: ${PLACEHOLDERS.length} placeholders listed; none of our own fish is one`);
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

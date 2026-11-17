@@ -1,6 +1,6 @@
 """Run every offline test of the pack in one go:   python tools/run_tests.py
 
-  1. build.py check       generated.js matches tools/data
+  1. build.py check       generated.js matches tools/data; 1.6.0: so do the glyph sheets and glyphs.js
   2. validate.py          cross-references; only findings not in tests/validate_baseline.txt fail
   3. check_models.py      3D model structure (the 10 models borrowed from Cookery are verified only when a
                           Kaleidoscope-Cookery-*.mcaddon sits next to this repository folder)
@@ -49,7 +49,7 @@ def judge_validate(out):
 
 
 py = sys.executable
-run('build.py check', [py, '-X', 'utf8', 'tools/build.py', 'check'], lambda o: ('matches' in o, ''))
+run('build.py check', [py, '-X', 'utf8', 'tools/build.py', 'check'], lambda o: ('generated.js matches' in o and 'glyphs match' in o, ''))
 run('validate.py', [py, '-X', 'utf8', 'tools/validate.py', '.'], judge_validate)
 run('check_models.py', [py, '-X', 'utf8', 'tools/check_models.py'], lambda o: (any(l.startswith('0 error(s)') for l in o.splitlines()), ''))
 run('tests/test_pack.py', [py, '-X', 'utf8', 'tools/tests/test_pack.py'])

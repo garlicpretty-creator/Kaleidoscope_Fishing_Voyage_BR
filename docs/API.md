@@ -227,6 +227,11 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 - **刀**：任何帶 `kaleidoscope_cookery:kitchen_knife` 標籤的物品都能在魚案板下刀，用它殺魷魚也會掉魷魚。
 - **小遊戲開關**（管理員指令，不是給附加包用的）：`/scriptevent kaleidoscope_fishing:minigame on | off | status | charset block | charset ascii`
 
+## 字元頁與拒絕的聲音（1.6.0）
+
+- **字元頁**：漁歌的資源包占用 `font/glyph_E1.png`（魚與魚影）、`glyph_E2.png`（水域、時段、天氣、潮汐、月相、工作站、釣具、點與勾叉）、`glyph_E3.png`（料理與食材），也就是私用區 `U+E100`–`U+E3FF`；`glyph_E4` 保留給料理頁滿了的時候。家族的其他附加包請避開這幾頁。原版自己用了 `glyph_E0`、`glyph_E1` 的一部分（手把按鍵），還沒有在遊戲裡確認 E1 是否衝突；衝突的話漁歌整體往後移一頁（只改 `tools/data/GLYPHS.json` 的 `pages`）。
+- **拒絕的四類聲音**：缺東西 `note.bass` 0.7（灰煙）、還沒好 `random.click` 0.6 兩下（小氣泡）、滿了 `random.splash`（有水的方塊）或 `dig.wood` 1.4（彈回的碎屑）、這裡不行 `dig.stone` 0.5（紅色塵土）。聲音只給被拒絕的玩家聽（`player.playSound`），粒子很小。家族的附加包可以照用同一套。
+
 ## 漁歌會主動找的附加包
 
 漁歌載入一秒後會送出下面三個 `api_ping`。有回覆才會動作；沒裝的話什麼都不會發生，也不會在日誌留訊息。
