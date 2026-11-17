@@ -44,6 +44,7 @@ An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleido
 2. 從 [Releases](../../releases/latest) 下載 `.mcaddon`，點兩下匯入 Minecraft。 / Download the `.mcaddon` from [Releases](../../releases/latest) and open it.
 3. 在世界設定中同時啟用森羅物語與漁歌的行為包、資源包。 / Enable both add-ons' behaviour and resource packs in the world settings.
 4. 從舊版升級：先刪掉舊的漁歌再匯入新版，並先備份世界。 / Upgrading: remove the old Fishing Voyage first, and back up your world.
+5. **版本號對照**：以前流傳過 1.5～1.6 的測試版（腳本註解裡的 `v1.5.5`、`v1.6.3` 這類字樣就是它們）。正式的 1.5.0、1.6.0 和那些舊的 1.5.x、1.6.x 測試版無關；玩過舊測試版的世界不要直接換成正式版。 / **Version numbers**: there used to be 1.5–1.6 test builds (the `v1.5.5`, `v1.6.3` notes in script comments are theirs). The official 1.5.0 and 1.6.0 are unrelated to those old 1.5.x / 1.6.x test builds; do not move a world played with a test build straight to an official release.
 
 不想玩收線小遊戲，可以輸入 `/scriptevent kaleidoscope_fishing:minigame off`。
 To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame off`.
