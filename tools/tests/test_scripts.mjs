@@ -9,6 +9,7 @@
 //      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
 //   8. 1.5.0: Lure, Luck of the Sea and Unbreaking where our own scripts do the work
 //   9-11. 1.5.0: legend keepsakes, the cleaning board's per-cut format, the new waters
+//   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
@@ -442,6 +443,32 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   R._clearRegistry();
   const st2 = ask('state', {});
   ok(st2.out[0]?.sky === 'none', `state_request answers sky "none" on a quiet day (${JSON.stringify(st2.out[0])})`);
+}
+
+// ---------- 13. the fish pond (1.5.0) ----------
+{
+  const PD = await imp('blocks/pond.js');
+  ok(PD.capOf(17) === 0 && PD.capOf(18) === 4 && PD.capOf(48) === 8 && PD.capOf(96) === 12 && PD.capOf(512) === 12, 'pond: 18 / 48 / 96 blocks of water hold 4 / 8 / 12 fish');
+  const P_ = G.POND;
+  ok(P_[`${NS}carp`]?.[0] === 'fresh' && P_[`${NS}mackerel`]?.[0] === 'sea' && P_['minecraft:salmon']?.[0] === 'both' && P_[`${NS}mycelium_flounder`]?.[0] === 'sea',
+    'pond: carp fresh, mackerel sea, salmon either, the mycelium flounder sea');
+  ok(!P_[`${NS}emperor_tuna`] && !P_[`${NS}blazefin`] && !P_[`${NS}echo_ray`] && !P_[`${NS}moon_jellyfish`] && !P_[`${NS}octopus`] && !P_[`${NS}spore_seahorse`] && !P_[`${NS}oyster`] && !P_[`${NS}chorus_carp`],
+    'pond: no legends, lava, Deep Dark or End creatures, jellyfish, octopus, seahorse or oyster');
+  ok(P_[`${NS}crab`]?.[1] === false && P_[`${NS}lobster`]?.[1] === false && P_[`${NS}shrimp`]?.[1] === true && P_[`${NS}carp`]?.[1] === true, 'pond: crabs and lobsters live there but do not breed; fish and shrimp do');
+  const fresh = { cap: 4, sea: false, fish: [] };
+  ok(PD.whyNot(fresh, `${NS}carp`) === '' && PD.whyNot(fresh, `${NS}mackerel`) === 'pond_sea_fish' && PD.whyNot({ ...fresh, salt: 8 }, `${NS}mackerel`) === ''
+    && PD.whyNot({ ...fresh, cap: 0 }, `${NS}carp`) === 'pond_none' && PD.whyNot(fresh, `${NS}lava_dragon_koi`) === 'pond_cannot', 'pond: whyNot gives the reason a fish stays out');
+  console.log = () => {};
+  R._clearRegistry();
+  const reg = e => R.onRegister({ id: `${NS}register_pond_feed`, message: JSON.stringify({ api: 1, source: 'testpack', feeds: [e] }) });
+  const a = reg({ id: 'testpack:corn_mash', meals: 3 }), b = reg({ id: `${NS}fish_meal`, meals: 4 }), d = reg({ id: 'testpack:corn_mash2', meals: 9 });
+  console.log = log;
+  ok(a === 1 && b === 0 && d === 0 && PD.mealsOf('testpack:corn_mash') === 3 && PD.mealsOf(`${NS}fish_meal`) === 4 && R.CAPABILITIES.includes('pond_feed'),
+    'register_pond_feed: another pack\'s feed counts its meals; ours are closed; 1..4 meals; capability "pond_feed"');
+  R._clearRegistry();
+  ok(PD.mealsOf('testpack:corn_mash') === 0, 'register_pond_feed: gone when the registry is cleared');
+  const M2 = await imp('world/merchant.js');
+  ok(M2.FARMED_PRICE === 0.6, 'merchant: farmed fish at 60%');
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

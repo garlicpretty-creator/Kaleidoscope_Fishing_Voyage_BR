@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_fertilized_roe",
+    "metalness_emissive_roughness": "kfv_fertilized_roe_mer",
+    "normal": "kfv_fertilized_roe_normal"
+  }
+}

@@ -39,6 +39,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `state` | 1.5.0 | 可以查詢潮汐、月相、時段：`state_request` |
 | `records` | 1.5.0 | 可以查詢玩家的釣魚紀錄：`record_request` |
 | `catalog` | 1.5.0 | 可以查詢漁獲與餌的清單：`catalog_request` |
+| `pond_feed` | 1.5.0 | 可以把物品註冊成魚池飼料：`register_pond_feed` |
 | `sky` | 1.5.0 | 有天象（流星雨、極光之夜）：漁獲可以設 `sky`，`state` 回報今晚的天象，`evt` 廣播 `sky` |
 
 用之前先確認清單裡有；1.4.0 的漁歌只有 `bait`、`catch`。
@@ -127,6 +128,16 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `record` | 打破了這位玩家自己的紀錄 |
 
 蝦籠收成、鸕鶿抓魚、挖蛤不算 `caught`。
+
+### 魚池飼料 — `register_pond_feed`（1.5.0）
+
+```json
+{"api":1,"source":"my_pack","feeds":[{"id":"my_pack:corn_mash","meals":2}]}
+```
+
+- `meals`：一個物品給幾餐，整數 1–4（漁歌的魚粉是 4、魚粉餌 2、小魚乾與蚯蚓 1）。省略是 1。
+- 只能註冊自己命名空間、確實存在的物品；漁歌自己的飼料不能改。
+- 餵食台最多存 64 餐；每天清晨每條魚吃 1 餐。
 
 ## 查詢
 

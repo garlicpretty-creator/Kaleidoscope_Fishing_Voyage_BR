@@ -78,6 +78,27 @@ def lava_tank():
     return a, bones
 
 
+def pond_feeder():
+    """The Fish Pond Feeder (魚池餵食台): a short post with a feed trough on top and a small net basket hanging in front,
+    where the pond's roe shows. Bones: feeder | feed (pellets in the trough) | roe (an orange clump in the basket)."""
+    a = Atlas(64, 64)
+    wood, dark, net = '#a8743e', '#6e4826', '#d8d0b0'
+    cubes = [box(-2, 2, 0, 9, -2, 2, wood, dark, atlas=a),                                   # the post
+             box(-6, 6, 9, 10, -4, 4, wood, dark, dark, atlas=a),                             # the trough floor
+             box(-6, 6, 10, 12, -4, -3, wood, dark, atlas=a), box(-6, 6, 10, 12, 3, 4, wood, dark, atlas=a),
+             box(-6, -5, 10, 12, -3, 3, wood, dark, atlas=a), box(5, 6, 10, 12, -3, 3, wood, dark, atlas=a),
+             box(-1, 1, 4, 9, -6, -2, wood, dark, atlas=a),                                   # the arm to the basket
+             box(-3, 3, 1, 1.5, -9, -5, net, atlas=a), box(-3, 3, 1.5, 4, -9.1, -9, net, atlas=a),   # the basket
+             box(-3, 3, 1.5, 4, -5, -4.9, net, atlas=a), box(-3.1, -3, 1.5, 4, -9, -5, net, atlas=a),
+             box(3, 3.1, 1.5, 4, -9, -5, net, atlas=a)]
+    feed = [box(-5, 5, 10, 11.2, -3, 3, '#b08a52', '#8a6838', atlas=a)] + \
+           [box(x - 0.6, x + 0.6, 11.2, 11.8, z - 0.6, z + 0.6, '#c49a5e', atlas=a) for x, z in ((-3, -1), (0, 1.5), (3, -1.5), (1.5, 0))]
+    roe = [box(x - 0.8, x + 0.8, 1.5, 3.2, z - 0.8, z + 0.8, '#f2a24a', '#c8762a', atlas=a)
+           for x, z in ((-1.5, -7.5), (0, -6.5), (1.5, -7.5), (-0.5, -8), (0.8, -6))]
+    bones = [{'name': 'root', 'pivot': [0, 0, 0]}, bone('feeder', cubes), bone('feed', feed), bone('roe', roe)]
+    return a, bones
+
+
 def write(name, atlas, bones):
     geo = os.path.join(RP, 'models', 'blocks', f'{name}.geo.json')
     write_geometries(geo, [{'description': {'identifier': f'geometry.{NS}.{name}', 'texture_width': atlas.w, 'texture_height': atlas.h,
@@ -115,7 +136,8 @@ def book_picture(name, show):
 
 def main():
     for name, make, show in (('wooden_tub', tub, ('root', 'tub', 'brine', 'clams')), ('salt_pan', salt_pan, ('root', 'pan', 'salt')),
-                             ('lava_fish_tank', lava_tank, ('root', 'frame', 'lava'))):
+                             ('lava_fish_tank', lava_tank, ('root', 'frame', 'lava')),
+                             ('pond_feeder', pond_feeder, ('root', 'feeder', 'feed', 'roe'))):
         atlas, bones = make()
         write(name, atlas, bones)
         book_picture(name, show)

@@ -1,0 +1,35 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:pond_feeder"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "PNP",
+      "PBP"
+    ],
+    "key": {
+      "P": {
+        "tag": "minecraft:planks"
+      },
+      "N": {
+        "item": "kaleidoscope_fishing:fishing_net"
+      },
+      "B": {
+        "item": "minecraft:barrel"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:pond_feeder",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:fishing_net"
+      }
+    ]
+  }
+}

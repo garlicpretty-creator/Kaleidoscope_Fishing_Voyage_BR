@@ -9,7 +9,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { isWater } from "../fishing/water.js";
 import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES } from "../data/generated.js";
-import { LARGE, MEDIUM, SMALL, rangeOf, readSize } from "../fishing/size.js";
+import { LARGE, MEDIUM, SMALL, isFarmed, rangeOf, readSize } from "../fishing/size.js";
 import { WANT_LIST } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
 import { externalPrice } from "../fishing/registry.js";
@@ -175,6 +175,7 @@ export function orderNear(player) {
 }
 
 // --------------------------------------------------------------- he buys fish
+export const FARMED_PRICE = 0.6;
 const CLASS_PRICE = { 0: 1, [SMALL]: 0.6, [MEDIUM]: 1, [LARGE]: 1.6 };
 /** Emeralds for one medium fish: our own table first, then what another pack registered (1.5.0 register_price). */
 export const priceOf = id => MERCHANT_PRICES[id] ?? externalPrice(id);
@@ -186,8 +187,9 @@ function sell(player, merchant, id) {
   const stack = slot?.hasItem() ? slot.getItem() : undefined;
   if (!stack || (FISH_ALIAS[stack.typeId] ?? stack.typeId) !== id) return;
   const { cls, record } = readSize(stack);
-  const want = wantsOf(merchant).slice(0, 2).includes(id) ? WANT_BONUS : 1;
-  const each = priceOf(id) * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want;
+  const farmed = isFarmed(stack);                         // 1.5.0: pond fish: 60%, and never the day's double
+  const want = !farmed && wantsOf(merchant).slice(0, 2).includes(id) ? WANT_BONUS : 1;
+  const each = priceOf(id) * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want * (farmed ? FARMED_PRICE : 1);
   let credit = 0, spent = 0;
   try { credit = Number(player.getDynamicProperty(CREDIT) ?? 0); } catch {}
   try { spent = Number(merchant.getDynamicProperty(SPENT) ?? 0); } catch {}

@@ -39,4 +39,3 @@ UNDEFINED_ID kaleidoscope_fishing:starry_spring_feature ['starry_spring_feature.
 UNDEFINED_ID kaleidoscope_fishing:starry_spring_rule ['starry_spring_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:tray ['generated.js']
 UNDEFINED_ID kaleidoscope_fishing:tuna_cut ['maki_roll.json', 'nigiri_tuna.json', 'sashimi_boat.json']
-UNDEFINED_ID minecraft:planks ['salt_pan.json', 'wooden_tub.json']

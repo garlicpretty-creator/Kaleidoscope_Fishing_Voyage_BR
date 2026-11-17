@@ -378,6 +378,9 @@
     },
     "kfv_glowing_glass_float": {
       "textures": "textures/blocks/kfv_glowing_glass_float"
+    },
+    "kfv_pond_feeder": {
+      "textures": "textures/blocks/kfv_pond_feeder"
     }
   }
 }

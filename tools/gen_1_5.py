@@ -697,9 +697,9 @@ def tub_and_salt_pan():
     fill = S + 'fill'
     on = lambda *vals: ' || '.join(f"q.block_state('{fill}') == {v}" for v in vals)
     station_block('wooden_tub', ('Wooden Tub', '木盆', '木盆'), (
-        'Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it.',
-        '用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。用空桶可以把水舀掉。',
-        '用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。用空桶可以把水舀掉。'),
+        'Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. Fertilized Roe in plain water hatches: fry after a day, 2 small farmed fish after two. An empty bucket drains it.',
+        '用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。受精卵放進清水會孵化：一天後變魚苗，兩天後空手取出 2 條小型的養殖魚。用空桶可以把水舀掉。',
+        '用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。受精卵放进清水会孵化：一天后变鱼苗，两天后空手取出 2 条小型的养殖鱼。用空桶可以把水舀掉。'),
         {fill: list(range(7))},
         {'water': on(1, 5, 6), 'brine': on(2, 3, 4), 'clams': on(3, 4), 'roe': on(5), 'fry': on(6)},
         {'origin': [-7, 0, -7], 'size': [14, 6, 14]},
@@ -716,8 +716,6 @@ def tub_and_salt_pan():
     c.guide_name('minecraft:terracotta', 'Terracotta', '陶瓦', '陶瓦')
     c.guide_name('minecraft:oak_planks', 'Oak Planks', '橡木材', '橡木木板')
     c.guide_name('minecraft:iron_ingot', 'Iron Ingot', '鐵錠', '铁锭')
-    # planks tags in recipes read as item ids by validate.py
-    c._baseline('minecraft:planks', "salt_pan.json', 'wooden_tub.json")
     # ---- purged clams, and what they are for
     name = ('Purged Clam', '吐沙蛤蜊', '吐沙蛤蜊')
     c.item('purged_clam', stack=64, group='ingredients')
@@ -1063,6 +1061,79 @@ def shore_growth():
     c.save('GUIDEBOOK_JSON', g)
 
 
+POND_FRESH = {'river', 'lake', 'swamp', 'mangrove', 'ice', 'cave', 'cherry'}
+POND_SEA = {'ocean', 'warm_ocean', 'cold_ocean', 'deep_ocean', 'beach', 'mushroom'}
+POND_BOTH = {'salmon', 'eel', 'sea_bass', 'grey_mullet', 'shrimp'}
+POND_NEVER = {'moon_jellyfish', 'chorus_jellyfish', 'octopus', 'spore_seahorse', 'oyster', 'meteor_marlin'}
+POND_NO_BREED = {'crab', 'glow_crab', 'king_crab', 'lobster'}
+POND_FEEDS = {'fish_meal': 4, 'fish_meal_bait': 2, 'dried_fish': 1, 'earthworm': 1, 'fish_offal': 1, 'shrimp_head': 1}
+
+
+def fish_pond():
+    """Step 13: the fish pond (plan 7.2): who may live in a fresh or a sea pond and breed, the feeds, the Fish Pond
+    Feeder (model from tools/gen_stations_1_5.py, script blocks/pond.js), its texts, Fertilized Roe for the tub."""
+    S = NS
+    catches = {x['id']: x for x in c.data('CATCHES')}
+    pond = {}
+    for fid in c.data('TANK_FISH'):
+        e = catches.get(fid)
+        key = fid.split(':')[1]
+        if not e or e.get('req') or key in POND_NEVER:
+            continue
+        w = set(e.get('waters') or [])
+        if key in POND_BOTH:
+            kind = 'both'
+        elif w & POND_SEA:
+            kind = 'sea'
+        elif w & POND_FRESH:
+            kind = 'fresh'
+        else:
+            continue                              # lava, the End, the Deep Dark
+        pond[fid] = [kind, key not in POND_NO_BREED]
+    c.save('POND', pond, indent=1)
+    c.save('POND_FEEDS', {S + k: v for k, v in POND_FEEDS.items()}, indent=1)
+    order = c.data('_order')
+    for name in ('POND', 'POND_FEEDS'):
+        if not any(o['name'] == name for o in order):
+            order.append({'name': name, 'ascii': True})
+    c.save('_order', order, indent=2)
+    # the feeder
+    station_block('pond_feeder', ('Fish Pond Feeder', '魚池餵食台', '鱼池喂食台'), (
+        'Set it at the edge of a pond: it counts the water joined to it (18 blocks or more for 4 fish, 48 for 8, 96 for 12; the sea or a river counts as large) and keeps the pond. Use a fish on it to let it go in the pond, an empty hand for the list (take one back from there). Feed: Fish Meal (4 meals), Fish Meal Bait (2), Small Dried Fish, Earthworm, Fish Offal or Shrimp Head (1); up to 64 meals. Each dawn every fish eats a meal; fed days make it grow (small to medium in 3, to large in 5 more), never past 85% of its kind. Two fed fish of a kind, medium or larger, may spawn roe (1 in 4 each dawn); left alone it hatches in 2 days, or take it out as Fertilized Roe. A pond by the sea, or one given 8 Salt, is a sea pond. Fish that grew or were born here are marked ✿ (farmed): they set no records and the merchant pays 60% for them.',
+        '放在池邊：會數和它相連的水（18 格以上養 4 條、48 格 8 條、96 格 12 條；海邊或河邊算大池），管理這個池子。拿魚對它使用就放進池裡，空手打開清單（從清單撈回）。飼料：魚粉（4 餐）、魚粉餌（2 餐）、小魚乾、蚯蚓、魚雜、蝦頭（1 餐），最多存 64 餐。每天清晨每條魚吃 1 餐；吃飽的天數讓牠長大（小型 3 天變中型，再 5 天變大型），最大只到該魚種的 85%。兩條同種、中型以上、都吃飽的魚，每天清晨有 1/4 機率產卵；放著兩天後孵化，也可以撈起來變成受精卵。海邊的池子，或放了鹽 ×8 的池子，是海水池。在池裡長大或出生的魚標著 ✿（養殖）：不計紀錄，漁販只出六成。',
+        '放在池边：会数和它相连的水（18 格以上养 4 条、48 格 8 条、96 格 12 条；海边或河边算大池），管理这个池子。拿鱼对它使用就放进池里，空手打开清单（从清单捞回）。饲料：鱼粉（4 餐）、鱼粉饵（2 餐）、小鱼干、蚯蚓、鱼杂、虾头（1 餐），最多存 64 餐。每天清晨每条鱼吃 1 餐；吃饱的天数让它长大（小型 3 天变中型，再 5 天变大型），最大只到该鱼种的 85%。两条同种、中型以上、都吃饱的鱼，每天清晨有 1/4 机率产卵；放着两天后孵化，也可以捞起来变成受精卵。海边的池子，或放了盐 ×8 的池子，是海水池。在池里长大或出生的鱼标着 ✿（养殖）：不计纪录，渔贩只出六成。'),
+        {S + 'feed': [0, 1], S + 'roe': [0, 1]},
+        {'feed': f"q.block_state('{S}feed') == 1", 'roe': f"q.block_state('{S}roe') == 1"},
+        {'origin': [-6, 0, -6], 'size': [12, 12, 12]},
+        ('pond_feeder', ['PNP', 'PBP'], {'P': 'tag:minecraft:planks', 'N': S + 'fishing_net', 'B': 'minecraft:barrel'}), 'salt_pan')
+    c.guide_name('minecraft:barrel', 'Barrel', '木桶', '木桶')
+    J = f'{c.NS}.pond.'
+    for k, en, tw, cn in [
+        ('title', 'Fish Pond', '魚池', '鱼池'),
+        ('summary', '%1$s pond, %2$s water blocks: %3$s of %4$s fish. Meals left: %5$s.', '%1$s，水 %2$s 格：%3$s / %4$s 條魚。剩下 %5$s 餐。', '%1$s，水 %2$s 格：%3$s / %4$s 条鱼。剩下 %5$s 餐。'),
+        ('fresh', 'A fresh-water', '淡水池', '淡水池'), ('sea', 'A sea-water', '海水池', '海水池'),
+        ('none', 'Not a pond yet: it needs 18 blocks of water joined to it.', '還不是池子：要有 18 格以上和它相連的水。', '还不是池子：要有 18 格以上和它相连的水。'),
+        ('fish_line', '%1$s %2$s · day %3$s', '%1$s %2$s · 第 %3$s 天', '%1$s %2$s · 第 %3$s 天'),
+        ('hungry', ' · hungry', ' · 餓了', ' · 饿了'),
+        ('roe', 'Take out the roe (%1$s)', '撈起魚卵（%1$s）', '捞起鱼卵（%1$s）'),
+        ('close', 'Close', '關閉', '关闭'),
+        ('pick', 'Pick a fish to take it out.', '點一條魚把牠撈起來。', '点一条鱼把它捞起来。'),
+    ]:
+        c.lang(J + k, en, tw, cn, packs=(c.RP,))
+    # Fertilized Roe: remembers its kind (one per stack), roe for the pot, hatches in a tub
+    name = ('Fertilized Roe', '受精卵', '受精卵')
+    c.item('fertilized_roe', stack=1, group='ingredients', components=food(2, 0.4))
+    c.names('fertilized_roe', *name)
+    c.icon('fertilized_roe')
+    c.catalog('fertilized_roe', 'fish_roe')
+    c.lang(f'{c.NS}.lore.roe_of', 'Roe of: %1$s', '魚種：%1$s', '鱼种：%1$s', packs=(c.RP,))
+    c.guide('fertilized_roe', 'ingredients', (
+        'Roe spawned in a fish pond and taken out from the feeder\'s list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot.',
+        '魚池裡產下、從餵食台清單撈起來的魚卵，會記住是哪種魚。放進裝了清水的木盆，兩天後空手取出 2 條小型的那種魚（養殖）。也可以當魚卵入菜。',
+        '鱼池里产下、从喂食台清单捞起来的鱼卵，会记住是哪种鱼。放进装了清水的木盆，两天后空手取出 2 条小型的那种鱼（养殖）。也可以当鱼卵入菜。'), name, stack=1,
+        food={'nutrition': 2, 'saturation': 0.4})
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -1082,4 +1153,5 @@ if __name__ == '__main__':
     new_waters()
     sky_events()
     shore_growth()
+    fish_pond()
     print('1.5.0 content written; now run: python tools/build.py build')

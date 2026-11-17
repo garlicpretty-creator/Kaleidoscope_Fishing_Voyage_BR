@@ -10,7 +10,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, breakBlock, inv, st, clearInv, drops, P, NS, D, log, flush, fire, guard,
-  importScript, GameMode, ItemStack, S, answers, BP, thrown, blockDefs } from './sim/play.mjs';
+  importScript, GameMode, ItemStack, S, answers, BP, thrown, blockDefs, tick } from './sim/play.mjs';
 
 const clock = S.__clock;
 const bad = m => { log.errors.push(m); throw new Error(m); };
@@ -1178,6 +1178,104 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(perms.length === 12 && perms.filter(p => p.components['minecraft:transformation'].scale).length === 8,
     'oyster bed: four facings for each of the three stages, the two young ones drawn smaller');
   biome = 'minecraft:plains';
+}
+
+// ================================================================ 1.5.0: the fish pond and hatching in the tub
+{
+  const PD = await importScript('blocks/pond.js');
+  const SZ = await importScript('fishing/size.js');
+  const c = comps.get(NS + 'pond_feeder');
+  const x = spot() + 100;
+  biome = 'minecraft:plains';
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) for (const y of [63, 64]) D.place('minecraft:water', { x: x + dx, y, z: dz });
+  const fd = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 });
+  guard('place feeder', () => c.onPlace({ block: fd }));
+  const rec = () => S.world.getDynamicProperty(`${NS}bd:pd:minecraft:overworld:${fd.x},${fd.y},${fd.z}`);
+  const R = () => JSON.parse(rec() ?? 'null');
+  ok(R()?.n === 18 && R().cap === 4 && !R().sea, `pond: 18 blocks of water joined to the feeder make a small fresh pond (${R()?.n}, holds ${R()?.cap})`);
+  const fishIn = () => D.getEntities({ type: NS + 'tank_fish', tags: [`kfv_pond:${fd.x},${fd.y},${fd.z}`] });
+  const put = (id, lore) => { holdStack(stack(id, 1, lore)); use(fd); };
+  clearInv(); put('carp', ['§f◆◆']);
+  ok(R().fish.length === 1 && R().fish[0].cls === 2 && inv('carp') === 0 && fishIn().length === 1, 'pond: a carp goes in and swims there');
+  clearInv(); put('mackerel', ['§f◆◆']);
+  ok(R().fish.length === 1 && inv('mackerel') === 1, 'pond: a sea fish stays out of a fresh pond');
+  clearInv(); put('emperor_tuna', ['§6◆◆◆']);
+  ok(R().fish.length === 1, 'pond: a legend never goes in');
+  clearInv(); put('carp', ['§7◆']); put('carp', ['§f◆◆']);
+  holdStack(stack('fish_meal', 20)); use(fd);
+  ok(PD.meals(R()) === 64 && inv('fish_meal') === 4 && st(fd, 'feed') === 1, `pond: feed is stored up to 64 meals (${PD.meals(R())}), the rest stays in hand`);
+  clearInv(); put('carp', ['§f◆◆']); put('carp', ['§f◆◆']);
+  ok(R().fish.length === 4 && inv('carp') === 1, 'pond: a small pond holds 4 fish, the fifth is refused');
+  answers.length = 0; answers.push(3); clearInv(); use(fd); await settle();
+  ok(R().fish.length === 3 && inv('carp') === 1, 'pond: picking a fish from the list takes it back out');
+  // days go by
+  const tickFd = () => guard('tick feeder', () => c.onTick({ block: fd }));
+  const day = () => Math.floor(clock.abs / 24000);
+  clock.abs = (day() + 1) * 24000 + 100;
+  withRandom(0.9, tickFd);
+  const small = () => R().fish.find(f => f.cls === 1 || f.f);
+  ok(R().fish.every(f => f.d === 1 && !f.h) && PD.meals(R()) === 61, 'pond: at dawn every fish eats one meal');
+  clock.abs += 2 * 24000; withRandom(0.9, tickFd);
+  const grown = R().fish.filter(f => f.f);
+  ok(grown.length === 1 && grown[0].cls === 2 && !R().roe, `pond: after 3 fed days the small carp is medium, and farmed (${JSON.stringify(grown[0])})`);
+  clock.abs += 24000; withRandom(0.1, tickFd);
+  ok(R().roe?.id === NS + 'carp' && st(fd, 'roe') === 1, 'pond: two fed medium carp spawn roe (1 in 4), shown in the basket');
+  // the list: roe first, then the fish
+  clearInv(); const nf = log.forms.length; answers.length = 0; answers.push(0);
+  use(fd); await settle();
+  const form = log.forms[nf];
+  ok(form?.buttons?.length === 5 && !R().roe && inv('fertilized_roe') === 1, `pond: the list has the roe and three fish; picking the roe takes it out (${form?.buttons?.length} buttons)`);
+  const roe = P.inv.find?.(s => s?.typeId === NS + 'fertilized_roe') ?? [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'fertilized_roe');
+  ok(roe?.getDynamicProperty('kfv:roe') === NS + 'carp', 'pond: the Fertilized Roe remembers it is carp');
+  clearInv(); answers.length = 0; answers.push(1);
+  use(fd); await settle();
+  ok(R().fish.length === 2 && inv('carp') === 1, 'pond: and a fish after it');
+  // farmed stacks, and the merchant's price for them
+  const farmedStack = PD.fishStack({ id: NS + 'carp', cls: 2, f: 1 });
+  ok(SZ.isFarmed(farmedStack) && !SZ.isFarmed(stack('carp', 1, ['§f◆◆'])) && SZ.readSize(farmedStack).cls === 2, 'pond: a farmed fish is marked ✿ and keeps its size mark');
+  const wild = PD.fishStack({ id: NS + 'carp', cls: 3, k: { lore: ['§6◆◆◆', '§6★ 80 cm'] } });
+  ok(wild.getLore().includes('§6★ 80 cm') && !SZ.isFarmed(wild), 'pond: a wild fish that did not grow comes back with its record mark');
+  // a second feeder on the same water
+  const ev = { block: D.getBlock({ x: x - 1, y: 64, z: 1 }), player: P, permutationToPlace: fd.permutation, cancel: false };
+  c.beforeOnPlayerPlace(ev);
+  ok(ev.cancel, 'pond: a second feeder on the same pond is not placed');
+  // hunger: no meals left
+  const hr = { cap: 4, food: [], open: 0, fish: [{ id: NS + 'carp', cls: 2, d: 0, g: 4 }, { id: NS + 'carp', cls: 2, d: 0, g: 4 }] };
+  withRandom(0.1, () => PD.dawn(hr, 100));
+  ok(hr.fish.every(f => f.h === 1 && f.cls === 2 && f.g === 4) && hr.fish.length === 2 && !hr.roe, 'pond: with no feed the fish go hungry, do not grow or breed, and none dies');
+  // the pond shrinks
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) D.place('minecraft:air', { x: x + dx, y: 64, z: dz });
+  drops(); clearInv(); answers.length = 0; use(fd); await settle();
+  const out = drops();
+  ok(R().cap === 0 && R().fish.length === 0 && out.filter(d => d.id === NS + 'carp').length === 2, `pond: drained below 18 blocks, the fish come out as items (${out.map(d => d.id.split(':')[1])})`);
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) D.place('minecraft:water', { x: x + dx, y: 64, z: dz });
+  clearInv(); put('carp', ['§f◆◆']); holdStack(stack('earthworm', 5)); use(fd);
+  drops(); clearInv(); breakBlock(fd);
+  const left = drops();
+  ok(left.some(d => d.id === NS + 'carp') && left.some(d => d.id === NS + 'earthworm' && d.amount === 5) && !rec() && fishIn().length === 0,
+    `pond: a broken feeder gives back its fish and feed, and the fish leave the water (${left.map(d => `${d.id.split(':')[1]}×${d.amount}`)})`);
+  // salt makes a sea pond; a sea pond takes mackerel
+  const fd2 = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 }); guard('place feeder', () => c.onPlace({ block: fd2 }));
+  clearInv(); holdStack(stack('sea_salt', 8)); use(fd2);
+  clearInv(); put('mackerel', ['§f◆◆']);
+  ok(PD.isSea(R()) && R().fish[0]?.id === NS + 'mackerel', 'pond: 8 Salt make it a sea pond, and a mackerel goes in');
+  breakBlock(fd2); drops();
+
+  // hatching in the tub
+  const T = await importScript('blocks/tub.js');
+  const tub = D.place(NS + 'wooden_tub', { x: spot(), y: 64, z: 0 });
+  clearInv(); P.hold('minecraft:water_bucket', 1); use(tub);
+  holdStack(PD.roeStack(NS + 'carp')); use(tub);
+  ok(st(tub, 'fill') === 5 && inv('fertilized_roe') === 0, 'tub: Fertilized Roe goes into plain water');
+  clearInv(); clock.abs += 25000; tick(tub);
+  ok(st(tub, 'fill') === 6, 'tub: after a day the roe shows as fry');
+  use(tub);
+  ok(inv('carp') === 0 && st(tub, 'fill') === 6, 'tub: not ready before two days');
+  clock.abs += 24000; use(tub);
+  const fryS = [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'carp');
+  ok(inv('carp') === 2 && SZ.isFarmed(fryS) && SZ.readSize(fryS).cls === 1 && st(tub, 'fill') === 1, 'tub: two days on, 2 small farmed carp, and the water stays');
+  holdStack(PD.roeStack(NS + 'carp')); use(tub); clearInv(); drops(); breakBlock(tub);
+  ok(drops().some(d => d.id === NS + 'fertilized_roe'), 'tub: a tub broken while hatching gives the roe back');
 }
 
 finish('play (world)');

@@ -8563,17 +8563,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it."
+     "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. Fertilized Roe in plain water hatches: fry after a day, 2 small farmed fish after two. An empty bucket drains it."
     ],
     "zh_TW": [
-     "用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。用空桶可以把水舀掉。"
+     "用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。受精卵放進清水會孵化：一天後變魚苗，兩天後空手取出 2 條小型的養殖魚。用空桶可以把水舀掉。"
     ],
     "zh_CN": [
-     "用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。用空桶可以把水舀掉。"
+     "用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。受精卵放进清水会孵化：一天后变鱼苗，两天后空手取出 2 条小型的养殖鱼。用空桶可以把水舀掉。"
     ]
    },
    "mechanics": [
-    "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. An empty bucket drains it."
+    "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. Fertilized Roe in plain water hatches: fry after a day, 2 small farmed fish after two. An empty bucket drains it."
    ]
   },
   {
@@ -9115,6 +9115,73 @@
    "mechanics": [
     "A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:pond_feeder",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_pond_feeder",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_planks",
+      "kaleidoscope_fishing:fishing_net",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:barrel",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:pond_feeder"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Set it at the edge of a pond: it counts the water joined to it (18 blocks or more for 4 fish, 48 for 8, 96 for 12; the sea or a river counts as large) and keeps the pond. Use a fish on it to let it go in the pond, an empty hand for the list (take one back from there). Feed: Fish Meal (4 meals), Fish Meal Bait (2), Small Dried Fish, Earthworm, Fish Offal or Shrimp Head (1); up to 64 meals. Each dawn every fish eats a meal; fed days make it grow (small to medium in 3, to large in 5 more), never past 85% of its kind. Two fed fish of a kind, medium or larger, may spawn roe (1 in 4 each dawn); left alone it hatches in 2 days, or take it out as Fertilized Roe. A pond by the sea, or one given 8 Salt, is a sea pond. Fish that grew or were born here are marked ✿ (farmed): they set no records and the merchant pays 60% for them."
+    ],
+    "zh_TW": [
+     "放在池邊：會數和它相連的水（18 格以上養 4 條、48 格 8 條、96 格 12 條；海邊或河邊算大池），管理這個池子。拿魚對它使用就放進池裡，空手打開清單（從清單撈回）。飼料：魚粉（4 餐）、魚粉餌（2 餐）、小魚乾、蚯蚓、魚雜、蝦頭（1 餐），最多存 64 餐。每天清晨每條魚吃 1 餐；吃飽的天數讓牠長大（小型 3 天變中型，再 5 天變大型），最大只到該魚種的 85%。兩條同種、中型以上、都吃飽的魚，每天清晨有 1/4 機率產卵；放著兩天後孵化，也可以撈起來變成受精卵。海邊的池子，或放了鹽 ×8 的池子，是海水池。在池裡長大或出生的魚標著 ✿（養殖）：不計紀錄，漁販只出六成。"
+    ],
+    "zh_CN": [
+     "放在池边：会数和它相连的水（18 格以上养 4 条、48 格 8 条、96 格 12 条；海边或河边算大池），管理这个池子。拿鱼对它使用就放进池里，空手打开清单（从清单捞回）。饲料：鱼粉（4 餐）、鱼粉饵（2 餐）、小鱼干、蚯蚓、鱼杂、虾头（1 餐），最多存 64 餐。每天清晨每条鱼吃 1 餐；吃饱的天数让它长大（小型 3 天变中型，再 5 天变大型），最大只到该鱼种的 85%。两条同种、中型以上、都吃饱的鱼，每天清晨有 1/4 机率产卵；放着两天后孵化，也可以捞起来变成受精卵。海边的池子，或放了盐 ×8 的池子，是海水池。在池里长大或出生的鱼标着 ✿（养殖）：不计纪录，渔贩只出六成。"
+    ]
+   },
+   "mechanics": [
+    "Set it at the edge of a pond: it counts the water joined to it (18 blocks or more for 4 fish, 48 for 8, 96 for 12; the sea or a river counts as large) and keeps the pond. Use a fish on it to let it go in the pond, an empty hand for the list (take one back from there). Feed: Fish Meal (4 meals), Fish Meal Bait (2), Small Dried Fish, Earthworm, Fish Offal or Shrimp Head (1); up to 64 meals. Each dawn every fish eats a meal; fed days make it grow (small to medium in 3, to large in 5 more), never past 85% of its kind. Two fed fish of a kind, medium or larger, may spawn roe (1 in 4 each dawn); left alone it hatches in 2 days, or take it out as Fertilized Roe. A pond by the sea, or one given 8 Salt, is a sea pond. Fish that grew or were born here are marked ✿ (farmed): they set no records and the merchant pays 60% for them."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fertilized_roe",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_fertilized_roe",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.4
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Roe spawned in a fish pond and taken out from the feeder's list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot."
+    ],
+    "zh_TW": [
+     "魚池裡產下、從餵食台清單撈起來的魚卵，會記住是哪種魚。放進裝了清水的木盆，兩天後空手取出 2 條小型的那種魚（養殖）。也可以當魚卵入菜。"
+    ],
+    "zh_CN": [
+     "鱼池里产下、从喂食台清单捞起来的鱼卵，会记住是哪种鱼。放进装了清水的木盆，两天后空手取出 2 条小型的那种鱼（养殖）。也可以当鱼卵入菜。"
+    ]
+   },
+   "mechanics": [
+    "Roe spawned in a fish pond and taken out from the feeder's list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot."
+   ]
   }
  ],
  "names": {
@@ -9464,7 +9531,10 @@
    "kaleidoscope_fishing:meteor_marlin": "Meteor Marlin",
    "kaleidoscope_fishing:aurora_icefish": "Aurora Icefish",
    "kaleidoscope_fishing:star_sand": "Star Sand",
-   "kaleidoscope_fishing:glowing_glass_float": "Glowing Glass Float"
+   "kaleidoscope_fishing:glowing_glass_float": "Glowing Glass Float",
+   "kaleidoscope_fishing:pond_feeder": "Fish Pond Feeder",
+   "minecraft:barrel": "Barrel",
+   "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9812,7 +9882,10 @@
    "kaleidoscope_fishing:meteor_marlin": "流星旗魚",
    "kaleidoscope_fishing:aurora_icefish": "極光銀魚",
    "kaleidoscope_fishing:star_sand": "星砂",
-   "kaleidoscope_fishing:glowing_glass_float": "發光玻璃浮球"
+   "kaleidoscope_fishing:glowing_glass_float": "發光玻璃浮球",
+   "kaleidoscope_fishing:pond_feeder": "魚池餵食台",
+   "minecraft:barrel": "木桶",
+   "kaleidoscope_fishing:fertilized_roe": "受精卵"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10160,7 +10233,10 @@
    "kaleidoscope_fishing:meteor_marlin": "流星旗鱼",
    "kaleidoscope_fishing:aurora_icefish": "极光银鱼",
    "kaleidoscope_fishing:star_sand": "星砂",
-   "kaleidoscope_fishing:glowing_glass_float": "发光玻璃浮球"
+   "kaleidoscope_fishing:glowing_glass_float": "发光玻璃浮球",
+   "kaleidoscope_fishing:pond_feeder": "鱼池喂食台",
+   "minecraft:barrel": "木桶",
+   "kaleidoscope_fishing:fertilized_roe": "受精卵"
   }
  },
  "text": {

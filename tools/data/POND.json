@@ -1,0 +1,158 @@
+{
+ "kaleidoscope_fishing:carp": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:grass_carp": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:catfish": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:sweetfish": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:mackerel": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:yellow_croaker": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:sea_bream": [
+  "sea",
+  true
+ ],
+ "minecraft:tropical_fish": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:tuna": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:eel": [
+  "both",
+  true
+ ],
+ "kaleidoscope_fishing:hairtail": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:grouper": [
+  "sea",
+  true
+ ],
+ "minecraft:cod": [
+  "sea",
+  true
+ ],
+ "minecraft:salmon": [
+  "both",
+  true
+ ],
+ "kaleidoscope_fishing:saury": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:anglerfish": [
+  "sea",
+  true
+ ],
+ "minecraft:pufferfish": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:skipjack": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:smelt": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:rainbow_trout": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:arctic_char": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:golden_croaker": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:glow_crab": [
+  "sea",
+  false
+ ],
+ "kaleidoscope_fishing:crab": [
+  "sea",
+  false
+ ],
+ "kaleidoscope_fishing:sea_bass": [
+  "both",
+  true
+ ],
+ "kaleidoscope_fishing:grey_mullet": [
+  "both",
+  true
+ ],
+ "kaleidoscope_fishing:loach": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:snakehead": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:mudskipper": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:flying_fish": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:lobster": [
+  "sea",
+  false
+ ],
+ "kaleidoscope_fishing:king_crab": [
+  "sea",
+  false
+ ],
+ "kaleidoscope_fishing:cave_blindfish": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:cave_crayfish": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:shrimp": [
+  "both",
+  true
+ ],
+ "kaleidoscope_fishing:mycelium_flounder": [
+  "sea",
+  true
+ ],
+ "kaleidoscope_fishing:cherry_trout": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:creek_shrimp": [
+  "fresh",
+  true
+ ],
+ "kaleidoscope_fishing:aurora_icefish": [
+  "fresh",
+  true
+ ]
+}

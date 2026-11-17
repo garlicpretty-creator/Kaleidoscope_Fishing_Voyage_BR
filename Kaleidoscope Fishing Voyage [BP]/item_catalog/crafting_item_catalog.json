@@ -118,6 +118,7 @@
               "kaleidoscope_fishing:crab_leg",
               "kaleidoscope_fishing:jellyfish_skin",
               "kaleidoscope_fishing:fish_roe",
+              "kaleidoscope_fishing:fertilized_roe",
               "kaleidoscope_fishing:raw_crab_roe_bun",
               "kaleidoscope_fishing:air_dried_fish",
               "kaleidoscope_fishing:gutted_fish",
@@ -268,7 +269,8 @@
               "kaleidoscope_fishing:drying_rack",
               "kaleidoscope_fishing:fish_sauce_jar",
               "kaleidoscope_fishing:wooden_tub",
-              "kaleidoscope_fishing:salt_pan"
+              "kaleidoscope_fishing:salt_pan",
+              "kaleidoscope_fishing:pond_feeder"
             ]
           },
           {

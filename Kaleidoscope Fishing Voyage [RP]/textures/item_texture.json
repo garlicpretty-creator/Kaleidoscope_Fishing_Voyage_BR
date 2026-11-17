@@ -835,6 +835,9 @@
     },
     "kfv_glowing_glass_float": {
       "textures": "textures/items/kfv_glowing_glass_float"
+    },
+    "kfv_fertilized_roe": {
+      "textures": "textures/items/kfv_fertilized_roe"
     }
   }
 }

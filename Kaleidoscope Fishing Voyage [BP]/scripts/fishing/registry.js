@@ -25,9 +25,12 @@
 //                                       the Fish Merchant buys the item: `price` is emeralds for one medium fish
 //                                       (0.05..3; our dearest fish are 3). Size and record factors apply as for
 //                                       our own fish. An outside fish is never one of the day's wanted fish.
+//   kaleidoscope_fishing:register_pond_feed {"api":1,"source":"<ns>","feeds":[{"id":"<item>","meals":1}, ...]}
+//                                       the item feeds the fish in a pond (blocks/pond.js): `meals` 1..4 (our Fish
+//                                       Meal is 4). Our own feeds stay as they are.
 // api_ready also lists what api/host.js offers: "events", "state", "records", "catalog" (see that file).
 import { system, ItemTypes } from "@minecraft/server";
-import { ADDON_VERSION, CATCHES, LEGENDS } from "../data/generated.js";
+import { ADDON_VERSION, CATCHES, LEGENDS, POND_FEEDS } from "../data/generated.js";
 
 export const SOURCE = "kaleidoscope_fishing";
 export const API = 1;
@@ -37,11 +40,12 @@ export const EV = {
   bait: `${SOURCE}:register_bait`,
   catch: `${SOURCE}:register_catch`,
   price: `${SOURCE}:register_price`,
+  pond_feed: `${SOURCE}:register_pond_feed`,
 };
-export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog", "sky"];
+export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog", "sky", "pond_feed"];
 const SKIES = ["meteor", "aurora"];          // world/sky.js (not imported: it imports the host, which imports this)
 export const LIMITS = Object.freeze({ w: [1, 20], biteFactor: [0.5, 1], size: [1, 500], fight: [0, 3], depth: [0, 64],
-  factor: [0, 3], moonBoost: [1, 2], price: [0.05, 3], perSource: 64 });
+  factor: [0, 3], moonBoost: [1, 2], price: [0.05, 3], meals: [1, 4], perSource: 64 });
 
 // the vocabulary the built-in table uses; an external entry may only use these waters / needs / slots
 const ID_RE = /^[a-z0-9_.-]+:[a-z0-9_./-]+$/;
@@ -55,6 +59,7 @@ const SLOTS = ["dawn", "day", "dusk", "night"];
 const catches = new Map();
 const baits = new Map();
 const prices = new Map();
+const feeds = new Map();                     // 1.5.0: id -> {meals, source}
 let itemExists = id => { try { return !!ItemTypes.get(id); } catch { return false; } };
 let builtinBait = () => false;     // set by loot.js (avoids a circular import)
 let onChange = () => {};           // loot.js rebuilds its lookups
@@ -69,7 +74,7 @@ export const externalPrice = id => prices.get(id)?.price;
 export function _wire(isBuiltinBait, changed) { builtinBait = isBuiltinBait; onChange = changed; }
 /** Tests only. */
 export function _setItemExists(fn) { itemExists = fn; }
-export function _clearRegistry() { catches.clear(); baits.clear(); prices.clear(); onChange(); }
+export function _clearRegistry() { catches.clear(); baits.clear(); prices.clear(); feeds.clear(); onChange(); }
 
 function warn(what) { try { console.warn(`[Fishing Voyage] Rejected ${what}`); } catch {} }
 const num = (v, [lo, hi]) => typeof v === "number" && Number.isFinite(v) && v >= lo && v <= hi;
@@ -149,19 +154,33 @@ function priceEntry(e, source) {
   return { id: e.id, price: e.price, source };
 }
 
+function feedEntry(e, source) {
+  if (!e || typeof e !== "object" || typeof e.id !== "string" || !ID_RE.test(e.id) || e.id.length > 96) return "bad id";
+  if (e.id.startsWith(`${SOURCE}:`) || POND_FEEDS[e.id] !== undefined) return `${e.id}: built-in feeds are closed`;
+  const have = feeds.get(e.id);
+  if (have && have.source !== source) return `${e.id}: already registered by ${have.source}`;
+  if (!itemExists(e.id)) return `${e.id}: no such item`;
+  const meals = e.meals === undefined ? 1 : e.meals;
+  if (!int(meals, LIMITS.meals)) return `${e.id}: meals ${LIMITS.meals[0]}..${LIMITS.meals[1]}`;
+  return { id: e.id, meals, source };
+}
+/** Meals one item of a registered pond feed gives (undefined when it is not one). */
+export const externalFeed = id => feeds.get(id)?.meals;
+
 function count(map, source) { let n = 0; for (const v of map.values()) if (v.source === source) n++; return n; }
 
 const KIND = {
   bait: { many: "baits", one: "bait", map: baits, make: baitEntry, label: "bait(s)" },
   catch: { many: "catches", one: "catch", map: catches, make: catchEntry, label: "catch(es)" },
   price: { many: "prices", one: "price", map: prices, make: priceEntry, label: "price(s)" },
+  pond_feed: { many: "feeds", one: "feed", map: feeds, make: feedEntry, label: "pond feed(s)" },
 };
 
 /** Handle one register_* / api_ping event; returns how many entries were accepted (0 for anything else). */
 export function onRegister(ev) {
   const id = ev?.id;
   if (id === EV.ping) { sendReady(); return 0; }
-  const kind = id === EV.bait ? KIND.bait : id === EV.catch ? KIND.catch : id === EV.price ? KIND.price : undefined;
+  const kind = id === EV.bait ? KIND.bait : id === EV.catch ? KIND.catch : id === EV.price ? KIND.price : id === EV.pond_feed ? KIND.pond_feed : undefined;
   if (!kind) return 0;
   const m = parse(ev.message);
   if (!m) { warn(`${id}: bad envelope (api ${API}, source required)`); return 0; }

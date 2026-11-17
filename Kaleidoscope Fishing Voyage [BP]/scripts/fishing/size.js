@@ -28,6 +28,14 @@ export function loreFor(cls, recordCm) {
   return out;
 }
 
+// 1.5.0: a fish that grew up or was born in a fish pond (blocks/pond.js) is farmed, marked "✿" (no words, as the
+// size marks). Farmed fish set no records and the fish merchant pays 60% for them.
+export const FARMED_MARK = "§2✿";
+/** Whether a stack is a farmed fish. */
+export function isFarmed(stack) {
+  try { return (stack.getLore() ?? []).some(l => typeof l === "string" && l.includes("✿")); } catch { return false; }
+}
+
 /** What a stack says about its size: { cls, cm?, record } (cls 0 = carries nothing). */
 export function readSize(stack) {
   let lore = [];

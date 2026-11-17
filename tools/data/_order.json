@@ -118,5 +118,13 @@
   {
     "name": "RANCHING_FEEDS",
     "ascii": true
+  },
+  {
+    "name": "POND",
+    "ascii": true
+  },
+  {
+    "name": "POND_FEEDS",
+    "ascii": true
   }
 ]

@@ -1,7 +1,8 @@
 // ## Wooden Tub (木盆, 1.5.0). A tub of water does two things, one at a time:
 //   purging clams   water + Salt makes brine; up to 8 Clams soak in it; after half a day an empty hand takes
 //                   out Purged Clams (the brine stays for the next batch)
-//   hatching roe    (with the fish pond) Fertilized Roe in plain water hatches into small fish
+//   hatching roe    (with the fish pond) Fertilized Roe in plain water: fry after a day, and after two an empty
+//                   hand takes out 2 small farmed fish of its kind (blocks/pond.js)
 // A water bucket fills it, an empty bucket drains it. The state `fill` is what shows:
 //   0 empty  1 water  2 brine  3 clams soaking  4 clams purged  5 roe  6 fry
 // What it holds is kept in a block record ("tb": { n, t }), so a tub removed in any way gives its clams back.
@@ -10,12 +11,16 @@ import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { refuse } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
+import { CATCHES } from "../data/generated.js";
+const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
 
 const NS = "kaleidoscope_fishing";
 const BLOCK = `${NS}:wooden_tub`, FILL = `${NS}:fill`;
 const CLAM = `${NS}:clam`, PURGED = `${NS}:purged_clam`, SALT = `${NS}:sea_salt`;
 export const TUB_CLAMS = 8;
 export const PURGE_TICKS = 12000;                       // half a day
+export const HATCH_TICKS = 48000;                       // 1.5.0: two days for roe to hatch (fry show after one)
+const ROE_ITEM = `${NS}:fertilized_roe`, ROE_PROP = "kfv:roe";
 const now = () => { try { return world.getAbsoluteTime(); } catch { return system.currentTick; } };
 const creative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
 const snd = (block, id, pitch = 1, volume = 0.7) => { try { block.dimension.playSound(id, block.center(), { pitch, volume }); } catch {} };
@@ -50,13 +55,26 @@ export function tubContents(fill, r) {
   const n = Number(r?.n) || 0;
   if (fill === 3) return Array(n).fill(CLAM);
   if (fill === 4) return Array(n).fill(PURGED);
+  if ((fill === 5 || fill === 6) && typeof r?.roe === "string") return [{ roe: r.roe }];
   return [];
+}
+function roeBack(id) {
+  const s = new ItemStack(ROE_ITEM, 1);
+  try { s.setDynamicProperty(ROE_PROP, id); } catch {}
+  try { s.setLore([{ translate: `${NS}.lore.roe_of`, with: { rawtext: [{ translate: `${NS}.name.${id.split(":")[1]}` }] } }]); } catch {}
+  return s;
+}
+/** Two small farmed fish of a kind, hatched in the tub. */
+function fry(id) {
+  const s = new ItemStack(id, 2);
+  try { s.setLore([...(SIZED.has(id) ? ["§7◆"] : []), "§2✿"]); } catch {}
+  return s;
 }
 function dropTub(dim, pos, perm) {
   const fill = perm ? Number(perm.getState(FILL) ?? 0) : Number(readData("tb", dim, pos)?.fill) || 0;
   const items = tubContents(fill, readData("tb", dim, pos));
   writeData("tb", dim, pos, undefined);
-  spawnAll(dim, pos, items.map(id => new ItemStack(id, 1)));
+  spawnAll(dim, pos, items.map(id => (typeof id === "string" ? new ItemStack(id, 1) : roeBack(id.roe))));
 }
 
 const tub = {
@@ -91,10 +109,29 @@ const tub = {
       for (let i = 0; i < n; i++) give(player, new ItemStack(PURGED, 1), block.center());
       save(block, undefined); setFill(block, 2); snd(block, "random.splash", 1.2, 0.5); return;
     }
+    if (held === ROE_ITEM) {                              // 1.5.0: fertilized roe hatches in plain water
+      if (fill !== 1) return refuse(player, fill === 0 ? "tub_need_water" : "tub_busy");
+      let id;
+      try { id = slot.getItem().getDynamicProperty(ROE_PROP); } catch {}
+      if (typeof id !== "string") return refuse(player, "tub_what");
+      takeOne(player, slot);
+      save(block, { roe: id, t: now(), fill: 5 });
+      setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); return;
+    }
+    if (!held && (fill === 5 || fill === 6)) {
+      if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuse(player, "tub_hatching");
+      give(player, fry(r.roe), block.center());
+      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); return;
+    }
     if (!held && fill === 3) return refuse(player, "tub_soaking");
     refuse(player, "tub_what");
   },
   onTick({ block }) {
+    if (fillOf(block) === 5) {                            // the roe turns to fry halfway
+      const r = rec(block);
+      if (typeof r.t === "number" && now() - r.t >= HATCH_TICKS / 2) { save(block, { ...r, fill: 6 }); setFill(block, 6); }
+      return;
+    }
     if (fillOf(block) !== 3) return;
     const r = rec(block);
     if (typeof r.t !== "number") { save(block, { ...r, t: now(), fill: 3 }); return; }

@@ -1,0 +1,78 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:pond_feeder",
+      "states": {
+        "kaleidoscope_fishing:feed": [
+          0,
+          1
+        ],
+        "kaleidoscope_fishing:roe": [
+          0,
+          1
+        ]
+      },
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.pond_feeder",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_pond_feeder",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.pond_feeder",
+        "bone_visibility": {
+          "feed": "q.block_state('kaleidoscope_fishing:feed') == 1",
+          "roe": "q.block_state('kaleidoscope_fishing:roe') == 1"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -6,
+          0,
+          -6
+        ],
+        "size": [
+          12,
+          12,
+          12
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -6,
+          0,
+          -6
+        ],
+        "size": [
+          12,
+          12,
+          12
+        ]
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          100,
+          100
+        ],
+        "looping": true
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.6
+      },
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/pond_feeder.json",
+      "kaleidoscope_fishing:pond_feeder": {}
+    }
+  }
+}
