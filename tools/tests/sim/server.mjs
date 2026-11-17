@@ -29,7 +29,9 @@ for (const f of readdirSync(join(BP, 'blocks'))) {
   try { const b = JSON.parse(readFileSync(join(BP, 'blocks', f), 'utf8'))['minecraft:block']; blockDefs.set(b.description.identifier, b); } catch {}
 }
 export const __blockDefs = blockDefs;
-const knownItem = id => itemIds.has(id) || id.startsWith('minecraft:') || id.startsWith('kaleidoscope_cookery:') || blockDefs.has(id);
+/** Items of another (pretend) add-on a test adds and removes (register_board / register_tank). */
+export const __otherItems = new Set();
+const knownItem = id => itemIds.has(id) || __otherItems.has(id) || id.startsWith('minecraft:') || id.startsWith('kaleidoscope_cookery:') || blockDefs.has(id);
 
 // ---------- items ----------
 export class ItemStack {

@@ -25,7 +25,7 @@ import { FARMED_MARK, LARGE, MEDIUM, SMALL, isFarmed, markOf, readSize } from ".
 import { fishOut, keepOf } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
-import { externalFeed } from "../fishing/registry.js";
+import { externalFeed, externalTank } from "../fishing/registry.js";
 import { isWater } from "../fishing/water.js";
 import { refuse } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
@@ -48,6 +48,17 @@ const canon = id => FISH_ALIAS[id] ?? id;
 const SEA_BIOME = /ocean|beach|shore/;
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
 const CATCH_IDS = new Set(CATCHES.map(c => c.id));
+// 1.5.0 (register_tank with `pond`): another pack's creature lives here drawn as its `like`, sized as its `like`.
+const PONDS = { fresh: "fresh", salt: "sea", both: "both" };
+/** [water, breeds] for a creature, ours or registered; undefined when it never goes in a pond. Exported for tests. */
+export function pondOf(id) {
+  const ours = POND[canon(id)];
+  if (ours) return ours;
+  const e = externalTank(id);
+  return e && PONDS[e.pond] ? [PONDS[e.pond], !!e.breed] : undefined;
+}
+const likeOf = id => (POND[canon(id)] ? canon(id) : externalTank(id)?.like ?? canon(id));
+const sized = id => SIZED.has(likeOf(id));
 
 /** Fish the pond holds for that much water. Exported for tests. */
 export const capOf = n => (n >= 96 ? 12 : n >= 48 ? 8 : n >= 18 ? 4 : 0);
@@ -118,14 +129,14 @@ function eat(r) {
 }
 /** Whether a pond takes this fish: "" when it does, else the reason (a hint key). Exported for tests. */
 export function whyNot(r, id) {
-  const p = POND[canon(id)];
-  if (!p || !TANK_FISH.includes(canon(id))) return "pond_cannot";
+  const p = pondOf(id);
+  if (!p || !TANK_FISH.includes(likeOf(id))) return "pond_cannot";
   if (!r || !r.cap) return "pond_none";
   if (p[0] !== "both" && (p[0] === "sea") !== isSea(r)) return isSea(r) ? "pond_fresh_fish" : "pond_sea_fish";
   if (r.fish.length >= r.cap) return "pond_full";
   return "";
 }
-const adult = f => !SIZED.has(f.id) || f.cls >= MEDIUM;
+const adult = f => !sized(f.id) || f.cls >= MEDIUM;
 
 /** One dawn: every fish eats, fed ones grow, the roe hatches, a pair may spawn. Exported for tests. */
 export function dawn(r, day, rand = Math.random) {
@@ -135,18 +146,18 @@ export function dawn(r, day, rand = Math.random) {
     f.h = eat(r) ? 0 : 1;
     if (f.h) continue;
     fed.push(f);
-    if (!SIZED.has(f.id)) continue;
+    if (!sized(f.id)) continue;
     f.g = (f.g ?? 0) + 1;
     const need = GROW[f.cls || MEDIUM];
     if (need && f.g >= need && f.cls < LARGE) { f.cls = (f.cls || MEDIUM) + 1; f.g = 0; f.f = 1; delete f.k?.lore; }
   }
   if (r.roe && day - r.roe.day >= HATCH_DAYS && r.fish.length < r.cap) {
-    r.fish.push({ id: r.roe.id, cls: SIZED.has(r.roe.id) ? SMALL : 0, d: 0, g: 0, f: 1 });
+    r.fish.push({ id: r.roe.id, cls: sized(r.roe.id) ? SMALL : 0, d: 0, g: 0, f: 1 });
     r.roe = undefined;
   }
   if (!r.roe && r.fish.length < r.cap) {
     const by = {};
-    for (const f of fed) if (POND[f.id]?.[1] && adult(f)) by[f.id] = (by[f.id] ?? 0) + 1;
+    for (const f of fed) if (pondOf(f.id)?.[1] && adult(f)) by[f.id] = (by[f.id] ?? 0) + 1;
     const pairs = Object.keys(by).filter(id => by[id] >= 2);
     if (pairs.length && rand() < BREED_CHANCE) r.roe = { id: pairs[Math.floor(rand() * pairs.length)], day };
   }
@@ -154,7 +165,8 @@ export function dawn(r, day, rand = Math.random) {
 
 /** A fish leaving the pond as an item. */
 export function fishStack(f, n = 1) {
-  const s = new ItemStack(f.id, n);
+  let s;
+  try { s = new ItemStack(f.id, n); } catch { return undefined; }   // another pack's creature whose pack is gone
   if (f.f) {
     try { s.setLore([...(f.cls ? [markOf(f.cls)] : []), FARMED_MARK]); } catch {}
     if (f.k?.name) { try { s.nameTag = f.k.name; } catch {} }
@@ -171,7 +183,7 @@ export function roeStack(id) {
 /** Everything a feeder holds, as stacks. */
 export function contents(r) {
   if (!r) return [];
-  const out = (r.fish ?? []).map(f => fishStack(f));
+  const out = (r.fish ?? []).map(f => fishStack(f)).filter(Boolean);
   for (const [id, n] of r.food ?? []) if (n > 0) { try { out.push(new ItemStack(id, n)); } catch {} }
   if (r.roe) out.push(roeStack(r.roe.id));
   return out;
@@ -183,7 +195,7 @@ function fishEntities(dim, pos) {
 }
 function spawnOne(dim, pos, r, slot) {
   const f = r.fish[slot];
-  const spec = TANK_FISH.indexOf(canon(f.id));
+  const spec = TANK_FISH.indexOf(likeOf(f.id));
   const spot = r.spots?.[Math.floor(Math.random() * (r.spots?.length || 1))];
   if (spec < 0 || !spot) return;
   const fit = FIT[spec]?.[1]?.[f.cls || MEDIUM] ?? FIT[spec]?.[1]?.[2];
@@ -229,7 +241,7 @@ function recount(block, r) {
   const c = countPond(block.dimension, block);
   r.n = c.n; r.cap = capOf(c.n); r.sea = c.sea; r.spots = c.spots;
   const out = r.fish.splice(r.cap);
-  if (out.length) spawnAll(block.dimension, block, out.map(f => fishStack(f)));
+  if (out.length) spawnAll(block.dimension, block, out.map(f => fishStack(f)).filter(Boolean));
   return r;
 }
 function catchUp(block, r) {
@@ -283,8 +295,10 @@ async function showList(player, block) {
   } else {
     const f = now.fish[pick.i];
     if (!f || f.id !== pick.id) return;
+    const out = fishStack(f);
+    if (!out) return refuse(player, "tank_pack_gone");
     now.fish.splice(pick.i, 1);
-    give(player, fishStack(f), centreOf(pos));
+    give(player, out, centreOf(pos));
   }
   save(dim, pos, now); show(b, now); syncFish(dim, pos, now, false);
   snd(dim, centreOf(pos), "random.splash", 1.3, 0.5);
@@ -331,12 +345,13 @@ export const pondFeeder = {
       snd(dim, centreOf(block), "dig.sand", 1.0, 0.6);
       return;
     }
-    if (POND[canon(id)] !== undefined || CATCH_IDS.has(canon(id))) {
+    if (pondOf(id) !== undefined || CATCH_IDS.has(canon(id))) {
       recount(block, r);
       const why = whyNot(r, id);
       if (why) { save(dim, block, r); return refuse(player, why); }
       const cls = readSize(held).cls;
-      r.fish.push({ id: canon(id), cls: SIZED.has(canon(id)) ? (cls || MEDIUM) : 0, d: 0, g: 0, f: isFarmed(held) ? 1 : 0, k: keepOf(held) });
+      const fid = POND[canon(id)] || CATCH_IDS.has(canon(id)) ? canon(id) : id;
+      r.fish.push({ id: fid, cls: sized(fid) ? (cls || MEDIUM) : 0, d: 0, g: 0, f: isFarmed(held) ? 1 : 0, k: keepOf(held) });
       takeHeld(player, slot, 1);
       save(dim, block, r); syncFish(dim, block, r, false);
       snd(dim, centreOf(block), "random.splash", 1.0, 0.6);

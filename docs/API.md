@@ -39,6 +39,8 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `state` | 1.5.0 | 可以查詢潮汐、月相、時段：`state_request` |
 | `records` | 1.5.0 | 可以查詢玩家的釣魚紀錄：`record_request` |
 | `catalog` | 1.5.0 | 可以查詢漁獲與餌的清單：`catalog_request` |
+| `board` | 1.5.0 | 自己的魚可以上魚案板：`register_board` |
+| `tank` | 1.5.0 | 自己的生物可以進魚缸、熔岩魚缸、魚池：`register_tank` |
 | `pond_feed` | 1.5.0 | 可以把物品註冊成魚池飼料：`register_pond_feed` |
 | `sky` | 1.5.0 | 有天象（流星雨、極光之夜）：漁獲可以設 `sky`，`state` 回報今晚的天象，`evt` 廣播 `sky` |
 
@@ -129,6 +131,38 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `record` | 打破了這位玩家自己的紀錄 |
 
 蝦籠收成、鸕鶿抓魚、挖蛤不算 `caught`。
+
+### 魚案板 — `register_board`（1.5.0）
+
+```json
+{"api":1,"source":"my_pack","boards":[{"id":"my_pack:glow_trout","like":"kaleidoscope_fishing:carp","cuts":[
+  {"act":"scale","out":[["kaleidoscope_fishing:fish_scales",1]]},
+  {"act":"gut","out":[["kaleidoscope_fishing:fish_offal",1],["my_pack:glow_gland",1,0.25]]},
+  {"act":"fillet","out":[["my_pack:glow_fillet",3,1,"sized"],["kaleidoscope_fishing:fish_bones",1]]}]}]}
+```
+
+- 案板上的模型沒辦法由別的包提供，所以用 `like` 指定長得最像的內建漁獲（必須是能上案板的），案板就顯示它的模型；`cuts` 的刀數要和 `like` 一樣。
+- `act`：`scale`、`gut`、`fillet`、`head`、`shell`、`devein`、`open`、`legs`、`tentacle`、`bone`（決定音效與粒子）。
+- `out`：每刀 1–4 種產物，`[物品, 數量 1–8, 機率 0–1（省略是 1）, "sized"]`。`"sized"` 的產物大型 +1、小型 −1，整條魚最多一個。
+- 產物只能是自己命名空間的物品，或漁歌的通用產物：魚鱗、魚雜、魚骨、魚卵、白肉魚片、蝦頭、蝦殼、蝦仁、蟹殼、蟹肉、蟹腳、海蜇皮。
+- 外部的魚不能取「剖好的魚」。案板記得是哪一個物品；你的包這次還沒註冊時，案板上的魚切不動、也拿不回來，註冊之後照常。
+
+### 魚缸與魚池 — `register_tank`（1.5.0）
+
+```json
+{"api":1,"source":"my_pack","tanks":[{"id":"my_pack:glow_trout","like":"kaleidoscope_fishing:carp","scale":1.0,"tank":"water","pond":"fresh","breed":true}]}
+```
+
+| 欄位 | 意思 | 限制 |
+| --- | --- | --- |
+| `like` | 顯示哪一種內建生物的模型與游法 | 必須是能進魚缸的內建生物 |
+| `scale` | 顯示大小的倍率 | 0.5–1.5，省略是 1 |
+| `tank` | 進哪一種缸 | `water`（預設）、`lava`、`both` |
+| `pond` | 能不能進魚池 | `none`（預設）、`fresh`、`salt`（海水池）、`both` |
+| `breed` | 在魚池能不能繁殖 | 預設 `false` |
+
+- 取回時是原本的物品，尺寸、★、取名都保留。魚缸記得物品和 `like`：你的包還沒註冊時照樣顯示；物品不存在（包被移除）時取不出來、留在缸裡，包裝回來就能取。
+- 魚池的容量、餵食、成長、養殖標記和內建的魚相同。
 
 ### 魚池飼料 — `register_pond_feed`（1.5.0）
 

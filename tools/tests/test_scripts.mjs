@@ -9,6 +9,7 @@
 //      repositories sit next to this one (kaleidoscope_herbal_br, kaleidoscope_ranching_br)
 //   8. 1.5.0: Lure, Luck of the Sea and Unbreaking where our own scripts do the work
 //   9-11. 1.5.0: legend keepsakes, the cleaning board's per-cut format, the new waters
+//   15. 1.5.0: register_board / register_tank: good and bad entries
 //   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
@@ -487,6 +488,42 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   const base = { depth: 14, rod: true, tier: 2, moon: 2, caught: new Set(), raining: false, slot: 'night', sky: 'meteor', waters: new Set(['ocean', 'deep_ocean']) };
   const onBoat = roll({ ...base, boat: true }, 40000), ashore = roll({ ...base, boat: false }, 40000);
   ok(onBoat > ashore * 1.4, `the Meteor Marlin bites more readily from a boat (${onBoat} vs ${ashore} in 40000)`);
+}
+
+// ---------- 15. register_board and register_tank (1.5.0) ----------
+{
+  console.log = () => {};
+  R._clearRegistry();
+  const n0 = warns.length;
+  const reg = (kind, e) => R.onRegister({ id: `${NS}register_${kind}`, message: JSON.stringify({ api: 1, source: 'testpack', [kind + 's']: [e] }) });
+  const cuts3 = [{ act: 'scale', out: [[`${NS}fish_scales`, 1]] }, { act: 'gut', out: [[`${NS}fish_offal`, 1]] }, { act: 'fillet', out: [['testpack:fillet', 2, 1, 'sized']] }];
+  const good = reg('board', { id: 'testpack:trout', like: `${NS}carp`, cuts: cuts3 });
+  const bads = [
+    ['someone else\'s id', { id: `${NS}carp`, like: `${NS}carp`, cuts: cuts3 }],
+    ['a vanilla id', { id: 'minecraft:cod', like: `${NS}carp`, cuts: cuts3 }],
+    ['a like that is not on the board', { id: 'testpack:t2', like: `${NS}spore_seahorse`, cuts: cuts3 }],
+    ['the wrong number of cuts', { id: 'testpack:t3', like: `${NS}carp`, cuts: cuts3.slice(0, 2) }],
+    ['an unknown act', { id: 'testpack:t4', like: `${NS}carp`, cuts: [{ act: 'chop', out: [[`${NS}fish_scales`, 1]] }, ...cuts3.slice(1)] }],
+    ['an output that is not open', { id: 'testpack:t5', like: `${NS}carp`, cuts: [{ act: 'scale', out: [[`${NS}otoro`, 1]] }, ...cuts3.slice(1)] }],
+    ['a vanilla output', { id: 'testpack:t6', like: `${NS}carp`, cuts: [{ act: 'scale', out: [['minecraft:diamond', 1]] }, ...cuts3.slice(1)] }],
+    ['too many of one output', { id: 'testpack:t7', like: `${NS}carp`, cuts: [{ act: 'scale', out: [[`${NS}fish_scales`, 9]] }, ...cuts3.slice(1)] }],
+    ['two sized outputs', { id: 'testpack:t8', like: `${NS}carp`, cuts: [{ act: 'scale', out: [['testpack:fillet', 1, 1, 'sized']] }, ...cuts3.slice(1)] }],
+  ].map(([why, e]) => [why, reg('board', e)]);
+  const tgood = reg('tank', { id: 'testpack:trout', like: `${NS}carp`, scale: 0.8, pond: 'both', breed: true });
+  const tbads = [
+    ['a like that is no tank creature', { id: 'testpack:u1', like: `${NS}meteor_marlin` }],
+    ['a scale out of range', { id: 'testpack:u2', like: `${NS}carp`, scale: 3 }],
+    ['an unknown tank', { id: 'testpack:u3', like: `${NS}carp`, tank: 'glass' }],
+    ['an unknown pond', { id: 'testpack:u4', like: `${NS}carp`, pond: 'sea' }],
+  ].map(([why, e]) => [why, reg('tank', e)]);
+  console.log = log;
+  ok(good === 1 && R.externalBoard('testpack:trout')?.cuts?.length === 3, 'register_board: a good entry is taken');
+  for (const [why, n] of bads) ok(n === 0, `register_board rejects ${why}`);
+  ok(tgood === 1 && R.externalTank('testpack:trout')?.pond === 'both' && R.externalTank('testpack:trout')?.breed === true, 'register_tank: a good entry is taken');
+  for (const [why, n] of tbads) ok(n === 0, `register_tank rejects ${why}`);
+  ok(warns.length - n0 === bads.length + tbads.length, 'every rejected entry is reported once');
+  ok(['board', 'tank'].every(c => R.CAPABILITIES.includes(c)), 'api_ready lists "board" and "tank"');
+  R._clearRegistry();
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

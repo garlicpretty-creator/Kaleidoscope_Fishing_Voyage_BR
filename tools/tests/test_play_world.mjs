@@ -1303,4 +1303,48 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(B.boatOf(P) === undefined && B.stow(P, stack('carp', 1)) !== undefined, 'skiff: off the boat nothing is stowed');
 }
 
+// ================================================================ 1.5.0: another pack's fish on the board, in tanks and ponds
+{
+  const Rg = await importScript('fishing/registry.js');
+  const PD = await importScript('blocks/pond.js');
+  S.__otherItems.add('testpack:glow_trout'); S.__otherItems.add('testpack:glow_fillet');
+  const send = (kind, body) => guard(`register_${kind}`, () => Rg.onRegister({ id: `${NS}register_${kind}`, message: JSON.stringify({ api: 1, source: 'testpack', ...body }) }));
+  const quiet = console.warn; console.warn = () => {};
+  send('board', { boards: [{ id: 'testpack:glow_trout', like: NS + 'carp', cuts: [
+    { act: 'scale', out: [[NS + 'fish_scales', 1]] }, { act: 'gut', out: [[NS + 'fish_offal', 1]] },
+    { act: 'fillet', out: [['testpack:glow_fillet', 2, 1, 'sized'], [NS + 'fish_bones', 1]] }] }] });
+  send('tank', { tanks: [{ id: 'testpack:glow_trout', like: NS + 'carp', scale: 1.2, pond: 'fresh', breed: true }] });
+  console.warn = quiet;
+  ok(Rg.externalBoard('testpack:glow_trout') && Rg.externalTank('testpack:glow_trout')?.scale === 1.2, 'register_board / register_tank: a pack\'s fish is registered');
+  // the board
+  const bd = D.place(NS + 'fish_cleaning_board', { x: spot(), y: 64, z: 0 });
+  clearInv(); holdStack(stack('testpack:glow_trout', 1, ['§6◆◆◆'])); use(bd);
+  ok(st(bd, 'cut') === 1 && inv('testpack:glow_trout') === 0, 'board: another pack\'s fish is laid down (drawn as a carp)');
+  P.hold(NS + 'fishing_knife', 1); drops();
+  use(bd); use(bd); use(bd);
+  ok(inv('fish_scales') === 1 && inv('fish_offal') === 1 && inv('testpack:glow_fillet') === 3 && inv('fish_bones') === 1 && st(bd, 'cut') === 0,
+    `board: its own cuts: scales, offal, then 2+1 (large) of its own fillets and bones (${inv('testpack:glow_fillet')} fillets)`);
+  // the tank
+  const tk = D.place(NS + 'fish_tank', { x: spot(), y: 64, z: 0 });
+  clearInv(); holdStack(stack('testpack:glow_trout', 1, ['§f◆◆'])); use(tk);
+  ok(inv('testpack:glow_trout') === 0 && D.getEntities({ type: NS + 'tank_fish' }).some(e => e.location.x === tk.x + 0.5 && e.location.z === tk.z + 0.5), 'tank: another pack\'s fish goes in and swims as its like');
+  Rg._clearRegistry();
+  tick(tk);
+  ok(D.getEntities({ type: NS + 'tank_fish' }).some(e => e.location.x === tk.x + 0.5 && e.location.z === tk.z + 0.5), 'tank: before the pack registers again, it still swims (from the saved like)');
+  S.__otherItems.delete('testpack:glow_trout');
+  clearInv(); use(tk);
+  ok(inv('testpack:glow_trout') === 0 && st(tk, 'fish') + 16 * (st(tk, 'fish_bank') ?? 0) > 0, 'tank: while its pack is gone it stays in the tank');
+  log.errors.splice(0);
+  S.__otherItems.add('testpack:glow_trout');
+  clearInv(); use(tk);
+  ok(inv('testpack:glow_trout') === 1, 'tank: with the pack back it comes out as itself');
+  // the pond
+  console.warn = () => {};
+  send('tank', { tanks: [{ id: 'testpack:glow_trout', like: NS + 'carp', pond: 'fresh', breed: true }] });
+  console.warn = quiet;
+  ok(JSON.stringify(PD.pondOf('testpack:glow_trout')) === '["fresh",true]' && PD.whyNot({ cap: 4, fish: [] }, 'testpack:glow_trout') === '', 'pond: a registered creature with pond "fresh" may live in a fresh pond and breed');
+  Rg._clearRegistry();
+  S.__otherItems.delete('testpack:glow_trout'); S.__otherItems.delete('testpack:glow_fillet');
+}
+
 finish('play (world)');
