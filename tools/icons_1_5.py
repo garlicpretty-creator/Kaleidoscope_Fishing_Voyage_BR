@@ -94,9 +94,8 @@ def build():
     # the gutted fish: the generated picture as it is, and recoloured for skipjack (dark blue back) and flying fish (blue-silver)
     gut = lambda: hard(Image.open(os.path.join(SRC, 'gutted_fish.png')).convert('RGBA'))
     out['gutted_fish'] = outline(margin(gut()))
-    red = lambda c_: hsv(c_)[0] * 360 < 20 or hsv(c_)[0] * 360 > 340      # the open belly keeps its red
-    out['gutted_skipjack'] = outline(margin(recolour(gut(), lambda c_: not red(c_), ['#141a2e', '#2a3a5c', '#5a6e90', '#9aaac2', '#dfe6ee'])))
-    out['gutted_flying_fish'] = outline(margin(recolour(gut(), lambda c_: not red(c_), ['#1a2a44', '#3a5a8a', '#7aa2d0', '#b8d2ee', '#f2f8ff'])))
+    out['gutted_skipjack'] = slit_open(source('skipjack'))
+    out['gutted_flying_fish'] = slit_open(source('flying_fish'))
     # Squid Tentacles: skinned pale, like the pack's Squid Tube, so they do not read as the whole (pink-skinned) squid
     out['squid_tentacles'] = outline(margin(recolour(hard(Image.open(os.path.join(SRC, 'squid_tentacles.png')).convert('RGBA')),
                                                      lambda c_: True, ['#6a4a4a', '#b89a98', '#e6d2cc', '#f6ece6', '#ffffff'])))
@@ -162,6 +161,26 @@ def outline(im):
         if any((x + dx, y + dy) not in solid for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
             r, g, b, _ = px[x, y]
             px[x, y] = (int(r * 0.34) + 14, int(g * 0.28) + 8, int(b * 0.26) + 6, 255)
+    return im
+
+
+def slit_open(im):
+    """A whole-fish icon (drawn corner to corner, head lower left) with its belly opened: a red cut along the lower
+    side of the body's middle, edged in pale flesh, as on the Fish Cleaning Board."""
+    px = im.load()
+    # walk the fish's long diagonal; the lower edge is the last opaque pixel below each point of it
+    cut = []
+    for t in range(5, 12):
+        x, y = t, 15 - t
+        while y + 1 < 16 and px[x, y + 1][3]:
+            y += 1
+        if px[x, y][3]:
+            cut.append((x, y - 1))
+    for (x, y) in cut:
+        if 0 <= y < 16 and px[x, y][3]:
+            px[x, y] = rgb('#8a1a20') + (255,)
+            if y - 1 >= 0 and px[x, y - 1][3]:
+                px[x, y - 1] = rgb('#f2c4b0') + (255,)
     return im
 
 
