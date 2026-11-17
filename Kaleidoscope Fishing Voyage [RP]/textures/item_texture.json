@@ -751,6 +751,30 @@
     },
     "kfv_dried_shrimp_greens": {
       "textures": "textures/items/kfv_dried_shrimp_greens"
+    },
+    "kfv_whole_squid": {
+      "textures": "textures/items/kfv_whole_squid"
+    },
+    "kfv_squid_tentacles": {
+      "textures": "textures/items/kfv_squid_tentacles"
+    },
+    "kfv_chutoro": {
+      "textures": "textures/items/kfv_chutoro"
+    },
+    "kfv_otoro": {
+      "textures": "textures/items/kfv_otoro"
+    },
+    "kfv_bonito_sashimi": {
+      "textures": "textures/items/kfv_bonito_sashimi"
+    },
+    "kfv_otoro_nigiri": {
+      "textures": "textures/items/kfv_otoro_nigiri"
+    },
+    "kfv_fried_squid_tentacles": {
+      "textures": "textures/items/kfv_fried_squid_tentacles"
+    },
+    "kfv_grilled_squid_tentacles": {
+      "textures": "textures/items/kfv_grilled_squid_tentacles"
     }
   }
 }

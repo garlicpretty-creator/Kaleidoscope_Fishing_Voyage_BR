@@ -27,7 +27,7 @@
         "item": "kaleidoscope_fishing:grilled_fish"
       },
       {
-        "item": "kaleidoscope_fishing:tuna_sashimi"
+        "tag": "kaleidoscope_fishing:tuna_cut"
       },
       {
         "item": "kaleidoscope_fishing:spicy_octopus"

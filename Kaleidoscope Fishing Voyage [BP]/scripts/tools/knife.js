@@ -1,4 +1,5 @@
 // ## Knife drops: a Squid or Glow Squid killed with a knife drops squid for cooking.
+// 1.5.0: a Whole Squid, to be gutted and cut on the Fish Cleaning Board (it used to be one or two Squid Tubes).
 // Any item tagged kaleidoscope_cookery:kitchen_knife counts (the Fishing Knife, Cookery's
 // kitchen knives, other add-ons' knives) - the shared contract the Cookery API asks for.
 // 1.5.0: Looting on the knife adds up to one more squid per level, as it does for the game's own drops.
@@ -21,5 +22,5 @@ world.afterEvents.entityDie.subscribe(ev => {
   try { knife = !!held?.hasTag(KNIFE_TAG); } catch {}
   if (!knife) return;
   const looting = Math.floor(Math.random() * (enchantLevel(held, "looting") + 1));
-  try { dead.dimension.spawnItem(new ItemStack("kaleidoscope_fishing:squid_tube", 1 + Math.floor(Math.random() * 2) + looting), dead.location); } catch {}
+  try { dead.dimension.spawnItem(new ItemStack("kaleidoscope_fishing:whole_squid", 1 + looting), dead.location); } catch {}
 }, { entityTypes: ["minecraft:squid", "minecraft:glow_squid"] });

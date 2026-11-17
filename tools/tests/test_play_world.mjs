@@ -609,9 +609,9 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 {
   const squid = (type = 'minecraft:squid') => ({ typeId: type, dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true });
   clearInv(); P.hold(NS + 'fishing_knife', 1); drops();
-  let n = 0, tubes = 0;
-  for (let i = 0; i < 20; i++) { fire('world.afterEvents.entityDie', { deadEntity: squid(i % 2 ? 'minecraft:glow_squid' : 'minecraft:squid'), damageSource: { cause: 'entityAttack', damagingEntity: P } }); const d = drops(); n += d.length; tubes += d.reduce((a, x) => a + (x.id === NS + 'squid_tube' ? x.amount : 0), 0); }
-  ok(n === 20 && tubes >= 20 && tubes <= 40, `knife: 20 squid killed with the fishing knife drop ${tubes} squid tubes (1-2 each)`);
+  let n = 0, whole = 0;
+  for (let i = 0; i < 20; i++) { fire('world.afterEvents.entityDie', { deadEntity: squid(i % 2 ? 'minecraft:glow_squid' : 'minecraft:squid'), damageSource: { cause: 'entityAttack', damagingEntity: P } }); const d = drops(); n += d.length; whole += d.reduce((a, x) => a + (x.id === NS + 'whole_squid' ? x.amount : 0), 0); }
+  ok(n === 20 && whole === 20, `knife: 20 squid killed with the fishing knife drop one Whole Squid each (${whole}; 1.5.0, it used to be squid tubes)`);
   P.hold('minecraft:iron_sword', 1);
   fire('world.afterEvents.entityDie', { deadEntity: squid(), damageSource: { damagingEntity: P } });
   ok(!drops().length, 'knife: a squid killed with a sword drops no squid tube');
@@ -1065,7 +1065,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   let tubes = 0;
   for (let i = 0; i < 200; i++) { fire('world.afterEvents.entityDie', { deadEntity: { typeId: 'minecraft:squid', dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true }, damageSource: { damagingEntity: P } }); tubes += drops().reduce((a, d) => a + d.amount, 0); }
   IP.getComponent = getComponent0;
-  ok(tubes > 500 && tubes <= 1000, `knife: Looting III brings more squid (200 kills gave ${tubes}; 1-2 each without it, up to 5 with)`);
+  ok(tubes > 300 && tubes <= 800, `knife: Looting III brings more squid (200 kills gave ${tubes}; one each without it, up to 4 with)`);
 }
 
 finish('play (world)');

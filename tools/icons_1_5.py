@@ -91,13 +91,37 @@ def build():
     for name in GENERATED:
         out[name] = outline(margin(hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA'))))
     out['shrimp_head'] = shrimp_head()
+    # Squid Tentacles: skinned pale, like the pack's Squid Tube, so they do not read as the whole (pink-skinned) squid
+    out['squid_tentacles'] = outline(margin(recolour(hard(Image.open(os.path.join(SRC, 'squid_tentacles.png')).convert('RGBA')),
+                                                     lambda c_: True, ['#6a4a4a', '#b89a98', '#e6d2cc', '#f6ece6', '#ffffff'])))
+    for name, (ramp, stripes) in CUTS.items():
+        im = recolour(hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA')), lambda c_: True, ramp)
+        px = im.load()
+        solid = [(x, y) for y in range(16) for x in range(16) if px[x, y][3]]
+        if stripes:                                   # fat: light diagonal lines across the slice
+            for (x, y) in solid:
+                if (x + y) % (6 - stripes) == 0 and 0 < x < 15:
+                    px[x, y] = rgb(ramp[-1]) + (255,)
+        else:                                         # bonito: a silver skin along the top edge
+            for x in range(16):
+                col = [y for y in range(16) if px[x, y][3]]
+                if col:
+                    px[x, col[0] + 1 if len(col) > 2 else col[0]] = rgb(ramp[-1]) + (255,)
+        out[name] = outline(margin(im))
     return out
 
 
 FINISHED = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell', 'jellyfish_skin',
             'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
 GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
-             'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens']
+             'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens',
+             'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri']
+# The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.
+CUTS = {
+    'chutoro': (['#5a1a22', '#a63a46', '#d9707a', '#f0a0a6', '#fbe0e0'], 3),   # medium pink, thin fat lines
+    'otoro': (['#6a2a32', '#c56a74', '#ec9ea4', '#f8cfd0', '#ffffff'], 2),     # pale pink, white marbling
+    'bonito_sashimi': (['#2a0a10', '#5a1420', '#8a2232', '#b03a48', '#d8d8dc'], 0),   # dark red, a silver skin edge
+}
 
 
 def hard(im):

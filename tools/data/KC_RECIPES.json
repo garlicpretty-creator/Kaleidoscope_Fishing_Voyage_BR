@@ -1397,5 +1397,21 @@
       "carrier": "minecraft:bowl",
       "time": 200
     }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/fried_squid_tentacles",
+      "ingredients": [
+        "kaleidoscope_fishing:squid_tentacles",
+        "kaleidoscope_fishing:squid_tentacles",
+        "kaleidoscope_cookery:flour",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:fried_squid_tentacles",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
   }
 ]

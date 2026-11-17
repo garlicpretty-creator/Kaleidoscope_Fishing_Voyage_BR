@@ -401,5 +401,12 @@
       "duration": 600,
       "amplifier": 0
     }
+  ],
+  "kaleidoscope_fishing:otoro_nigiri": [
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
   ]
 }

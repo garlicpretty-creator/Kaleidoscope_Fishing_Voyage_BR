@@ -271,7 +271,15 @@
         "out": [
           [
             "kaleidoscope_fishing:tuna_sashimi",
-            6,
+            4
+          ],
+          [
+            "kaleidoscope_fishing:chutoro",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:otoro",
+            1,
             1,
             "sized"
           ],
@@ -705,7 +713,7 @@
         "act": "fillet",
         "out": [
           [
-            "kaleidoscope_fishing:tuna_sashimi",
+            "kaleidoscope_fishing:bonito_sashimi",
             3,
             1,
             "sized"
@@ -1183,7 +1191,15 @@
         "out": [
           [
             "kaleidoscope_fishing:tuna_sashimi",
-            8,
+            4
+          ],
+          [
+            "kaleidoscope_fishing:chutoro",
+            2
+          ],
+          [
+            "kaleidoscope_fishing:otoro",
+            2,
             1,
             "sized"
           ],
@@ -2005,6 +2021,43 @@
           ],
           [
             "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:whole_squid": {
+    "index": 56,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "minecraft:ink_sac",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "bone",
+        "out": []
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:squid_tube",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:squid_tentacles",
             1
           ]
         ]

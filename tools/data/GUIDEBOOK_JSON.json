@@ -8169,6 +8169,254 @@
      "result": "kaleidoscope_fishing:dried_shrimp_greens"
     }
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:whole_squid",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_whole_squid",
+   "mechanicsByLocale": {
+    "en_US": [
+     "What a squid killed with a knife leaves. On the Fish Cleaning Board: gut it, draw the cartilage, then cut it into a Squid Tube and Squid Tentacles."
+    ],
+    "zh_TW": [
+     "用刀殺魷魚得到。在魚案板上去內臟、抽軟骨，再分成魷魚筒和魷魚鬚。"
+    ],
+    "zh_CN": [
+     "用刀杀鱿鱼得到。在鱼案板上去内脏、抽软骨，再分成鱿鱼筒和鱿鱼须。"
+    ]
+   },
+   "mechanics": [
+    "What a squid killed with a knife leaves. On the Fish Cleaning Board: gut it, draw the cartilage, then cut it into a Squid Tube and Squid Tentacles."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:squid_tentacles",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_squid_tentacles",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Cut from a Whole Squid on the Fish Cleaning Board. Fry them in the wok or grill them."
+    ],
+    "zh_TW": [
+     "在魚案板上從整隻魷魚切下。可以炒鍋炸或拿去烤。"
+    ],
+    "zh_CN": [
+     "在鱼案板上从整只鱿鱼切下。可以炒锅炸或拿去烤。"
+    ]
+   },
+   "mechanics": [
+    "Cut from a Whole Squid on the Fish Cleaning Board. Fry them in the wok or grill them."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fried_squid_tentacles",
+    "kaleidoscope_fishing:grilled_squid_tentacles"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:chutoro",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_chutoro",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.7
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "The medium-fat belly of a tuna, from the Fish Cleaning Board. Any sushi that takes tuna takes it."
+    ],
+    "zh_TW": [
+     "鮪魚中段的腹肉，在魚案板上切得。用鮪魚的壽司都能用。"
+    ],
+    "zh_CN": [
+     "鲔鱼中段的腹肉，在鱼案板上切得。用鲔鱼的寿司都能用。"
+    ]
+   },
+   "mechanics": [
+    "The medium-fat belly of a tuna, from the Fish Cleaning Board. Any sushi that takes tuna takes it."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:otoro",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_otoro",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.8
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "The fattiest belly of a tuna, from the Fish Cleaning Board. Makes Otoro Nigiri."
+    ],
+    "zh_TW": [
+     "鮪魚最肥的腹肉，在魚案板上切得。可以做大腹握壽司。"
+    ],
+    "zh_CN": [
+     "鲔鱼最肥的腹肉，在鱼案板上切得。可以做大腹握寿司。"
+    ]
+   },
+   "mechanics": [
+    "The fattiest belly of a tuna, from the Fish Cleaning Board. Makes Otoro Nigiri."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter",
+    "kaleidoscope_fishing:otoro_nigiri"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:bonito_sashimi",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_bonito_sashimi",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.6
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Skipjack is no tuna: on the Fish Cleaning Board it gives its own darker slices. Sushi takes them as it takes tuna."
+    ],
+    "zh_TW": [
+     "鰹魚不是鮪魚：在魚案板上切出顏色較深的生魚片。壽司可以用它代替鮪魚。"
+    ],
+    "zh_CN": [
+     "鲣鱼不是鲔鱼：在鱼案板上切出颜色较深的生鱼片。寿司可以用它代替鲔鱼。"
+    ]
+   },
+   "mechanics": [
+    "Skipjack is no tuna: on the Fish Cleaning Board it gives its own darker slices. Sushi takes them as it takes tuna."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:otoro_nigiri",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_otoro_nigiri",
+   "food": {
+    "nutrition": 6,
+    "saturation": 1.0
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:cooked_rice",
+      "kaleidoscope_fishing:otoro"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:otoro_nigiri"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Rice under the fattiest tuna: more filling than any other nigiri, and it heals a little."
+    ],
+    "zh_TW": [
+     "白飯上放最肥的大腹：比其他握壽司更有飽足感，還會回復一點生命。"
+    ],
+    "zh_CN": [
+     "白饭上放最肥的大腹：比其他握寿司更有饱足感，还会回复一点生命。"
+    ]
+   },
+   "mechanics": [
+    "Rice under the fattiest tuna: more filling than any other nigiri, and it heals a little."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fried_squid_tentacles",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_fried_squid_tentacles",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:squid_tentacles",
+      "kaleidoscope_fishing:squid_tentacles",
+      "kaleidoscope_cookery:flour",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:fried_squid_tentacles"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:grilled_squid_tentacles",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_grilled_squid_tentacles",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.5
+   },
+   "recipes": [
+    {
+     "method": "Furnace",
+     "ingredients": [
+      "kaleidoscope_fishing:squid_tentacles"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:grilled_squid_tentacles"
+    }
+   ]
   }
  ],
  "names": {
@@ -8195,7 +8443,7 @@
    "kaleidoscope_fishing:octopus": "Octopus",
    "kaleidoscope_fishing:white_fish_fillet": "White Fish Fillet",
    "kaleidoscope_fishing:sea_bream_sashimi": "Sea Bream Sashimi",
-   "kaleidoscope_fishing:tuna_sashimi": "Tuna Sashimi",
+   "kaleidoscope_fishing:tuna_sashimi": "Akami Sashimi",
    "kaleidoscope_fishing:fish_ball": "Fish Ball",
    "kaleidoscope_fishing:sea_salt": "Salt",
    "kaleidoscope_fishing:salt_bucket": "Salt Bucket",
@@ -8249,7 +8497,7 @@
    "kaleidoscope_fishing:oyster_bed": "Oyster Bed",
    "kaleidoscope_fishing:eel": "Eel",
    "kaleidoscope_fishing:saury": "Pacific Saury",
-   "kaleidoscope_fishing:squid_tube": "Squid",
+   "kaleidoscope_fishing:squid_tube": "Squid Tube",
    "kaleidoscope_fishing:raw_laver": "Laver",
    "kaleidoscope_fishing:laver_rock": "Laver Rock",
    "kaleidoscope_fishing:eel_fillet": "Eel Fillet",
@@ -8483,7 +8731,15 @@
    "kaleidoscope_fishing:salted_shrimp": "Salted Shrimp",
    "kaleidoscope_fishing:dried_shell_shrimp": "Dried Shell-on Shrimp",
    "kaleidoscope_fishing:xo_sauce": "XO Sauce",
-   "kaleidoscope_fishing:dried_shrimp_greens": "Greens with Dried Shrimp"
+   "kaleidoscope_fishing:dried_shrimp_greens": "Greens with Dried Shrimp",
+   "kaleidoscope_fishing:whole_squid": "Whole Squid",
+   "kaleidoscope_fishing:squid_tentacles": "Squid Tentacles",
+   "kaleidoscope_fishing:chutoro": "Chutoro Sashimi",
+   "kaleidoscope_fishing:otoro": "Otoro Sashimi",
+   "kaleidoscope_fishing:bonito_sashimi": "Bonito Sashimi",
+   "kaleidoscope_fishing:otoro_nigiri": "Otoro Nigiri",
+   "kaleidoscope_fishing:fried_squid_tentacles": "Fried Squid Tentacles",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "Grilled Squid Tentacles"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -8508,7 +8764,7 @@
    "kaleidoscope_fishing:octopus": "章魚",
    "kaleidoscope_fishing:white_fish_fillet": "白肉魚片",
    "kaleidoscope_fishing:sea_bream_sashimi": "鯛魚刺身",
-   "kaleidoscope_fishing:tuna_sashimi": "鮪魚刺身",
+   "kaleidoscope_fishing:tuna_sashimi": "赤身刺身",
    "kaleidoscope_fishing:fish_ball": "魚丸",
    "kaleidoscope_fishing:sea_salt": "鹽",
    "kaleidoscope_fishing:salt_bucket": "鹽桶",
@@ -8562,7 +8818,7 @@
    "kaleidoscope_fishing:oyster_bed": "牡蠣床",
    "kaleidoscope_fishing:eel": "鰻魚",
    "kaleidoscope_fishing:saury": "秋刀魚",
-   "kaleidoscope_fishing:squid_tube": "魷魚",
+   "kaleidoscope_fishing:squid_tube": "魷魚筒",
    "kaleidoscope_fishing:raw_laver": "紫菜",
    "kaleidoscope_fishing:laver_rock": "紫菜礁",
    "kaleidoscope_fishing:eel_fillet": "鰻魚片",
@@ -8796,7 +9052,15 @@
    "kaleidoscope_fishing:salted_shrimp": "鹽水蝦",
    "kaleidoscope_fishing:dried_shell_shrimp": "帶殼蝦乾",
    "kaleidoscope_fishing:xo_sauce": "XO 醬",
-   "kaleidoscope_fishing:dried_shrimp_greens": "蝦米炒青菜"
+   "kaleidoscope_fishing:dried_shrimp_greens": "蝦米炒青菜",
+   "kaleidoscope_fishing:whole_squid": "整隻魷魚",
+   "kaleidoscope_fishing:squid_tentacles": "魷魚鬚",
+   "kaleidoscope_fishing:chutoro": "中腹刺身",
+   "kaleidoscope_fishing:otoro": "大腹刺身",
+   "kaleidoscope_fishing:bonito_sashimi": "鰹魚生魚片",
+   "kaleidoscope_fishing:otoro_nigiri": "大腹握壽司",
+   "kaleidoscope_fishing:fried_squid_tentacles": "炸魷魚鬚",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤魷魚鬚"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -8821,7 +9085,7 @@
    "kaleidoscope_fishing:octopus": "章鱼",
    "kaleidoscope_fishing:white_fish_fillet": "白肉鱼片",
    "kaleidoscope_fishing:sea_bream_sashimi": "鲷鱼刺身",
-   "kaleidoscope_fishing:tuna_sashimi": "金枪鱼刺身",
+   "kaleidoscope_fishing:tuna_sashimi": "赤身刺身",
    "kaleidoscope_fishing:fish_ball": "鱼丸",
    "kaleidoscope_fishing:sea_salt": "盐",
    "kaleidoscope_fishing:salt_bucket": "盐桶",
@@ -8875,7 +9139,7 @@
    "kaleidoscope_fishing:oyster_bed": "牡蛎床",
    "kaleidoscope_fishing:eel": "鳗鱼",
    "kaleidoscope_fishing:saury": "秋刀鱼",
-   "kaleidoscope_fishing:squid_tube": "鱿鱼",
+   "kaleidoscope_fishing:squid_tube": "鱿鱼筒",
    "kaleidoscope_fishing:raw_laver": "紫菜",
    "kaleidoscope_fishing:laver_rock": "紫菜礁",
    "kaleidoscope_fishing:eel_fillet": "鳗鱼片",
@@ -9109,7 +9373,15 @@
    "kaleidoscope_fishing:salted_shrimp": "盐水虾",
    "kaleidoscope_fishing:dried_shell_shrimp": "带壳虾干",
    "kaleidoscope_fishing:xo_sauce": "XO 酱",
-   "kaleidoscope_fishing:dried_shrimp_greens": "虾米炒青菜"
+   "kaleidoscope_fishing:dried_shrimp_greens": "虾米炒青菜",
+   "kaleidoscope_fishing:whole_squid": "整只鱿鱼",
+   "kaleidoscope_fishing:squid_tentacles": "鱿鱼须",
+   "kaleidoscope_fishing:chutoro": "中腹刺身",
+   "kaleidoscope_fishing:otoro": "大腹刺身",
+   "kaleidoscope_fishing:bonito_sashimi": "鲣鱼生鱼片",
+   "kaleidoscope_fishing:otoro_nigiri": "大腹握寿司",
+   "kaleidoscope_fishing:fried_squid_tentacles": "炸鱿鱼须",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤鱿鱼须"
   }
  },
  "text": {

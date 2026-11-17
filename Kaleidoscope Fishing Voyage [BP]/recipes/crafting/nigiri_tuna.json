@@ -12,7 +12,7 @@
         "item": "kaleidoscope_cookery:cooked_rice"
       },
       {
-        "item": "kaleidoscope_fishing:tuna_sashimi"
+        "tag": "kaleidoscope_fishing:tuna_cut"
       }
     ],
     "result": {

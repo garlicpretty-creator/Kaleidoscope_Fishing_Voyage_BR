@@ -1051,6 +1051,24 @@
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_55_3"
         }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:cut') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_56_1"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:cut') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_56_2"
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:cut') == 3",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_cleaning_board_56_3"
+        }
       }
     ]
   }

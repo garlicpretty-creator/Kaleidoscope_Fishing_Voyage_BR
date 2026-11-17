@@ -332,7 +332,10 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
     return out;
   };
   const bad = [];
+  // cut differently on purpose in 1.5.0: tuna by part, skipjack into its own bonito slices (plan 5.7)
+  const CHANGED = new Set([`${NS}tuna`, `${NS}emperor_tuna`, `${NS}skipjack`]);
   for (const [id, f] of Object.entries(OLD)) {
+    if (CHANGED.has(id)) continue;
     const n = G.CLEANING[id];
     if (!n || n.index !== f.index || n.first !== (f.scales ? 1 : 2)) { bad.push(`${id}: index or first stage`); continue; }
     for (const cls of [0, 1, 2, 3]) for (const rolls of [[0], [0.999]]) {
@@ -346,9 +349,16 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
       if (gotDrop !== wantDrop) bad.push(`${id} half-cut drop: ${gotDrop} != ${wantDrop}`);
     }
   }
-  ok(!bad.length, bad.length ? `board format: ${bad.length} differences: ${bad.slice(0, 3).join(' | ')}` : `board format: all ${Object.keys(OLD).length} fish of 1.4 give exactly what they gave, cut by cut, at every size`);
-  ok(Object.values(G.CLEANING).every(f => f.first >= 1 && f.first + f.cuts.length - 1 <= 3 && f.cuts.every(c => c.out.length && c.out.every(r => typeof r[0] === 'string' && r[1] >= 1))),
-    'board format: every catch fits the board (stages 1-3) and every cut gives something');
+  ok(!bad.length, bad.length ? `board format: ${bad.length} differences: ${bad.slice(0, 3).join(' | ')}` : `board format: all ${Object.keys(OLD).length - CHANGED.size} fish of 1.4 not changed on purpose give exactly what they gave, cut by cut, at every size`);
+  {
+    const tuna = G.CLEANING[`${NS}tuna`].cuts.at(-1).out, emp = G.CLEANING[`${NS}emperor_tuna`].cuts.at(-1).out, sj = G.CLEANING[`${NS}skipjack`].cuts.at(-1).out;
+    const n = (out, id) => out.find(r => r[0] === `${NS}${id}`)?.[1] ?? 0;
+    ok(n(tuna, 'tuna_sashimi') + n(tuna, 'chutoro') + n(tuna, 'otoro') === OLD[`${NS}tuna`].out[1] && n(emp, 'tuna_sashimi') + n(emp, 'chutoro') + n(emp, 'otoro') === OLD[`${NS}emperor_tuna`].out[1],
+      `board: tuna is cut into akami, chutoro and otoro, as many slices as before (${n(tuna, 'tuna_sashimi')}/${n(tuna, 'chutoro')}/${n(tuna, 'otoro')}, emperor ${n(emp, 'tuna_sashimi')}/${n(emp, 'chutoro')}/${n(emp, 'otoro')})`);
+    ok(n(sj, 'bonito_sashimi') === OLD[`${NS}skipjack`].out[1] && !n(sj, 'tuna_sashimi'), 'board: skipjack gives bonito sashimi, no longer tuna');
+  }
+  ok(Object.values(G.CLEANING).every(f => f.first >= 1 && f.first + f.cuts.length - 1 <= 3 && f.cuts.every(c => (c.out.length || c.act === 'bone') && c.out.every(r => typeof r[0] === 'string' && r[1] >= 1))),
+    'board format: every catch fits the board (stages 1-3) and every cut gives something (drawing a squid\'s cartilage gives nothing)');
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

@@ -1727,5 +1727,56 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:otoro_nigiri",
+    "nameKey": "kaleidoscope_fishing.name.otoro_nigiri",
+    "icon": "textures/items/kfv_otoro_nigiri",
+    "method": "crafting",
+    "count": 2,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.otoro",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fried_squid_tentacles",
+    "nameKey": "kaleidoscope_fishing.name.fried_squid_tentacles",
+    "icon": "textures/items/kfv_fried_squid_tentacles",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.squid_tentacles",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_squid_tentacles",
+    "nameKey": "kaleidoscope_fishing.name.grilled_squid_tentacles",
+    "icon": "textures/items/kfv_grilled_squid_tentacles",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.squid_tentacles",
+        1
+      ]
+    ]
   }
 ]

@@ -508,6 +508,81 @@ def dried_shrimp():
            bowl=True, after='salted_shrimp')
 
 
+def squid_and_tuna():
+    """Step 6: the whole squid on the board, and tuna cut by part (plan 5.6, 5.7)."""
+    import json
+    S = NS
+    # ---- renames (ids stay)
+    for key, en, tw, cn in [('squid_tube', 'Squid Tube', '魷魚筒', '鱿鱼筒'), ('tuna_sashimi', 'Akami Sashimi', '赤身刺身', '赤身刺身')]:
+        c.names(key, en, tw, cn)
+        c.guide_name(S + key, en, tw, cn)
+    # ---- new ingredients
+    for key, name, edible, text, after in [
+        ('whole_squid', ('Whole Squid', '整隻魷魚', '整只鱿鱼'), None,
+         ('What a squid killed with a knife leaves. On the Fish Cleaning Board: gut it, draw the cartilage, then cut it into a Squid Tube and Squid Tentacles.',
+          '用刀殺魷魚得到。在魚案板上去內臟、抽軟骨，再分成魷魚筒和魷魚鬚。', '用刀杀鱿鱼得到。在鱼案板上去内脏、抽软骨，再分成鱿鱼筒和鱿鱼须。'), 'squid_tube'),
+        ('squid_tentacles', ('Squid Tentacles', '魷魚鬚', '鱿鱼须'), food(1, 0.2),
+         ('Cut from a Whole Squid on the Fish Cleaning Board. Fry them in the wok or grill them.', '在魚案板上從整隻魷魚切下。可以炒鍋炸或拿去烤。', '在鱼案板上从整只鱿鱼切下。可以炒锅炸或拿去烤。'), 'whole_squid'),
+        ('chutoro', ('Chutoro Sashimi', '中腹刺身', '中腹刺身'), food(3, 0.7),
+         ('The medium-fat belly of a tuna, from the Fish Cleaning Board. Any sushi that takes tuna takes it.', '鮪魚中段的腹肉，在魚案板上切得。用鮪魚的壽司都能用。', '鲔鱼中段的腹肉，在鱼案板上切得。用鲔鱼的寿司都能用。'), 'tuna_sashimi'),
+        ('otoro', ('Otoro Sashimi', '大腹刺身', '大腹刺身'), food(4, 0.8),
+         ('The fattiest belly of a tuna, from the Fish Cleaning Board. Makes Otoro Nigiri.', '鮪魚最肥的腹肉，在魚案板上切得。可以做大腹握壽司。', '鲔鱼最肥的腹肉，在鱼案板上切得。可以做大腹握寿司。'), 'chutoro'),
+        ('bonito_sashimi', ('Bonito Sashimi', '鰹魚生魚片', '鲣鱼生鱼片'), food(3, 0.6),
+         ('Skipjack is no tuna: on the Fish Cleaning Board it gives its own darker slices. Sushi takes them as it takes tuna.', '鰹魚不是鮪魚：在魚案板上切出顏色較深的生魚片。壽司可以用它代替鮪魚。', '鲣鱼不是鲔鱼：在鱼案板上切出颜色较深的生鱼片。寿司可以用它代替鲔鱼。'), 'otoro'),
+    ]:
+        c.item(key, stack=64, group='ingredients', components=edible)
+        c.names(key, *name)
+        c.icon(key)
+        c.catalog(key, after)
+        c.guide(key, 'ingredients', text, name, stack=64, food={'nutrition': edible['minecraft:food']['nutrition'],
+                'saturation': edible['minecraft:food']['saturation_modifier']} if edible else None)
+    # ---- the board
+    board = c.data('CLEANING')
+    board[S + 'whole_squid'] = {'index': 56, 'first': 1, 'cuts': [
+        {'act': 'gut', 'out': [[S + 'fish_offal', 1], ['minecraft:ink_sac', 1, 0.5]]},
+        {'act': 'bone', 'out': []},
+        {'act': 'fillet', 'out': [[S + 'squid_tube', 1], [S + 'squid_tentacles', 1]]}]}
+    def parts(akami, chu, oto):
+        return [[S + 'tuna_sashimi', akami], [S + 'chutoro', chu], [S + 'otoro', oto, 1, 'sized']]
+    for key, out in [('tuna', parts(4, 1, 1)), ('emperor_tuna', parts(4, 2, 2)), ('skipjack', [[S + 'bonito_sashimi', 3, 1, 'sized']])]:
+        last = board[S + key]['cuts'][-1]
+        bones = [r for r in last['out'] if r[0] == S + 'fish_bones']
+        last['out'] = out + bones
+    c.save('CLEANING', board)
+    # ---- sushi takes every cut: a tag on the four, and the recipes ask for the tag
+    TAG = S + 'tuna_cut'
+    for key in ('tuna_sashimi', 'chutoro', 'otoro', 'bonito_sashimi'):
+        path = os.path.join(c.BP, 'items', f'{key}.json')
+        j = c.read_json(path)
+        tags = j['minecraft:item']['components'].setdefault('minecraft:tags', {'tags': []})['tags']
+        if TAG not in tags:
+            tags.append(TAG)
+        c.write_json(path, j)
+    users = []
+    for name in ('nigiri_tuna', 'maki_roll', 'temaki_stand', 'sashimi_boat', 'seafood_platter'):
+        path = os.path.join(c.BP, 'recipes', 'crafting', f'{name}.json')
+        j = c.read_json(path)
+        r = j['minecraft:recipe_shapeless']
+        r['ingredients'] = [{'tag': TAG} if i.get('item') == S + 'tuna_sashimi' else i for i in r['ingredients']]
+        c.write_json(path, j)
+        users.append(f'{name}.json')
+    # validate.py reads a tag in a recipe as an item id (it lists the first three files it finds it in)
+    c._baseline(TAG, "maki_roll.json', 'nigiri_tuna.json', 'sashimi_boat.json")
+    for k in ('chutoro', 'otoro', 'bonito_sashimi'):
+        for u in ('nigiri_sushi', 'maki_roll', 'temaki_stand', 'sashimi_boat', 'seafood_platter'):
+            c.guide_used_by(k, u)
+    # ---- dishes
+    c.dish('otoro_nigiri', ('Otoro Nigiri', '大腹握壽司', '大腹握寿司'), 6, 1.0,
+           [('crafting', ['kaleidoscope_cookery:cooked_rice', 'otoro'], {'count': 2})], effects=[('regeneration', 100, 0)], after='nigiri_sushi',
+           text=('Rice under the fattiest tuna: more filling than any other nigiri, and it heals a little.',
+                 '白飯上放最肥的大腹：比其他握壽司更有飽足感，還會回復一點生命。', '白饭上放最肥的大腹：比其他握寿司更有饱足感，还会回复一点生命。'))
+    c.dish('fried_squid_tentacles', ('Fried Squid Tentacles', '炸魷魚鬚', '炸鱿鱼须'), 6, 0.6,
+           [('wok', ['squid_tentacles', 'squid_tentacles', 'kaleidoscope_cookery:flour', 'kaleidoscope_cookery:oil'], None)],
+           bowl=True, after='fried_calamari')
+    c.dish('grilled_squid_tentacles', ('Grilled Squid Tentacles', '烤魷魚鬚', '烤鱿鱼须'), 4, 0.5,
+           [('furnace', ['squid_tentacles'], None)], after='fried_squid_tentacles')
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -520,4 +595,5 @@ if __name__ == '__main__':
     shellfish_dishes()
     shrimp_head_stock()
     dried_shrimp()
+    squid_and_tuna()
     print('1.5.0 content written; now run: python tools/build.py build')

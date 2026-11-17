@@ -175,6 +175,21 @@ setComps(await boot());
   ok(roeCrabs > 8 && roeCrabs < 32, `cleaning board: about one crab in two has roe (${roeCrabs} in 40)`);
   r = cutUp('moon_jellyfish');
   ok(r.stages.join() === '2,3,0' && r.all.fish_offal === 1 && r.all.jellyfish_skin === 2, `cleaning board: a jellyfish takes two cuts, feelers then strips (${r.stages} / ${JSON.stringify(r.all)})`);
+  // 1.5.0: the whole squid, and tuna by part
+  let inks = 0;
+  for (let i = 0; i < 20; i++) {
+    r = cutUp('whole_squid');
+    if (i === 0) ok(r.stages.join() === '1,2,3,0' && r.all.fish_offal === 1 && r.all.squid_tube === 1 && r.all.squid_tentacles === 1 && JSON.stringify(r.steps[1]) === '[]',
+      `cleaning board: a whole squid is gutted, its cartilage drawn (nothing comes of it), then cut into tube and tentacles (${JSON.stringify(r.steps)})`);
+    if (r.all.ink_sac) inks++;
+  }
+  ok(inks > 2 && inks < 18, `cleaning board: about one squid in two gives an ink sac (${inks} in 20)`);
+  r = cutUp('tuna');
+  ok(r.all.tuna_sashimi === 4 && r.all.chutoro === 1 && r.all.otoro === 1, `cleaning board: a tuna gives 4 akami, 1 chutoro, 1 otoro (${JSON.stringify(r.all)})`);
+  r = cutUp('tuna', ['§6◆◆◆']);
+  ok(r.all.otoro === 2 && r.all.tuna_sashimi === 4, `cleaning board: a large tuna's extra slice is otoro (${JSON.stringify(r.all)})`);
+  r = cutUp('skipjack');
+  ok(r.all.bonito_sashimi === 3 && !r.all.tuna_sashimi, `cleaning board: a skipjack gives bonito sashimi (${JSON.stringify(r.all)})`);
   clearInv(); drops(); P.hold(NS + 'crab', 1); use(c); P.hold(undefined); use(c);
   ok(inv('crab') === 1 && st(c, 'cut') === 0, 'cleaning board: a crab can be taken back before the first cut');
   clearInv(); P.hold(NS + 'oyster', 1); use(c);

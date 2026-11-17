@@ -8,6 +8,7 @@ view like the fish (tools/gen_board_fish.py, whose column modelling this reuses)
   crab       1 whole        2 shell off (the back shows orange roe) 3 cleaned (pale meat)
   jellyfish  2 whole        3 feelers off (only the bell is left)
   dried shell-on shrimp   3 a small heap, rubbed once
+  whole squid 1 whole        2 gutted (paler inside)                  3 cartilage out (paler still)
 Writes models/blocks/fish_cleaning_board_1_5.geo.json, textures/blocks/kfv_board_shell.png (its own material
 instance on the board) and the block permutations. Safe to run again.
 """
@@ -39,6 +40,7 @@ CATCH = {
     'moon_jellyfish':   (53, 'jelly', 20, 1.5, None),
     'chorus_jellyfish': (54, 'jelly', 20, 1.5, None),
     'dried_shell_shrimp': (55, 'pile', 16, 1.0, None),
+    'whole_squid':        (56, 'squid', 22, 1.5, None),
 }
 FLESH = (244, 214, 196)
 ROE = (236, 140, 40)
@@ -114,6 +116,8 @@ def stages(name):
         return idx, hmax, {1: sp, 2: off, 3: peeled(off)}
     if kind == 'crab':
         return idx, hmax, {1: sp, 2: recolour_inner(sp, ROE, 0.6), 3: recolour_inner(sp, MEAT, 0.75)}
+    if kind == 'squid':                             # gutted: the inside shows pale; the cartilage out: paler still
+        return idx, hmax, {1: sp, 2: recolour_inner(sp, MEAT, 0.35), 3: recolour_inner(sp, MEAT, 0.7, depth=1)}
     if kind == 'pile':
         return idx, hmax, {3: sp}                       # one rub and it is done
     return idx, hmax, {2: sp, 3: bell_only(sp)}
