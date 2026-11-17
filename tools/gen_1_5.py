@@ -205,6 +205,72 @@ def cleaning_format():
     c.save('CLEANING', table)
 
 
+def food(nutrition, saturation):
+    """The components that make an ingredient edible raw, as the pack's other raw seafood."""
+    return {'minecraft:food': {'nutrition': nutrition, 'saturation_modifier': saturation, 'can_always_eat': False},
+            'minecraft:use_animation': 'eat', 'minecraft:use_modifiers': {'use_duration': 1.6, 'movement_modifier': 0.33},
+            'minecraft:tags': {'tags': ['minecraft:is_food']}}
+
+
+def shellfish_board():
+    """Step 4: shrimp, crab and jellyfish on the Fish Cleaning Board, and what they give.
+    Board models: tools/gen_board_1_5.py (indices 44-54 there and here)."""
+    # ---- what the cuts give
+    G = lambda en, tw, cn: (en, tw, cn)
+    products = [
+        ('shrimp_head', G('Shrimp Head', '蝦頭', '虾头'), None,
+         G('Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap.',
+           '在魚案板上替蝦、螯蝦或龍蝦去頭得到。三個可以熬成蝦頭高湯；也能放進蝦籠當餌。', '在鱼案板上替虾、螯虾或龙虾去头得到。三个可以熬成虾头高汤；也能放进虾笼当饵。')),
+        ('lobster_tomalley', G('Lobster Tomalley', '龍蝦膏', '龙虾膏'), None,
+         G('Sometimes found in a lobster\'s head. Stands in for Crab Roe.', '有時在龍蝦頭裡找到。可以代替蟹黃。', '有时在龙虾头里找到。可以代替蟹黄。')),
+        ('shrimp_shell', G('Shrimp Shells', '蝦殼', '虾壳'), None,
+         G('Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones.', '在魚案板上剝蝦剩下的殼。可以代替魚骨熬魚高湯。', '在鱼案板上剥虾剩下的壳。可以代替鱼骨熬鱼高汤。')),
+        ('shrimp_meat', G('Peeled Shrimp', '蝦仁', '虾仁'), food(1, 0.2),
+         G('A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack\'s shrimp dishes.',
+           '在魚案板上去頭、剝殼、挑掉腸泥的蝦。可以代替蝦做各種蝦料理。', '在鱼案板上去头、剥壳、挑掉肠泥的虾。可以代替虾做各种虾料理。')),
+        ('crab_shell', G('Crab Shell', '蟹殼', '蟹壳'), None,
+         G('Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones.', '在魚案板上開蟹掀下的殼。可以代替魚骨熬魚高湯。', '在鱼案板上开蟹掀下的壳。可以代替鱼骨熬鱼高汤。')),
+        ('crab_roe', G('Crab Roe', '蟹黃', '蟹黄'), food(1, 0.3),
+         G('Found under a crab\'s shell, in one crab of two (always in a Glow Crab or a King Crab).', '開蟹殼時找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。', '开蟹壳时找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。')),
+        ('crab_meat', G('Crab Meat', '蟹肉', '蟹肉'), food(2, 0.3),
+         G('Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot.', '在魚案板上拆蟹最後一刀取出的肉。可以代替螃蟹做海鮮火鍋。', '在鱼案板上拆蟹最后一刀取出的肉。可以代替螃蟹做海鲜火锅。')),
+        ('crab_leg', G('Crab Leg', '蟹腳', '蟹脚'), None,
+         G('Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four.', '在魚案板上拆蟹時拆下的腳；帝王蟹有四隻。', '在鱼案板上拆蟹时拆下的脚；帝王蟹有四只。')),
+        ('jellyfish_skin', G('Jellyfish Strips', '海蜇皮', '海蜇皮'), food(1, 0.1),
+         G('Sliced from a jellyfish\'s bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad.', '在魚案板上把水母的傘切成片。口感爽脆，可以直接吃或做成涼拌菜。', '在鱼案板上把水母的伞切成片。口感爽脆，可以直接吃或做成凉拌菜。')),
+    ]
+    after = 'fish_bones'
+    for key, name, edible, text in products:
+        c.item(key, stack=64, group='ingredients', components=edible)
+        c.names(key, *name)
+        c.icon(key)
+        c.catalog(key, after)
+        c.guide(key, 'ingredients', text, name, stack=64, food={'nutrition': edible['minecraft:food']['nutrition'],
+                'saturation': edible['minecraft:food']['saturation_modifier']} if edible else None)
+        after = key
+    # ---- the cuts
+    S, O = NS, NS + 'fish_offal'
+    def shrimp(heads, shells, meat, tomalley=0):
+        head = [[S + 'shrimp_head', heads]] + ([[S + 'lobster_tomalley', 1, tomalley]] if tomalley else [])
+        return [{'act': 'head', 'out': head}, {'act': 'shell', 'out': [[S + 'shrimp_shell', shells]]},
+                {'act': 'devein', 'out': [[S + 'shrimp_meat', meat, 1, 'sized']]}]
+    def crab(shells, roe, meat, legs):
+        return [{'act': 'open', 'out': [[S + 'crab_shell', shells], [S + 'crab_roe', 1, roe]]},
+                {'act': 'gut', 'out': [[O, 1]]},
+                {'act': 'legs', 'out': [[S + 'crab_meat', meat, 1, 'sized'], [S + 'crab_leg', legs]]}]
+    jelly = [{'act': 'tentacle', 'out': [[O, 1]]}, {'act': 'fillet', 'out': [[S + 'jellyfish_skin', 2, 1, 'sized']]}]
+    table = c.data('CLEANING')
+    for key, idx, first, cuts in [
+        ('shrimp', 44, 1, shrimp(1, 1, 1)), ('live_shrimp', 45, 1, shrimp(1, 1, 1)), ('purpur_shrimp', 46, 1, shrimp(1, 1, 1)),
+        ('cave_crayfish', 47, 1, shrimp(1, 1, 2)), ('lobster', 48, 1, shrimp(2, 2, 3, 0.5)),
+        ('crab', 49, 1, crab(1, 0.5, 1, 2)), ('basalt_crab', 50, 1, crab(1, 0.5, 1, 2)),
+        ('glow_crab', 51, 1, crab(1, 1, 2, 2)), ('king_crab', 52, 1, crab(2, 1, 2, 4)),
+        ('moon_jellyfish', 53, 2, jelly), ('chorus_jellyfish', 54, 2, jelly),
+    ]:
+        table[S + key] = {'index': idx, 'first': first, 'cuts': cuts}
+    c.save('CLEANING', table)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -213,4 +279,5 @@ if __name__ == '__main__':
     tide_clock()
     wall_tide_clock()
     cleaning_format()
+    shellfish_board()
     print('1.5.0 content written; now run: python tools/build.py build')

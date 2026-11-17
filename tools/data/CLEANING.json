@@ -1583,5 +1583,413 @@
         ]
       }
     ]
+  },
+  "kaleidoscope_fishing:shrimp": {
+    "index": 44,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            1,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:live_shrimp": {
+    "index": 45,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            1,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:purpur_shrimp": {
+    "index": 46,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            1,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:cave_crayfish": {
+    "index": 47,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            2,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:lobster": {
+    "index": 48,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            2
+          ],
+          [
+            "kaleidoscope_fishing:lobster_tomalley",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            2
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            3,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:crab": {
+    "index": 49,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "open",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_shell",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:crab_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "legs",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_meat",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:crab_leg",
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:basalt_crab": {
+    "index": 50,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "open",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_shell",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:crab_roe",
+            1,
+            0.5
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "legs",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_meat",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:crab_leg",
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:glow_crab": {
+    "index": 51,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "open",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_shell",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:crab_roe",
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "legs",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_meat",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:crab_leg",
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:king_crab": {
+    "index": 52,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "open",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_shell",
+            2
+          ],
+          [
+            "kaleidoscope_fishing:crab_roe",
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "legs",
+        "out": [
+          [
+            "kaleidoscope_fishing:crab_meat",
+            2,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:crab_leg",
+            4
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:moon_jellyfish": {
+    "index": 53,
+    "first": 2,
+    "cuts": [
+      {
+        "act": "tentacle",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:jellyfish_skin",
+            2,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:chorus_jellyfish": {
+    "index": 54,
+    "first": 2,
+    "cuts": [
+      {
+        "act": "tentacle",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:jellyfish_skin",
+            2,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
   }
 }

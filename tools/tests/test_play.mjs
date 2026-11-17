@@ -7,7 +7,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, tick, wait, breakBlock, place, inv, st, clearInv, drops, P, NS, D, log, flush,
-  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts } from './sim/play.mjs';
+  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts, ItemStack } from './sim/play.mjs';
 setComps(await boot());
 
 // ---------- drying rack ----------
@@ -111,6 +111,45 @@ setComps(await boot());
   }
   clearInv(); P.hold(NS + 'carp', 1); use(c); P.hold(undefined); use(c);
   ok(inv('carp') === 1 && st(c, 'cut') === 0, 'cleaning board: an empty hand takes the fish back before the first cut');
+  // 1.5.0: shrimp, crab and jellyfish, each with its own cuts
+  const cutUp = (id, lore) => {
+    clearInv(); drops();
+    const s0 = new ItemStack(NS + id, 1); if (lore) s0.setLore(lore); P.inv.setItem(P.selectedSlotIndex, s0); use(c);
+    const stages = [st(c, 'cut')];
+    P.hold(NS + 'fishing_knife', 1);
+    const steps = [];
+    let g = 0;
+    while (st(c, 'cut') > 0 && g++ < 5) {
+      const before = new Map(P.inv.slots.filter(Boolean).map(x => [x.typeId, x.amount]));
+      use(c);
+      stages.push(st(c, 'cut'));
+      steps.push(P.inv.slots.filter(Boolean).filter(x => x.typeId !== NS + 'fishing_knife').map(x => [x.typeId.split(':')[1], x.amount - (before.get(x.typeId) ?? 0)]).filter(x => x[1] > 0));
+    }
+    return { stages, steps, all: Object.fromEntries(P.inv.slots.filter(Boolean).filter(x => x.typeId !== NS + 'fishing_knife').map(x => [x.typeId.split(':')[1], x.amount])) };
+  };
+  let r = cutUp('shrimp');
+  ok(r.stages.join() === '1,2,3,0' && JSON.stringify(r.steps) === JSON.stringify([[['shrimp_head', 1]], [['shrimp_shell', 1]], [['shrimp_meat', 1]]]),
+    `cleaning board: a shrimp takes three cuts, head, shell, vein (${r.stages} / ${JSON.stringify(r.steps)})`);
+  r = cutUp('shrimp', ['§6◆◆◆']);
+  ok(r.all.shrimp_meat === 2, `cleaning board: a large shrimp gives two peeled shrimp (${JSON.stringify(r.all)})`);
+  r = cutUp('lobster');
+  ok(r.all.shrimp_head === 2 && r.all.shrimp_shell === 2 && r.all.shrimp_meat === 3, `cleaning board: a lobster gives 2 heads, 2 shells, 3 peeled shrimp (${JSON.stringify(r.all)})`);
+  r = cutUp('live_shrimp');
+  ok(r.all.shrimp_meat === 1 && r.stages.join() === '1,2,3,0', 'cleaning board: live shrimp go on the board too');
+  r = cutUp('crab');
+  ok(r.stages.join() === '1,2,3,0' && r.all.crab_shell === 1 && r.all.fish_offal === 1 && r.all.crab_meat === 1 && r.all.crab_leg === 2,
+    `cleaning board: a crab is opened, cleaned and taken apart (${JSON.stringify(r.all)})`);
+  r = cutUp('king_crab');
+  ok(r.all.crab_shell === 2 && r.all.crab_roe === 1 && r.all.crab_meat === 2 && r.all.crab_leg === 4, `cleaning board: a king crab gives 2 shells, roe, 2 meat, 4 legs (${JSON.stringify(r.all)})`);
+  let roeCrabs = 0;
+  for (let i = 0; i < 40; i++) if (cutUp('crab').all.crab_roe) roeCrabs++;
+  ok(roeCrabs > 8 && roeCrabs < 32, `cleaning board: about one crab in two has roe (${roeCrabs} in 40)`);
+  r = cutUp('moon_jellyfish');
+  ok(r.stages.join() === '2,3,0' && r.all.fish_offal === 1 && r.all.jellyfish_skin === 2, `cleaning board: a jellyfish takes two cuts, feelers then strips (${r.stages} / ${JSON.stringify(r.all)})`);
+  clearInv(); drops(); P.hold(NS + 'crab', 1); use(c); P.hold(undefined); use(c);
+  ok(inv('crab') === 1 && st(c, 'cut') === 0, 'cleaning board: a crab can be taken back before the first cut');
+  clearInv(); P.hold(NS + 'oyster', 1); use(c);
+  ok(inv('oyster') === 1 && st(c, 'cut') === 0, 'cleaning board: an oyster is still refused');
 }
 
 // ---------- fish tank ----------

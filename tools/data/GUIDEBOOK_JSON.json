@@ -7464,6 +7464,229 @@
     "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.",
     "Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_head",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_head",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap."
+    ],
+    "zh_TW": [
+     "在魚案板上替蝦、螯蝦或龍蝦去頭得到。三個可以熬成蝦頭高湯；也能放進蝦籠當餌。"
+    ],
+    "zh_CN": [
+     "在鱼案板上替虾、螯虾或龙虾去头得到。三个可以熬成虾头高汤；也能放进虾笼当饵。"
+    ]
+   },
+   "mechanics": [
+    "Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lobster_tomalley",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_lobster_tomalley",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sometimes found in a lobster's head. Stands in for Crab Roe."
+    ],
+    "zh_TW": [
+     "有時在龍蝦頭裡找到。可以代替蟹黃。"
+    ],
+    "zh_CN": [
+     "有时在龙虾头里找到。可以代替蟹黄。"
+    ]
+   },
+   "mechanics": [
+    "Sometimes found in a lobster's head. Stands in for Crab Roe."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_shell",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+    ],
+    "zh_TW": [
+     "在魚案板上剝蝦剩下的殼。可以代替魚骨熬魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剥虾剩下的壳。可以代替鱼骨熬鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_meat",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack's shrimp dishes."
+    ],
+    "zh_TW": [
+     "在魚案板上去頭、剝殼、挑掉腸泥的蝦。可以代替蝦做各種蝦料理。"
+    ],
+    "zh_CN": [
+     "在鱼案板上去头、剥壳、挑掉肠泥的虾。可以代替虾做各种虾料理。"
+    ]
+   },
+   "mechanics": [
+    "A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack's shrimp dishes."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_shell",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+    ],
+    "zh_TW": [
+     "在魚案板上開蟹掀下的殼。可以代替魚骨熬魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上开蟹掀下的壳。可以代替鱼骨熬鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Found under a crab's shell, in one crab of two (always in a Glow Crab or a King Crab)."
+    ],
+    "zh_TW": [
+     "開蟹殼時找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。"
+    ],
+    "zh_CN": [
+     "开蟹壳时找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。"
+    ]
+   },
+   "mechanics": [
+    "Found under a crab's shell, in one crab of two (always in a Glow Crab or a King Crab)."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_meat",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+    ],
+    "zh_TW": [
+     "在魚案板上拆蟹最後一刀取出的肉。可以代替螃蟹做海鮮火鍋。"
+    ],
+    "zh_CN": [
+     "在鱼案板上拆蟹最后一刀取出的肉。可以代替螃蟹做海鲜火锅。"
+    ]
+   },
+   "mechanics": [
+    "Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_leg",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_leg",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four."
+    ],
+    "zh_TW": [
+     "在魚案板上拆蟹時拆下的腳；帝王蟹有四隻。"
+    ],
+    "zh_CN": [
+     "在鱼案板上拆蟹时拆下的脚；帝王蟹有四只。"
+    ]
+   },
+   "mechanics": [
+    "Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_skin",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_skin",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.1
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
+    ],
+    "zh_TW": [
+     "在魚案板上把水母的傘切成片。口感爽脆，可以直接吃或做成涼拌菜。"
+    ],
+    "zh_CN": [
+     "在鱼案板上把水母的伞切成片。口感爽脆，可以直接吃或做成凉拌菜。"
+    ]
+   },
+   "mechanics": [
+    "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
+   ]
   }
  ],
  "names": {
@@ -7756,7 +7979,16 @@
    "kaleidoscope_fishing:dragon_scale_bobber": "Dragon Scale Bobber",
    "kaleidoscope_fishing:frost_scale_bobber": "Frost Scale Bobber",
    "kaleidoscope_fishing:tide_clock": "Tide Clock",
-   "minecraft:clock": "Clock"
+   "minecraft:clock": "Clock",
+   "kaleidoscope_fishing:shrimp_head": "Shrimp Head",
+   "kaleidoscope_fishing:lobster_tomalley": "Lobster Tomalley",
+   "kaleidoscope_fishing:shrimp_shell": "Shrimp Shells",
+   "kaleidoscope_fishing:shrimp_meat": "Peeled Shrimp",
+   "kaleidoscope_fishing:crab_shell": "Crab Shell",
+   "kaleidoscope_fishing:crab_roe": "Crab Roe",
+   "kaleidoscope_fishing:crab_meat": "Crab Meat",
+   "kaleidoscope_fishing:crab_leg": "Crab Leg",
+   "kaleidoscope_fishing:jellyfish_skin": "Jellyfish Strips"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -8047,7 +8279,16 @@
    "kaleidoscope_fishing:dragon_scale_bobber": "龍鱗浮標",
    "kaleidoscope_fishing:frost_scale_bobber": "霜鱗浮標",
    "kaleidoscope_fishing:tide_clock": "潮汐鐘",
-   "minecraft:clock": "時鐘"
+   "minecraft:clock": "時鐘",
+   "kaleidoscope_fishing:shrimp_head": "蝦頭",
+   "kaleidoscope_fishing:lobster_tomalley": "龍蝦膏",
+   "kaleidoscope_fishing:shrimp_shell": "蝦殼",
+   "kaleidoscope_fishing:shrimp_meat": "蝦仁",
+   "kaleidoscope_fishing:crab_shell": "蟹殼",
+   "kaleidoscope_fishing:crab_roe": "蟹黃",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_leg": "蟹腳",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -8338,7 +8579,16 @@
    "kaleidoscope_fishing:dragon_scale_bobber": "龙鳞浮标",
    "kaleidoscope_fishing:frost_scale_bobber": "霜鳞浮标",
    "kaleidoscope_fishing:tide_clock": "潮汐钟",
-   "minecraft:clock": "时钟"
+   "minecraft:clock": "时钟",
+   "kaleidoscope_fishing:shrimp_head": "虾头",
+   "kaleidoscope_fishing:lobster_tomalley": "龙虾膏",
+   "kaleidoscope_fishing:shrimp_shell": "虾壳",
+   "kaleidoscope_fishing:shrimp_meat": "虾仁",
+   "kaleidoscope_fishing:crab_shell": "蟹壳",
+   "kaleidoscope_fishing:crab_roe": "蟹黄",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_leg": "蟹脚",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮"
   }
  },
  "text": {

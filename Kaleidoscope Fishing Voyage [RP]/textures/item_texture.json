@@ -685,6 +685,33 @@
     },
     "kfv_tide_clock": {
       "textures": "textures/items/kfv_tide_clock"
+    },
+    "kfv_shrimp_head": {
+      "textures": "textures/items/kfv_shrimp_head"
+    },
+    "kfv_lobster_tomalley": {
+      "textures": "textures/items/kfv_lobster_tomalley"
+    },
+    "kfv_shrimp_shell": {
+      "textures": "textures/items/kfv_shrimp_shell"
+    },
+    "kfv_shrimp_meat": {
+      "textures": "textures/items/kfv_shrimp_meat"
+    },
+    "kfv_crab_shell": {
+      "textures": "textures/items/kfv_crab_shell"
+    },
+    "kfv_crab_roe": {
+      "textures": "textures/items/kfv_crab_roe"
+    },
+    "kfv_crab_meat": {
+      "textures": "textures/items/kfv_crab_meat"
+    },
+    "kfv_crab_leg": {
+      "textures": "textures/items/kfv_crab_leg"
+    },
+    "kfv_jellyfish_skin": {
+      "textures": "textures/items/kfv_jellyfish_skin"
     }
   }
 }
