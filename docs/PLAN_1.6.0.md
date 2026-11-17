@@ -326,9 +326,9 @@ A 不成時用 B 當保底，兩者的腳本相同，只差資源包的外觀檔
 
 | 類別 | 意思 | 聲音 | 粒子 | 1.5.0 的原因 |
 | --- | --- | --- | --- | --- |
-| **缺東西** | 手上的東西不對，或少了某樣 | `note.bass`，音高 0.7（現在的聲音） | 在方塊上冒一次灰煙 | `board_need_fish`、`board_need_knife`、`board_finish_knife`、`jar_need_fish`、`jar_need_salt`、`jar_wrong_fish`、`jar_paste_fresh`、`tank_not_fish`、`tub_what`、`pond_what`、`rack_empty_hand`、`rack_other_kind`、`auger_no_water`、`icehole_use` |
+| **缺東西** | 手上的東西不對，或少了某樣 | `note.bass`，音高 0.7（現在的聲音） | 在方塊上冒一次灰煙 | `board_need_fish`、`board_need_knife`、`board_finish_knife`、`jar_need_fish`、`jar_need_salt`、`jar_wrong_fish`、`jar_paste_fresh`、`tank_not_fish`、`tub_what`、`pond_what`、`rack_empty_hand`、`rack_other_kind`、`auger_no_water`、`icehole_use`、`pond_salt`（鹽不夠） |
 | **還沒好** | 正在做，等時間 | `random.click`，音高 0.6，兩下 | 方塊上冒一個白色小氣泡 | `jar_fermenting`、`jar_salted`、`rack_drying`、`tub_busy`、`tub_soaking`、`tub_hatching`、`trap_baited`、`pond_salted` |
-| **滿了** | 沒有空間 | `random.splash`（有水的方塊）或 `dig.wood`（其他），音高 1.4 | 東西從方塊上彈回來的掉落粒子 | `rack_full`、`tank_full`、`tub_full`、`tub_clams_full`、`pond_feed_full`、`tipup_limit`、`pond_salt` |
+| **滿了** | 沒有空間 | `random.splash`（有水的方塊）或 `dig.wood`（其他），音高 1.4 | 東西從方塊上彈回來的掉落粒子 | `rack_full`、`tank_full`、`tub_full`、`tub_clams_full`、`pond_feed_full`、`tipup_limit` |
 | **這裡不行** | 位置或環境不對 | `dig.stone`，音高 0.5 | 放下的位置冒紅色塵土（`minecraft:redstone_wire_dust_particle`） | `salt_pan_place`、`pond_has_feeder`、`board_pack_gone`、`tank_pack_gone` |
 
 - 原因到類別的對照寫在 `util/hint.js` 的一張表裡；新的原因沒有歸類就讓測試失敗。
@@ -511,7 +511,7 @@ A 不成時用 B 當保底，兩者的腳本相同，只差資源包的外觀檔
 | --- | --- | --- |
 | 0 | **1.5 檢測表回報的修正**；版本號改 1.6.0；README 的版本對照。**版本號與 README 已完成（2026-11-17）**：`ADDON_VERSION.json` 與兩個 manifest 都是 1.6.0。1.5 檢測表還沒有回報，修正還沒做 | 1.5 檢測表的結果 |
 | 1 | **無字檢查**（4.4）先加進 `validate.py`，用「已知例外清單」列出現在還有字的地方；之後每一步做完，從清單上劃掉一項。**已完成（2026-11-17）**，和企劃不同：做成獨立的 `tools/check_notext.py`（`run_tests.py` 的一項），不放進 `validate.py`，因為 `validate.py` 的結果是和誤報基準比對的，新的文字不該能被記成「已知誤報」。例外清單在檔案開頭：永久的是收線小遊戲（`rod.js`、`minigame.js`）、小遊戲指令回覆、之後獨立出來的 `journal/settings.js`、小船的原版「乘坐」按鈕（`action.interact.ride.boat`，拿掉怕手機上沒有乘坐按鈕，待你決定）；暫時的是手帳、食譜、魚池清單、魚簍的表單與說明。暫時的例外不再出現時檢查會失敗（stale），提醒把那一行刪掉。表單只檢查檔案有沒有用到，不分辨內容 | — |
-| 2 | **拒絕的四類聲音**（第 10 節）、鸕鶿的 `interact_text`。**已完成（2026-11-17）**：`refuse(player, key, ...args)` 照舊，另加 `refuseAt(player, key, where, ...args)`，各工作站都傳方塊位置，粒子出在方塊上。腳本實際用到 62 種原因（企劃表只列 33 種），多的照意思歸類，見 `util/hint.js`；`pond_salt`（鹽不夠）照企劃表放在「滿了」，看起來比較像「缺東西」，待你確認。「還沒好」的粒子先用 `minecraft:basic_bubble_particle`、「滿了」用 `minecraft:basic_crit_particle` 往上彈，都要進遊戲看。鸕鶿的兩個 `interact_text` 與 `action.interact.kfv_*` 已移除 | — |
+| 2 | **拒絕的四類聲音**（第 10 節）、鸕鶿的 `interact_text`。**已完成（2026-11-17）**：`refuse(player, key, ...args)` 照舊，另加 `refuseAt(player, key, where, ...args)`，各工作站都傳方塊位置，粒子出在方塊上。腳本實際用到 62 種原因（企劃表只列 33 種），多的照意思歸類，見 `util/hint.js`；`pond_salt`（鹽不夠）改歸「缺東西」。「還沒好」的粒子先用 `minecraft:basic_bubble_particle`、「滿了」用 `minecraft:basic_crit_particle` 往上彈，都要進遊戲看。鸕鶿的兩個 `interact_text` 與 `action.interact.kfv_*` 已移除 | — |
 | 3 | **物品說明**（第 9 節）：紀錄長度改存動態屬性、舊格式轉換；釣竿與魚卵的說明先拿掉（字元表還沒好之前，說明是空的）。**已完成（2026-11-17）**，和企劃不同：魚會疊在一起，而基岩版的物品動態屬性只能放在不能疊的物品上，所以長度藏在 ★ 後面的格式碼裡（`§6★§r§4§5` 是 45 公分，畫面上只看到 ★）；不能疊的物品另外存 `kaleidoscope_fishing:cm`。舊的「★ N cm」照樣讀得出來，經過魚缸、魚案板、曬魚架、魚池、魚秤、魚拓時轉成新格式 | — |
 | 4 | **字元表**：`glyphs.py`、`GLYPHS.json`；先查字元頁有沒有和原版、家族撞號；做一張測試頁進遊戲看大小與清晰度。**已完成（2026-11-17），沒有進遊戲驗證**：400 個字元，`glyph_E1`（60 種漁獲、各自的魚影、通用魚影）、`glyph_E2`（水域 18、時段、天氣、潮汐、月相 8、天象、工作站、鉤線浮標、釣竿、餌、點與勾叉箭頭、飼料碗、齒輪、食譜、潮汐鐘等）、`glyph_E3`（102 道料理與食材）。每格 16×16（現有圖示都是 16×16，放大沒有好處）。烘焙、草本、樂牧、豐收都沒有用 `font/glyph_*`；原版的 E1 還沒確認，頁碼只寫在 `GLYPHS.json` 的 `pages`。約 100 個是 Pillow 畫的暫代圖形（`python tools/glyphs.py list`）：符號類全部，以及原版與森羅廚房的食材（本倉庫沒有它們的圖示）；豐收的 9 種食材用豐收自己的圖示（複製在 `tools/data/glyph_src/`）。測試頁就是字元表本身：任何一個 `G[...]` 放進物品說明就能看 | 你的遊戲內確認 |
 | 5 | 釣竿與魚卵的說明換成字元。**已完成（2026-11-17）**：釣竿是一行「鉤 線 浮標」三個字元，魚卵是那條魚的字元；`lore.roe_of` 已從語言檔移除 | 4 |

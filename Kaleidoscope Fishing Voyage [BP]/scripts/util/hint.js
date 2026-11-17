@@ -40,14 +40,14 @@ const BY_CATEGORY = {
     // also: the wrong thing in hand, or something is missing
     "board_cannot_clean", "jar_more_fish", "jar_more_shrimp", "jar_need_bottle", "jar_need_bowl", "rack_cannot_dry",
     "rack_empty", "rack_salt_empty", "rack_salt_fish_only", "trap_empty_hand", "trap_not_bait", "trap_need_bait",
-    "tipup_empty_hand", "tub_need_water", "tub_need_salt", "salt_pan_need_water", "pond_cannot",
+    "tipup_empty_hand", "tub_need_water", "tub_need_salt", "salt_pan_need_water", "pond_cannot", "pond_salt",
   ],
   notyet: [
     "jar_fermenting", "jar_salted", "rack_drying", "tub_busy", "tub_soaking", "tub_hatching", "trap_baited", "pond_salted",
     "rack_salted", "trap_waiting", "salt_pan_drying",
   ],
   full: [
-    "rack_full", "tank_full", "tub_full", "tub_clams_full", "pond_feed_full", "tipup_limit", "pond_salt",
+    "rack_full", "tank_full", "tub_full", "tub_clams_full", "pond_feed_full", "tipup_limit",
     "tank_occupied", "tipup_set", "pond_full",
   ],
   place: [
