@@ -233,9 +233,9 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 
 | 附加包 | 漁歌送出 | 效果 |
 | --- | --- | --- |
-| 森羅物語：草本 `kaleidoscope_herbal` | `heat_register`（需要 `external_heat`） | 33 道漁歌料理有寒熱值：螃蟹、生魚片、海苔偏寒；蝦、鰻魚、炸物、辣菜、火鍋、下界料理偏熱 |
+| 森羅物語：草本 `kaleidoscope_herbal` | `heat_register`（需要 `external_heat`） | 39 道漁歌料理有寒熱值：螃蟹、生魚片、海苔偏寒；蝦、鰻魚、炸物、辣菜、火鍋、下界料理偏熱 |
 | 森羅物語：樂牧 `kaleidoscope_ranching` | `register_feed`（需要 `register_feed`） | 魚粉（混合飼料，2 份）、魚乾（穀物類，1 份）可以放進飼槽；蝦米是補鈣飼料（需要 `feed_1_1`） |
-| 森羅物語：豐收 `kaleidoscope_harvest` | 只有 `api_ping` | 豐收還沒有發行。漁歌會記住它的 `api_ready`，等它的作物物品 ID 確定後再加入用到那些作物的配方 |
+| 森羅物語：豐收 `kaleidoscope_harvest` | `api_ping`；1.0.0 不回應，所以改看它的物品在不在 | 有豐收的物品時，7 道用豐收作物的漁歌料理才會登記到森羅廚房：薑絲蛤蜊湯、蔥燒魚、蒜蓉蒸蝦、檸檬魚、黃瓜拌海蜇、花生小魚乾、白蘿蔔魚丸湯。豐收以後若加上 `api_ready`，漁歌也會記住 |
 
 漁歌另外會聽：
 

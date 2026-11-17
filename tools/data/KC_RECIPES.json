@@ -1546,5 +1546,156 @@
       "carrier": "minecraft:bowl",
       "finishedKind": "default"
     }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/ginger_clam_soup",
+      "ingredients": [
+        [
+          "kaleidoscope_fishing:purged_clam",
+          "kaleidoscope_fishing:clam"
+        ],
+        [
+          "kaleidoscope_fishing:purged_clam",
+          "kaleidoscope_fishing:clam"
+        ],
+        [
+          "kaleidoscope_fishing:purged_clam",
+          "kaleidoscope_fishing:clam"
+        ],
+        [
+          "kaleidoscope_harvest:shredded_ginger",
+          "kaleidoscope_harvest:ginger"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:ginger_clam_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/scallion_braised_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        [
+          "kaleidoscope_harvest:chopped_scallion",
+          "kaleidoscope_harvest:scallion"
+        ],
+        "kaleidoscope_harvest:soy_sauce"
+      ],
+      "result": "kaleidoscope_fishing:scallion_braised_fish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/garlic_steamed_shrimp",
+      "ingredients": [
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
+        ],
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
+        ],
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
+        ],
+        [
+          "kaleidoscope_harvest:minced_garlic",
+          "kaleidoscope_harvest:garlic"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:garlic_steamed_shrimp",
+      "count": 1,
+      "time": 200,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/lemon_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_harvest:lemon",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:lemon_fish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/cucumber_jellyfish",
+      "ingredients": [
+        "kaleidoscope_fishing:jellyfish_skin",
+        "kaleidoscope_fishing:jellyfish_skin",
+        "kaleidoscope_harvest:cucumber",
+        "kaleidoscope_harvest:sesame_oil"
+      ],
+      "result": "kaleidoscope_fishing:cucumber_jellyfish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/peanut_dried_fish",
+      "ingredients": [
+        "kaleidoscope_fishing:dried_fish",
+        "kaleidoscope_fishing:dried_fish",
+        "kaleidoscope_harvest:peanut",
+        "kaleidoscope_cookery:red_chili"
+      ],
+      "result": "kaleidoscope_fishing:peanut_dried_fish",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/daikon_fishball_soup",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        [
+          "kaleidoscope_harvest:daikon_slices",
+          "kaleidoscope_harvest:daikon"
+        ],
+        [
+          "kaleidoscope_harvest:chopped_scallion",
+          "kaleidoscope_harvest:scallion"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:daikon_fishball_soup",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
   }
 ]

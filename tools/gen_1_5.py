@@ -1203,6 +1203,58 @@ def small_additions():
     c.save('BASKET_ITEMS', basket)
 
 
+H = 'kaleidoscope_harvest:'
+HARVEST_ITEMS = {   # id: names (en, tw, cn), as 森羅物語：豐收 names them
+    'ginger': ('Ginger', '薑', '姜'), 'shredded_ginger': ('Shredded Ginger', '薑絲', '姜丝'),
+    'scallion': ('Scallion', '蔥', '葱'), 'chopped_scallion': ('Chopped Scallion', '蔥花', '葱花'),
+    'garlic': ('Garlic', '大蒜', '大蒜'), 'minced_garlic': ('Minced Garlic', '蒜末', '蒜末'),
+    'lemon': ('Lemon', '檸檬', '柠檬'), 'cucumber': ('Cucumber', '小黃瓜', '小黄瓜'), 'peanut': ('Peanut', '花生', '花生'),
+    'daikon': ('Daikon', '白蘿蔔', '白萝卜'), 'daikon_slices': ('Daikon Chunks', '蘿蔔塊', '萝卜块'),
+    'soy_sauce': ('Soy Sauce', '醬油', '酱油'), 'sesame_oil': ('Sesame Oil', '芝麻油', '芝麻油'),
+}
+NEEDS_HARVEST = ('Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked.',
+                 '需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。', '需要森罗物语：丰收的食材；没有安装丰收时做不出来。')
+
+
+def harvest_dishes():
+    """The handshake with 森羅物語：豐收 (plan 11.10): seven dishes with its crops. Harvest 1.0.0 has no API of its own, so
+    kc/bridge.js sends a recipe to Cookery only when every ingredient exists (Harvest installed); the items are ours."""
+    S = NS
+    for k, names in HARVEST_ITEMS.items():
+        c.guide_name(H + k, *names)
+        c.lang(f'{c.NS}.ing.kaleidoscope_harvest.{k}', *names, packs=(c.RP,))
+    ginger, scallion, garlic, daikon = [H + 'shredded_ginger', H + 'ginger'], [H + 'chopped_scallion', H + 'scallion'], \
+        [H + 'minced_garlic', H + 'garlic'], [H + 'daikon_slices', H + 'daikon']
+    clam, shrimp = [S + 'purged_clam', S + 'clam'], [S + 'shrimp', S + 'creek_shrimp']
+    dishes = [
+        ('ginger_clam_soup', ('Ginger and Clam Soup', '薑絲蛤蜊湯', '姜丝蛤蜊汤'), 6, 0.6, True,
+         [('stockpot', [clam, clam, clam, ginger], None)], ('Clams in a clear broth with shredded ginger.', '清湯裡的蛤蜊和薑絲。', '清汤里的蛤蜊和姜丝。'), 10),
+        ('scallion_braised_fish', ('Scallion Braised Fish', '蔥燒魚', '葱烧鱼'), 9, 0.8, False,
+         [('wok', ['white_fish_fillet', 'white_fish_fillet', scallion, H + 'soy_sauce'], None)], ('Fish braised in soy sauce with plenty of scallion.', '醬油燒魚，放很多蔥。', '酱油烧鱼，放很多葱。'), 5),
+        ('garlic_steamed_shrimp', ('Garlic Steamed Shrimp', '蒜蓉蒸蝦', '蒜蓉蒸虾'), 7, 0.7, False,
+         [('stockpot', [shrimp, shrimp, shrimp, garlic], {'time': 200})], ('Shrimp split open and steamed under golden garlic.', '開背的蝦鋪上蒜蓉蒸熟。', '开背的虾铺上蒜蓉蒸熟。'), 10),
+        ('lemon_fish', ('Lemon Fish', '檸檬魚', '柠檬鱼'), 8, 0.7, False,
+         [('wok', ['white_fish_fillet', 'white_fish_fillet', H + 'lemon', 'kaleidoscope_cookery:oil'], None)], ('Fried fish with a sharp lemon sauce.', '炸魚淋上酸香的檸檬汁。', '炸鱼淋上酸香的柠檬汁。'), -5),
+        ('cucumber_jellyfish', ('Cucumber and Jellyfish Salad', '黃瓜拌海蜇', '黄瓜拌海蜇'), 5, 0.6, False,
+         [('wok', ['jellyfish_skin', 'jellyfish_skin', H + 'cucumber', H + 'sesame_oil'], None)], ('Jellyfish strips tossed with cucumber and sesame oil.', '海蜇皮拌小黃瓜和芝麻油。', '海蜇皮拌小黄瓜和芝麻油。'), -10),
+        ('peanut_dried_fish', ('Peanuts and Small Dried Fish', '花生小魚乾', '花生小鱼干'), 6, 0.6, False,
+         [('wok', ['dried_fish', 'dried_fish', H + 'peanut', 'kaleidoscope_cookery:red_chili'], None)], ('Crisp small dried fish fried with peanuts and chili.', '酥脆的小魚乾和花生、辣椒一起炒。', '酥脆的小鱼干和花生、辣椒一起炒。'), 10),
+        ('daikon_fishball_soup', ('Daikon and Fish Ball Soup', '白蘿蔔魚丸湯', '白萝卜鱼丸汤'), 9, 0.8, True,
+         [('stockpot', ['white_fish_fillet', 'white_fish_fillet', daikon, scallion], None)], ('Fish balls and daikon in a light broth with scallion.', '魚丸和白蘿蔔煮成的清湯，撒上蔥花。', '鱼丸和白萝卜煮成的清汤，撒上葱花。'), 0),
+    ]
+    heat = c.data('HERBAL_HEAT')
+    after = 'jellyfish_radish'
+    for key, name, n, sat, bowl, how, text, h in dishes:
+        c.dish(key, name, n, sat, how, bowl=bowl, after=after,
+               text=tuple(f'{t} {x}' for t, x in zip(text, NEEDS_HARVEST)))
+        after = key
+        if h:
+            heat[S + key] = h
+        else:
+            heat.pop(S + key, None)
+    c.save('HERBAL_HEAT', heat)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -1225,4 +1277,5 @@ if __name__ == '__main__':
     fish_pond()
     fishing_skiff()
     small_additions()
+    harvest_dishes()
     print('1.5.0 content written; now run: python tools/build.py build')

@@ -287,7 +287,8 @@
     "kaleidoscope_fishing:paella",
     "kaleidoscope_fishing:seafood_hot_pot",
     "kaleidoscope_fishing:raw_har_gow",
-    "kaleidoscope_fishing:salted_shrimp"
+    "kaleidoscope_fishing:salted_shrimp",
+    "kaleidoscope_fishing:garlic_steamed_shrimp"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -729,7 +730,10 @@
     "kaleidoscope_fishing:stir_fried_snakehead",
     "kaleidoscope_fishing:mushroom_flounder_stew",
     "kaleidoscope_fishing:cherry_trout_rice",
-    "kaleidoscope_fishing:echo_ray_pot"
+    "kaleidoscope_fishing:echo_ray_pot",
+    "kaleidoscope_fishing:scallion_braised_fish",
+    "kaleidoscope_fishing:lemon_fish",
+    "kaleidoscope_fishing:daikon_fishball_soup"
    ]
   },
   {
@@ -1006,7 +1010,8 @@
    ],
    "usedBy": [
     "kaleidoscope_fishing:fish_meal",
-    "kaleidoscope_fishing:spicy_dried_fish"
+    "kaleidoscope_fishing:spicy_dried_fish",
+    "kaleidoscope_fishing:peanut_dried_fish"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -7794,7 +7799,8 @@
    ],
    "usedBy": [
     "kaleidoscope_fishing:jellyfish_salad",
-    "kaleidoscope_fishing:jellyfish_radish"
+    "kaleidoscope_fishing:jellyfish_radish",
+    "kaleidoscope_fishing:cucumber_jellyfish"
    ]
   },
   {
@@ -8642,7 +8648,8 @@
     "kaleidoscope_fishing:spicy_clams",
     "kaleidoscope_fishing:paella",
     "kaleidoscope_fishing:seafood_hot_pot",
-    "kaleidoscope_fishing:clam_steamed_egg"
+    "kaleidoscope_fishing:clam_steamed_egg",
+    "kaleidoscope_fishing:ginger_clam_soup"
    ]
   },
   {
@@ -9259,6 +9266,295 @@
    "mechanics": [
     "Crunchy jellyfish strips tossed with shredded carrot and a little oil."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:ginger_clam_soup",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_ginger_clam_soup",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:purged_clam",
+      "kaleidoscope_fishing:purged_clam",
+      "kaleidoscope_fishing:purged_clam",
+      "kaleidoscope_harvest:shredded_ginger"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:ginger_clam_soup"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Clams in a clear broth with shredded ginger. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "清湯裡的蛤蜊和薑絲。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "清汤里的蛤蜊和姜丝。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Clams in a clear broth with shredded ginger. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:scallion_braised_fish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_scallion_braised_fish",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_harvest:chopped_scallion",
+      "kaleidoscope_harvest:soy_sauce"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:scallion_braised_fish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Fish braised in soy sauce with plenty of scallion. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "醬油燒魚，放很多蔥。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "酱油烧鱼，放很多葱。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Fish braised in soy sauce with plenty of scallion. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:garlic_steamed_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_garlic_steamed_shrimp",
+   "food": {
+    "nutrition": 7,
+    "saturation": 0.7
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_harvest:minced_garlic"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:garlic_steamed_shrimp"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Shrimp split open and steamed under golden garlic. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "開背的蝦鋪上蒜蓉蒸熟。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "开背的虾铺上蒜蓉蒸熟。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Shrimp split open and steamed under golden garlic. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lemon_fish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_lemon_fish",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_harvest:lemon",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:lemon_fish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Fried fish with a sharp lemon sauce. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "炸魚淋上酸香的檸檬汁。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "炸鱼淋上酸香的柠檬汁。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Fried fish with a sharp lemon sauce. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:cucumber_jellyfish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_cucumber_jellyfish",
+   "food": {
+    "nutrition": 5,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_harvest:cucumber",
+      "kaleidoscope_harvest:sesame_oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:cucumber_jellyfish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Jellyfish strips tossed with cucumber and sesame oil. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "海蜇皮拌小黃瓜和芝麻油。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "海蜇皮拌小黄瓜和芝麻油。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Jellyfish strips tossed with cucumber and sesame oil. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:peanut_dried_fish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_peanut_dried_fish",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_harvest:peanut",
+      "kaleidoscope_cookery:red_chili"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:peanut_dried_fish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Crisp small dried fish fried with peanuts and chili. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "酥脆的小魚乾和花生、辣椒一起炒。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "酥脆的小鱼干和花生、辣椒一起炒。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Crisp small dried fish fried with peanuts and chili. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:daikon_fishball_soup",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_daikon_fishball_soup",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_harvest:daikon_slices",
+      "kaleidoscope_harvest:chopped_scallion"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:daikon_fishball_soup"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Fish balls and daikon in a light broth with scallion. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+    ],
+    "zh_TW": [
+     "魚丸和白蘿蔔煮成的清湯，撒上蔥花。 需要森羅物語：豐收的食材；沒有安裝豐收時做不出來。"
+    ],
+    "zh_CN": [
+     "鱼丸和白萝卜煮成的清汤，撒上葱花。 需要森罗物语：丰收的食材；没有安装丰收时做不出来。"
+    ]
+   },
+   "mechanics": [
+    "Fish balls and daikon in a light broth with scallion. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
+   ]
   }
  ],
  "names": {
@@ -9614,7 +9910,27 @@
    "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe",
    "minecraft:oak_boat": "Oak Boat",
    "kaleidoscope_fishing:fishing_skiff": "Fishing Skiff",
-   "kaleidoscope_fishing:jellyfish_radish": "Jellyfish and Carrot Salad"
+   "kaleidoscope_fishing:jellyfish_radish": "Jellyfish and Carrot Salad",
+   "kaleidoscope_harvest:ginger": "Ginger",
+   "kaleidoscope_harvest:shredded_ginger": "Shredded Ginger",
+   "kaleidoscope_harvest:scallion": "Scallion",
+   "kaleidoscope_harvest:chopped_scallion": "Chopped Scallion",
+   "kaleidoscope_harvest:garlic": "Garlic",
+   "kaleidoscope_harvest:minced_garlic": "Minced Garlic",
+   "kaleidoscope_harvest:lemon": "Lemon",
+   "kaleidoscope_harvest:cucumber": "Cucumber",
+   "kaleidoscope_harvest:peanut": "Peanut",
+   "kaleidoscope_harvest:daikon": "Daikon",
+   "kaleidoscope_harvest:daikon_slices": "Daikon Chunks",
+   "kaleidoscope_harvest:soy_sauce": "Soy Sauce",
+   "kaleidoscope_harvest:sesame_oil": "Sesame Oil",
+   "kaleidoscope_fishing:ginger_clam_soup": "Ginger and Clam Soup",
+   "kaleidoscope_fishing:scallion_braised_fish": "Scallion Braised Fish",
+   "kaleidoscope_fishing:garlic_steamed_shrimp": "Garlic Steamed Shrimp",
+   "kaleidoscope_fishing:lemon_fish": "Lemon Fish",
+   "kaleidoscope_fishing:cucumber_jellyfish": "Cucumber and Jellyfish Salad",
+   "kaleidoscope_fishing:peanut_dried_fish": "Peanuts and Small Dried Fish",
+   "kaleidoscope_fishing:daikon_fishball_soup": "Daikon and Fish Ball Soup"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9968,7 +10284,27 @@
    "kaleidoscope_fishing:fertilized_roe": "受精卵",
    "minecraft:oak_boat": "橡木船",
    "kaleidoscope_fishing:fishing_skiff": "釣魚小船",
-   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌蘿蔔絲"
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌蘿蔔絲",
+   "kaleidoscope_harvest:ginger": "薑",
+   "kaleidoscope_harvest:shredded_ginger": "薑絲",
+   "kaleidoscope_harvest:scallion": "蔥",
+   "kaleidoscope_harvest:chopped_scallion": "蔥花",
+   "kaleidoscope_harvest:garlic": "大蒜",
+   "kaleidoscope_harvest:minced_garlic": "蒜末",
+   "kaleidoscope_harvest:lemon": "檸檬",
+   "kaleidoscope_harvest:cucumber": "小黃瓜",
+   "kaleidoscope_harvest:peanut": "花生",
+   "kaleidoscope_harvest:daikon": "白蘿蔔",
+   "kaleidoscope_harvest:daikon_slices": "蘿蔔塊",
+   "kaleidoscope_harvest:soy_sauce": "醬油",
+   "kaleidoscope_harvest:sesame_oil": "芝麻油",
+   "kaleidoscope_fishing:ginger_clam_soup": "薑絲蛤蜊湯",
+   "kaleidoscope_fishing:scallion_braised_fish": "蔥燒魚",
+   "kaleidoscope_fishing:garlic_steamed_shrimp": "蒜蓉蒸蝦",
+   "kaleidoscope_fishing:lemon_fish": "檸檬魚",
+   "kaleidoscope_fishing:cucumber_jellyfish": "黃瓜拌海蜇",
+   "kaleidoscope_fishing:peanut_dried_fish": "花生小魚乾",
+   "kaleidoscope_fishing:daikon_fishball_soup": "白蘿蔔魚丸湯"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10322,7 +10658,27 @@
    "kaleidoscope_fishing:fertilized_roe": "受精卵",
    "minecraft:oak_boat": "橡木船",
    "kaleidoscope_fishing:fishing_skiff": "钓鱼小船",
-   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌萝卜丝"
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌萝卜丝",
+   "kaleidoscope_harvest:ginger": "姜",
+   "kaleidoscope_harvest:shredded_ginger": "姜丝",
+   "kaleidoscope_harvest:scallion": "葱",
+   "kaleidoscope_harvest:chopped_scallion": "葱花",
+   "kaleidoscope_harvest:garlic": "大蒜",
+   "kaleidoscope_harvest:minced_garlic": "蒜末",
+   "kaleidoscope_harvest:lemon": "柠檬",
+   "kaleidoscope_harvest:cucumber": "小黄瓜",
+   "kaleidoscope_harvest:peanut": "花生",
+   "kaleidoscope_harvest:daikon": "白萝卜",
+   "kaleidoscope_harvest:daikon_slices": "萝卜块",
+   "kaleidoscope_harvest:soy_sauce": "酱油",
+   "kaleidoscope_harvest:sesame_oil": "芝麻油",
+   "kaleidoscope_fishing:ginger_clam_soup": "姜丝蛤蜊汤",
+   "kaleidoscope_fishing:scallion_braised_fish": "葱烧鱼",
+   "kaleidoscope_fishing:garlic_steamed_shrimp": "蒜蓉蒸虾",
+   "kaleidoscope_fishing:lemon_fish": "柠檬鱼",
+   "kaleidoscope_fishing:cucumber_jellyfish": "黄瓜拌海蜇",
+   "kaleidoscope_fishing:peanut_dried_fish": "花生小鱼干",
+   "kaleidoscope_fishing:daikon_fishball_soup": "白萝卜鱼丸汤"
   }
  },
  "text": {

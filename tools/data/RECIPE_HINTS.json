@@ -1921,5 +1921,144 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:ginger_clam_soup",
+    "nameKey": "kaleidoscope_fishing.name.ginger_clam_soup",
+    "icon": "textures/items/kfv_ginger_clam_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.purged_clam",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.shredded_ginger",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:scallion_braised_fish",
+    "nameKey": "kaleidoscope_fishing.name.scallion_braised_fish",
+    "icon": "textures/items/kfv_scallion_braised_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.chopped_scallion",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.soy_sauce",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:garlic_steamed_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.garlic_steamed_shrimp",
+    "icon": "textures/items/kfv_garlic_steamed_shrimp",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        3
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.minced_garlic",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:lemon_fish",
+    "nameKey": "kaleidoscope_fishing.name.lemon_fish",
+    "icon": "textures/items/kfv_lemon_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.lemon",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:cucumber_jellyfish",
+    "nameKey": "kaleidoscope_fishing.name.cucumber_jellyfish",
+    "icon": "textures/items/kfv_cucumber_jellyfish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.jellyfish_skin",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.cucumber",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.sesame_oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:peanut_dried_fish",
+    "nameKey": "kaleidoscope_fishing.name.peanut_dried_fish",
+    "icon": "textures/items/kfv_peanut_dried_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_fish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.peanut",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:daikon_fishball_soup",
+    "nameKey": "kaleidoscope_fishing.name.daikon_fishball_soup",
+    "icon": "textures/items/kfv_daikon_fishball_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.daikon_slices",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_harvest.chopped_scallion",
+        1
+      ]
+    ]
   }
 ]

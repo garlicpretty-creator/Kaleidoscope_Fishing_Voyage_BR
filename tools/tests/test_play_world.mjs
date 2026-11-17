@@ -140,7 +140,30 @@ P.location = { x: 0.5, y: 65, z: 0.5 };
   fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
   const recs = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_recipe');
   const bases = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_stockpot_base');
-  ok(KC_RECIPES.length >= 84 && recs.length === KC_RECIPES.length, `bridge: api_ready -> every recipe is registered (${recs.length} of ${KC_RECIPES.length}; 1.4.0 had 84)`);
+  const needsHarvest = r => JSON.stringify(r.recipe).includes('kaleidoscope_harvest:');
+  const ownOnly = KC_RECIPES.filter(r => !needsHarvest(r));
+  ok(KC_RECIPES.length >= 84 && recs.length === ownOnly.length && recs.every(e => !e.msg.includes('kaleidoscope_harvest:')),
+    `bridge: api_ready -> every recipe is registered (${recs.length} of ${KC_RECIPES.length}; 1.4.0 had 84); without Harvest its ${KC_RECIPES.length - ownOnly.length} dishes wait`);
+  {
+    // with 森羅物語：豐收 installed its items exist: the dishes with its crops go too
+    const BR = await importScript('kc/bridge.js');
+    const harvestItems = new Set(KC_RECIPES.flatMap(r => JSON.stringify(r.recipe).match(/kaleidoscope_harvest:[a-z_]+/g) ?? []));
+    BR._setItemExists(id => harvestItems.has(id)); BR._resetBridge();
+    const n1 = sent.length;
+    fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
+    const all = sent.slice(n1).filter(e => e.id === 'kaleidoscope_cookery:register_recipe');
+    ok(all.length === KC_RECIPES.length && KC_RECIPES.length - ownOnly.length === 7, `bridge: with Harvest installed all ${all.length} recipes go, the 7 Harvest dishes among them`);
+    BR._setItemExists(id => id === 'kaleidoscope_harvest:ginger');  // only whole ginger: the soup still goes (either ginger), the rest wait
+    BR._resetBridge();
+    const n2 = sent.length;
+    fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
+    const some = sent.slice(n2).filter(e => e.id === 'kaleidoscope_cookery:register_recipe').map(e => JSON.parse(e.msg).recipe);
+    const soup = some.find(r => r.id === 'kaleidoscope_fishing:stockpot/ginger_clam_soup');
+    ok(some.length === ownOnly.length + 1 && soup && JSON.stringify(soup.ingredients).includes('kaleidoscope_harvest:ginger') && !JSON.stringify(soup.ingredients).includes('shredded_ginger'),
+      'bridge: a slot that takes several items keeps only those that exist');
+    BR._setItemExists(() => false); BR._resetBridge();
+    fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
+  }
   const parsed = recs.map(e => { try { return JSON.parse(e.msg); } catch { return null; } });
   ok(parsed.every(p => p && p.api === 1 && p.source === 'kaleidoscope_fishing' && p.kind && p.recipe?.id), 'bridge: every recipe message is valid JSON with api, source, kind and recipe.id');
   const longest = Math.max(...sent.slice(n0).map(e => e.msg.length));

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_daikon_fishball_soup",
+    "metalness_emissive_roughness": "kfv_daikon_fishball_soup_mer",
+    "normal": "kfv_daikon_fishball_soup_normal"
+  }
+}
