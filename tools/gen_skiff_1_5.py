@@ -15,6 +15,8 @@ to the entity's left, which in a Bedrock model is +x (the face of a mob is -z, i
 with its bow towards -z (the drawing, as before) and the model is that drawing turned so the bow points to +x
 (BOW = 1; BOW = -1 would turn it to -x if a game test ever shows it backwards: geometry, seat and Molang all follow).
 The seat turns the rider the same way the vanilla chest boat's does (rotate_rider_by -90, lock_rider_rotation 90).
+That reasoning put the bow 90 degrees off in game: drawn, the boat sails along the model's z axis. The bone `heading`
+(HEADING, below) now turns the finished model so the bow points to -z; the rest is as described here.
 
 The model (polished in 1.5.0), about the size of a vanilla boat (31 long, 20 wide):
   hull     (bone `hull`) clinker planks of oiled oak, a teal sheer strake under the gunwale and red-brown bottom
@@ -248,6 +250,11 @@ def s_mesh(p, n):
 # The hull is drawn with its bow towards -z (the "drawing"); the model is that drawing turned about y so the bow
 # points along +x * BOW (see the docstring: a boat's travel direction is 90 degrees off its entity rotation).
 BOW = 1
+# In game (reported 2026-11: "it only moves sideways, the bow never points where it goes") the boat sails along the
+# model's z axis, not its x axis: the game already allows for the 90 degrees when it draws a boat. The model is
+# built as before and one bone, `heading`, turns all of it a quarter turn so the bow (+x * BOW) points to -z, the
+# way a mob's face does. If a game test shows the stern leading, HEADING = -90 turns it end for end.
+HEADING = 90 * BOW
 
 
 def to_model(p):
@@ -426,7 +433,10 @@ def model():
         if cubes:
             b['cubes'] = cubes
         return b
-    bones = [{'name': 'root', 'pivot': [0, 3, 0]},
+    # `heading` turns the whole boat so its bow points the way the game sails it (HEADING, see the docstring);
+    # everything else hangs off `root` below it and is unchanged.
+    bones = [{'name': 'heading', 'pivot': [0, 0, 0], 'rotation': bone_rot(ry=HEADING)},
+             {'name': 'root', 'parent': 'heading', 'pivot': [0, 3, 0]},
              bone('hull', hull + inside, locators={'bow': g.at([0, 3.5, -19.5]), 'stern': g.at([0, 2.0, 18])}),
              *oars,
              bone('crate', crate),
