@@ -1206,8 +1206,8 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   d = drops();
   ok(d.length === 1 && d[0].id === NS + 'raw_laver' && d[0].amount >= 2 && st(reef, 'growth') === 1, 'laver rock: a knife harvests a grown one too');
   const perms = blockDefs.get(NS + 'oyster_bed').permutations;
-  ok(perms.length === 12 && perms.filter(p => p.components['minecraft:transformation'].scale).length === 8,
-    'oyster bed: four facings for each of the three stages, the two young ones drawn smaller');
+  ok(perms.length === 12 && perms.filter(p => /_young[01]$/.test(p.components['minecraft:geometry'] || '')).length === 8,
+    'oyster bed: four facings for each of the three stages, the two young ones with models of their own');
   biome = 'minecraft:plains';
 }
 

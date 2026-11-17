@@ -153,18 +153,9 @@
               0,
               0,
               0
-            ],
-            "scale": [
-              0.8,
-              0.65,
-              0.8
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young1"
         }
       },
       {
@@ -175,18 +166,9 @@
               0,
               270,
               0
-            ],
-            "scale": [
-              0.8,
-              0.65,
-              0.8
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young1"
         }
       },
       {
@@ -197,18 +179,9 @@
               0,
               180,
               0
-            ],
-            "scale": [
-              0.8,
-              0.65,
-              0.8
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young1"
         }
       },
       {
@@ -219,18 +192,9 @@
               0,
               90,
               0
-            ],
-            "scale": [
-              0.8,
-              0.65,
-              0.8
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young1"
         }
       },
       {
@@ -241,18 +205,9 @@
               0,
               0,
               0
-            ],
-            "scale": [
-              0.55,
-              0.4,
-              0.55
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young0"
         }
       },
       {
@@ -263,18 +218,9 @@
               0,
               270,
               0
-            ],
-            "scale": [
-              0.55,
-              0.4,
-              0.55
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young0"
         }
       },
       {
@@ -285,18 +231,9 @@
               0,
               180,
               0
-            ],
-            "scale": [
-              0.55,
-              0.4,
-              0.55
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young0"
         }
       },
       {
@@ -307,18 +244,9 @@
               0,
               90,
               0
-            ],
-            "scale": [
-              0.55,
-              0.4,
-              0.55
-            ],
-            "scale_pivot": [
-              0,
-              -0.5,
-              0
             ]
-          }
+          },
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.oyster_bed_young0"
         }
       }
     ]
