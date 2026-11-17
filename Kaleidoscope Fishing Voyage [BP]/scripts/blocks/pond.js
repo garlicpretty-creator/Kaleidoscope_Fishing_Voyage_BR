@@ -28,6 +28,7 @@ import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { externalFeed, externalTank } from "../fishing/registry.js";
 import { isWater } from "../fishing/water.js";
 import { refuse } from "../util/hint.js";
+import { biomeIdAt } from "../util/biome.js";
 import { spawnParticle } from "../util/particles.js";
 import { burst, feedFx } from "./stationFx.js";
 
@@ -104,7 +105,7 @@ export function countPond(dim, pos) {
     }
   }
   let sea = false;
-  try { sea = SEA_BIOME.test(String(dim.getBiome?.(pos)?.id ?? "")); } catch {}
+  try { sea = SEA_BIOME.test(biomeIdAt(dim, pos)); } catch {}
   return { n: seen.size, spots, other, sea };
 }
 

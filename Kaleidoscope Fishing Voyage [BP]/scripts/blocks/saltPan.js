@@ -8,6 +8,7 @@ import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { isRaining } from "../fishing/water.js";
 import { refuse } from "../util/hint.js";
+import { biomeIdAt } from "../util/biome.js";
 import { ambient, burst, on } from "./stationFx.js";
 
 const NS = "kaleidoscope_fishing";
@@ -24,9 +25,7 @@ const fx = (block, ...names) => burst(block.dimension, face(block), ...names);
 
 /** By the sea: an ocean or beach biome (where the game can tell). Exported for tests. */
 export function bySea(block) {
-  let id = "";
-  try { id = String(block.dimension.getBiome?.(block.location)?.id ?? ""); } catch {}
-  return /ocean|beach|shore/.test(id);
+  return /ocean|beach|shore/.test(biomeIdAt(block.dimension, block.location));
 }
 /** Nothing above it but air: open to the sun. */
 export function openSky(block) {

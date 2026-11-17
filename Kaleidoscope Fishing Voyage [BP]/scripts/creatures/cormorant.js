@@ -9,6 +9,7 @@ import { isWater } from "../fishing/water.js";
 import { SMALL, applyClass } from "../fishing/size.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
+import { biomeIdAt } from "../util/biome.js";
 
 const NS = "kaleidoscope_fishing";
 const CORM = `${NS}:cormorant`;
@@ -101,8 +102,7 @@ function findWater(c) {
 }
 
 function pickFish(dim, at) {
-  let biome = "";
-  try { biome = String(dim.getBiome?.(at)?.id ?? ""); } catch {}
+  const biome = biomeIdAt(dim, at);
   const table = /ocean|beach|shore/.test(biome) ? SEA : RIVER;
   let r = Math.random() * table.reduce((a, [, w]) => a + w, 0);
   for (const [id, w] of table) { r -= w; if (r <= 0) return id.includes(":") ? id : `${NS}:${id}`; }
