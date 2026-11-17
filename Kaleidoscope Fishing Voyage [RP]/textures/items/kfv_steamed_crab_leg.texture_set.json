@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_steamed_crab_leg",
+    "metalness_emissive_roughness": "kfv_steamed_crab_leg_mer",
+    "normal": "kfv_steamed_crab_leg_normal"
+  }
+}

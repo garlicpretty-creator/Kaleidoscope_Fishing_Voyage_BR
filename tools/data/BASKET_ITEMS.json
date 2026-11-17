@@ -253,5 +253,70 @@
     "id": "kaleidoscope_fishing:cave_crayfish",
     "nameKey": "kaleidoscope_fishing.name.cave_crayfish",
     "icon": "textures/items/kfv_cave_crayfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:river_lord_catfish",
+    "nameKey": "kaleidoscope_fishing.name.river_lord_catfish",
+    "icon": "textures/items/kfv_river_lord_catfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:emperor_tuna",
+    "nameKey": "kaleidoscope_fishing.name.emperor_tuna",
+    "icon": "textures/items/kfv_emperor_tuna"
+  },
+  {
+    "id": "kaleidoscope_fishing:frostlake_char",
+    "nameKey": "kaleidoscope_fishing.name.frostlake_char",
+    "icon": "textures/items/kfv_frostlake_char"
+  },
+  {
+    "id": "kaleidoscope_fishing:lava_dragon_koi",
+    "nameKey": "kaleidoscope_fishing.name.lava_dragon_koi",
+    "icon": "textures/items/kfv_lava_dragon_koi"
+  },
+  {
+    "id": "kaleidoscope_fishing:mycelium_flounder",
+    "nameKey": "kaleidoscope_fishing.name.mycelium_flounder",
+    "icon": "textures/items/kfv_mycelium_flounder"
+  },
+  {
+    "id": "kaleidoscope_fishing:spore_seahorse",
+    "nameKey": "kaleidoscope_fishing.name.spore_seahorse",
+    "icon": "textures/items/kfv_spore_seahorse"
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout",
+    "nameKey": "kaleidoscope_fishing.name.cherry_trout",
+    "icon": "textures/items/kfv_cherry_trout"
+  },
+  {
+    "id": "kaleidoscope_fishing:creek_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.creek_shrimp",
+    "icon": "textures/items/kfv_creek_shrimp"
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray",
+    "nameKey": "kaleidoscope_fishing.name.echo_ray",
+    "icon": "textures/items/kfv_echo_ray"
+  },
+  {
+    "id": "kaleidoscope_fishing:sculk_lanternfish",
+    "nameKey": "kaleidoscope_fishing.name.sculk_lanternfish",
+    "icon": "textures/items/kfv_sculk_lanternfish"
+  },
+  {
+    "id": "kaleidoscope_fishing:meteor_marlin",
+    "nameKey": "kaleidoscope_fishing.name.meteor_marlin",
+    "icon": "textures/items/kfv_meteor_marlin"
+  },
+  {
+    "id": "kaleidoscope_fishing:aurora_icefish",
+    "nameKey": "kaleidoscope_fishing.name.aurora_icefish",
+    "icon": "textures/items/kfv_aurora_icefish"
+  },
+  {
+    "id": "kaleidoscope_fishing:whole_squid",
+    "nameKey": "kaleidoscope_fishing.name.whole_squid",
+    "icon": "textures/items/kfv_whole_squid"
   }
 ]

@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:spore_seahorse",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_fishing:itemGroup.name.catches"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.spore_seahorse"
+      },
+      "minecraft:icon": "kfv_spore_seahorse",
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

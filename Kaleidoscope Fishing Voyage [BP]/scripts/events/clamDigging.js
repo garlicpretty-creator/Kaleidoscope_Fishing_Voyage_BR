@@ -6,10 +6,13 @@
 import { ItemStack, system, world } from "@minecraft/server";
 import { isRaining, isWater, tideState } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
+import { skyTonight } from "../world/sky.js";
 
 const NS = "kaleidoscope_fishing";
 const CLAM = `${NS}:clam`;
 const CHANCE = 0.12;
+const STAR_SAND = `${NS}:star_sand`;
+export const STAR_SAND_CHANCE = 0.15;
 
 const SPOT_LIFE = 2400;          // ticks (2 minutes)
 const PER_PLAYER = 3;            // spots within RANGE of a player (x2 at low tide)
@@ -125,6 +128,9 @@ world.afterEvents.playerBreakBlock.subscribe(ev => {
   if (spots.has(k)) {
     spots.delete(k);
     try { ev.dimension.spawnItem(new ItemStack(pick(DIG_TABLE), 1), at); } catch {}
+    if (skyTonight() === "meteor" && Math.random() < STAR_SAND_CHANCE) {   // 1.5.0: a meteor night leaves star sand
+      try { ev.dimension.spawnItem(new ItemStack(STAR_SAND, 1), at); } catch {}
+    }
     try { ev.dimension.playSound("random.splash", at, { pitch: 1.6, volume: 0.4 }); } catch {}
     return;
   }

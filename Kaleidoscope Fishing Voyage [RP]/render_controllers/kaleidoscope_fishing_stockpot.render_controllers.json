@@ -84,6 +84,48 @@
           1.0
         ]
       }
+    },
+    "controller.render.kaleidoscope_fishing.stockpot_shrimp_stock": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "uv_anim": {
+        "offset": [
+          "query.life_time * 0.01",
+          "Math.floor(query.life_time * 20.0) / 32.0"
+        ],
+        "scale": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "controller.render.kaleidoscope_fishing.stockpot_shrimp_stock_cooking": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "uv_anim": {
+        "offset": [
+          "query.life_time * 0.006",
+          "Math.floor(query.life_time * 20.0) / 32.0"
+        ],
+        "scale": [
+          1.0,
+          1.0
+        ]
+      }
     }
   }
 }

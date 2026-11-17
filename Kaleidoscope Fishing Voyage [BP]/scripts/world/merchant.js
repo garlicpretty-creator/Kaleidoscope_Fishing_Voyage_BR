@@ -9,9 +9,11 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { isWater } from "../fishing/water.js";
 import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES } from "../data/generated.js";
-import { LARGE, MEDIUM, SMALL, readSize } from "../fishing/size.js";
+import { LARGE, MEDIUM, SMALL, isFarmed, rangeOf, readSize } from "../fishing/size.js";
 import { WANT_LIST } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
+import { externalPrice } from "../fishing/registry.js";
+import { emit } from "../api/host.js";
 
 const NS = "kaleidoscope_fishing";
 const MERCHANT = `${NS}:fish_merchant`;
@@ -63,7 +65,7 @@ function check() {
   if (!p || !nearWater(p)) return;
   const at = spawnSpot(p);
   if (!at) return;
-  try { const m = p.dimension.spawnEntity(MERCHANT, at); setWants(m); bell(p.dimension, at, 0.8); } catch {}
+  try { const m = p.dimension.spawnEntity(MERCHANT, at); setWants(m); orderOf(m); bell(p.dimension, at, 0.8); } catch {}
 }
 
 system.runInterval(() => { try { for (const m of merchants()) wantsOf(m); check(); } catch (err) { console.warn(`[Fishing Voyage] merchant: ${err}`); } }, CHECK);
@@ -78,9 +80,11 @@ const WANTS = `${NS}:wants`;
 const WANT_BONUS = 2;
 const WANTS_DAY = `${NS}:wants_day`;             // a merchant who stays a second day wants new fish that day
 const today = () => { try { return world.getDay(); } catch { return 0; } };
-const pickWants = () => { const a = [...WANT_LIST]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, 2); };
+const pickWants = (not) => { const a = WANT_LIST.filter(id => id !== not); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, 2); };
 function setWants(m) {
-  const w = pickWants();
+  let ordered;                                   // 1.5.0: the day's wanted fish are never the fish of his order
+  try { ordered = JSON.parse(m.getDynamicProperty(`${NS}:order`) ?? "null")?.id; } catch {}
+  const w = pickWants(ordered);
   try { m.setDynamicProperty(WANTS, JSON.stringify(w)); m.setDynamicProperty(WANTS_DAY, today()); } catch {}
   try { m.setProperty(`${NS}:want_a`, WANT_LIST.indexOf(w[0]) + 1); m.setProperty(`${NS}:want_b`, WANT_LIST.indexOf(w[1]) + 1); } catch {}
   return w;
@@ -100,8 +104,83 @@ export function wantsNear(player) {
   return wantsOf(near).slice(0, 2);
 }
 
+// --------------------------------------------------------------- his order (1.5.0)
+// Besides the two fish of the day, a merchant carries one order for his whole visit: so many of one fish, now and
+// then of medium size or better. Fish sold to him count toward it, each player on their own; a filled order
+// brings a reward. The order's fish hangs low on his pole, and the journal's tide page tells the count.
+const ORDER = `${NS}:order`, ORDER_DONE = `${NS}:order_done`;
+const ORDER_SIZED_CHANCE = 0.3;
+// cheap fish: six of them; middling: four; dear: two
+const orderCount = id => (MERCHANT_PRICES[id] <= 0.25 ? 6 : MERCHANT_PRICES[id] <= 0.5 ? 4 : 2);
+export const ORDER_REWARDS = [
+  { w: 30, give: () => [new ItemStack(`${NS}:recipe_scrap`, 1)] },
+  { w: 30, give: () => [new ItemStack([`${NS}:copper_hook`, `${NS}:hemp_line`, `${NS}:bamboo_bobber`][randInt(0, 2)], 1)] },
+  { w: 25, give: () => [new ItemStack(Math.random() < 0.5 ? `${NS}:fish_meal_bait` : `${NS}:glow_bait`, 8)] },
+  { w: 8, give: () => [new ItemStack(`${NS}:wooden_tub`, 1)] },         // 1.5.0: the tub and the pond feeder
+  { w: 8, give: () => [new ItemStack(`${NS}:pond_feeder`, 1)] },
+  { w: 15, give: () => [new ItemStack("minecraft:emerald", 6)] },
+];
+function setOrder(m) {
+  let wants = [];
+  try { wants = JSON.parse(m.getDynamicProperty(WANTS) ?? "[]") ?? []; } catch {}
+  const pool = WANT_LIST.filter(id => !wants.includes(id) && MERCHANT_PRICES[id] !== undefined);
+  const id = pool[randInt(0, pool.length - 1)];
+  if (!id) return undefined;
+  const o = { id, n: orderCount(id), min: rangeOf(id) && Math.random() < ORDER_SIZED_CHANCE ? MEDIUM : 0 };
+  try { m.setDynamicProperty(ORDER, JSON.stringify(o)); m.setDynamicProperty(ORDER_DONE, "{}"); } catch {}
+  try { m.setProperty(ORDER, WANT_LIST.indexOf(id) + 1); } catch {}
+  return o;
+}
+/** The merchant's order { id, n, min }. One who came before 1.5.0 gets his the first time he is asked. */
+export function orderOf(m) {
+  try { const v = JSON.parse(m.getDynamicProperty(ORDER) ?? "null"); if (v && typeof v.id === "string" && v.n > 0) return v; } catch {}
+  wantsOf(m);
+  return setOrder(m);
+}
+function progressOf(m) {
+  try { const v = JSON.parse(m.getDynamicProperty(ORDER_DONE) ?? "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; }
+}
+/** How many more fish of this kind and size (a record counts as large) the player may hand in for the order. */
+function orderRoom(m, player, id, cls, record) {
+  const o = orderOf(m);
+  if (!o || o.id !== id) return 0;
+  if (o.min && !record && (cls || MEDIUM) < o.min) return 0;      // a fish with no mark counts as medium (size.js)
+  return Math.max(0, o.n - (progressOf(m)[player.id] ?? 0));
+}
+/** Count n fish toward the player's order; hands over the reward when it is filled. */
+function fillOrder(m, player, n) {
+  const o = orderOf(m);
+  if (!o || n <= 0) return;
+  const done = progressOf(m);
+  const before = done[player.id] ?? 0;
+  if (before >= o.n) return;
+  done[player.id] = Math.min(o.n, before + n);
+  try { m.setDynamicProperty(ORDER_DONE, JSON.stringify(done)); } catch {}
+  if (done[player.id] < o.n) return;
+  let roll = Math.random() * ORDER_REWARDS.reduce((a, r) => a + r.w, 0);
+  const reward = ORDER_REWARDS.find(r => (roll -= r.w) <= 0) ?? ORDER_REWARDS[0];
+  for (const stack of reward.give()) {
+    try { const rest = player.getComponent("minecraft:inventory")?.container?.addItem(stack); if (rest) player.dimension.spawnItem(rest, player.location); }
+    catch { try { player.dimension.spawnItem(stack, player.location); } catch {} }
+  }
+  bell(m.dimension, m.location, 0.9);
+  system.runTimeout(() => { try { bell(m.dimension, m.location, 0.9); } catch {} }, 6);
+  try { player.playSound("random.levelup", { pitch: 1.4, volume: 0.5 }); } catch {}
+  emit("order_filled", player, { id: o.id, n: o.n });
+}
+/** The nearest merchant's order for the journal: { id, n, min, have }; undefined if none is about. */
+export function orderNear(player) {
+  let near;
+  try { near = player.dimension.getEntities({ type: MERCHANT, location: player.location, maxDistance: 96, closest: 1 })[0]; } catch {}
+  const o = near && orderOf(near);
+  return o ? { ...o, have: Math.min(o.n, progressOf(near)[player.id] ?? 0) } : undefined;
+}
+
 // --------------------------------------------------------------- he buys fish
+export const FARMED_PRICE = 0.6;
 const CLASS_PRICE = { 0: 1, [SMALL]: 0.6, [MEDIUM]: 1, [LARGE]: 1.6 };
+/** Emeralds for one medium fish: our own table first, then what another pack registered (1.5.0 register_price). */
+export const priceOf = id => MERCHANT_PRICES[id] ?? externalPrice(id);
 const CREDIT = `${NS}:merchant_credit`, SPENT = `${NS}:spent`;
 const snd = (e, id, pitch = 1, volume = 0.8) => { try { e.dimension.playSound(id, e.location, { pitch, volume }); } catch {} };
 
@@ -110,16 +189,21 @@ function sell(player, merchant, id) {
   const stack = slot?.hasItem() ? slot.getItem() : undefined;
   if (!stack || (FISH_ALIAS[stack.typeId] ?? stack.typeId) !== id) return;
   const { cls, record } = readSize(stack);
-  const want = wantsOf(merchant).slice(0, 2).includes(id) ? WANT_BONUS : 1;
-  const each = MERCHANT_PRICES[id] * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want;
+  const farmed = isFarmed(stack);                         // 1.5.0: pond fish: 60%, and never the day's double
+  const want = !farmed && wantsOf(merchant).slice(0, 2).includes(id) ? WANT_BONUS : 1;
+  const each = priceOf(id) * (record ? 2.5 : CLASS_PRICE[cls] ?? 1) * want * (farmed ? FARMED_PRICE : 1);
   let credit = 0, spent = 0;
   try { credit = Number(player.getDynamicProperty(CREDIT) ?? 0); } catch {}
   try { spent = Number(merchant.getDynamicProperty(SPENT) ?? 0); } catch {}
   const left = MERCHANT_BUDGET - spent;
   let n = stack.amount;
   while (n > 0 && Math.floor(credit + n * each) > left) n--;                 // only what his purse allows
+  const room = orderRoom(merchant, player, id, cls, record);
+  // a short purse does not stop his order: the fish it still asks for are taken as well, unpaid
+  const bought = n;
+  n = Math.max(bought, Math.min(stack.amount, room));
   if (n <= 0) { snd(merchant, "mob.wanderingtrader.no"); return; }
-  const total = credit + n * each, paid = Math.floor(total);
+  const total = credit + bought * each, paid = Math.floor(total);
   try { player.setDynamicProperty(CREDIT, Math.round((total - paid) * 1000) / 1000); } catch {}
   try { merchant.setDynamicProperty(SPENT, spent + paid); } catch {}
   let creative = false;
@@ -131,6 +215,8 @@ function sell(player, merchant, id) {
     catch { try { player.dimension.spawnItem(em, player.location); } catch {} }
   }
   snd(merchant, "mob.wanderingtrader.yes");
+  emit("sold", player, { id, n, paid });
+  fillOrder(merchant, player, Math.min(n, room));
   snd(player, paid > 0 ? "random.orb" : "random.pop", 1.2, 0.5);
   for (let i = 0; i < 3; i++) {
     try { spawnParticle(merchant.dimension, "minecraft:villager_happy", { x: merchant.location.x + (Math.random() - 0.5), y: merchant.location.y + 2, z: merchant.location.z + (Math.random() - 0.5) }); } catch {}
@@ -141,7 +227,7 @@ world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
   const { player, target, itemStack } = ev;
   if (target?.typeId !== MERCHANT || !itemStack) return;
   const id = FISH_ALIAS[itemStack.typeId] ?? itemStack.typeId;
-  if (MERCHANT_PRICES[id] === undefined) return;
+  if (priceOf(id) === undefined) return;
   ev.cancel = true;                                      // no trading screen: he takes the fish
   system.run(() => { try { sell(player, target, id); } catch (err) { console.warn(`[Fishing Voyage] merchant sale: ${err}`); } });
 });

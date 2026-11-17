@@ -11,7 +11,9 @@
             "Texture.weighted",
             "Texture.ender",
             "Texture.feather",
-            "Texture.legend"
+            "Texture.legend",
+            "Texture.dragon",
+            "Texture.frost"
           ]
         }
       },

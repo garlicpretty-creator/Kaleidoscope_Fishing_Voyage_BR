@@ -24,7 +24,7 @@
         "item": "kaleidoscope_fishing:maki_roll"
       },
       {
-        "item": "kaleidoscope_fishing:fish_roe"
+        "tag": "kaleidoscope_fishing:fish_roe_any"
       },
       {
         "tag": "minecraft:wooden_slabs"
@@ -40,9 +40,6 @@
       },
       {
         "item": "kaleidoscope_fishing:maki_roll"
-      },
-      {
-        "item": "kaleidoscope_fishing:fish_roe"
       }
     ]
   }

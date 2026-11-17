@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const BP = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', 'Kaleidoscope Fishing Voyage [BP]');
 
 export const __subs = {};
+export const __sent = [];          // [id, message] of every system.sendScriptEvent
 export const __log = { sounds: [], messages: [], particles: [], commands: [], forms: [], errors: [] };
 const fail = m => { __log.errors.push(m); throw new Error(m); };
 const queue = [];
@@ -28,7 +29,9 @@ for (const f of readdirSync(join(BP, 'blocks'))) {
   try { const b = JSON.parse(readFileSync(join(BP, 'blocks', f), 'utf8'))['minecraft:block']; blockDefs.set(b.description.identifier, b); } catch {}
 }
 export const __blockDefs = blockDefs;
-const knownItem = id => itemIds.has(id) || id.startsWith('minecraft:') || id.startsWith('kaleidoscope_cookery:') || blockDefs.has(id);
+/** Items of another (pretend) add-on a test adds and removes (register_board / register_tank). */
+export const __otherItems = new Set();
+const knownItem = id => itemIds.has(id) || __otherItems.has(id) || id.startsWith('minecraft:') || id.startsWith('kaleidoscope_cookery:') || blockDefs.has(id);
 
 // ---------- items ----------
 export class ItemStack {
@@ -207,7 +210,7 @@ export const system = {
   runInterval() { return 1; },
   runJob() { return 1; },
   clearRun() {},
-  sendScriptEvent() {},
+  sendScriptEvent(id, message) { __sent.push([id, message]); },
 };
 export const EnchantmentTypes = { get: id => ({ id }) };
 export class MolangVariableMap { setFloat() {} setColorRGB() {} setColorRGBA() {} setVector3() {} setSpeedAndDirection() {} }

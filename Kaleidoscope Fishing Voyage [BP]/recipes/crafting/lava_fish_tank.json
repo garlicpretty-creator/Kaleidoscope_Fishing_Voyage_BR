@@ -1,0 +1,39 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:lava_fish_tank"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "BGB",
+      "OLO",
+      "BGB"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:basalt"
+      },
+      "G": {
+        "item": "minecraft:glass"
+      },
+      "O": {
+        "item": "minecraft:obsidian"
+      },
+      "L": {
+        "item": "minecraft:lava_bucket"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:lava_fish_tank",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:lava_bucket"
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_fishing_skiff",
+    "metalness_emissive_roughness": "kfv_fishing_skiff_mer",
+    "heightmap": "kfv_fishing_skiff_height"
+  }
+}

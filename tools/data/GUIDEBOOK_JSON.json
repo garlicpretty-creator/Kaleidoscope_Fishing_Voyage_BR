@@ -1,7 +1,7 @@
 {
  "api": 1,
  "id": "kaleidoscope_fishing:guidebook",
- "version": "1.4.0",
+ "version": "1.5.0",
  "order": 200,
  "icon": "textures/ui/kfv_book/kfv_book",
  "titleKey": "title",
@@ -283,11 +283,11 @@
     "kaleidoscope_fishing:salt_pepper_shrimp",
     "kaleidoscope_fishing:shrimp_scrambled_eggs",
     "kaleidoscope_fishing:seafood_congee",
-    "kaleidoscope_fishing:dried_shrimp",
     "kaleidoscope_fishing:seafood_chow_mein",
     "kaleidoscope_fishing:paella",
     "kaleidoscope_fishing:seafood_hot_pot",
-    "kaleidoscope_fishing:raw_har_gow"
+    "kaleidoscope_fishing:raw_har_gow",
+    "kaleidoscope_fishing:salted_shrimp"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -726,7 +726,10 @@
     "kaleidoscope_fishing:seafood_congee",
     "kaleidoscope_fishing:fish_and_chips",
     "kaleidoscope_fishing:fish_ball",
-    "kaleidoscope_fishing:stir_fried_snakehead"
+    "kaleidoscope_fishing:stir_fried_snakehead",
+    "kaleidoscope_fishing:mushroom_flounder_stew",
+    "kaleidoscope_fishing:cherry_trout_rice",
+    "kaleidoscope_fishing:echo_ray_pot"
    ]
   },
   {
@@ -848,7 +851,8 @@
     "kaleidoscope_fishing:grilled_fish_plank",
     "kaleidoscope_fishing:blindfish_clear_soup",
     "kaleidoscope_fishing:salted_mullet_roe",
-    "kaleidoscope_fishing:fish_sauce_jar"
+    "kaleidoscope_fishing:fish_sauce_jar",
+    "kaleidoscope_fishing:salted_shrimp"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -1001,7 +1005,22 @@
     }
    ],
    "usedBy": [
-    "kaleidoscope_fishing:fish_meal"
+    "kaleidoscope_fishing:fish_meal",
+    "kaleidoscope_fishing:spicy_dried_fish"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Small fish dried whole on a bamboo tray: Pond Smelt, Sweetfish or Yellow Croaker. Grind it into Fish Meal, use it as Shrimp Trap bait, or stir-fry it with chili."
+    ],
+    "zh_TW": [
+     "小魚整條放竹匾曬乾：公魚、香魚或小黃魚。可以磨成魚粉、當蝦籠的餌，或和辣椒一起炒。"
+    ],
+    "zh_CN": [
+     "小鱼整条放竹匾晒干：公鱼、香鱼或小黄鱼。可以磨成鱼粉、当虾笼的饵，或和辣椒一起炒。"
+    ]
+   },
+   "mechanics": [
+    "Small fish dried whole on a bamboo tray: Pond Smelt, Sweetfish or Yellow Croaker. Grind it into Fish Meal, use it as Shrimp Trap bait, or stir-fry it with chili."
    ]
   },
   {
@@ -1016,20 +1035,25 @@
     "nutrition": 1,
     "saturation": 0.4
    },
-   "recipes": [
-    {
-     "method": "Bamboo Tray",
-     "ingredients": [
-      "kaleidoscope_fishing:shrimp"
-     ],
-     "count": 1,
-     "time": 1200,
-     "result": "kaleidoscope_fishing:dried_shrimp"
-    }
-   ],
    "usedBy": [
     "kaleidoscope_fishing:dried_shrimp_congee",
-    "kaleidoscope_fishing:fish_sauce_jar"
+    "kaleidoscope_fishing:fish_sauce_jar",
+    "kaleidoscope_fishing:xo_sauce",
+    "kaleidoscope_fishing:dried_shrimp_greens"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Made in three steps: boil Shrimp with Salt into Salted Shrimp (stockpot), dry it on a bamboo tray, then rub the Dried Shell-on Shrimp on the Fish Cleaning Board."
+    ],
+    "zh_TW": [
+     "分三步做：蝦加鹽在湯鍋煮成鹽水蝦，放竹匾曬成帶殼蝦乾，再放上魚案板搓掉殼。"
+    ],
+    "zh_CN": [
+     "分三步做：虾加盐在汤锅煮成盐水虾，放竹匾晒成带壳虾干，再放上鱼案板搓掉壳。"
+    ]
+   },
+   "mechanics": [
+    "Made in three steps: boil Shrimp with Salt into Salted Shrimp (stockpot), dry it on a bamboo tray, then rub the Dried Shell-on Shrimp on the Fish Cleaning Board."
    ]
   },
   {
@@ -1098,6 +1122,16 @@
      "count": 2,
      "time": 0,
      "result": "kaleidoscope_fishing:raw_har_gow"
+    },
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_dough",
+      "kaleidoscope_fishing:shrimp_meat"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:raw_har_gow"
     }
    ],
    "usedBy": [
@@ -1133,7 +1167,8 @@
     "kaleidoscope_fishing:starfin_soup",
     "kaleidoscope_fishing:blazefin_soup",
     "kaleidoscope_fishing:sea_bass_soup",
-    "kaleidoscope_fishing:lobster_congee"
+    "kaleidoscope_fishing:lobster_congee",
+    "kaleidoscope_fishing:crab_congee"
    ]
   },
   {
@@ -2568,17 +2603,17 @@
    "icon": "textures/ui/kfv_book/kfv_oyster_bed",
    "mechanicsByLocale": {
     "en_US": [
-     "Grows on beaches by the water. Break it for 1-3 Oysters; with Silk Touch you keep the whole bed and can place it again."
+     "Grows on beaches by the water. Set down under water on sand, gravel or stone by the sea, it grows (just set down, small, grown: about a day each, twice as fast at low tide). Use a grown one with an empty hand or a knife to gather 2-4 Oysters; it goes back to small. Broken grown it gives 1-3 Oysters, not yet grown only 1; Silk Touch keeps a bed."
     ],
     "zh_TW": [
-     "長在海灘水邊。打掉可得 1～3 個牡蠣；用絲綢之觸可以整塊帶走，再放回去。"
+     "長在海灘水邊。放在海邊水裡的沙、礫石或石頭上會長大（剛放下、小、成熟，每段大約一天，退潮時快一倍）。成熟後空手或拿刀使用，採下 牡蠣 2～4 個，回到「小」繼續長。成熟時打掉得 1～3 個，還沒長大只得 1 個；絲綢之觸可以整塊帶走。"
     ],
     "zh_CN": [
-     "长在海滩水边。打掉可得 1～3 个牡蛎；用精准采集可以整块带走，再放回去。"
+     "长在海滩水边。放在海边水里的沙、砾石或石头上会长大（刚放下、小、成熟，每段大约一天，退潮时快一倍）。成熟后空手或拿刀使用，采下 牡蛎 2～4 个，回到“小”继续长。成熟时打掉得 1～3 个，还没长大只得 1 个；精准采集可以整块带走。"
     ]
    },
    "mechanics": [
-    "Grows on beaches by the water. Break it for 1-3 Oysters; with Silk Touch you keep the whole bed and can place it again."
+    "Grows on beaches by the water. Set down under water on sand, gravel or stone by the sea, it grows (just set down, small, grown: about a day each, twice as fast at low tide). Use a grown one with an empty hand or a knife to gather 2-4 Oysters; it goes back to small. Broken grown it gives 1-3 Oysters, not yet grown only 1; Silk Touch keeps a bed."
    ]
   },
   {
@@ -2713,17 +2748,17 @@
    "icon": "textures/ui/kfv_book/kfv_laver_rock",
    "mechanicsByLocale": {
     "en_US": [
-     "Grows on beaches and stony shores. Break it for 1-3 Laver; Silk Touch keeps the rock."
+     "Grows on beaches and stony shores. Set down under water on sand, gravel or stone by the sea, it grows (just set down, small, grown: about a day each, twice as fast at low tide). Use a grown one with an empty hand or a knife to gather 2-4 Laver; it goes back to small. Broken grown it gives 1-3 Laver, not yet grown only 1; Silk Touch keeps the rock."
     ],
     "zh_TW": [
-     "長在海灘與石岸。打掉可得 1～3 片紫菜；絲綢之觸可整塊帶走。"
+     "長在海灘與石岸。放在海邊水裡的沙、礫石或石頭上會長大（剛放下、小、成熟，每段大約一天，退潮時快一倍）。成熟後空手或拿刀使用，採下 紫菜 2～4 個，回到「小」繼續長。成熟時打掉得 1～3 個，還沒長大只得 1 個；絲綢之觸可以整塊帶走。"
     ],
     "zh_CN": [
-     "长在海滩与石岸。打掉可得 1～3 片紫菜；精准采集可整块带走。"
+     "长在海滩与石岸。放在海边水里的沙、砾石或石头上会长大（刚放下、小、成熟，每段大约一天，退潮时快一倍）。成熟后空手或拿刀使用，采下 紫菜 2～4 个，回到“小”继续长。成熟时打掉得 1～3 个，还没长大只得 1 个；精准采集可以整块带走。"
     ]
    },
    "mechanics": [
-    "Grows on beaches and stony shores. Break it for 1-3 Laver; Silk Touch keeps the rock."
+    "Grows on beaches and stony shores. Set down under water on sand, gravel or stone by the sea, it grows (just set down, small, grown: about a day each, twice as fast at low tide). Use a grown one with an empty hand or a knife to gather 2-4 Laver; it goes back to small. Broken grown it gives 1-3 Laver, not yet grown only 1; Silk Touch keeps the rock."
    ]
   },
   {
@@ -2810,7 +2845,8 @@
     "kaleidoscope_fishing:roe_don",
     "kaleidoscope_fishing:temaki_stand",
     "kaleidoscope_fishing:okaka_rice",
-    "kaleidoscope_fishing:flying_fish_roe_temaki"
+    "kaleidoscope_fishing:flying_fish_roe_temaki",
+    "kaleidoscope_fishing:crab_roe_rice"
    ]
   },
   {
@@ -3210,6 +3246,16 @@
      "ingredients": [
       "kaleidoscope_cookery:raw_dough",
       "kaleidoscope_fishing:crab"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:raw_crab_roe_bun"
+    },
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_dough",
+      "kaleidoscope_fishing:crab_roe"
      ],
      "count": 2,
      "time": 0,
@@ -3676,17 +3722,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+     "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+     "After the gut, an empty hand takes the fish back whole: a Gutted Fish for the Drying Rack."
     ],
     "zh_TW": [
-     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。所有魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。"
+     "把整條魚放上去，用刀（漁刀或森羅任何菜刀）依序處理：去鱗、剖腹去內臟、切片。比砧板多出魚片，還會得到魚鱗、魚雜、魚骨，有時有魚卵。所有魚都能處理。鰻魚、鯰魚、白帶魚、秋刀魚、鮟鱇、章魚、河豚沒有鱗，直接剖腹；章魚剖腹可能得到墨囊，河豚剖腹會去掉毒。大魚（◆◆◆）多切一份，小魚（◆）少一份。還沒下刀前可以空手把魚拿回來。",
+     "剖腹之後空手取回，就是可以掛上曬魚架的「剖好的魚」。"
     ],
     "zh_CN": [
-     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。所有鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。"
+     "把整条鱼放上去，用刀（渔刀或森罗任何菜刀）依序处理：去鳞、剖腹去内脏、切片。比砧板多出鱼片，还会得到鱼鳞、鱼杂、鱼骨，有时有鱼卵。所有鱼都能处理。鳗鱼、鲇鱼、带鱼、秋刀鱼、鮟鱇、章鱼、河豚没有鳞，直接剖腹；章鱼剖腹可能得到墨囊，河豚剖腹会去掉毒。大鱼（◆◆◆）多切一份，小鱼（◆）少一份。还没下刀前可以空手把鱼拿回来。",
+     "剖腹之后空手取回，就是可以挂上晒鱼架的「剖好的鱼」。"
     ]
    },
    "mechanics": [
-    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand."
+    "Put a whole fish on it, then work it with a knife (Fishing Knife or any Cookery kitchen knife): first scale it, then gut it, then fillet it. You get more fillets than on the Chopping Board, plus scales, offal, bones and sometimes roe. Every fish works. Eels, catfish, hairtail, saury, anglerfish, octopus and pufferfish have no scales to remove; gutting an octopus may give an Ink Sac, and gutting a pufferfish removes its poison. A large fish (◆◆◆) gives one more fillet and a small one (◆) one less. Before the first cut you can take the fish back with an empty hand.",
+    "After the gut, an empty hand takes the fish back whole: a Gutted Fish for the Drying Rack."
    ]
   },
   {
@@ -4129,6 +4179,9 @@
    },
    "mechanics": [
     "Tackle part (hook). Big fish take it: more of your catches are large (◆◆◆)."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:emperor_bone_hook"
    ]
   },
   {
@@ -4165,6 +4218,9 @@
    },
    "mechanics": [
     "Tackle part (line). Tan line; takes one more strain before it snaps."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:whisker_line"
    ]
   },
   {
@@ -4275,7 +4331,8 @@
     "Tackle part (bobber). Green bamboo float: bites come a little sooner and you have longer to set the hook."
    ],
    "usedBy": [
-    "kaleidoscope_fishing:feather_bobber"
+    "kaleidoscope_fishing:feather_bobber",
+    "kaleidoscope_fishing:dragon_scale_bobber"
    ]
   },
   {
@@ -4347,6 +4404,9 @@
    },
    "mechanics": [
     "Tackle part (bobber). Grey weighted float that sinks the bait deeper: counts as 6 blocks deeper, so deep-water fish (tuna, hairtail, anglerfish) bite in shallower water."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:frost_scale_bobber"
    ]
   },
   {
@@ -4405,17 +4465,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Hang up to 3 of one kind: whole fish, squid or skipjack. Fish and squid dry in 2 days, skipjack in 3; you can see them darken. Rub Salt on fresh fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+     "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
     ],
     "zh_TW": [
-     "一架掛一種，最多 3 條：整條魚、魷魚或鰹魚。魚和魷魚 2 天曬好，鰹魚要 3 天，看得到顏色慢慢變深。剛掛上的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。"
+     "一架掛一種，最多 3 條：剖好的魚、剖好的鰹魚、剖好的飛魚（在魚案板剖腹後空手取回）、魷魚筒或鹽漬烏魚卵。魚和魷魚 2 天曬好，鰹魚和烏魚卵 3 天，飛魚一夜，看得到顏色慢慢變深。剛掛上的剖好的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。"
     ],
     "zh_CN": [
-     "一架挂一种，最多 3 条：整条鱼、鱿鱼或鲣鱼。鱼和鱿鱼 2 天晒好，鲣鱼要 3 天，看得到颜色慢慢变深。刚挂上的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。"
+     "一架挂一种，最多 3 条：剖好的鱼、剖好的鲣鱼、剖好的飞鱼（在鱼案板剖腹后空手取回）、鱿鱼筒或盐渍乌鱼卵。鱼和鱿鱼 2 天晒好，鲣鱼和乌鱼卵 3 天，飞鱼一夜，看得到颜色慢慢变深。刚挂上的剖好的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。"
     ]
    },
    "mechanics": [
-    "Hang up to 3 of one kind: whole fish, squid or skipjack. Fish and squid dry in 2 days, skipjack in 3; you can see them darken. Rub Salt on fresh fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+    "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
    ]
   },
   {
@@ -4432,17 +4492,17 @@
    },
    "mechanicsByLocale": {
     "en_US": [
-     "Whole fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
+     "A Gutted Fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
     ],
     "zh_TW": [
-     "整條魚在曬魚架上曬 2 天。耐放，直接吃也不錯。"
+     "剖好的魚在曬魚架上曬 2 天。耐放，直接吃也不錯。"
     ],
     "zh_CN": [
-     "整条鱼在晒鱼架上晒 2 天。耐放，直接吃也不错。"
+     "剖好的鱼在晒鱼架上晒 2 天。耐放，直接吃也不错。"
     ]
    },
    "mechanics": [
-    "Whole fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
+    "A Gutted Fish dried for 2 days on a Drying Rack. Keeps well and is good to eat as it is."
    ]
   },
   {
@@ -4462,17 +4522,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
+     "A Gutted Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
     ],
     "zh_TW": [
-     "抹了鹽的魚在曬魚架上曬 2 天。鹹香耐飽。"
+     "抹了鹽的剖好的魚在曬魚架上曬 2 天。鹹香耐飽。"
     ],
     "zh_CN": [
-     "抹了盐的鱼在晒鱼架上晒 2 天。咸香耐饱。"
+     "抹了盐的剖好的鱼在晒鱼架上晒 2 天。咸香耐饱。"
     ]
    },
    "mechanics": [
-    "Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
+    "A Gutted Fish rubbed with Salt and dried for 2 days on a Drying Rack. Salty and filling."
    ]
   },
   {
@@ -4518,17 +4578,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
+     "A Gutted Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
     ],
     "zh_TW": [
-     "鰹魚在曬魚架上曬 3 天，硬得像木頭。放到本體的砧板上削成柴魚片。"
+     "剖好的鰹魚在曬魚架上曬 3 天，硬得像木頭。放到本體的砧板上削成柴魚片。"
     ],
     "zh_CN": [
-     "鲣鱼在晒鱼架上晒 3 天，硬得像木头。放到本体的砧板上削成柴鱼片。"
+     "剖好的鲣鱼在晒鱼架上晒 3 天，硬得像木头。放到本体的砧板上削成柴鱼片。"
     ]
    },
    "mechanics": [
-    "Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
+    "A Gutted Skipjack dried for 3 days on a Drying Rack, hard as wood. Shave it on Cookery's Chopping Board for Bonito Flakes."
    ]
   },
   {
@@ -6174,6 +6234,20 @@
      "count": 1,
      "time": 400,
      "result": "kaleidoscope_fishing:crab_leg_hot_pot"
+    },
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:dashi_bucket",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_fishing:crab_leg",
+      "kaleidoscope_cookery:lettuce",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 400,
+     "result": "kaleidoscope_fishing:crab_leg_hot_pot"
     }
    ]
   },
@@ -6367,6 +6441,9 @@
    },
    "mechanics": [
     "Bait. Some of the shrimp taken from a Shrimp Trap are still alive. Sea bass and lobster love it."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:boiled_shrimp"
    ]
   },
   {
@@ -6536,7 +6613,8 @@
     }
    ],
    "usedBy": [
-    "kaleidoscope_fishing:karasumi_fried_rice"
+    "kaleidoscope_fishing:karasumi_fried_rice",
+    "kaleidoscope_fishing:xo_sauce"
    ]
   },
   {
@@ -6564,17 +6642,17 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "A flying fish dried overnight on a Drying Rack. Grill it."
+     "A Gutted Flying Fish dried overnight on a Drying Rack. Grill it."
     ],
     "zh_TW": [
-     "飛魚在曬魚架上曬一夜。拿去烤。"
+     "剖好的飛魚在曬魚架上曬一夜。拿去烤。"
     ],
     "zh_CN": [
-     "飞鱼在晒鱼架上晒一夜。拿去烤。"
+     "剖好的飞鱼在晒鱼架上晒一夜。拿去烤。"
     ]
    },
    "mechanics": [
-    "A flying fish dried overnight on a Drying Rack. Grill it."
+    "A Gutted Flying Fish dried overnight on a Drying Rack. Grill it."
    ],
    "usedBy": [
     "kaleidoscope_fishing:flying_fish_ichiyaboshi"
@@ -6613,17 +6691,17 @@
    "icon": "textures/items/kfv_shrimp_paste",
    "mechanicsByLocale": {
     "en_US": [
-     "Scooped with a bowl from a Fish Sauce Jar of salted dried shrimp."
+     "Scooped with a bowl from a Fish Sauce Jar of fresh shrimp pounded with salt."
     ],
     "zh_TW": [
-     "用碗從醃蝦米的魚露甕舀出。"
+     "用碗從醃了新鮮蝦的魚露甕舀出。"
     ],
     "zh_CN": [
-     "用碗从腌虾米的鱼露瓮舀出。"
+     "用碗从腌了新鲜虾的鱼露瓮舀出。"
     ]
    },
    "mechanics": [
-    "Scooped with a bowl from a Fish Sauce Jar of salted dried shrimp."
+    "Scooped with a bowl from a Fish Sauce Jar of fresh shrimp pounded with salt."
    ],
    "usedBy": [
     "kaleidoscope_fishing:shrimp_paste_fried_rice"
@@ -6657,18 +6735,18 @@
     }
    ],
    "mechanicsByLocale": {
+    "en_US": [
+     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 fresh Shrimp or Live Shrimp (shrimp paste; Dried Shrimp no longer goes in). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+    ],
     "zh_TW": [
-     "先放鹽，再放 4 條小魚（做魚露）或 4 份蝦米（做蝦醬）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
+     "先放鹽，再放 4 條小魚（做魚露）或 4 隻新鮮的蝦或活蝦（做蝦醬；蝦米不能再用）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
     ],
     "zh_CN": [
-     "先放盐，再放 4 条小鱼（做鱼露）或 4 份虾米（做虾酱）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
-    ],
-    "en_US": [
-     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+     "先放盐，再放 4 条小鱼（做鱼露）或 4 只新鲜的虾或活虾（做虾酱；虾米不能再用）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
     ]
    },
    "mechanics": [
-    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 fresh Shrimp or Live Shrimp (shrimp paste; Dried Shrimp no longer goes in). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
    ]
   },
   {
@@ -6895,6 +6973,9 @@
    },
    "mechanics": [
     "A whisker as long as your arm, from the River Lord Catfish. A keepsake."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:whisker_line"
    ]
   },
   {
@@ -6918,6 +6999,9 @@
    },
    "mechanics": [
     "A scale from the Lava Dragon Koi, still warm. A keepsake."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:dragon_scale_bobber"
    ]
   },
   {
@@ -7205,6 +7289,1976 @@
    "mechanics": [
     "The River Lord Catfish braised in a clay pot with tofu and scallion, whiskers over the rim. Four bites; you get the pot back."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:emperor_tuna_fin",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_emperor_tuna_fin",
+   "mechanicsByLocale": {
+    "en_US": [
+     "The tall dorsal fin of the Emperor Bluefin. A keepsake; with a Bone Hook it makes an Emperor Bone Hook."
+    ],
+    "zh_TW": [
+     "藍鰭皇鮪高聳的背鰭。紀念品；和骨鉤可以做成皇鮪骨鉤。"
+    ],
+    "zh_CN": [
+     "蓝鳍皇鲔高耸的背鳍。纪念品；和骨钩可以做成皇鲔骨钩。"
+    ]
+   },
+   "mechanics": [
+    "The tall dorsal fin of the Emperor Bluefin. A keepsake; with a Bone Hook it makes an Emperor Bone Hook."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:emperor_bone_hook"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:frostlake_scale",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_frostlake_scale",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A scale of the Frostlake Char, cold as the lake it came from. A keepsake; with a Weighted Bobber it makes a Frost Scale Bobber."
+    ],
+    "zh_TW": [
+     "冰湖主的鱗，和牠住的湖一樣冰。紀念品；和重墜浮標可以做成霜鱗浮標。"
+    ],
+    "zh_CN": [
+     "冰湖主的鳞，和它住的湖一样冰。纪念品；和重坠浮标可以做成霜鳞浮标。"
+    ]
+   },
+   "mechanics": [
+    "A scale of the Frostlake Char, cold as the lake it came from. A keepsake; with a Weighted Bobber it makes a Frost Scale Bobber."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:frost_scale_bobber"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:emperor_bone_hook",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_emperor_bone_hook",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:emperor_tuna_fin",
+      "kaleidoscope_fishing:bone_hook"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:emperor_bone_hook"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (hook), made from an Emperor Bluefin Dorsal Fin and a Bone Hook. Less common fish bite much more often (x1.5) and large fish are more likely, with no extra wear. Counts as a Bone Hook for the River Lord Catfish."
+    ],
+    "zh_TW": [
+     "釣具部件（鉤），用皇鮪背鰭和骨鉤做成。少見的魚上鉤多很多（×1.5），大型魚的機會更高，而且不會多磨損釣竿。釣河伯鯰時視同骨鉤。"
+    ],
+    "zh_CN": [
+     "钓具部件（钩），用皇鲔背鳍和骨钩做成。少见的鱼上钩多很多（×1.5），大型鱼的机会更高，而且不会多磨损钓竿。钓河伯鲶时视同骨钩。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (hook), made from an Emperor Bluefin Dorsal Fin and a Bone Hook. Less common fish bite much more often (x1.5) and large fish are more likely, with no extra wear. Counts as a Bone Hook for the River Lord Catfish."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:whisker_line",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_whisker_line",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:river_lord_whisker",
+      "kaleidoscope_fishing:hemp_line"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:whisker_line"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (line), made from a River Lord Whisker and a Hemp Line. Dark brown line; holds two more pulls and fish bite no slower. Counts as a Wire Line for the Lava Dragon Koi."
+    ],
+    "zh_TW": [
+     "釣具部件（線），用河伯鬚和麻線做成。深褐色的線，多撐兩次拉扯，咬鉤不會變慢。釣熔岩龍鯉時視同鋼絲線。"
+    ],
+    "zh_CN": [
+     "钓具部件（线），用河伯须和麻线做成。深褐色的线，多撑两次拉扯，咬钩不会变慢。钓熔岩龙鲤时视同钢丝线。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (line), made from a River Lord Whisker and a Hemp Line. Dark brown line; holds two more pulls and fish bite no slower. Counts as a Wire Line for the Lava Dragon Koi."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dragon_scale_bobber",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_dragon_scale_bobber",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:dragon_scale",
+      "kaleidoscope_fishing:bamboo_bobber"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:dragon_scale_bobber"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (bobber), made from a Dragon Scale and a Bamboo Bobber. An ember-red float: fish bite sooner (15%) and you get more time to strike."
+    ],
+    "zh_TW": [
+     "釣具部件（浮標），用龍鱗和竹節浮標做成。火紅色的浮標：咬鉤快 15%，上鉤的反應時間也更長。"
+    ],
+    "zh_CN": [
+     "钓具部件（浮标），用龙鳞和竹节浮标做成。火红色的浮标：咬钩快 15%，上钩的反应时间也更长。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (bobber), made from a Dragon Scale and a Bamboo Bobber. An ember-red float: fish bite sooner (15%) and you get more time to strike."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:frost_scale_bobber",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_frost_scale_bobber",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:frostlake_scale",
+      "kaleidoscope_fishing:weighted_bobber"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:frost_scale_bobber"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. An ice-blue float: sinks the bait 6 blocks deeper, and fish bite much sooner at night."
+    ],
+    "zh_TW": [
+     "釣具部件（浮標），用冰湖霜鱗和重墜浮標做成。冰藍色的浮標：水深算多 6 格，夜晚咬鉤快很多。"
+    ],
+    "zh_CN": [
+     "钓具部件（浮标），用冰湖霜鳞和重坠浮标做成。冰蓝色的浮标：水深算多 6 格，夜晚咬钩快很多。"
+    ]
+   },
+   "mechanics": [
+    "Tackle part (bobber), made from a Frostlake Scale and a Weighted Bobber. An ice-blue float: sinks the bait 6 blocks deeper, and fish bite much sooner at night."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:tide_clock",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_tide_clock",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:copper_ingot",
+      "minecraft:copper_ingot",
+      "minecraft:clock",
+      "minecraft:copper_ingot",
+      "minecraft:copper_ingot"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:tide_clock"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
+     "The small moon near the low mark shows tonight's moon phase.",
+     "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.",
+     "Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back."
+    ],
+    "zh_TW": [
+     "拿在手上低頭看盤面。指針每一次潮汐轉一圈：指著遠端的藍色弧段時是漲潮，其他位置是退潮。",
+     "靠近退潮記號的小月亮顯示今晚的月相。",
+     "只有拿在手上時才會動：在物品欄或物品展示框裡圖案是靜止的。",
+     "對牆面使用就掛上去，指針和月相照樣會動。打掉就拿回來。"
+    ],
+    "zh_CN": [
+     "拿在手上低头看盘面。指针每一次潮汐转一圈：指着远端的蓝色弧段时是涨潮，其他位置是退潮。",
+     "靠近退潮记号的小月亮显示今晚的月相。",
+     "只有拿在手上时才会动：在物品栏或物品展示框里图案是静止的。",
+     "对墙面使用就挂上去，指针和月相照样会动。打掉就拿回来。"
+    ]
+   },
+   "mechanics": [
+    "Hold it and look down at the dial. The hand goes round once every tide: while it points at the blue arc on the far rim the tide is high, anywhere else it is low.",
+    "The small moon near the low mark shows tonight's moon phase.",
+    "It only moves while you hold it: in the inventory or in an Item Frame the picture stays still.",
+    "Use it on a wall to hang it there; the hand and the moon keep moving. Break it to take it back."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_head",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_head",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap."
+    ],
+    "zh_TW": [
+     "在魚案板上替蝦、螯蝦或龍蝦去頭得到。三個可以熬成蝦頭高湯；也能放進蝦籠當餌。"
+    ],
+    "zh_CN": [
+     "在鱼案板上替虾、螯虾或龙虾去头得到。三个可以熬成虾头高汤；也能放进虾笼当饵。"
+    ]
+   },
+   "mechanics": [
+    "Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:shrimp_stock_bucket"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lobster_tomalley",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_lobster_tomalley",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sometimes found in a lobster's head. Stands in for Crab Roe."
+    ],
+    "zh_TW": [
+     "有時在龍蝦頭裡找到。可以代替蟹黃。"
+    ],
+    "zh_CN": [
+     "有时在龙虾头里找到。可以代替蟹黄。"
+    ]
+   },
+   "mechanics": [
+    "Sometimes found in a lobster's head. Stands in for Crab Roe."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_roe_rice",
+    "kaleidoscope_fishing:raw_crab_roe_bun"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_shell",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+    ],
+    "zh_TW": [
+     "在魚案板上剝蝦剩下的殼。可以代替魚骨熬魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剥虾剩下的壳。可以代替鱼骨熬鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Peeled off a shrimp on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:shrimp_noodle_soup",
+    "kaleidoscope_fishing:fish_stock_bucket"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_meat",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack's shrimp dishes."
+    ],
+    "zh_TW": [
+     "在魚案板上去頭、剝殼、挑掉腸泥的蝦。可以代替蝦做各種蝦料理。"
+    ],
+    "zh_CN": [
+     "在鱼案板上去头、剥壳、挑掉肠泥的虾。可以代替虾做各种虾料理。"
+    ]
+   },
+   "mechanics": [
+    "A shrimp with its head, shell and vein taken off on the Fish Cleaning Board. Stands in for Shrimp in the pack's shrimp dishes."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:stir_fried_shrimp",
+    "kaleidoscope_fishing:shrimp_noodle_soup",
+    "kaleidoscope_fishing:raw_har_gow",
+    "kaleidoscope_fishing:shrimp_scrambled_eggs",
+    "kaleidoscope_fishing:seafood_congee",
+    "kaleidoscope_fishing:seafood_chow_mein",
+    "kaleidoscope_fishing:paella",
+    "kaleidoscope_fishing:seafood_hot_pot"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_shell",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_shell",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+    ],
+    "zh_TW": [
+     "在魚案板上開蟹掀下的殼。可以代替魚骨熬魚高湯。"
+    ],
+    "zh_CN": [
+     "在鱼案板上开蟹掀下的壳。可以代替鱼骨熬鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Lifted off a crab with the first cut on the Fish Cleaning Board. Boil into Fish Stock in place of Fish Bones."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fish_stock_bucket"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Found under a crab's shell, in one crab of two (always in a Glow Crab or a King Crab)."
+    ],
+    "zh_TW": [
+     "開蟹殼時找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。"
+    ],
+    "zh_CN": [
+     "开蟹壳时找到，一半的螃蟹有（夜光蟹和帝王蟹一定有）。"
+    ]
+   },
+   "mechanics": [
+    "Found under a crab's shell, in one crab of two (always in a Glow Crab or a King Crab)."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_roe_rice",
+    "kaleidoscope_fishing:raw_crab_roe_bun"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_meat",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_meat",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+    ],
+    "zh_TW": [
+     "在魚案板上拆蟹最後一刀取出的肉。可以代替螃蟹做海鮮火鍋。"
+    ],
+    "zh_CN": [
+     "在鱼案板上拆蟹最后一刀取出的肉。可以代替螃蟹做海鲜火锅。"
+    ]
+   },
+   "mechanics": [
+    "Picked from a crab with the last cut on the Fish Cleaning Board. Stands in for a Crab in Seafood Hot Pot."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:crab_congee",
+    "kaleidoscope_fishing:seafood_hot_pot"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_leg",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_leg",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four."
+    ],
+    "zh_TW": [
+     "在魚案板上拆蟹時拆下的腳；帝王蟹有四隻。"
+    ],
+    "zh_CN": [
+     "在鱼案板上拆蟹时拆下的脚；帝王蟹有四只。"
+    ]
+   },
+   "mechanics": [
+    "Taken off a crab with the last cut on the Fish Cleaning Board; a King Crab gives four."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:steamed_crab_leg",
+    "kaleidoscope_fishing:grilled_crab_leg",
+    "kaleidoscope_fishing:crab_leg_hot_pot"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_skin",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_skin",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.1
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
+    ],
+    "zh_TW": [
+     "在魚案板上把水母的傘切成片。口感爽脆，可以直接吃或做成涼拌菜。"
+    ],
+    "zh_CN": [
+     "在鱼案板上把水母的伞切成片。口感爽脆，可以直接吃或做成凉拌菜。"
+    ]
+   },
+   "mechanics": [
+    "Sliced from a jellyfish's bell on the Fish Cleaning Board. Crunchy; eat it as it is or dress it as a salad."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:jellyfish_salad",
+    "kaleidoscope_fishing:jellyfish_radish"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:stir_fried_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_stir_fried_shrimp",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_cookery:green_chili",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:stir_fried_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_congee",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_congee",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:fish_stock_bucket",
+      "kaleidoscope_cookery:rice",
+      "kaleidoscope_fishing:crab_meat",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:crab_congee"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_noodle_soup",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_shrimp_noodle_soup",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_cookery:raw_noodles",
+      "kaleidoscope_fishing:shrimp_meat",
+      "kaleidoscope_fishing:shrimp_shell"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:shrimp_noodle_soup"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:crab_roe_rice",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_crab_roe_rice",
+   "food": {
+    "nutrition": 10,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:cooked_rice",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:crab_roe",
+      "kaleidoscope_fishing:nori",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:crab_roe_rice"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_salad",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_salad",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_fishing:jellyfish_skin",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:red_chili",
+      "minecraft:bowl"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:jellyfish_salad"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:boiled_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_boiled_shrimp",
+   "food": {
+    "nutrition": 7,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp",
+      "kaleidoscope_fishing:live_shrimp"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:boiled_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:steamed_crab_leg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_steamed_crab_leg",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Steamer",
+     "ingredients": [
+      "kaleidoscope_fishing:crab_leg"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:steamed_crab_leg"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:grilled_crab_leg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_grilled_crab_leg",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.5
+   },
+   "recipes": [
+    {
+     "method": "Furnace",
+     "ingredients": [
+      "kaleidoscope_fishing:crab_leg"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:grilled_crab_leg"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_stock_bucket",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_shrimp_stock_bucket",
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp_head",
+      "kaleidoscope_fishing:shrimp_head",
+      "kaleidoscope_fishing:shrimp_head"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:shrimp_stock_bucket"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Three Shrimp Heads boiled in water in the stockpot. Pour it into a stockpot as a soup base; Shrimp Noodle Soup and Seafood Congee take it in place of Fish Stock."
+    ],
+    "zh_TW": [
+     "三個蝦頭在湯鍋裡加水熬成。倒進湯鍋當湯底；鮮蝦湯麵、海鮮粥可以用它代替魚高湯。"
+    ],
+    "zh_CN": [
+     "三个虾头在汤锅里加水熬成。倒进汤锅当汤底；鲜虾汤面、海鲜粥可以用它代替鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Three Shrimp Heads boiled in water in the stockpot. Pour it into a stockpot as a soup base; Shrimp Noodle Soup and Seafood Congee take it in place of Fish Stock."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:salted_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_salted_shrimp",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.4
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:sea_salt",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp"
+     ],
+     "count": 3,
+     "time": 200,
+     "result": "kaleidoscope_fishing:salted_shrimp"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Shrimp boiled in salted water: a small dish as it is, and the first step to Dried Shrimp. Dry it on a bamboo tray."
+    ],
+    "zh_TW": [
+     "用鹽水煮熟的蝦：本身是一道小菜，也是做蝦米的第一步。放上竹匾曬乾。"
+    ],
+    "zh_CN": [
+     "用盐水煮熟的虾：本身是一道小菜，也是做虾米的第一步。放上竹匾晒干。"
+    ]
+   },
+   "mechanics": [
+    "Shrimp boiled in salted water: a small dish as it is, and the first step to Dried Shrimp. Dry it on a bamboo tray."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:dried_shell_shrimp"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dried_shell_shrimp",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_dried_shell_shrimp",
+   "recipes": [
+    {
+     "method": "Bamboo Tray",
+     "ingredients": [
+      "kaleidoscope_fishing:salted_shrimp"
+     ],
+     "count": 1,
+     "time": 1200,
+     "result": "kaleidoscope_fishing:dried_shell_shrimp"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Salted Shrimp dried on a bamboo tray. Rub it once on the Fish Cleaning Board with a knife: the shells come off and leave 2 Dried Shrimp."
+    ],
+    "zh_TW": [
+     "鹽水蝦放竹匾曬乾而成。放上魚案板用刀搓一下，殼掉下來，留下 2 份蝦米。"
+    ],
+    "zh_CN": [
+     "盐水虾放竹匾晒干而成。放上鱼案板用刀搓一下，壳掉下来，留下 2 份虾米。"
+    ]
+   },
+   "mechanics": [
+    "Salted Shrimp dried on a bamboo tray. Rub it once on the Fish Cleaning Board with a knife: the shells come off and leave 2 Dried Shrimp."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:xo_sauce",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_xo_sauce",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_shrimp",
+      "kaleidoscope_fishing:karasumi_slices",
+      "kaleidoscope_cookery:red_chili",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:xo_sauce"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A jar of chili sauce rich with Dried Shrimp and karasumi. Goes into a wok dish in place of salt or fish sauce, as in Salt and Pepper Shrimp."
+    ],
+    "zh_TW": [
+     "滿是蝦米和烏魚子的辣醬。可以代替鹽或魚露放進炒鍋料理，例如椒鹽蝦。"
+    ],
+    "zh_CN": [
+     "满是虾米和乌鱼子的辣酱。可以代替盐或鱼露放进炒锅料理，例如椒盐虾。"
+    ]
+   },
+   "mechanics": [
+    "A jar of chili sauce rich with Dried Shrimp and karasumi. Goes into a wok dish in place of salt or fish sauce, as in Salt and Pepper Shrimp."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dried_shrimp_greens",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_dried_shrimp_greens",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_shrimp",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:dried_shrimp_greens"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:whole_squid",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_whole_squid",
+   "mechanicsByLocale": {
+    "en_US": [
+     "What a squid killed with a knife leaves. On the Fish Cleaning Board: gut it, draw the cartilage, then cut it into a Squid Tube and Squid Tentacles."
+    ],
+    "zh_TW": [
+     "用刀殺魷魚得到。在魚案板上去內臟、抽軟骨，再分成魷魚筒和魷魚鬚。"
+    ],
+    "zh_CN": [
+     "用刀杀鱿鱼得到。在鱼案板上去内脏、抽软骨，再分成鱿鱼筒和鱿鱼须。"
+    ]
+   },
+   "mechanics": [
+    "What a squid killed with a knife leaves. On the Fish Cleaning Board: gut it, draw the cartilage, then cut it into a Squid Tube and Squid Tentacles."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:squid_tentacles",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_squid_tentacles",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Cut from a Whole Squid on the Fish Cleaning Board. Fry them in the wok or grill them."
+    ],
+    "zh_TW": [
+     "在魚案板上從整隻魷魚切下。可以炒鍋炸或拿去烤。"
+    ],
+    "zh_CN": [
+     "在鱼案板上从整只鱿鱼切下。可以炒锅炸或拿去烤。"
+    ]
+   },
+   "mechanics": [
+    "Cut from a Whole Squid on the Fish Cleaning Board. Fry them in the wok or grill them."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fried_squid_tentacles",
+    "kaleidoscope_fishing:grilled_squid_tentacles"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:chutoro",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_chutoro",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.7
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "The medium-fat belly of a tuna, from the Fish Cleaning Board. Any sushi that takes tuna takes it."
+    ],
+    "zh_TW": [
+     "鮪魚中段的腹肉，在魚案板上切得。用鮪魚的壽司都能用。"
+    ],
+    "zh_CN": [
+     "鲔鱼中段的腹肉，在鱼案板上切得。用鲔鱼的寿司都能用。"
+    ]
+   },
+   "mechanics": [
+    "The medium-fat belly of a tuna, from the Fish Cleaning Board. Any sushi that takes tuna takes it."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:otoro",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_otoro",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.8
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "The fattiest belly of a tuna, from the Fish Cleaning Board. Makes Otoro Nigiri."
+    ],
+    "zh_TW": [
+     "鮪魚最肥的腹肉，在魚案板上切得。可以做大腹握壽司。"
+    ],
+    "zh_CN": [
+     "鲔鱼最肥的腹肉，在鱼案板上切得。可以做大腹握寿司。"
+    ]
+   },
+   "mechanics": [
+    "The fattiest belly of a tuna, from the Fish Cleaning Board. Makes Otoro Nigiri."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter",
+    "kaleidoscope_fishing:otoro_nigiri"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:bonito_sashimi",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_bonito_sashimi",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.6
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Skipjack is no tuna: on the Fish Cleaning Board it gives its own darker slices. Sushi takes them as it takes tuna."
+    ],
+    "zh_TW": [
+     "鰹魚不是鮪魚：在魚案板上切出顏色較深的生魚片。壽司可以用它代替鮪魚。"
+    ],
+    "zh_CN": [
+     "鲣鱼不是鲔鱼：在鱼案板上切出颜色较深的生鱼片。寿司可以用它代替鲔鱼。"
+    ]
+   },
+   "mechanics": [
+    "Skipjack is no tuna: on the Fish Cleaning Board it gives its own darker slices. Sushi takes them as it takes tuna."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:nigiri_sushi",
+    "kaleidoscope_fishing:maki_roll",
+    "kaleidoscope_fishing:temaki_stand",
+    "kaleidoscope_fishing:sashimi_boat",
+    "kaleidoscope_fishing:seafood_platter"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:otoro_nigiri",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_otoro_nigiri",
+   "food": {
+    "nutrition": 6,
+    "saturation": 1.0
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_cookery:cooked_rice",
+      "kaleidoscope_fishing:otoro"
+     ],
+     "count": 2,
+     "time": 0,
+     "result": "kaleidoscope_fishing:otoro_nigiri"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Rice under the fattiest tuna: more filling than any other nigiri, and it heals a little."
+    ],
+    "zh_TW": [
+     "白飯上放最肥的大腹：比其他握壽司更有飽足感，還會回復一點生命。"
+    ],
+    "zh_CN": [
+     "白饭上放最肥的大腹：比其他握寿司更有饱足感，还会回复一点生命。"
+    ]
+   },
+   "mechanics": [
+    "Rice under the fattiest tuna: more filling than any other nigiri, and it heals a little."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fried_squid_tentacles",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_fried_squid_tentacles",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:squid_tentacles",
+      "kaleidoscope_fishing:squid_tentacles",
+      "kaleidoscope_cookery:flour",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:fried_squid_tentacles"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:grilled_squid_tentacles",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_grilled_squid_tentacles",
+   "food": {
+    "nutrition": 4,
+    "saturation": 0.5
+   },
+   "recipes": [
+    {
+     "method": "Furnace",
+     "ingredients": [
+      "kaleidoscope_fishing:squid_tentacles"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:grilled_squid_tentacles"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_fish",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_fish",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A fish scaled and gutted on the Fish Cleaning Board, taken back with an empty hand instead of being filleted. Hang it on a Drying Rack (rub Salt on it there for Salted Fish)."
+    ],
+    "zh_TW": [
+     "在魚案板上去鱗、剖腹之後，不切片而空手取回的魚。掛上曬魚架曬乾（在架上抹鹽就是鹹魚）。"
+    ],
+    "zh_CN": [
+     "在鱼案板上去鳞、剖腹之后，不切片而空手取回的鱼。挂上晒鱼架晒干（在架上抹盐就是咸鱼）。"
+    ]
+   },
+   "mechanics": [
+    "A fish scaled and gutted on the Fish Cleaning Board, taken back with an empty hand instead of being filleted. Hang it on a Drying Rack (rub Salt on it there for Salted Fish)."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_skipjack",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_skipjack",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A skipjack gutted on the Fish Cleaning Board and taken back. Three days on a Drying Rack make it Katsuobushi."
+    ],
+    "zh_TW": [
+     "在魚案板上剖好、空手取回的鰹魚。在曬魚架上曬三天就是柴魚。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剖好、空手取回的鲣鱼。在晒鱼架上晒三天就是柴鱼。"
+    ]
+   },
+   "mechanics": [
+    "A skipjack gutted on the Fish Cleaning Board and taken back. Three days on a Drying Rack make it Katsuobushi."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutted_flying_fish",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_gutted_flying_fish",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A flying fish gutted on the Fish Cleaning Board and taken back. A night on a Drying Rack makes it Dried Flying Fish."
+    ],
+    "zh_TW": [
+     "在魚案板上剖好、空手取回的飛魚。在曬魚架上曬一夜就是飛魚一夜干。"
+    ],
+    "zh_CN": [
+     "在鱼案板上剖好、空手取回的飞鱼。在晒鱼架上晒一夜就是飞鱼一夜干。"
+    ]
+   },
+   "mechanics": [
+    "A flying fish gutted on the Fish Cleaning Board and taken back. A night on a Drying Rack makes it Dried Flying Fish."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:spicy_dried_fish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_spicy_dried_fish",
+   "food": {
+    "nutrition": 5,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_fishing:dried_fish",
+      "kaleidoscope_cookery:red_chili",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:spicy_dried_fish"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:wooden_tub",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_wooden_tub",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:iron_ingot",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:wooden_tub"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. Fertilized Roe in plain water hatches: fry after a day, 2 small farmed fish after two. An empty bucket drains it."
+    ],
+    "zh_TW": [
+     "用水桶裝水。加一份鹽變成鹽水，放進最多 8 個蛤蜊泡著：半天後空手取出吐沙蛤蜊，鹽水留著給下一批。受精卵放進清水會孵化：一天後變魚苗，兩天後空手取出 2 條小型的養殖魚。用空桶可以把水舀掉。"
+    ],
+    "zh_CN": [
+     "用水桶装水。加一份盐变成盐水，放进最多 8 个蛤蜊泡着：半天后空手取出吐沙蛤蜊，盐水留着给下一批。受精卵放进清水会孵化：一天后变鱼苗，两天后空手取出 2 条小型的养殖鱼。用空桶可以把水舀掉。"
+    ]
+   },
+   "mechanics": [
+    "Fill it with a water bucket. Add Salt to make brine and soak up to 8 Clams in it: half a day later an empty hand takes out Purged Clams, and the brine stays for the next batch. Fertilized Roe in plain water hatches: fry after a day, 2 small farmed fish after two. An empty bucket drains it."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:salt_pan",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_salt_pan",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:terracotta",
+      "minecraft:terracotta",
+      "minecraft:terracotta",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:salt_pan"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+    ],
+    "zh_TW": [
+     "放在海邊（海洋或海灘）頭上沒有遮蔽的地方，倒入一桶水。只有白天、沒下雨時會曬，累計一整天的日照；下雨會暫停但不會歸零。整盤變白後空手收成鹽 ×4。"
+    ],
+    "zh_CN": [
+     "放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。"
+    ]
+   },
+   "mechanics": [
+    "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:purged_clam",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_purged_clam",
+   "mechanicsByLocale": {
+    "en_US": [
+     "A clam soaked half a day in brine in a Wooden Tub: no grit left. Every clam dish takes it, and Steamed Egg with Clams takes nothing else."
+    ],
+    "zh_TW": [
+     "在木盆的鹽水裡泡了半天的蛤蜊，沙都吐乾淨了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。"
+    ],
+    "zh_CN": [
+     "在木盆的盐水里泡了半天的蛤蜊，沙都吐干净了。所有蛤蜊料理都能用，蛤蜊蒸蛋只收它。"
+    ]
+   },
+   "mechanics": [
+    "A clam soaked half a day in brine in a Wooden Tub: no grit left. Every clam dish takes it, and Steamed Egg with Clams takes nothing else."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:spicy_clams",
+    "kaleidoscope_fishing:paella",
+    "kaleidoscope_fishing:seafood_hot_pot",
+    "kaleidoscope_fishing:clam_steamed_egg"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:clam_steamed_egg",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_clam_steamed_egg",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:purged_clam",
+      "kaleidoscope_fishing:purged_clam",
+      "minecraft:egg",
+      "minecraft:egg"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:clam_steamed_egg"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Silky egg steamed with Purged Clams; only clams without grit will do."
+    ],
+    "zh_TW": [
+     "用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐過沙的蛤蜊。"
+    ],
+    "zh_CN": [
+     "用吐沙蛤蜊蒸的滑嫩蒸蛋；一定要吐过沙的蛤蜊。"
+    ]
+   },
+   "mechanics": [
+    "Silky egg steamed with Purged Clams; only clams without grit will do."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:lava_fish_tank",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_lava_fish_tank",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:basalt",
+      "minecraft:glass",
+      "minecraft:basalt",
+      "minecraft:obsidian",
+      "minecraft:lava_bucket",
+      "minecraft:obsidian",
+      "minecraft:basalt",
+      "minecraft:glass",
+      "minecraft:basalt"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:lava_fish_tank"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either)."
+    ],
+    "zh_TW": [
+     "像燈一樣發光，可以養一隻熔岩生物：焰鰭魚、熔岩鰻、熔岩錦鯉、玄武岩蟹或熔岩龍鯉。拿牠對缸使用就放進去，空手取回；尺寸、紀錄和名字都會保留。不會點燃周圍。一般的魚放不進去，這幾種熔岩生物也放不進一般魚缸（熔岩龍鯉兩種都可以）。"
+    ],
+    "zh_CN": [
+     "像灯一样发光，可以养一只熔岩生物：焰鳍鱼、熔岩鳗、熔岩锦鲤、玄武岩蟹或熔岩龙鲤。拿它对缸使用就放进去，空手取回；尺寸、纪录和名字都会保留。不会点燃周围。一般的鱼放不进去，这几种熔岩生物也放不进一般鱼缸（熔岩龙鲤两种都可以）。"
+    ]
+   },
+   "mechanics": [
+    "Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either)."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:mycelium_flounder",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_mycelium_flounder",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Any water on a mushroom island, the commonest catch there. Flat on the bottom, the gills of a mushroom on its back."
+    ],
+    "zh_TW": [
+     "蘑菇島上的任何水域，那裡最常見的漁獲。平貼在水底，背上有像菇褶的花紋。"
+    ],
+    "zh_CN": [
+     "蘑菇岛上的任何水域，那里最常见的渔获。平贴在水底，背上有像菇褶的花纹。"
+    ]
+   },
+   "mechanics": [
+    "Any water on a mushroom island, the commonest catch there. Flat on the bottom, the gills of a mushroom on its back."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:spore_seahorse",
+   "category": "seafood",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_spore_seahorse",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Mushroom island waters, at night only. A seahorse dusted with spores: a curio for a fish tank, not for the pot; the fish merchant pays well for one."
+    ],
+    "zh_TW": [
+     "蘑菇島的水域，只在夜晚。身上沾滿孢子的海馬：養在魚缸裡觀賞，不能下鍋；漁販會出好價錢。"
+    ],
+    "zh_CN": [
+     "蘑菇岛的水域，只在夜晚。身上沾满孢子的海马：养在鱼缸里观赏，不能下锅；渔贩会出好价钱。"
+    ]
+   },
+   "mechanics": [
+    "Mushroom island waters, at night only. A seahorse dusted with spores: a curio for a fish tank, not for the pot; the fish merchant pays well for one."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:cherry_trout",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_cherry_trout",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Lakes and rivers in a cherry grove; more of them at high tide. A trout with a blossom-pink stripe."
+    ],
+    "zh_TW": [
+     "櫻花樹林裡的湖和河；漲潮時更多。身上有一條櫻花色條紋的鱒魚。"
+    ],
+    "zh_CN": [
+     "樱花树林里的湖和河；涨潮时更多。身上有一条樱花色条纹的鳟鱼。"
+    ]
+   },
+   "mechanics": [
+    "Lakes and rivers in a cherry grove; more of them at high tide. A trout with a blossom-pink stripe."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:creek_shrimp",
+   "category": "seafood",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_creek_shrimp",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Cherry grove streams, by day; earthworms bring them up. Small and see-through: fry them whole, or use them as any shrimp."
+    ],
+    "zh_TW": [
+     "櫻花樹林的溪流，白天出沒；用蚯蚓比較容易。小小的、半透明：整隻炸來吃，或當一般的蝦用。"
+    ],
+    "zh_CN": [
+     "樱花树林的溪流，白天出没；用蚯蚓比较容易。小小的、半透明：整只炸来吃，或当一般的虾用。"
+    ]
+   },
+   "mechanics": [
+    "Cherry grove streams, by day; earthworms bring them up. Small and see-through: fry them whole, or use them as any shrimp."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fried_creek_shrimp"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:echo_ray",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_echo_ray",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Water in the Deep Dark (a pool you make there with a bucket will do). Big, flat and strong. Fishing there makes a noise: crouch and stand on wool."
+    ],
+    "zh_TW": [
+     "深暗之域裡的水（用水桶自己做的水池也可以）。又大又扁、力氣很大。在那裡釣魚會發出聲音：蹲下、站在羊毛上。"
+    ],
+    "zh_CN": [
+     "深暗之域里的水（用水桶自己做的水池也可以）。又大又扁、力气很大。在那里钓鱼会发出声音：蹲下、站在羊毛上。"
+    ]
+   },
+   "mechanics": [
+    "Water in the Deep Dark (a pool you make there with a bucket will do). Big, flat and strong. Fishing there makes a noise: crouch and stand on wool."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:sculk_lanternfish",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_sculk_lanternfish",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.1
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Water in the Deep Dark, and only on Glow Bait: it comes to light. Two of them make Glow Bait again."
+    ],
+    "zh_TW": [
+     "深暗之域裡的水，只咬發光餌：牠會被光引來。兩條可以再做成發光餌。"
+    ],
+    "zh_CN": [
+     "深暗之域里的水，只咬发光饵：它会被光引来。两条可以再做成发光饵。"
+    ]
+   },
+   "mechanics": [
+    "Water in the Deep Dark, and only on Glow Bait: it comes to light. Two of them make Glow Bait again."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:mushroom_flounder_stew",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_mushroom_flounder_stew",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "minecraft:brown_mushroom",
+      "minecraft:brown_mushroom",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:mushroom_flounder_stew"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:cherry_trout_rice",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_cherry_trout_rice",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_cookery:rice",
+      "minecraft:kelp",
+      "minecraft:kelp"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:cherry_trout_rice"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fried_creek_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_fried_creek_shrimp",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:creek_shrimp",
+      "kaleidoscope_fishing:creek_shrimp",
+      "kaleidoscope_cookery:flour",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:fried_creek_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:echo_ray_pot",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_echo_ray_pot",
+   "food": {
+    "nutrition": 10,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_fishing:white_fish_fillet",
+      "minecraft:potato",
+      "kaleidoscope_cookery:red_chili"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:echo_ray_pot"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:meteor_marlin",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_meteor_marlin",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Open and deep sea, only on a meteor-shower night. Huge, fast and very hard to land; specks of starlight on its back. Too big for a tank."
+    ],
+    "zh_TW": [
+     "海域與深海，只在流星雨的夜晚。巨大、快、非常難拉上來；背上有星光般的斑點。太大了，放不進魚缸。"
+    ],
+    "zh_CN": [
+     "海域与深海，只在流星雨的夜晚。巨大、快、非常难拉上来；背上有星光般的斑点。太大了，放不进鱼缸。"
+    ]
+   },
+   "mechanics": [
+    "Open and deep sea, only on a meteor-shower night. Huge, fast and very hard to land; specks of starlight on its back. Too big for a tank."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:aurora_icefish",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_aurora_icefish",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Under the ice, only on an aurora night (seen from a cold biome). Small and see-through; it shows the colours of the sky. Cooked whole; it stands in for Smelt."
+    ],
+    "zh_TW": [
+     "冰面底下，只在極光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映著天上的顏色。整條入菜，可以代替公魚。"
+    ],
+    "zh_CN": [
+     "冰面底下，只在极光之夜（在寒冷的生物群系才看得到）。小小的、半透明，映着天上的颜色。整条入菜，可以代替公鱼。"
+    ]
+   },
+   "mechanics": [
+    "Under the ice, only on an aurora night (seen from a cold biome). Small and see-through; it shows the colours of the sky. Cooked whole; it stands in for Smelt."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:star_sand",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_star_sand",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:star_sand",
+      "kaleidoscope_fishing:fish_meal"
+     ],
+     "count": 4,
+     "time": 0,
+     "result": "kaleidoscope_fishing:glow_bait"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Tiny star-shaped grains. On a meteor-shower night, bubbling beach sand dug with a shovel sometimes gives one as well. With Fish Meal it makes 4 Glow Bait; used on a placed Glass Float it makes the float glow."
+    ],
+    "zh_TW": [
+     "一粒粒小星星形狀的沙。流星雨的夜晚，用鏟子挖海灘冒泡的沙地，有時會多挖到一個。和魚粉做成發光餌 ×4；對放好的玻璃浮球使用，浮球會發光。"
+    ],
+    "zh_CN": [
+     "一粒粒小星星形状的沙。流星雨的夜晚，用铲子挖海滩冒泡的沙地，有时会多挖到一个。和鱼粉做成发光饵 ×4；对放好的玻璃浮球使用，浮球会发光。"
+    ]
+   },
+   "mechanics": [
+    "Tiny star-shaped grains. On a meteor-shower night, bubbling beach sand dug with a shovel sometimes gives one as well. With Fish Meal it makes 4 Glow Bait; used on a placed Glass Float it makes the float glow."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:glowing_glass_float",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_glowing_glass_float",
+   "recipes": [],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one."
+    ],
+    "zh_TW": [
+     "抹了星砂的玻璃浮球，會發出柔和的光。拿星砂對放好的玻璃浮球使用就會變成這個。"
+    ],
+    "zh_CN": [
+     "抹了星砂的玻璃浮球，会发出柔和的光。拿星砂对放好的玻璃浮球使用就会变成这个。"
+    ]
+   },
+   "mechanics": [
+    "A Glass Float with Star Sand rubbed in: it glows softly. Use Star Sand on a placed Glass Float to make one."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:pond_feeder",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_pond_feeder",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_planks",
+      "kaleidoscope_fishing:fishing_net",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks",
+      "minecraft:barrel",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:pond_feeder"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Set it at the edge of a pond: it counts the water joined to it (18 blocks or more for 4 fish, 48 for 8, 96 for 12; the sea or a river counts as large) and keeps the pond. Use a fish on it to let it go in the pond, an empty hand for the list (take one back from there). Feed: Fish Meal (4 meals), Fish Meal Bait (2), Small Dried Fish, Earthworm, Fish Offal or Shrimp Head (1); up to 64 meals. Each dawn every fish eats a meal; fed days make it grow (small to medium in 3, to large in 5 more), never past 85% of its kind. Two fed fish of a kind, medium or larger, may spawn roe (1 in 4 each dawn); left alone it hatches in 2 days, or take it out as Fertilized Roe. A pond by the sea, or one given 8 Salt, is a sea pond. Fish that grew or were born here are marked ✿ (farmed): they set no records and the merchant pays 60% for them."
+    ],
+    "zh_TW": [
+     "放在池邊：會數和它相連的水（18 格以上養 4 條、48 格 8 條、96 格 12 條；海邊或河邊算大池），管理這個池子。拿魚對它使用就放進池裡，空手打開清單（從清單撈回）。飼料：魚粉（4 餐）、魚粉餌（2 餐）、小魚乾、蚯蚓、魚雜、蝦頭（1 餐），最多存 64 餐。每天清晨每條魚吃 1 餐；吃飽的天數讓牠長大（小型 3 天變中型，再 5 天變大型），最大只到該魚種的 85%。兩條同種、中型以上、都吃飽的魚，每天清晨有 1/4 機率產卵；放著兩天後孵化，也可以撈起來變成受精卵。海邊的池子，或放了鹽 ×8 的池子，是海水池。在池裡長大或出生的魚標著 ✿（養殖）：不計紀錄，漁販只出六成。"
+    ],
+    "zh_CN": [
+     "放在池边：会数和它相连的水（18 格以上养 4 条、48 格 8 条、96 格 12 条；海边或河边算大池），管理这个池子。拿鱼对它使用就放进池里，空手打开清单（从清单捞回）。饲料：鱼粉（4 餐）、鱼粉饵（2 餐）、小鱼干、蚯蚓、鱼杂、虾头（1 餐），最多存 64 餐。每天清晨每条鱼吃 1 餐；吃饱的天数让它长大（小型 3 天变中型，再 5 天变大型），最大只到该鱼种的 85%。两条同种、中型以上、都吃饱的鱼，每天清晨有 1/4 机率产卵；放着两天后孵化，也可以捞起来变成受精卵。海边的池子，或放了盐 ×8 的池子，是海水池。在池里长大或出生的鱼标着 ✿（养殖）：不计纪录，渔贩只出六成。"
+    ]
+   },
+   "mechanics": [
+    "Set it at the edge of a pond: it counts the water joined to it (18 blocks or more for 4 fish, 48 for 8, 96 for 12; the sea or a river counts as large) and keeps the pond. Use a fish on it to let it go in the pond, an empty hand for the list (take one back from there). Feed: Fish Meal (4 meals), Fish Meal Bait (2), Small Dried Fish, Earthworm, Fish Offal or Shrimp Head (1); up to 64 meals. Each dawn every fish eats a meal; fed days make it grow (small to medium in 3, to large in 5 more), never past 85% of its kind. Two fed fish of a kind, medium or larger, may spawn roe (1 in 4 each dawn); left alone it hatches in 2 days, or take it out as Fertilized Roe. A pond by the sea, or one given 8 Salt, is a sea pond. Fish that grew or were born here are marked ✿ (farmed): they set no records and the merchant pays 60% for them."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fertilized_roe",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_fertilized_roe",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.4
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Roe spawned in a fish pond and taken out from the feeder's list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot."
+    ],
+    "zh_TW": [
+     "魚池裡產下、從餵食台清單撈起來的魚卵，會記住是哪種魚。放進裝了清水的木盆，兩天後空手取出 2 條小型的那種魚（養殖）。也可以當魚卵入菜。"
+    ],
+    "zh_CN": [
+     "鱼池里产下、从喂食台清单捞起来的鱼卵，会记住是哪种鱼。放进装了清水的木盆，两天后空手取出 2 条小型的那种鱼（养殖）。也可以当鱼卵入菜。"
+    ]
+   },
+   "mechanics": [
+    "Roe spawned in a fish pond and taken out from the feeder's list. It remembers its kind. Put it in a Wooden Tub of plain water: two days later an empty hand takes out 2 small fish of that kind (farmed). It is also roe for the pot."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fishing_skiff",
+   "category": "tools",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_fishing_skiff",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:oak_boat",
+      "kaleidoscope_fishing:catch_crate",
+      "kaleidoscope_fishing:fishing_lantern"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:fishing_skiff"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls."
+    ],
+    "zh_TW": [
+     "一人座的小船，有魚艙和一盞漁燈。對水使用就能放下。在船上釣魚，餌多垂 4 格、大魚稍微多一點（任何船都有這個效果）；流星旗魚比較容易上鉤。魚簍收不下的漁獲會進魚艙（27 格：蹲下對船使用打開）。夜晚漁燈讓魚咬鉤稍快（和夜光浮標不疊加）。拿漁網對它使用，船尾掛上拖網（蹲下再用一次收回）：在水深 8 格以上的海面航行，大約每 64 格撈到 1～2 條小魚進魚艙，魚艙滿了就停；拖網撈 32 次會破。"
+    ],
+    "zh_CN": [
+     "一人座的小船，有鱼舱和一盏渔灯。对水使用就能放下。在船上钓鱼，饵多垂 4 格、大鱼稍微多一点（任何船都有这个效果）；流星旗鱼比较容易上钩。鱼篓收不下的渔获会进鱼舱（27 格：蹲下对船使用打开）。夜晚渔灯让鱼咬钩稍快（和夜光浮标不叠加）。拿渔网对它使用，船尾挂上拖网（蹲下再用一次收回）：在水深 8 格以上的海面航行，大约每 64 格捞到 1～2 条小鱼进鱼舱，鱼舱满了就停；拖网捞 32 次会破。"
+    ]
+   },
+   "mechanics": [
+    "A small boat for one, with a fish hold and a lantern. Use it on water to put it in. Fishing from it, the bait hangs 4 blocks deeper and big fish come a little more often (any boat does that); the Meteor Marlin bites more readily. Catches the creel cannot take go into the hold (27 slots: crouch and use the skiff to open it). At night the lantern brings bites a little sooner (not with a Glow Bobber). Use a Fishing Net on it to hang a trawl off the stern (crouch and use one again to take it in): over water 8 blocks deep or more it brings up 1-2 small fish into the hold every 64 blocks or so, until the hold is full; the net wears out after 32 hauls."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:jellyfish_radish",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_jellyfish_radish",
+   "food": {
+    "nutrition": 5,
+    "saturation": 0.6
+   },
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:jellyfish_skin",
+      "minecraft:carrot",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:jellyfish_radish"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Crunchy jellyfish strips tossed with shredded carrot and a little oil."
+    ],
+    "zh_TW": [
+     "脆脆的海蜇皮拌上蘿蔔絲和一點油。"
+    ],
+    "zh_CN": [
+     "脆脆的海蜇皮拌上萝卜丝和一点油。"
+    ]
+   },
+   "mechanics": [
+    "Crunchy jellyfish strips tossed with shredded carrot and a little oil."
+   ]
   }
  ],
  "names": {
@@ -7231,13 +9285,13 @@
    "kaleidoscope_fishing:octopus": "Octopus",
    "kaleidoscope_fishing:white_fish_fillet": "White Fish Fillet",
    "kaleidoscope_fishing:sea_bream_sashimi": "Sea Bream Sashimi",
-   "kaleidoscope_fishing:tuna_sashimi": "Tuna Sashimi",
+   "kaleidoscope_fishing:tuna_sashimi": "Akami Sashimi",
    "kaleidoscope_fishing:fish_ball": "Fish Ball",
    "kaleidoscope_fishing:sea_salt": "Salt",
    "kaleidoscope_fishing:salt_bucket": "Salt Bucket",
    "kaleidoscope_fishing:octopus_slices": "Octopus Slices",
    "kaleidoscope_fishing:skewered_sweetfish": "Sweetfish Skewer",
-   "kaleidoscope_fishing:dried_fish": "Dried Fish",
+   "kaleidoscope_fishing:dried_fish": "Dried Small Fish",
    "kaleidoscope_fishing:dried_shrimp": "Dried Shrimp",
    "kaleidoscope_fishing:seasoned_grouper": "Seasoned Grouper",
    "kaleidoscope_fishing:seasoned_sea_bream": "Seasoned Sea Bream",
@@ -7285,7 +9339,7 @@
    "kaleidoscope_fishing:oyster_bed": "Oyster Bed",
    "kaleidoscope_fishing:eel": "Eel",
    "kaleidoscope_fishing:saury": "Pacific Saury",
-   "kaleidoscope_fishing:squid_tube": "Squid",
+   "kaleidoscope_fishing:squid_tube": "Squid Tube",
    "kaleidoscope_fishing:raw_laver": "Laver",
    "kaleidoscope_fishing:laver_rock": "Laver Rock",
    "kaleidoscope_fishing:eel_fillet": "Eel Fillet",
@@ -7489,7 +9543,78 @@
    "minecraft:torch": "Torch",
    "minecraft:water_bucket": "Water Bucket",
    "minecraft:wheat": "Wheat",
-   "minecraft:wheat_seeds": "Wheat Seeds"
+   "minecraft:wheat_seeds": "Wheat Seeds",
+   "kaleidoscope_fishing:emperor_tuna_fin": "Emperor Bluefin Dorsal Fin",
+   "kaleidoscope_fishing:frostlake_scale": "Frostlake Scale",
+   "kaleidoscope_fishing:emperor_bone_hook": "Emperor Bone Hook",
+   "kaleidoscope_fishing:whisker_line": "River Lord Whisker Line",
+   "kaleidoscope_fishing:dragon_scale_bobber": "Dragon Scale Bobber",
+   "kaleidoscope_fishing:frost_scale_bobber": "Frost Scale Bobber",
+   "kaleidoscope_fishing:tide_clock": "Tide Clock",
+   "minecraft:clock": "Clock",
+   "kaleidoscope_fishing:shrimp_head": "Shrimp Head",
+   "kaleidoscope_fishing:lobster_tomalley": "Lobster Tomalley",
+   "kaleidoscope_fishing:shrimp_shell": "Shrimp Shells",
+   "kaleidoscope_fishing:shrimp_meat": "Peeled Shrimp",
+   "kaleidoscope_fishing:crab_shell": "Crab Shell",
+   "kaleidoscope_fishing:crab_roe": "Crab Roe",
+   "kaleidoscope_fishing:crab_meat": "Crab Meat",
+   "kaleidoscope_fishing:crab_leg": "Crab Leg",
+   "kaleidoscope_fishing:jellyfish_skin": "Jellyfish Strips",
+   "kaleidoscope_fishing:stir_fried_shrimp": "Stir-fried Shrimp",
+   "kaleidoscope_fishing:crab_congee": "Crab Congee",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "Shrimp Noodle Soup",
+   "kaleidoscope_fishing:crab_roe_rice": "Crab Roe Rice Bowl",
+   "kaleidoscope_fishing:jellyfish_salad": "Jellyfish Salad",
+   "kaleidoscope_fishing:boiled_shrimp": "Boiled Shrimp",
+   "kaleidoscope_fishing:steamed_crab_leg": "Steamed Crab Legs",
+   "kaleidoscope_fishing:grilled_crab_leg": "Grilled Crab Legs",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "Shrimp Head Stock Bucket",
+   "kaleidoscope_fishing:salted_shrimp": "Salted Shrimp",
+   "kaleidoscope_fishing:dried_shell_shrimp": "Dried Shell-on Shrimp",
+   "kaleidoscope_fishing:xo_sauce": "XO Sauce",
+   "kaleidoscope_fishing:dried_shrimp_greens": "Greens with Dried Shrimp",
+   "kaleidoscope_fishing:whole_squid": "Whole Squid",
+   "kaleidoscope_fishing:squid_tentacles": "Squid Tentacles",
+   "kaleidoscope_fishing:chutoro": "Chutoro Sashimi",
+   "kaleidoscope_fishing:otoro": "Otoro Sashimi",
+   "kaleidoscope_fishing:bonito_sashimi": "Bonito Sashimi",
+   "kaleidoscope_fishing:otoro_nigiri": "Otoro Nigiri",
+   "kaleidoscope_fishing:fried_squid_tentacles": "Fried Squid Tentacles",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "Grilled Squid Tentacles",
+   "kaleidoscope_fishing:gutted_fish": "Gutted Fish",
+   "kaleidoscope_fishing:gutted_skipjack": "Gutted Skipjack",
+   "kaleidoscope_fishing:gutted_flying_fish": "Gutted Flying Fish",
+   "kaleidoscope_fishing:spicy_dried_fish": "Spicy Dried Small Fish",
+   "kaleidoscope_fishing:wooden_tub": "Wooden Tub",
+   "kaleidoscope_fishing:salt_pan": "Salt Pan",
+   "kaleidoscope_fishing:purged_clam": "Purged Clam",
+   "kaleidoscope_fishing:clam_steamed_egg": "Steamed Egg with Clams",
+   "minecraft:terracotta": "Terracotta",
+   "minecraft:basalt": "Basalt",
+   "minecraft:obsidian": "Obsidian",
+   "minecraft:lava_bucket": "Lava Bucket",
+   "kaleidoscope_fishing:lava_fish_tank": "Lava Fish Tank",
+   "kaleidoscope_fishing:mycelium_flounder": "Mycelium Flounder",
+   "kaleidoscope_fishing:spore_seahorse": "Spore Seahorse",
+   "kaleidoscope_fishing:cherry_trout": "Cherry Trout",
+   "kaleidoscope_fishing:creek_shrimp": "Creek Shrimp",
+   "kaleidoscope_fishing:echo_ray": "Echo Ray",
+   "kaleidoscope_fishing:sculk_lanternfish": "Sculk Lanternfish",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "Mushroom and Flounder Stew",
+   "kaleidoscope_fishing:cherry_trout_rice": "Cherry Trout Rice",
+   "kaleidoscope_fishing:fried_creek_shrimp": "Fried Creek Shrimp",
+   "kaleidoscope_fishing:echo_ray_pot": "Echo Ray Pot",
+   "kaleidoscope_fishing:meteor_marlin": "Meteor Marlin",
+   "kaleidoscope_fishing:aurora_icefish": "Aurora Icefish",
+   "kaleidoscope_fishing:star_sand": "Star Sand",
+   "kaleidoscope_fishing:glowing_glass_float": "Glowing Glass Float",
+   "kaleidoscope_fishing:pond_feeder": "Fish Pond Feeder",
+   "minecraft:barrel": "Barrel",
+   "kaleidoscope_fishing:fertilized_roe": "Fertilized Roe",
+   "minecraft:oak_boat": "Oak Boat",
+   "kaleidoscope_fishing:fishing_skiff": "Fishing Skiff",
+   "kaleidoscope_fishing:jellyfish_radish": "Jellyfish and Carrot Salad"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -7514,13 +9639,13 @@
    "kaleidoscope_fishing:octopus": "章魚",
    "kaleidoscope_fishing:white_fish_fillet": "白肉魚片",
    "kaleidoscope_fishing:sea_bream_sashimi": "鯛魚刺身",
-   "kaleidoscope_fishing:tuna_sashimi": "鮪魚刺身",
+   "kaleidoscope_fishing:tuna_sashimi": "赤身刺身",
    "kaleidoscope_fishing:fish_ball": "魚丸",
    "kaleidoscope_fishing:sea_salt": "鹽",
    "kaleidoscope_fishing:salt_bucket": "鹽桶",
    "kaleidoscope_fishing:octopus_slices": "章魚片",
    "kaleidoscope_fishing:skewered_sweetfish": "香魚串",
-   "kaleidoscope_fishing:dried_fish": "魚乾",
+   "kaleidoscope_fishing:dried_fish": "小魚乾",
    "kaleidoscope_fishing:dried_shrimp": "蝦米",
    "kaleidoscope_fishing:seasoned_grouper": "調味石斑",
    "kaleidoscope_fishing:seasoned_sea_bream": "調味全鯛",
@@ -7568,7 +9693,7 @@
    "kaleidoscope_fishing:oyster_bed": "牡蠣床",
    "kaleidoscope_fishing:eel": "鰻魚",
    "kaleidoscope_fishing:saury": "秋刀魚",
-   "kaleidoscope_fishing:squid_tube": "魷魚",
+   "kaleidoscope_fishing:squid_tube": "魷魚筒",
    "kaleidoscope_fishing:raw_laver": "紫菜",
    "kaleidoscope_fishing:laver_rock": "紫菜礁",
    "kaleidoscope_fishing:eel_fillet": "鰻魚片",
@@ -7772,7 +9897,78 @@
    "minecraft:torch": "火把",
    "minecraft:water_bucket": "水桶",
    "minecraft:wheat": "小麥",
-   "minecraft:wheat_seeds": "小麥種子"
+   "minecraft:wheat_seeds": "小麥種子",
+   "kaleidoscope_fishing:emperor_tuna_fin": "皇鮪背鰭",
+   "kaleidoscope_fishing:frostlake_scale": "冰湖霜鱗",
+   "kaleidoscope_fishing:emperor_bone_hook": "皇鮪骨鉤",
+   "kaleidoscope_fishing:whisker_line": "河伯鬚線",
+   "kaleidoscope_fishing:dragon_scale_bobber": "龍鱗浮標",
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鱗浮標",
+   "kaleidoscope_fishing:tide_clock": "潮汐鐘",
+   "minecraft:clock": "時鐘",
+   "kaleidoscope_fishing:shrimp_head": "蝦頭",
+   "kaleidoscope_fishing:lobster_tomalley": "龍蝦膏",
+   "kaleidoscope_fishing:shrimp_shell": "蝦殼",
+   "kaleidoscope_fishing:shrimp_meat": "蝦仁",
+   "kaleidoscope_fishing:crab_shell": "蟹殼",
+   "kaleidoscope_fishing:crab_roe": "蟹黃",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_leg": "蟹腳",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒蝦仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鮮蝦湯麵",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黃蓋飯",
+   "kaleidoscope_fishing:jellyfish_salad": "涼拌海蜇皮",
+   "kaleidoscope_fishing:boiled_shrimp": "白灼蝦",
+   "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹腳",
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹腳",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "蝦頭高湯桶",
+   "kaleidoscope_fishing:salted_shrimp": "鹽水蝦",
+   "kaleidoscope_fishing:dried_shell_shrimp": "帶殼蝦乾",
+   "kaleidoscope_fishing:xo_sauce": "XO 醬",
+   "kaleidoscope_fishing:dried_shrimp_greens": "蝦米炒青菜",
+   "kaleidoscope_fishing:whole_squid": "整隻魷魚",
+   "kaleidoscope_fishing:squid_tentacles": "魷魚鬚",
+   "kaleidoscope_fishing:chutoro": "中腹刺身",
+   "kaleidoscope_fishing:otoro": "大腹刺身",
+   "kaleidoscope_fishing:bonito_sashimi": "鰹魚生魚片",
+   "kaleidoscope_fishing:otoro_nigiri": "大腹握壽司",
+   "kaleidoscope_fishing:fried_squid_tentacles": "炸魷魚鬚",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤魷魚鬚",
+   "kaleidoscope_fishing:gutted_fish": "剖好的魚",
+   "kaleidoscope_fishing:gutted_skipjack": "剖好的鰹魚",
+   "kaleidoscope_fishing:gutted_flying_fish": "剖好的飛魚",
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小魚乾",
+   "kaleidoscope_fishing:wooden_tub": "木盆",
+   "kaleidoscope_fishing:salt_pan": "曬鹽盤",
+   "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
+   "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
+   "minecraft:terracotta": "陶瓦",
+   "minecraft:basalt": "玄武岩",
+   "minecraft:obsidian": "黑曜石",
+   "minecraft:lava_bucket": "岩漿桶",
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩魚缸",
+   "kaleidoscope_fishing:mycelium_flounder": "菌褶鰈",
+   "kaleidoscope_fishing:spore_seahorse": "孢子海馬",
+   "kaleidoscope_fishing:cherry_trout": "櫻鱒",
+   "kaleidoscope_fishing:creek_shrimp": "溪蝦",
+   "kaleidoscope_fishing:echo_ray": "回音魟",
+   "kaleidoscope_fishing:sculk_lanternfish": "幽匿燈籠魚",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌燉鰈魚",
+   "kaleidoscope_fishing:cherry_trout_rice": "櫻鱒炊飯",
+   "kaleidoscope_fishing:fried_creek_shrimp": "炸溪蝦",
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟魚煲",
+   "kaleidoscope_fishing:meteor_marlin": "流星旗魚",
+   "kaleidoscope_fishing:aurora_icefish": "極光銀魚",
+   "kaleidoscope_fishing:star_sand": "星砂",
+   "kaleidoscope_fishing:glowing_glass_float": "發光玻璃浮球",
+   "kaleidoscope_fishing:pond_feeder": "魚池餵食台",
+   "minecraft:barrel": "木桶",
+   "kaleidoscope_fishing:fertilized_roe": "受精卵",
+   "minecraft:oak_boat": "橡木船",
+   "kaleidoscope_fishing:fishing_skiff": "釣魚小船",
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌蘿蔔絲"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -7797,13 +9993,13 @@
    "kaleidoscope_fishing:octopus": "章鱼",
    "kaleidoscope_fishing:white_fish_fillet": "白肉鱼片",
    "kaleidoscope_fishing:sea_bream_sashimi": "鲷鱼刺身",
-   "kaleidoscope_fishing:tuna_sashimi": "金枪鱼刺身",
+   "kaleidoscope_fishing:tuna_sashimi": "赤身刺身",
    "kaleidoscope_fishing:fish_ball": "鱼丸",
    "kaleidoscope_fishing:sea_salt": "盐",
    "kaleidoscope_fishing:salt_bucket": "盐桶",
    "kaleidoscope_fishing:octopus_slices": "章鱼片",
    "kaleidoscope_fishing:skewered_sweetfish": "香鱼串",
-   "kaleidoscope_fishing:dried_fish": "鱼干",
+   "kaleidoscope_fishing:dried_fish": "小鱼干",
    "kaleidoscope_fishing:dried_shrimp": "虾米",
    "kaleidoscope_fishing:seasoned_grouper": "调味石斑",
    "kaleidoscope_fishing:seasoned_sea_bream": "调味全鲷",
@@ -7851,7 +10047,7 @@
    "kaleidoscope_fishing:oyster_bed": "牡蛎床",
    "kaleidoscope_fishing:eel": "鳗鱼",
    "kaleidoscope_fishing:saury": "秋刀鱼",
-   "kaleidoscope_fishing:squid_tube": "鱿鱼",
+   "kaleidoscope_fishing:squid_tube": "鱿鱼筒",
    "kaleidoscope_fishing:raw_laver": "紫菜",
    "kaleidoscope_fishing:laver_rock": "紫菜礁",
    "kaleidoscope_fishing:eel_fillet": "鳗鱼片",
@@ -8055,7 +10251,78 @@
    "minecraft:torch": "火把",
    "minecraft:water_bucket": "水桶",
    "minecraft:wheat": "小麦",
-   "minecraft:wheat_seeds": "小麦种子"
+   "minecraft:wheat_seeds": "小麦种子",
+   "kaleidoscope_fishing:emperor_tuna_fin": "皇鲔背鳍",
+   "kaleidoscope_fishing:frostlake_scale": "冰湖霜鳞",
+   "kaleidoscope_fishing:emperor_bone_hook": "皇鲔骨钩",
+   "kaleidoscope_fishing:whisker_line": "河伯须线",
+   "kaleidoscope_fishing:dragon_scale_bobber": "龙鳞浮标",
+   "kaleidoscope_fishing:frost_scale_bobber": "霜鳞浮标",
+   "kaleidoscope_fishing:tide_clock": "潮汐钟",
+   "minecraft:clock": "时钟",
+   "kaleidoscope_fishing:shrimp_head": "虾头",
+   "kaleidoscope_fishing:lobster_tomalley": "龙虾膏",
+   "kaleidoscope_fishing:shrimp_shell": "虾壳",
+   "kaleidoscope_fishing:shrimp_meat": "虾仁",
+   "kaleidoscope_fishing:crab_shell": "蟹壳",
+   "kaleidoscope_fishing:crab_roe": "蟹黄",
+   "kaleidoscope_fishing:crab_meat": "蟹肉",
+   "kaleidoscope_fishing:crab_leg": "蟹脚",
+   "kaleidoscope_fishing:jellyfish_skin": "海蜇皮",
+   "kaleidoscope_fishing:stir_fried_shrimp": "清炒虾仁",
+   "kaleidoscope_fishing:crab_congee": "蟹肉粥",
+   "kaleidoscope_fishing:shrimp_noodle_soup": "鲜虾汤面",
+   "kaleidoscope_fishing:crab_roe_rice": "蟹黄盖饭",
+   "kaleidoscope_fishing:jellyfish_salad": "凉拌海蜇皮",
+   "kaleidoscope_fishing:boiled_shrimp": "白灼虾",
+   "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹脚",
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹脚",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "虾头高汤桶",
+   "kaleidoscope_fishing:salted_shrimp": "盐水虾",
+   "kaleidoscope_fishing:dried_shell_shrimp": "带壳虾干",
+   "kaleidoscope_fishing:xo_sauce": "XO 酱",
+   "kaleidoscope_fishing:dried_shrimp_greens": "虾米炒青菜",
+   "kaleidoscope_fishing:whole_squid": "整只鱿鱼",
+   "kaleidoscope_fishing:squid_tentacles": "鱿鱼须",
+   "kaleidoscope_fishing:chutoro": "中腹刺身",
+   "kaleidoscope_fishing:otoro": "大腹刺身",
+   "kaleidoscope_fishing:bonito_sashimi": "鲣鱼生鱼片",
+   "kaleidoscope_fishing:otoro_nigiri": "大腹握寿司",
+   "kaleidoscope_fishing:fried_squid_tentacles": "炸鱿鱼须",
+   "kaleidoscope_fishing:grilled_squid_tentacles": "烤鱿鱼须",
+   "kaleidoscope_fishing:gutted_fish": "剖好的鱼",
+   "kaleidoscope_fishing:gutted_skipjack": "剖好的鲣鱼",
+   "kaleidoscope_fishing:gutted_flying_fish": "剖好的飞鱼",
+   "kaleidoscope_fishing:spicy_dried_fish": "辣炒小鱼干",
+   "kaleidoscope_fishing:wooden_tub": "木盆",
+   "kaleidoscope_fishing:salt_pan": "晒盐盘",
+   "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
+   "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
+   "minecraft:terracotta": "陶瓦",
+   "minecraft:basalt": "玄武岩",
+   "minecraft:obsidian": "黑曜石",
+   "minecraft:lava_bucket": "熔岩桶",
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩鱼缸",
+   "kaleidoscope_fishing:mycelium_flounder": "菌褶鲽",
+   "kaleidoscope_fishing:spore_seahorse": "孢子海马",
+   "kaleidoscope_fishing:cherry_trout": "樱鳟",
+   "kaleidoscope_fishing:creek_shrimp": "溪虾",
+   "kaleidoscope_fishing:echo_ray": "回音魟",
+   "kaleidoscope_fishing:sculk_lanternfish": "幽匿灯笼鱼",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌炖鲽鱼",
+   "kaleidoscope_fishing:cherry_trout_rice": "樱鳟炊饭",
+   "kaleidoscope_fishing:fried_creek_shrimp": "炸溪虾",
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟鱼煲",
+   "kaleidoscope_fishing:meteor_marlin": "流星旗鱼",
+   "kaleidoscope_fishing:aurora_icefish": "极光银鱼",
+   "kaleidoscope_fishing:star_sand": "星砂",
+   "kaleidoscope_fishing:glowing_glass_float": "发光玻璃浮球",
+   "kaleidoscope_fishing:pond_feeder": "鱼池喂食台",
+   "minecraft:barrel": "木桶",
+   "kaleidoscope_fishing:fertilized_roe": "受精卵",
+   "minecraft:oak_boat": "橡木船",
+   "kaleidoscope_fishing:fishing_skiff": "钓鱼小船",
+   "kaleidoscope_fishing:jellyfish_radish": "海蜇拌萝卜丝"
   }
  },
  "text": {

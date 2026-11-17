@@ -16,6 +16,7 @@ import { fishOut, keepKey, keepOf, stash, unstash } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";   // v1.6.4 (F5): a fish that does not go in says why
+import { externalTank } from "../fishing/registry.js";
 
 const NS = "kaleidoscope_fishing";
 const FISH_ID = `${NS}:tank_fish`;
@@ -28,6 +29,29 @@ const TURN = { north: 0, east: 1, south: 2, west: 3 };   // quarter turns clockw
 const REPLACEABLE = new Set(["minecraft:air", "minecraft:short_grass", "minecraft:fern", "minecraft:snow_layer", "minecraft:leaf_litter"]);
 const TAG = "kfv_tank:";                        // kfv_tank:s:x,y,z (Fish Tank) / kfv_tank:l:x,y,z (Large, anchor block)
 const canon = id => FISH_ALIAS[id] ?? id;
+// 1.5.0: lava creatures live in the Lava Fish Tank (blocks/lava_fish_tank.json: params {"lava": true}); the Lava
+// Dragon Koi was allowed in a water tank in 1.4 and still is. Water creatures do not go in the lava tank.
+export const LAVA_ONLY = new Set([`${NS}:blazefin`, `${NS}:magma_koi`, `${NS}:lava_eel`, `${NS}:basalt_crab`]);
+export const LAVA_OK = new Set([...LAVA_ONLY, `${NS}:lava_dragon_koi`]);
+/** The tank index of what is held, if this kind of tank takes it (0 when it does not). Exported for tests. */
+export function tankIndex(id, lava = false) {
+  const c = canon(id);
+  if (TANK_FISH.includes(c)) {
+    if (lava ? !LAVA_OK.has(c) : LAVA_ONLY.has(c)) return 0;
+    return TANK_FISH.indexOf(c) + 1;
+  }
+  // 1.5.0 (register_tank): another pack's creature, drawn as its `like`; its item id rides along in the fish's keep
+  const e = externalTank(id);
+  if (!e || (e.tank !== "both" && (e.tank === "lava") !== lava)) return 0;
+  return TANK_FISH.indexOf(e.like) + 1;
+}
+/** What a fish going in keeps: its marks and name, and for another pack's creature its id and scale. */
+function keepFor(stack) {
+  const k = keepOf(stack);
+  const e = TANK_FISH.includes(canon(stack.typeId)) ? undefined : externalTank(stack.typeId);
+  return e ? { ...(k ?? {}), ext: stack.typeId, ...(e.scale !== 1 ? { sc: e.scale } : {}) } : k;
+}
+const peek = key => { try { const v = world.getDynamicProperty(key); return typeof v === "string" ? JSON.parse(v) : undefined; } catch { return undefined; } };
 
 const mainhand = p => p.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
 const creative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
@@ -49,7 +73,12 @@ function splash(dim, at, n = 6) {
     try { spawnParticle(dim, "minecraft:water_splash_particle", { x: at.x + (Math.random() - 0.5) * 0.6, y: at.y + 0.8, z: at.z + (Math.random() - 0.5) * 0.6 }); } catch {}
   }
 }
-const fishStack = (idx, cls, keep) => fishOut(new ItemStack(TANK_FISH[idx - 1], 1), cls, keep);
+/** The item a fish comes out as: ours by index, another pack's by its keep (undefined while that item is missing). */
+function fishStack(idx, cls, keep) {
+  let s;
+  try { s = new ItemStack(keep?.ext ?? TANK_FISH[idx - 1], 1); } catch { return undefined; }
+  return fishOut(s, cls, keep);
+}
 
 // local -> world, k quarter turns (as feast.js)
 function rot(x, z, k) { for (let i = 0; i < ((k % 4) + 4) % 4; i++) [x, z] = [-z, x]; return [x, z]; }
@@ -69,11 +98,12 @@ function fishEntities(dim, tag, centre) {
 const remove = e => { try { e.remove(); } catch {} };
 const prop = (e, k) => { try { return e.getDynamicProperty(k); } catch { return undefined; } };
 
-function spawnFish(dim, tag, centre, turn, big, slot, [idx, cls]) {
+function spawnFish(dim, tag, centre, turn, big, slot, [idx, cls, keep]) {
   const spec = idx - 1;
   const fits = FIT[spec]?.[big ? 1 : 0];
   if (!fits) return;
-  const [scale, span, lo, hi] = fits[cls] ?? fits[2];
+  const [scale0, span, lo, hi] = fits[cls] ?? fits[2];
+  const scale = Math.min(100, Math.round(scale0 * (Number(keep?.sc) || 1)));   // 1.5.0: a registered creature's own scale
   let e;
   try { e = dim.spawnEntity(FISH_ID, centre, { initialRotation: 0 }); }
   catch { try { e = dim.spawnEntity(FISH_ID, centre); } catch { return; } }
@@ -133,25 +163,25 @@ function saveSmall(block, idx, cls) {
 }
 function smallFish(block, perm) {
   const { idx, cls } = smallData(block, perm);
-  return idx > 0 && idx <= TANK_FISH.length ? [[idx, cls]] : [];
+  return idx > 0 && idx <= TANK_FISH.length ? [[idx, cls, peek(keepKey("tk", block.dimension, block))]] : [];
 }
 function syncSmall(block, perm = block.permutation) {
   syncFish(block.dimension, smallTag(block), smallCentre(block), TURN[perm.getState("minecraft:cardinal_direction")] ?? 0, false, smallFish(block, perm));
 }
 
 const fishTank = {
-  onPlayerInteract({ block, player }) {
+  onPlayerInteract({ block, player }, arg) {
     if (!player) return;
     const slot = mainhand(player);
     const held = slot?.hasItem() ? slot.typeId : "";
     const now = smallData(block);
     const cur = now.idx;
-    const idx = TANK_FISH.indexOf(canon(held)) + 1;
+    const idx = tankIndex(held, !!arg?.params?.lava);
     const at = smallCentre(block);
     if (idx > 0 && cur === 0) {
       const stack = slot.getItem();
       const cls = readSize(stack).cls;
-      stash(keepKey("tk", block.dimension, block), keepOf(stack));
+      stash(keepKey("tk", block.dimension, block), keepFor(stack));
       takeOne(player, slot);
       saveSmall(block, idx, cls);
       const perm = withFishIndex(block.permutation, idx).withState(SIZE_STATE, cls);
@@ -163,7 +193,10 @@ const fishTank = {
     }
     if (!held && cur > 0) {
       const cls = now.cls;
-      give(player, block.center(), fishStack(cur, cls, unstash(keepKey("tk", block.dimension, block))));
+      const out = fishStack(cur, cls, peek(keepKey("tk", block.dimension, block)));
+      if (!out) return refuse(player, "tank_pack_gone");                 // another pack's creature, its pack gone: it stays
+      unstash(keepKey("tk", block.dimension, block));
+      give(player, block.center(), out);
       saveSmall(block, 0, 0);
       const perm = withFishIndex(block.permutation, 0).withState(SIZE_STATE, 0);
       block.setPermutation(perm);
@@ -172,14 +205,15 @@ const fishTank = {
       syncSmall(block, perm);
       return;
     }
-    if (held) refuse(player, idx > 0 ? "tank_occupied" : "tank_not_fish");
+    if (held) refuse(player, idx > 0 ? "tank_occupied" : LAVA_OK.has(canon(held)) !== !!arg?.params?.lava ? "tank_wrong_kind" : "tank_not_fish");
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     const { idx: cur, cls } = smallData(block, brokenBlockPermutation);
     saveSmall(block, 0, 0);
     clearFish(block.dimension, smallTag(block), smallCentre(block));
     const keep = unstash(keepKey("tk", block.dimension, block));
-    if (cur > 0 && cur <= TANK_FISH.length && !creative(player)) { try { block.dimension.spawnItem(fishStack(cur, cls, keep), block.center()); } catch {} }
+    const out = cur > 0 && cur <= TANK_FISH.length && !creative(player) ? fishStack(cur, cls, keep) : undefined;
+    if (out) { try { block.dimension.spawnItem(out, block.center()); } catch {} }
   },
   onTick({ block }) {
     const d = smallData(block);                                  // v1.5.5: copy a 1.5.4 tank's fish into its record
@@ -219,7 +253,23 @@ function dropAll(dim, t, withTank) {
   writeLarge(dim, t, []);
   const at = { x: t.centre.x, y: t.centre.y + 0.5, z: t.centre.z };
   if (withTank) { try { dim.spawnItem(new ItemStack(LARGE_ITEM, 1), at); } catch {} }
-  for (const [idx, cls, keep] of fish) { try { dim.spawnItem(fishStack(idx, cls, keep), at); } catch {} }
+  for (const [idx, cls, keep] of fish) { const out = fishStack(idx, cls, keep); if (out) { try { dim.spawnItem(out, at); } catch {} } }
+}
+
+// 1.5.0 (plan 12): kelp or seagrass, any coral, or sand used on a Large Fish Tank changes its bottom (the state
+// `decor` on both halves: 0 as it always was, 1 water plants, 2 coral, 3 sand). The same again puts it back.
+const DECOR = `${NS}:decor`;
+/** The bottom an item asks for (0 = none). Exported for tests. */
+export function decorOf(id) {
+  if (id === "minecraft:kelp" || id === "minecraft:seagrass") return 1;
+  if (/^minecraft:.*coral/.test(id)) return 2;
+  if (id === "minecraft:sand") return 3;
+  return 0;
+}
+function setDecor(dim, t, d) {
+  for (const c of [t.anchor, t.other]) {
+    try { const b = dim.getBlock(c); if (b?.typeId === LARGE_BLOCK) b.setPermutation(b.permutation.withState(DECOR, d)); } catch {}
+  }
 }
 
 const largeTank = {
@@ -230,11 +280,20 @@ const largeTank = {
     const fish = readLarge(dim, t);
     const slot = mainhand(player);
     const held = slot?.hasItem() ? slot.typeId : "";
-    const idx = TANK_FISH.indexOf(canon(held)) + 1;
+    const deco = decorOf(held);
+    if (deco) {
+      let now = 0;
+      try { now = Number(block.permutation.getState(DECOR) ?? 0); } catch {}
+      setDecor(dim, t, now === deco ? 0 : deco);
+      snd(dim, t.centre, deco === 3 ? "dig.sand" : "random.splash", 1.2, 0.6);
+      splash(dim, t.centre, 4);
+      return;
+    }
+    const idx = tankIndex(held);
     if (idx > 0) {
       if (fish.length >= CAP) { snd(dim, t.centre, "random.click", 0.6, 0.5); return refuse(player, "tank_full", CAP); }
       const stack = slot.getItem();
-      const cls = readSize(stack).cls, keep = keepOf(stack);
+      const cls = readSize(stack).cls, keep = keepFor(stack);
       takeOne(player, slot);
       fish.push(keep ? [idx, cls, keep] : [idx, cls]);
       writeLarge(dim, t, fish);
@@ -244,9 +303,12 @@ const largeTank = {
       return;
     }
     if (!held && fish.length) {
-      const [i, cls, keep] = fish.pop();
+      const [i, cls, keep] = fish[fish.length - 1];
+      const out = fishStack(i, cls, keep);
+      if (!out) return refuse(player, "tank_pack_gone");
+      fish.pop();
       writeLarge(dim, t, fish);
-      give(player, block.center(), fishStack(i, cls, keep));
+      give(player, block.center(), out);
       snd(dim, t.centre, "bucket.fill_fish", 1.0);
       splash(dim, t.centre, 4);
       syncLarge(dim, t, fish);
@@ -338,7 +400,8 @@ function sweep() {
         const idx = prop(e, "kfv:idx"), cls = prop(e, "kfv:cls") ?? 0;
         const keep = unstash(keepKey("tk", dim, pos));
         writeData("tk", dim, pos, undefined);                      // v1.5.5: the tank's record goes too
-        if (typeof idx === "number" && idx > 0 && idx <= TANK_FISH.length) { try { dim.spawnItem(fishStack(idx, cls, keep), e.location); } catch {} }
+        const out = typeof idx === "number" && idx > 0 && idx <= TANK_FISH.length ? fishStack(idx, cls, keep) : undefined;
+        if (out) { try { dim.spawnItem(out, e.location); } catch {} }
         remove(e);
       } else {
         if (block.typeId === LARGE_BLOCK && Number(block.permutation.getState(PART) ?? 0) === 0) continue;

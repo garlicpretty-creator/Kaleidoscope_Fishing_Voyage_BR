@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_dried_shrimp_greens",
+    "metalness_emissive_roughness": "kfv_dried_shrimp_greens_mer",
+    "normal": "kfv_dried_shrimp_greens_normal"
+  }
+}

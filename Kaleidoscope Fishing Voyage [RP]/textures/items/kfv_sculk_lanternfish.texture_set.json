@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_sculk_lanternfish",
+    "metalness_emissive_roughness": "kfv_sculk_lanternfish_mer",
+    "normal": "kfv_sculk_lanternfish_normal"
+  }
+}

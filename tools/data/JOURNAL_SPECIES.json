@@ -362,5 +362,61 @@
     "icon": "textures/items/kfv_lava_dragon_koi",
     "sized": true,
     "group": "legend"
+  },
+  {
+    "id": "kaleidoscope_fishing:mycelium_flounder",
+    "key": "mycelium_flounder",
+    "icon": "textures/items/kfv_mycelium_flounder",
+    "sized": true,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:spore_seahorse",
+    "key": "spore_seahorse",
+    "icon": "textures/items/kfv_spore_seahorse",
+    "sized": false,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout",
+    "key": "cherry_trout",
+    "icon": "textures/items/kfv_cherry_trout",
+    "sized": true,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:creek_shrimp",
+    "key": "creek_shrimp",
+    "icon": "textures/items/kfv_creek_shrimp",
+    "sized": false,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray",
+    "key": "echo_ray",
+    "icon": "textures/items/kfv_echo_ray",
+    "sized": true,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:sculk_lanternfish",
+    "key": "sculk_lanternfish",
+    "icon": "textures/items/kfv_sculk_lanternfish",
+    "sized": true,
+    "group": "secret"
+  },
+  {
+    "id": "kaleidoscope_fishing:meteor_marlin",
+    "key": "meteor_marlin",
+    "icon": "textures/items/kfv_meteor_marlin",
+    "sized": true,
+    "group": "sky"
+  },
+  {
+    "id": "kaleidoscope_fishing:aurora_icefish",
+    "key": "aurora_icefish",
+    "icon": "textures/items/kfv_aurora_icefish",
+    "sized": true,
+    "group": "sky"
   }
 ]

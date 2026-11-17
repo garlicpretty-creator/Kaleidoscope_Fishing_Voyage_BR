@@ -8,7 +8,9 @@ import { __answers } from './server-ui.mjs';
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const BP = join(ROOT, 'Kaleidoscope Fishing Voyage [BP]');
 export const NS = 'kaleidoscope_fishing:';
-export const { __subs: subs, __log: log, __flush: flush, __player: P, __clock: clock, __overworld: D, __blockDefs: blockDefs, __dyn: dyn, ItemStack, GameMode } = S;
+export const { __subs: subs, __log: log, __flush: flush, __player: P, __clock: clock, __overworld: D, __blockDefs: blockDefs, __dyn: dyn, __sent: sent, ItemStack, GameMode } = S;
+/** The kaleidoscope_fishing:evt broadcasts sent since index `from` of `sent` (1.5.0). */
+export const evts = (from = 0) => sent.slice(from).filter(e => e[0] === 'kaleidoscope_fishing:evt').map(e => JSON.parse(e[1]));
 export { S, __answers as answers };
 export const importScript = p => import(pathToFileURL(join(BP, 'scripts', p)).href);
 

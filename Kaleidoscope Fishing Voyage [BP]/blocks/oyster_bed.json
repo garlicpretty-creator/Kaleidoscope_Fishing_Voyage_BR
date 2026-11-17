@@ -3,7 +3,13 @@
   "minecraft:block": {
     "description": {
       "identifier": "kaleidoscope_fishing:oyster_bed",
-      "states": {},
+      "states": {
+        "kaleidoscope_fishing:growth": [
+          2,
+          0,
+          1
+        ]
+      },
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": [
@@ -76,12 +82,23 @@
       "kaleidoscope_fishing:shore_drop": {
         "item": "kaleidoscope_fishing:oyster",
         "min": 1,
-        "max": 3
+        "max": 3,
+        "harvest": [
+          2,
+          4
+        ]
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          400,
+          600
+        ],
+        "looping": true
       }
     },
     "permutations": [
       {
-        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('kaleidoscope_fishing:growth') == 2",
         "components": {
           "minecraft:transformation": {
             "rotation": [
@@ -93,7 +110,7 @@
         }
       },
       {
-        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('kaleidoscope_fishing:growth') == 2",
         "components": {
           "minecraft:transformation": {
             "rotation": [
@@ -105,7 +122,7 @@
         }
       },
       {
-        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('kaleidoscope_fishing:growth') == 2",
         "components": {
           "minecraft:transformation": {
             "rotation": [
@@ -117,12 +134,188 @@
         }
       },
       {
-        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('kaleidoscope_fishing:growth') == 2",
         "components": {
           "minecraft:transformation": {
             "rotation": [
               0,
               90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('kaleidoscope_fishing:growth') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.8,
+              0.65,
+              0.8
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('kaleidoscope_fishing:growth') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ],
+            "scale": [
+              0.8,
+              0.65,
+              0.8
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('kaleidoscope_fishing:growth') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ],
+            "scale": [
+              0.8,
+              0.65,
+              0.8
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('kaleidoscope_fishing:growth') == 1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ],
+            "scale": [
+              0.8,
+              0.65,
+              0.8
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('kaleidoscope_fishing:growth') == 0",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.55,
+              0.4,
+              0.55
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('kaleidoscope_fishing:growth') == 0",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ],
+            "scale": [
+              0.55,
+              0.4,
+              0.55
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('kaleidoscope_fishing:growth') == 0",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ],
+            "scale": [
+              0.55,
+              0.4,
+              0.55
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('kaleidoscope_fishing:growth') == 0",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ],
+            "scale": [
+              0.55,
+              0.4,
+              0.55
+            ],
+            "scale_pivot": [
+              0,
+              -0.5,
               0
             ]
           }

@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:dragon_scale_bobber",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.tools"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.dragon_scale_bobber"
+      },
+      "minecraft:icon": "kfv_dragon_scale_bobber",
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

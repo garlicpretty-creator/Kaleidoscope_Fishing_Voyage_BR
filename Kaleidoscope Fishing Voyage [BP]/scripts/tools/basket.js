@@ -4,7 +4,7 @@
 // stored, dropped or traded with the fish inside.
 import { ItemStack, system, world } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
-import { BASKET_ITEMS } from "../data/generated.js";
+import { BASKET_ITEMS, LEGENDS } from "../data/generated.js";
 import { applyClass, markOf } from "../fishing/size.js";
 
 const NS = "kaleidoscope_fishing";
@@ -12,6 +12,13 @@ const BASKET = `${NS}:fish_basket`;
 const KEY = `${NS}:creel`;
 export const CAPACITY = 256;
 const INFO = Object.fromEntries(BASKET_ITEMS.map(b => [b.id, b]));
+const LEGEND = new Set(LEGENDS ?? []);
+/** A stack as it comes out of the creel: its size mark, and a legend's ✦ (the lore the rod gave it). 1.5.0: legends go in too. */
+export function takeOut(id, n, cls) {
+  const stack = applyClass(new ItemStack(id, n), cls);
+  if (LEGEND.has(id)) { try { stack.setLore([...(stack.getLore() ?? []), "§d✦"]); } catch {} }
+  return stack;
+}
 
 function read(stack) {
   try { const v = JSON.parse(stack.getDynamicProperty(KEY) ?? "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; }
@@ -86,7 +93,7 @@ async function open(player) {
   const max = new ItemStack(id, 1).maxAmount;
   const n = Math.min(cur[key] ?? 0, max);
   if (n <= 0) return;
-  const left = inv.addItem(applyClass(new ItemStack(id, n), cls));
+  const left = inv.addItem(takeOut(id, n, cls));
   const given = n - (left?.amount ?? 0);
   cur[key] -= given;
   if (cur[key] <= 0) delete cur[key];

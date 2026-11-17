@@ -1533,5 +1533,393 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:stir_fried_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.stir_fried_shrimp",
+    "icon": "textures/items/kfv_stir_fried_shrimp",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.shrimp_meat",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.green_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:crab_congee",
+    "nameKey": "kaleidoscope_fishing.name.crab_congee",
+    "icon": "textures/items/kfv_crab_congee",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.fish_stock_bucket",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.crab_meat",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:shrimp_noodle_soup",
+    "nameKey": "kaleidoscope_fishing.name.shrimp_noodle_soup",
+    "icon": "textures/items/kfv_shrimp_noodle_soup",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.raw_noodles",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp_meat",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp_shell",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:crab_roe_rice",
+    "nameKey": "kaleidoscope_fishing.name.crab_roe_rice",
+    "icon": "textures/items/kfv_crab_roe_rice",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.crab_roe",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.name.nori",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.bowl",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:jellyfish_salad",
+    "nameKey": "kaleidoscope_fishing.name.jellyfish_salad",
+    "icon": "textures/items/kfv_jellyfish_salad",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.jellyfish_skin",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.bowl",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:boiled_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.boiled_shrimp",
+    "icon": "textures/items/kfv_boiled_shrimp",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.live_shrimp",
+        4
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:steamed_crab_leg",
+    "nameKey": "kaleidoscope_fishing.name.steamed_crab_leg",
+    "icon": "textures/items/kfv_steamed_crab_leg",
+    "method": "steamer",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.crab_leg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_crab_leg",
+    "nameKey": "kaleidoscope_fishing.name.grilled_crab_leg",
+    "icon": "textures/items/kfv_grilled_crab_leg",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.crab_leg",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salted_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.salted_shrimp",
+    "icon": "textures/items/kfv_salted_shrimp",
+    "method": "stockpot",
+    "count": 3,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        3
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:dried_shrimp_greens",
+    "nameKey": "kaleidoscope_fishing.name.dried_shrimp_greens",
+    "icon": "textures/items/kfv_dried_shrimp_greens",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:otoro_nigiri",
+    "nameKey": "kaleidoscope_fishing.name.otoro_nigiri",
+    "icon": "textures/items/kfv_otoro_nigiri",
+    "method": "crafting",
+    "count": 2,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.cooked_rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.otoro",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fried_squid_tentacles",
+    "nameKey": "kaleidoscope_fishing.name.fried_squid_tentacles",
+    "icon": "textures/items/kfv_fried_squid_tentacles",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.squid_tentacles",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:grilled_squid_tentacles",
+    "nameKey": "kaleidoscope_fishing.name.grilled_squid_tentacles",
+    "icon": "textures/items/kfv_grilled_squid_tentacles",
+    "method": "furnace",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.squid_tentacles",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:spicy_dried_fish",
+    "nameKey": "kaleidoscope_fishing.name.spicy_dried_fish",
+    "icon": "textures/items/kfv_spicy_dried_fish",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_fish",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:clam_steamed_egg",
+    "nameKey": "kaleidoscope_fishing.name.clam_steamed_egg",
+    "icon": "textures/items/kfv_clam_steamed_egg",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.purged_clam",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.egg",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:mushroom_flounder_stew",
+    "nameKey": "kaleidoscope_fishing.name.mushroom_flounder_stew",
+    "icon": "textures/items/kfv_mushroom_flounder_stew",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.brown_mushroom",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout_rice",
+    "nameKey": "kaleidoscope_fishing.name.cherry_trout_rice",
+    "icon": "textures/items/kfv_cherry_trout_rice",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.kelp",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fried_creek_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.fried_creek_shrimp",
+    "icon": "textures/items/kfv_fried_creek_shrimp",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.creek_shrimp",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray_pot",
+    "nameKey": "kaleidoscope_fishing.name.echo_ray_pot",
+    "icon": "textures/items/kfv_echo_ray_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.potato",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:jellyfish_radish",
+    "nameKey": "kaleidoscope_fishing.name.jellyfish_radish",
+    "icon": "textures/items/kfv_jellyfish_radish",
+    "method": "crafting",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.jellyfish_skin",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
   }
 ]

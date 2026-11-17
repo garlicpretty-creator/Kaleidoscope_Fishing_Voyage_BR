@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_mushroom_flounder_stew",
+    "metalness_emissive_roughness": "kfv_mushroom_flounder_stew_mer",
+    "normal": "kfv_mushroom_flounder_stew_normal"
+  }
+}

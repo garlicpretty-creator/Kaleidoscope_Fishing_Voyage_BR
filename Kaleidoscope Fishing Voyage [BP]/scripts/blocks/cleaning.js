@@ -1,8 +1,7 @@
-// ## Fish Cleaning Board (魚案板): a whole fish is worked with a knife in three cuts.
-//   1 scale  -> Fish Scales           (skipped for scaleless fish: eel, catfish, hairtail, saury,
-//                                       anglerfish, octopus, pufferfish)
-//   2 gut    -> Fish Offal, sometimes Fish Roe (octopus: Ink Sac)
-//   3 fillet -> more fillets / sashimi than Cookery's chopping board, plus Fish Bones
+// ## Fish Cleaning Board (魚案板): a whole catch is worked with a knife, one cut at a time.
+// 1.5.0: every catch lists its own cuts (tools/data/CLEANING.json: "first" stage and "cuts"). A fish is still
+// scaled, gutted and filleted (a scaleless one starts at the gut); shrimp, crab, squid and the rest list theirs.
+// The board's `cut` state is the stage on show: laid down at `first`, one stage on per cut, cleared by the last.
 // Any item tagged kaleidoscope_cookery:kitchen_knife counts as a knife. No text: the fish on
 // the board changes (scales flaked off, belly opened) and each cut has its own sound.
 // v1.3.3: a fish taken back before the first cut keeps its "★ N cm" (and a name tag): keep.js.
@@ -21,19 +20,51 @@ import { readData, writeData } from "./blockData.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
+import { emit } from "../api/host.js";
+import { enchantLevel, wears } from "../util/enchant.js";
+import { externalBoard } from "../fishing/registry.js";
 
 const NS = "kaleidoscope_fishing";
 const CUT = `${NS}:cut`, SIZE = `${NS}:size`;
-// Size class of the fish on the board (0 none): a large fish gives one more fillet, a small one one less.
-const yieldOf = (fish, cls) => Math.max(1, fish.out[1] + (cls === LARGE ? 1 : cls === SMALL ? -1 : 0));
+// What one cut gives. An output marked "sized" grows by one for a large catch and shrinks by one for a small one.
+const countOf = (row, cls) => (row[3] === "sized" ? Math.max(1, row[1] + (cls === LARGE ? 1 : cls === SMALL ? -1 : 0)) : row[1]);
+/** The stacks a cut gives: [id, n], chance outputs rolled with `rand`. Exported for tests. */
+export function cutYield(cut, cls, rand = Math.random) {
+  const out = [];
+  for (const row of cut.out) if ((row[2] ?? 1) >= 1 || rand() < row[2]) out.push([row[0], countOf(row, cls)]);
+  return out;
+}
+// The sound and particles of each kind of cut.
+const ACT_FX = {
+  scale: ["mob.sheep.shear", 1.4, "minecraft:basic_crit_particle"], gut: ["mob.slime.small", 1.2],
+  fillet: ["dig.wood", 1.3, "minecraft:basic_crit_particle"], head: ["mob.turtle.baby.step", 1.1, "minecraft:basic_crit_particle"],
+  shell: ["random.break", 1.6], devein: ["mob.slime.small", 1.5], open: ["random.break", 1.2, "minecraft:basic_crit_particle"],
+  legs: ["dig.wood", 1.6], tentacle: ["mob.slime.small", 0.9], bone: ["dig.wood", 0.9], rub: ["dig.sand", 1.4],
+};
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
+// 1.5.0 (register_board): another pack's fish is drawn as its `like` (the board index), cut with its own outputs.
+// The board record keeps its item id ("ext"); while that pack has not registered it (yet), its cuts are unknown.
+/** The board entry for what lies on a board: ours by index, or another pack's by the record's ext. */
+function fishOn(idx, rec) {
+  const base = BY_INDEX[idx];
+  if (!base || !rec?.ext) return base;
+  const e = externalBoard(rec.ext);
+  return { ...base, id: rec.ext, ext: rec.ext, cuts: e?.cuts, gutted: undefined };
+}
+/** The board entry for a held item: ours, or a registered one. */
+function entryFor(id) {
+  const ours = CLEANING[FISH_ALIAS[id] ?? id];
+  if (ours) return ours;
+  const e = externalBoard(id);
+  return e && CLEANING[e.like] ? { ...CLEANING[e.like], cuts: e.cuts, ext: id } : undefined;
+}
 
 // v1.5.5: the size class lives in blockData ("cb": { size }); the size state is still written for 1.5.4 and
 // read only for a board laid before 1.5.5 (copied over on its next use).
 const sizeOf = (block, perm) => { const d = readData("cb", block.dimension, block); return d ? Number(d.size) || 0 : Number(perm.getState(SIZE) ?? 0); };
 // v1.6.3: { size, idx, cut } - the fish and how far it is cut, for a board that is gone.
-const saveBoard = (block, size, idx, cut) => writeData("cb", block.dimension, block, size === undefined ? undefined : { size, idx, cut });
+const saveBoard = (block, size, idx, cut, ext) => writeData("cb", block.dimension, block, size === undefined ? undefined : { size, idx, cut, ...(ext ? { ext } : {}) });
 const saveSize = (block, size) => saveBoard(block, size);
 const creative = p => { try { const g = p.getGameMode(); return g === GameMode.Creative || g === "creative"; } catch { return false; } };
 function give(player, block, id, n = 1, cls = 0, keep = undefined) {
@@ -50,6 +81,7 @@ function wearKnife(player, slot) {
     const it = slot.getItem();
     const d = it?.getComponent("minecraft:durability");
     if (!d) return;
+    if (!wears(enchantLevel(it, "unbreaking"))) return;      // 1.5.0: Unbreaking spares the knife here as it does in a fight
     if (d.damage + 1 >= d.maxDurability) {
       slot.setItem(undefined);
       try { player.playSound("random.break"); } catch {}
@@ -73,14 +105,14 @@ const cleaningBoard = {
     const held = slot?.hasItem() ? slot.getItem() : undefined;
     const p = block.permutation;
     const idx = readFishIndex(p), cut = Number(p.getState(CUT) ?? 0), cls = sizeOf(block, p);
-    const fish = BY_INDEX[idx];
     const key = keepKey("cb", block.dimension, block);
     const rec = readData("cb", block.dimension, block);
-    if (fish && (!rec || rec.idx !== idx || rec.cut !== cut)) saveBoard(block, cls, idx, cut);   // 1.5.4 / pre-1.6.3 boards: fill the record
+    const fish = fishOn(idx, rec);
+    if (fish && (!rec || rec.idx !== idx || rec.cut !== cut)) saveBoard(block, cls, idx, cut, rec?.ext);   // 1.5.4 / pre-1.6.3 boards: fill the record
 
     if (!fish) {                                         // empty board: lay a fish down
       if (!held) return refuse(player, "board_need_fish");
-      const c = CLEANING[FISH_ALIAS[held.typeId] ?? held.typeId];
+      const c = entryFor(held.typeId);
       if (!c) {
         let knifeHeld = false;
         try { knifeHeld = held.hasTag(KNIFE_TAG); } catch {}
@@ -89,39 +121,43 @@ const cleaningBoard = {
       const size = readSize(held).cls;
       stash(key, keepOf(held));
       if (!creative(player)) { if (held.amount <= 1) slot.setItem(undefined); else { held.amount -= 1; slot.setItem(held); } }
-      saveBoard(block, size, c.index, c.scales ? 1 : 2);
-      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.scales ? 1 : 2).withState(SIZE, size));
+      saveBoard(block, size, c.index, c.first, c.ext);
+      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.first).withState(SIZE, size));
       fx(block, "mob.fish.flop", 1.0);
       return;
     }
-    const first = fish.scales ? 1 : 2;
+    const first = fish.first;
     if (!held) {                                         // changed your mind before the first cut
-      if (cut === first) { give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0)); }
+      if (cut === first) {
+        try { new ItemStack(fish.id, 1); } catch { return refuse(player, "board_pack_gone"); }   // another pack's fish, its pack gone
+        give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+      }
+      else if (fish.gutted && cut === guttedStage(fish)) {   // 1.5.0: gutted and not yet filleted, it goes to the drying rack
+        give(player, block, fish.gutted);
+        saveSize(block, undefined);
+        block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+        fx(block, "mob.fish.flop", 1.2);
+      }
       else refuse(player, "board_finish_knife");
       return;
     }
     let knife = false;
     try { knife = held.hasTag(KNIFE_TAG); } catch {}
     if (!knife) return refuse(player, "board_need_knife");
+    if (!fish.cuts) return refuse(player, "board_pack_gone");   // another pack's fish whose pack has not registered it
     wearKnife(player, slot);
     if (cut === first) stash(key, undefined);            // once the knife is in, the fish is food: its record is let go
-    if (cut === 1) {                                     // scale
-      give(player, block, `${NS}:fish_scales`);
-      saveBoard(block, cls, idx, 2);
-      block.setPermutation(p.withState(CUT, 2));
-      fx(block, "mob.sheep.shear", 1.4, "minecraft:basic_crit_particle");
-    } else if (cut === 2) {                              // gut
-      give(player, block, `${NS}:fish_offal`);
-      for (const [id, chance] of fish.extra) if (Math.random() < chance) give(player, block, id);
-      saveBoard(block, cls, idx, 3);
-      block.setPermutation(p.withState(CUT, 3));
-      fx(block, "mob.slime.small", 1.2);
-    } else {                                             // fillet
-      give(player, block, fish.out[0], yieldOf(fish, cls));
-      give(player, block, `${NS}:fish_bones`, fish.bones);
+    const step = Math.max(0, Math.min(fish.cuts.length - 1, cut - first));   // a board from before 1.5.0 carries on where it was
+    const this_ = fish.cuts[step];
+    for (const [id, n] of cutYield(this_, cls)) give(player, block, id, n);
+    fx(block, ...(ACT_FX[this_.act] ?? ACT_FX.fillet));
+    if (step < fish.cuts.length - 1) {
+      saveBoard(block, cls, idx, first + step + 1, fish.ext);
+      block.setPermutation(p.withState(CUT, first + step + 1));
+    } else {
       saveSize(block, undefined);
       block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
-      fx(block, "dig.wood", 1.3, "minecraft:basic_crit_particle");
+      emit("cleaned", player, { id: fish.id });
     }
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
@@ -130,12 +166,20 @@ const cleaningBoard = {
   },
 };
 
-/** What a board holds: [id, n, cls, keep?] stacks to make. Exported for tests. */
-export function boardContents(idx, cut, cls, keep) {
-  const fish = BY_INDEX[idx];
+/** The stage a fish is on once its gut cut is done (where an empty hand takes it back gutted). Exported for tests. */
+export function guttedStage(fish) {
+  const g = fish.cuts.findIndex(c => c.act === "gut");
+  return g < 0 ? -1 : fish.first + g + 1;
+}
+
+/** What a board holds: [id, n, cls, keep?] stacks to make. Before the first cut, the whole catch; after it, what
+ *  the last cut would give (its sure outputs; what earlier cuts gave was handed out with them). Exported for tests. */
+export function boardContents(idx, cut, cls, keep, ext) {
+  const fish = fishOn(idx, ext ? { ext } : undefined);
   if (!fish) return [];
-  if (cut === (fish.scales ? 1 : 2) || !cut) return [[fish.id, 1, cls, keep]];
-  return [[fish.out[0], yieldOf(fish, cls), 0], [`${NS}:fish_bones`, fish.bones, 0]];
+  if (fish.ext && cut !== fish.first && cut && !fish.cuts) return [];
+  if (cut === fish.first || !cut) return [[fish.id, 1, cls, keep]];
+  return fish.cuts[fish.cuts.length - 1].out.filter(row => (row[2] ?? 1) >= 1).map(row => [row[0], countOf(row, cls), 0]);
 }
 function dropBoard(dim, pos, perm) {
   const rec = readData("cb", dim, pos);
@@ -145,9 +189,9 @@ function dropBoard(dim, pos, perm) {
   const cut = perm ? Number(perm.getState(CUT) ?? 0) : Number(rec?.cut) || 0;
   const cls = Number(rec?.size ?? (perm ? perm.getState(SIZE) : 0) ?? 0) || 0;
   const stacks = [];
-  for (const [id, n, c, k] of boardContents(idx, cut, cls, keep)) {
+  for (const [id, n, c, k] of boardContents(idx, cut, cls, keep, rec?.ext)) {
     if (n <= 0) continue;
-    stacks.push(k ? fishOut(new ItemStack(id, n), c, k) : applyClass(new ItemStack(id, n), c));
+    try { stacks.push(k ? fishOut(new ItemStack(id, n), c, k) : applyClass(new ItemStack(id, n), c)); } catch {}   // a pack that is gone
   }
   spawnAll(dim, pos, stacks);
 }

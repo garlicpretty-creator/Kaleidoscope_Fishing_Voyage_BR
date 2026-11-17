@@ -13,6 +13,12 @@
           1,
           2,
           3
+        ],
+        "kaleidoscope_fishing:decor": [
+          0,
+          1,
+          2,
+          3
         ]
       },
       "menu_category": {
@@ -21,7 +27,15 @@
     },
     "components": {
       "minecraft:display_name": "%kaleidoscope_fishing.display.item.large_fish_tank",
-      "minecraft:geometry": "geometry.kaleidoscope_fishing.large_fish_tank_0_0",
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.large_fish_tank_0_0",
+        "bone_visibility": {
+          "deco0": "q.block_state('kaleidoscope_fishing:decor') == 0",
+          "deco1": "q.block_state('kaleidoscope_fishing:decor') == 1",
+          "deco2": "q.block_state('kaleidoscope_fishing:decor') == 2",
+          "deco3": "q.block_state('kaleidoscope_fishing:decor') == 3"
+        }
+      },
       "minecraft:material_instances": {
         "*": {
           "texture": "kfv_large_fish_tank",
@@ -79,7 +93,15 @@
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 0",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.large_fish_tank_0_0",
+          "minecraft:geometry": {
+            "identifier": "geometry.kaleidoscope_fishing.large_fish_tank_0_0",
+            "bone_visibility": {
+              "deco0": "q.block_state('kaleidoscope_fishing:decor') == 0",
+              "deco1": "q.block_state('kaleidoscope_fishing:decor') == 1",
+              "deco2": "q.block_state('kaleidoscope_fishing:decor') == 2",
+              "deco3": "q.block_state('kaleidoscope_fishing:decor') == 3"
+            }
+          },
           "minecraft:collision_box": {
             "origin": [
               -7.5,
@@ -109,7 +131,15 @@
       {
         "condition": "q.block_state('kaleidoscope_fishing:part') == 1",
         "components": {
-          "minecraft:geometry": "geometry.kaleidoscope_fishing.large_fish_tank_1_0",
+          "minecraft:geometry": {
+            "identifier": "geometry.kaleidoscope_fishing.large_fish_tank_1_0",
+            "bone_visibility": {
+              "deco0": "q.block_state('kaleidoscope_fishing:decor') == 0",
+              "deco1": "q.block_state('kaleidoscope_fishing:decor') == 1",
+              "deco2": "q.block_state('kaleidoscope_fishing:decor') == 2",
+              "deco3": "q.block_state('kaleidoscope_fishing:decor') == 3"
+            }
+          },
           "minecraft:collision_box": {
             "origin": [
               -8,

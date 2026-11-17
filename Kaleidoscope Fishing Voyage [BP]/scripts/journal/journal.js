@@ -8,14 +8,16 @@ import { JOURNAL_SPECIES } from "../data/generated.js";
 import { getRecords } from "./records.js";
 import { moonPhase, tideState } from "../fishing/water.js";
 import { showRecipes } from "./recipes.js";
-import { wantsNear } from "../world/merchant.js";
+import { orderNear, wantsNear } from "../world/merchant.js";
+import { skyTonight } from "../world/sky.js";
+import { charsetFor, minigameOn, setCharsetFor, setMinigame } from "../fishing/minigameSwitch.js";
 
 const NS = "kaleidoscope_fishing";
 const JOURNAL = `${NS}:angler_journal`;
 const t = (key, ...with_) => with_.length ? { translate: `${NS}.journal.${key}`, with: with_.map(String) } : { translate: `${NS}.journal.${key}` };
 const nameOf = sp => ({ translate: `${NS}.name.${sp.key}` });
 const UNKNOWN_ICON = "textures/items/kfv_unknown_fish";
-const GROUP_ORDER = ["freshwater", "wetland", "sea", "ice", "lava", "end", "cave", "legend"];
+const GROUP_ORDER = ["freshwater", "wetland", "sea", "ice", "lava", "end", "cave", "secret", "sky", "legend"];   // 1.5.0: hidden waters, sky
 // groups in page order: the known ones first, then any group the data adds later
 export const GROUPS = [...GROUP_ORDER, ...JOURNAL_SPECIES.map(sp => sp.group ?? "freshwater")]
   .filter((g, i, a) => a.indexOf(g) === i && JOURNAL_SPECIES.some(sp => (sp.group ?? "freshwater") === g));
@@ -36,13 +38,42 @@ async function showIndex(player) {
   form.button(t("recipes"), "textures/ui/kfv_book/kfv_cat_recipes");
   form.button(t("tide"), "textures/ui/kfv_book/kfv_tide");
   for (const g of GROUPS) form.button(t(`group_${g}`), groupIcon(g));
+  form.button(t("settings"));
   form.button(t("close"));
   const res = await form.show(player);
-  if (res.canceled || res.selection === undefined || res.selection > GROUPS.length + 1) return;
+  if (res.canceled || res.selection === undefined || res.selection > GROUPS.length + 2) return;
   pageSound(player);
   if (res.selection === 0) return showRecipes(player, () => showIndex(player));
   if (res.selection === 1) return showTide(player);
+  if (res.selection === GROUPS.length + 2) return showSettings(player);
   return showGroup(player, GROUPS[res.selection - 2]);
+}
+
+/** Someone who may change a world setting: an operator. The API has named this differently over time, so ask every way. */
+export function isOperator(player) {
+  try { if (typeof player.commandPermissionLevel === "number") return player.commandPermissionLevel >= 1; } catch {}
+  try { if (typeof player.playerPermissionLevel === "number") return player.playerPermissionLevel === 2; } catch {}
+  try { if (typeof player.isOp === "function") return !!player.isOp(); } catch {}
+  return false;
+}
+
+// 1.5.0: settings without commands. Each player picks how the reeling track is drawn for them; an operator can
+// turn the minigame off or on for the world. The /scriptevent command still works.
+async function showSettings(player) {
+  const op = isOperator(player);
+  const mine = charsetFor(player);
+  const body = { rawtext: [t("settings_charset", { block: "▕██ ▏", ascii: "[## ]" }[mine]), { text: "\n" },
+    t(minigameOn() ? "settings_minigame_on" : "settings_minigame_off"), ...(op ? [] : [{ text: "\n" }, t("settings_op_only")])] };
+  const form = new ActionFormData().title(t("settings")).body(body);
+  form.button(t(mine === "block" ? "settings_use_ascii" : "settings_use_block"));
+  if (op) form.button(t(minigameOn() ? "settings_turn_off" : "settings_turn_on"));
+  form.button(t("back"));
+  const res = await form.show(player);
+  if (res.canceled || res.selection === undefined) return;
+  pageSound(player);
+  if (res.selection === 0) { setCharsetFor(player, mine === "block" ? "ascii" : "block"); return showSettings(player); }
+  if (op && res.selection === 1) { setMinigame(!minigameOn()); return showSettings(player); }
+  return showIndex(player);
 }
 
 // v1.4: one page per water, listing its species.
@@ -72,10 +103,19 @@ async function showTide(player) {
   const tw = (key, inner) => ({ translate: `${NS}.journal.${key}`, with: { rawtext: [{ translate: `${NS}.journal.${inner}` }] } });
   line(tw("tide_now", `tide_${tideState()}`));
   line(tw("moon_now", `moon_${moonPhase()}`));
+  const sky = skyTonight();                             // 1.5.0: only from dusk, only on a night that has one
+  if (sky) line(t(`sky_${sky}`));
   // v1.4: what the fish merchant wants today, if one is about
   const wants = wantsNear(player);
   if (wants === undefined) line(t("market_none"));
   else line({ rawtext: [t("market_wants"), ...wants.flatMap((id, i) => [{ text: i ? "、" : "" }, { translate: `${NS}.name.${id.split(":")[1]}` }])] });
+  // 1.5.0: his order, and how far you are with it
+  const order = orderNear(player);
+  if (order) {
+    line({ rawtext: [t("market_order"), { translate: `${NS}.name.${order.id.split(":")[1]}` }, { text: ` ×${order.n}` },
+      ...(order.min ? [t("order_medium")] : []), { text: "  " },
+      order.have >= order.n ? t("order_done") : t("order_progress", order.have, order.n)] });
+  }
   line({ text: "" });
   line(t("tide_help_high"));
   line(t("tide_help_low"));

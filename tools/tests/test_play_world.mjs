@@ -10,7 +10,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, breakBlock, inv, st, clearInv, drops, P, NS, D, log, flush, fire, guard,
-  importScript, GameMode, ItemStack, S, answers, BP, thrown, blockDefs } from './sim/play.mjs';
+  importScript, GameMode, ItemStack, S, answers, BP, thrown, blockDefs, tick } from './sim/play.mjs';
 
 const clock = S.__clock;
 const bad = m => { log.errors.push(m); throw new Error(m); };
@@ -127,7 +127,7 @@ const spot = () => { nx += 12; return nx; };
 const comps = await boot();
 setComps(comps);
 const G = await importScript('data/generated.js');
-const { FEASTS, FOOD_EFFECTS, KC_RECIPES, GUIDEBOOK_JSON, TANK_FISH, WANT_LIST, MERCHANT_PRICES, MERCHANT_BUDGET, RECIPE_HINTS, JOURNAL_SPECIES, CLEANING, BASKET_ITEMS } = G;
+const { STOCKPOT_BASES, FEASTS, FOOD_EFFECTS, KC_RECIPES, GUIDEBOOK_JSON, TANK_FISH, WANT_LIST, MERCHANT_PRICES, MERCHANT_BUDGET, RECIPE_HINTS, JOURNAL_SPECIES, CLEANING, BASKET_ITEMS } = G;
 const startupMessages = log.messages.length;
 P.location = { x: 0.5, y: 65, z: 0.5 };
 
@@ -140,13 +140,13 @@ P.location = { x: 0.5, y: 65, z: 0.5 };
   fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }), sourceType: 'Server' });
   const recs = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_recipe');
   const bases = sent.slice(n0).filter(e => e.id === 'kaleidoscope_cookery:register_stockpot_base');
-  ok(KC_RECIPES.length === 84 && recs.length === 84, `bridge: api_ready -> all 84 recipes registered (${recs.length} of ${KC_RECIPES.length})`);
+  ok(KC_RECIPES.length >= 84 && recs.length === KC_RECIPES.length, `bridge: api_ready -> every recipe is registered (${recs.length} of ${KC_RECIPES.length}; 1.4.0 had 84)`);
   const parsed = recs.map(e => { try { return JSON.parse(e.msg); } catch { return null; } });
   ok(parsed.every(p => p && p.api === 1 && p.source === 'kaleidoscope_fishing' && p.kind && p.recipe?.id), 'bridge: every recipe message is valid JSON with api, source, kind and recipe.id');
   const longest = Math.max(...sent.slice(n0).map(e => e.msg.length));
   ok(longest <= 2048, `bridge: every registration message is at most 2048 characters (longest ${longest})`);
   ok(new Set(parsed.map(p => p?.kind + '|' + p?.recipe?.id)).size === recs.length, 'bridge: no recipe is registered twice (kind + id unique)');
-  ok(bases.length === 2 && bases.every(e => { const p = JSON.parse(e.msg); return p.filled && p.base && p.empty && p.visualBase; }), `bridge: both stockpot bases (fish stock, dashi) registered with visuals (${bases.length})`);
+  ok(bases.length === STOCKPOT_BASES.length && bases.length >= 3 && bases.every(e => { const p = JSON.parse(e.msg); return p.filled && p.base && p.empty && p.visualBase; }), `bridge: every stockpot base (fish stock, dashi, 1.5.0 shrimp head stock) registered with visuals (${bases.length})`);
   const n1 = sent.length;
   fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }) });
   ok(sent.length === n1, 'bridge: a second api_ready does not register again');
@@ -391,7 +391,18 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
   const gf = blockDefs.get(NS + 'glass_float');
   const loot = gf?.components?.['minecraft:loot'];
   const lootOk = loot && JSON.parse(readFileSync(join(BP, loot), 'utf8')).pools?.[0]?.entries?.[0]?.name === NS + 'glass_float';
-  ok(!!gf && !Object.keys(gf.components).some(k => k.startsWith(NS)) && lootOk, 'glass float: pure decor (no script component), breaking gives itself back');
+  ok(!!gf && Object.keys(gf.components).filter(k => k.startsWith(NS)).join() === NS + 'star_float' && lootOk,
+    'glass float: decor whose only script is the star sand (1.5.0), breaking gives itself back');
+  {
+    const fl = D.place(NS + 'glass_float', { x: spot(), y: 64, z: 0 });
+    clearInv(); P.hold(NS + 'carp', 1); use(fl);
+    ok(fl.typeId === NS + 'glass_float' && inv('carp') === 1, 'glass float: anything but star sand does nothing');
+    clearInv(); P.hold(NS + 'star_sand', 2); use(fl);
+    const gl = blockDefs.get(NS + 'glowing_glass_float');
+    const gloot = JSON.parse(readFileSync(join(BP, gl.components['minecraft:loot']), 'utf8')).pools[0].entries[0].name;
+    ok(fl.typeId === NS + 'glowing_glass_float' && inv('star_sand') === 1 && gl.components['minecraft:light_emission'] > 0 && gloot === NS + 'glowing_glass_float',
+      `glass float: star sand makes it glow, one is used (${fl.typeId}, ${inv('star_sand')} left), and it drops itself`);
+  }
   for (const id of ['anchor', 'catch_crate', 'dried_fish_string', 'net_wall']) {
     const l = blockDefs.get(NS + id)?.components?.['minecraft:loot'];
     ok(l && existsSync(join(BP, l)) && JSON.parse(readFileSync(join(BP, l), 'utf8')).pools?.[0]?.entries?.[0]?.name === NS + id, `${id}: breaking gives itself back`);
@@ -421,15 +432,15 @@ function piston(b) { b.setType('minecraft:air'); fire('world.afterEvents.pistonA
   for (const [how, remove] of [['explosion', explode], ['piston', piston]]) {
     clearInv(); drops();
     const r = D.place(NS + 'drying_rack', { x: spot(), y: 64, z: 0 });
-    P.hold(NS + 'carp', 2); use(r); use(r); P.hold(NS + 'sea_salt', 1); use(r);
+    P.hold(NS + 'gutted_fish', 2); use(r); use(r); P.hold(NS + 'sea_salt', 1); use(r);
     remove(r);
     let d = drops();
-    ok(sortIds(d) === [NS + 'carp', NS + 'carp', NS + 'sea_salt'].sort().join(), `${how}: a salted drying rack gives back its 2 carp and the salt (${dropIds(d)})`);
+    ok(sortIds(d) === [NS + 'gutted_fish', NS + 'gutted_fish', NS + 'sea_salt'].sort().join(), `${how}: a salted drying rack gives back its 2 fish and the salt (${dropIds(d)})`);
     fire('world.afterEvents.pistonActivate', {}); d = drops();
     ok(!d.length, `${how}: the rack's contents come back only once`);
 
     const r2 = D.place(NS + 'drying_rack', { x: spot(), y: 64, z: 0 });
-    P.hold(NS + 'flying_fish', 2); use(r2); use(r2); P.hold(undefined); r2.__t = 0;
+    P.hold(NS + 'gutted_flying_fish', 2); use(r2); use(r2); P.hold(undefined); r2.__t = 0;
     for (let i = 0; i < 4; i++) { clock.abs += 7000; guard('tick rack', () => comps.get(NS + 'drying_rack').onTick({ block: r2, dimension: D })); }
     const dry = st(r2, 'stage') === 2;
     remove(r2); d = drops();
@@ -449,7 +460,8 @@ function piston(b) { b.setType('minecraft:air'); fire('world.afterEvents.pistonA
     holdStack(stack('grey_mullet', 1)); use(c2); P.hold(NS + 'fishing_knife', 1); use(c2);
     const gm = CLEANING[NS + 'grey_mullet'];
     remove(c2); d = drops();
-    ok(sortIds(d) === [gm.out[0], NS + 'fish_bones'].sort().join() && d.find(x => x.id === gm.out[0])?.amount === gm.out[1],
+    const last = gm.cuts[gm.cuts.length - 1].out;
+    ok(sortIds(d) === last.map(r => r[0]).sort().join() && d.find(x => x.id === last[0][0])?.amount === last[0][1],
       `${how}: a half-cut board gives the fillets and bones the last cut would (${dropIds(d)})`);
   }
 }
@@ -489,7 +501,10 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna'.slice(1), NS + 'anglerfish'].map(x => x.replace('::', ':'))));
   m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish']));
   clearInv(); P.hold(NS + 'tuna', 3);
+  const sent0 = sent.length;
   const ev = interactEntity(m);
+  const sold = sent.slice(sent0).filter(e => e.id === 'kaleidoscope_fishing:evt').map(e => JSON.parse(e.msg)).filter(e => e.t === 'sold');
+  ok(sold.length === 1 && sold[0].id === NS + 'tuna' && sold[0].n === 3 && sold[0].paid === 12 && sold[0].p === P.id, `merchant: other packs hear "sold" with the fish, the count and the emeralds (${JSON.stringify(sold)})`);
   ok(ev.cancel && inv('tuna') === 0 && inv('minecraft:emerald') === 12, `merchant: 3 wanted tuna (2 emeralds each) pay double: ${inv('minecraft:emerald')} emeralds (want 12)`);
   clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
   ok(inv('minecraft:emerald') === 1 && Math.abs(Number(P.getDynamicProperty(NS + 'merchant_credit')) - 0.5) < 1e-9, `merchant: 3 octopus (0.5 each, not wanted) pay 1 emerald and 0.5 credit (${inv('minecraft:emerald')}, credit ${P.getDynamicProperty(NS + 'merchant_credit')})`);
@@ -605,9 +620,9 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 {
   const squid = (type = 'minecraft:squid') => ({ typeId: type, dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true });
   clearInv(); P.hold(NS + 'fishing_knife', 1); drops();
-  let n = 0, tubes = 0;
-  for (let i = 0; i < 20; i++) { fire('world.afterEvents.entityDie', { deadEntity: squid(i % 2 ? 'minecraft:glow_squid' : 'minecraft:squid'), damageSource: { cause: 'entityAttack', damagingEntity: P } }); const d = drops(); n += d.length; tubes += d.reduce((a, x) => a + (x.id === NS + 'squid_tube' ? x.amount : 0), 0); }
-  ok(n === 20 && tubes >= 20 && tubes <= 40, `knife: 20 squid killed with the fishing knife drop ${tubes} squid tubes (1-2 each)`);
+  let n = 0, whole = 0;
+  for (let i = 0; i < 20; i++) { fire('world.afterEvents.entityDie', { deadEntity: squid(i % 2 ? 'minecraft:glow_squid' : 'minecraft:squid'), damageSource: { cause: 'entityAttack', damagingEntity: P } }); const d = drops(); n += d.length; whole += d.reduce((a, x) => a + (x.id === NS + 'whole_squid' ? x.amount : 0), 0); }
+  ok(n === 20 && whole === 20, `knife: 20 squid killed with the fishing knife drop one Whole Squid each (${whole}; 1.5.0, it used to be squid tubes)`);
   P.hold('minecraft:iron_sword', 1);
   fire('world.afterEvents.entityDie', { deadEntity: squid(), damageSource: { damagingEntity: P } });
   ok(!drops().length, 'knife: a squid killed with a sword drops no squid tube');
@@ -667,8 +682,27 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
     ok(fs.map(titleOf).join() === want.join() && fs[1].buttons.length === list.length + 1 && bodyOk,
       `journal: index > ${g} (${list.length} species) > ${short(list[0].id)} page > ${g} > index`);
   }
-  fs = await openJournal([GROUPS.length + 2]);
-  ok(fs.length === 1, 'journal: the close button closes the journal');
+  fs = await openJournal([GROUPS.length + 3]);
+  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 4, 'journal: the close button closes the journal');
+  // 1.5.0 settings: each player's own track style; only an operator sees the minigame switch
+  {
+    const SW = await importScript('fishing/minigameSwitch.js');
+    const SET = GROUPS.length + 2;
+    SW._reset(); P.setDynamicProperty(NS + 'charset', undefined);
+    delete P.commandPermissionLevel; delete P.playerPermissionLevel;
+    fs = await openJournal([SET, 0, 1, 0]);
+    ok(fs.map(titleOf).slice(0, 2).join() === [J + 'title', J + 'settings'].join() && fs[1].buttons.length === 2 && JSON.stringify(fs[1].body).includes('settings_op_only'),
+      'journal settings: a player who is not an operator sees the track style and Back, and is told why there is no switch');
+    ok(SW.charsetFor(P) === 'ascii' && SW.charset() === 'block', `journal settings: the track style is the player's own (theirs ${SW.charsetFor(P)}, the world's ${SW.charset()})`);
+    ok(SW.charsetFor({ getDynamicProperty: () => undefined }) === 'block', 'journal settings: a player who has not chosen follows the world');
+    ok(SW.minigameOn(), 'journal settings: without operator rights the minigame stays as it was');
+    P.commandPermissionLevel = 1;
+    fs = await openJournal([SET, 1, 2, 0]);
+    ok(fs[1].buttons.length === 3 && !SW.minigameOn() && JSON.stringify(fs[2].body).includes('settings_minigame_off'), 'journal settings: an operator turns the minigame off for the world');
+    fs = await openJournal([SET, 1, 0, 2, 0]);
+    ok(SW.minigameOn() && SW.charsetFor(P) === 'block', 'journal settings: and on again; the track style switches back');
+    delete P.commandPermissionLevel; P.setDynamicProperty(NS + 'charset', undefined); SW._reset();
+  }
   P.setDynamicProperty(NS + 'journal', undefined);
 }
 
@@ -681,7 +715,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   // rack
   clearInv(); const rx = 6000; P.location = { x: rx + 10.5, y: 65, z: 0.5 };
   const r = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 0 });
-  P.hold(NS + 'carp', 2); use(r); use(r); P.hold(undefined);
+  P.hold(NS + 'gutted_fish', 2); use(r); use(r); P.hold(undefined);
   const g = gull({ x: rx + 5, y: 70, z: 0 });
   withRandom(0, () => advance(80, ['seagull.js']));
   ok(st(r, 'count') === 1 && g.getProperty(NS + 'carrying') === true && g.events.includes(NS + 'carry'), `seagull: a gull swoops on an unattended drying rack and takes one fish (count ${st(r, 'count')})`);
@@ -704,10 +738,10 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   withRandom(0, () => advance(240, ['seagull.js'])); g3.remove();
   // stealFromRack directly
   const r2 = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 6 });
-  P.hold(NS + 'skipjack', 1); use(r2);
+  P.hold(NS + 'gutted_skipjack', 1); use(r2);
   ok(!stealFromRack(r2) && st(r2, 'count') === 1, 'seagull: gulls leave the hard skipjack loins alone');
   const r3 = D.place(NS + 'drying_rack', { x: rx, y: 64, z: 9 });
-  P.hold(NS + 'carp', 1); use(r3); P.hold(NS + 'sea_salt', 1); use(r3); drops();
+  P.hold(NS + 'gutted_fish', 1); use(r3); P.hold(NS + 'sea_salt', 1); use(r3); drops();
   const took = stealFromRack(r3);
   P.hold(undefined); use(r3);
   ok(took && st(r3, 'count') === 0 && st(r3, 'kind') === 0 && !P.inv.slots.some(Boolean), 'seagull: a gull taking the last salted fish empties the rack');
@@ -822,5 +856,495 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 }
 ok(log.messages.length === startupMessages && startupMessages === 0, `no chat text at all during the whole play-through (${log.messages.length}: ${log.messages.slice(0, 3).join(' | ')})`);
 ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no chat text through commands either');
+
+// ================================================================ 1.5.0: the Tide Clock agrees with the tide
+{
+  const W = await importScript('fishing/water.js');
+  const RPdir = join(BP, '..', 'Kaleidoscope Fishing Voyage [RP]');
+  const anim = JSON.parse(readFileSync(join(RPdir, 'animations', 'tide_clock.animation.json'), 'utf8')).animations['animation.kaleidoscope_fishing.tide_clock.tide'];
+  const expr = anim.bones.tide_hand.rotation[1];
+  const angle = new Function('q', 'math', `return ${expr};`);
+  const math = { mod: (a, b) => a - b * Math.floor(a / b) };
+  const day0 = clock.day, moon0 = clock.moon;
+  // q.time_of_day is documented as midnight 0, sunrise 0.25; older notes say noon 0. The clock must be right either way.
+  const conventions = { 'midnight = 0': t => (t / 24000 + 0.25) % 1, 'noon = 0': t => (((t - 6000) / 24000) % 1 + 1) % 1 };
+  for (const [name, tod] of Object.entries(conventions)) {
+    let wrong = 0, checked = 0;
+    for (let moon = 0; moon < 8; moon++) for (let t = 0; t < 24000; t += 125) {
+      clock.day = t; clock.moon = moon;
+      const a = ((angle({ time_of_day: tod(t), moon_phase: moon }, math) % 360) + 360) % 360;
+      const onArc = a <= 45 + 1e-6 || a >= 315 - 1e-6;                    // the blue arc: 45 degrees either side of straight ahead
+      const edge = Math.abs(a - 45) < 1e-6 || Math.abs(a - 315) < 1e-6;    // exactly on the arc's end: either answer is fine
+      checked++;
+      if (!edge && onArc !== (W.tideState() === 'high')) wrong++;
+    }
+    ok(wrong === 0, `tide clock: the hand is on the blue arc exactly while the tide is high, through all 8 moon phases (${checked} moments, ${name}; ${wrong} wrong)`);
+  }
+  // on a wall: the block shows one of 16 hand positions and the moon through block states
+  {
+    const TC = await importScript('blocks/tideClock.js');
+    const def = blockDefs.get(NS + 'tide_clock');
+    const states = def.description.states, vis2 = def.components['minecraft:geometry'].bone_visibility;
+    const geo = JSON.parse(readFileSync(join(RPdir, 'models', 'blocks', 'tide_clock.geo.json'), 'utf8'))['minecraft:geometry'][0];
+    const bones = geo.bones.map(b => b.name);
+    ok(states[NS + 'hand'].length === TC.HAND_STEPS && states[NS + 'moon'].length === 8
+      && Array.from({ length: TC.HAND_STEPS }, (_, i) => `hand_${i}`).every(b => bones.includes(b) && vis2[b] === `q.block_state('${NS}hand') == ${i_(b)}`),
+      `wall tide clock: ${TC.HAND_STEPS} hand bones, each shown by its own block state value`);
+    function i_(b) { return Number(b.split('_')[1]); }
+    const hands = geo.bones.filter(b => b.name.startsWith('hand_'));
+    ok(hands.every(b => Math.abs(b.rotation[2] - i_(b.name) * 22.5) < 1e-6 && b.rotation[0] === 0 && b.rotation[1] === 0), 'wall tide clock: the hands stand 22.5 degrees apart, clockwise');
+    let wrong = 0;
+    const HIGH = new Set([14, 15, 0, 1, 2]), SURE = new Set([15, 0, 1]);
+    for (let moon = 0; moon < 8; moon++) for (let t = 0; t < 24000; t += 125) {
+      clock.day = t; clock.moon = moon;
+      const step = TC.handStep(t, moon), high = W.tideState() === 'high';
+      if ((high && !HIGH.has(step)) || (SURE.has(step) && !high)) wrong++;
+    }
+    ok(wrong === 0, `wall tide clock: at high tide the hand is within the blue arc at the top, and near its middle only at high tide (${wrong} wrong)`);
+    // the block follows the world
+    const b = D.place(NS + 'tide_clock', { x: 700, y: 64, z: 700 });
+    let tc; for (const fn of S.__subs['system.beforeEvents.startup'] ?? []) fn({ blockComponentRegistry: { registerCustomComponent: (n, c2) => { if (n === NS + 'tide_clock') tc = c2; } }, itemComponentRegistry: { registerCustomComponent() {} }, customCommandRegistry: { registerCommand() {}, registerEnum() {} } });
+    clock.day = 3000; clock.moon = 0; tc.onPlace({ block: b });
+    const first = [b.permutation.getState(NS + 'hand'), b.permutation.getState(NS + 'moon')];
+    clock.day = 9000; clock.moon = 3; tc.onTick({ block: b });
+    const second = [b.permutation.getState(NS + 'hand'), b.permutation.getState(NS + 'moon')];
+    ok(first.join() === `${TC.handStep(3000, 0)},0` && second.join() === `${TC.handStep(9000, 3)},3` && first[0] === 4 && second[0] === 9,
+      `wall tide clock: the block sets its hand and moon when placed and on its tick (${first} then ${second})`);
+    for (const m of [0, 3, 4, 5]) ok(Object.entries(vis2).filter(([bn]) => bn.startsWith('moon_')).map(([, e]) => !!new Function('q', `return ${e};`)({ block_state: () => m })).filter(Boolean).length === [4, 3, 2, 1, 0, 1, 2, 3][m],
+      `wall tide clock: moon phase ${m} lights ${[4, 3, 2, 1, 0, 1, 2, 3][m]} strip(s)`);
+    D.place('minecraft:air', { x: 700, y: 64, z: 700 });
+  }
+  clock.day = day0; clock.moon = moon0;
+  const vis = Object.assign({}, ...JSON.parse(readFileSync(join(RPdir, 'render_controllers', 'kfv_tide_clock.render_controllers.json'), 'utf8'))
+    .render_controllers['controller.render.kfv_tide_clock'].part_visibility.filter(v => !('*' in v)));
+  const lit = moon => Object.fromEntries(Object.entries(vis).map(([bone, e]) => [bone, !!new Function('q', `return ${e};`)({ moon_phase: moon })]));
+  const count = moon => Object.values(lit(moon)).filter(Boolean).length;
+  ok([0, 1, 2, 3, 4, 5, 6, 7].map(count).join() === '4,3,2,1,0,1,2,3', `tide clock: the moon shows full, waning, new and waxing (strips lit per phase: ${[0, 1, 2, 3, 4, 5, 6, 7].map(count).join()})`);
+  ok(lit(3).moon_l2 && !lit(3).moon_r2 && lit(5).moon_r2 && !lit(5).moon_l2, 'tide clock: a waning crescent is lit on one side, a waxing crescent on the other');
+}
+
+// ================================================================ 1.5.0: the merchant's order
+{
+  const MM = await importScript('world/merchant.js');
+  const home = { ...P.location }; P.location = { x: 518.5, y: 65, z: 518.5 };
+  const { WANT_LIST: WL, MERCHANT_PRICES: MP, MERCHANT_BUDGET: PURSE } = await importScript('data/generated.js');
+  const fresh = () => { for (const e of D.getEntities({ type: MERCHANT })) e.remove(); const m = D.spawnEntity(MERCHANT, { x: 520.5, y: 65, z: 520.5 }); MM.orderOf(m); return m; };
+  const evtsSince = n => sent.slice(n).filter(e => e.id === 'kaleidoscope_fishing:evt').map(e => JSON.parse(e.msg));
+  const orderProp = m => m.getProperty(NS + 'order');
+  let m = fresh();
+  let o = MM.orderOf(m);
+  const wants = JSON.parse(m.getDynamicProperty(NS + 'wants'));
+  ok(o && WL.includes(o.id) && !wants.includes(o.id) && [2, 4, 6].includes(o.n) && orderProp(m) === WL.indexOf(o.id) + 1,
+    `order: a merchant carries one order, not one of the day's two fish, and hangs it on his pole (${short(o?.id)} x${o?.n}, property ${orderProp(m)})`);
+  ok(JSON.stringify(MM.orderOf(m)) === JSON.stringify(o), 'order: asking again gives the same order');
+  ok(o.n === (MP[o.id] <= 0.25 ? 6 : MP[o.id] <= 0.5 ? 4 : 2), `order: cheap fish six, middling four, dear two (${short(o.id)} at ${MP[o.id]} -> ${o.n})`);
+  // the day's fish change on his second day, and still avoid the order
+  for (let i = 0; i < 12; i++) {
+    clock.abs += 24000; advance(6000, ['merchant.js']);
+    if (JSON.parse(m.getDynamicProperty(NS + 'wants')).includes(o.id)) { ok(false, 'order: a new day made the order fish one of the wanted fish'); break; }
+  }
+  ok(MM.orderOf(m).id === o.id, 'order: it stays the same for his whole visit');
+
+  // a fixed order so the numbers are known: 4 sea bass, any size
+  const setOrder = (m, ord) => { m.setDynamicProperty(NS + 'order', JSON.stringify(ord)); m.setDynamicProperty(NS + 'order_done', '{}'); };
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 });
+  P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); P.hold(NS + 'sea_bass', 3); drops();
+  let n0 = sent.length;
+  interactEntity(m);
+  ok(MM.orderNear(P)?.have === 3 && inv('minecraft:emerald') === 1, `order: 3 sea bass are paid as usual and count toward the order (have ${MM.orderNear(P)?.have}/4, ${inv('minecraft:emerald')} emerald)`);
+  ok(!evtsSince(n0).some(e => e.t === 'order_filled'), 'order: nothing is handed over before it is filled');
+  // the journal tells the count
+  P.hold(NS + 'angler_journal', 1); const f0 = log.forms.length; answers.push(1);
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
+  const body = JSON.stringify(log.forms[f0 + 1]?.body ?? {});
+  ok(body.includes('market_order') && body.includes('name.sea_bass') && body.includes('×4') && body.includes('order_progress'), 'order: the tide page shows the order, its count and how far you are');
+  // filling it: a reward, once
+  clearInv(); P.hold(NS + 'sea_bass', 5); drops(); n0 = sent.length;
+  const before = P.inv.slots.filter(Boolean).reduce((a, s) => a + (s.typeId === NS + 'sea_bass' ? 0 : s.amount), 0);
+  withRandom(0.99, () => interactEntity(m));          // the last reward in the table: 6 emeralds
+  const filled = evtsSince(n0).filter(e => e.t === 'order_filled');
+  ok(MM.orderNear(P)?.have === 4 && filled.length === 1 && filled[0].id === NS + 'sea_bass' && filled[0].n === 4 && filled[0].p === P.id,
+    `order: the fourth fish fills it, and other packs hear "order_filled" (${JSON.stringify(filled)})`);
+  ok(inv('minecraft:emerald') === 3 + 6 && inv('sea_bass') === 0, `order: he still buys the whole stack (5 x 0.5 and the 0.5 owed = 3 emeralds) and adds the reward (${inv('minecraft:emerald')} emeralds)`);
+  clearInv(); P.hold(NS + 'sea_bass', 2); n0 = sent.length; interactEntity(m);
+  ok(!evtsSince(n0).some(e => e.t === 'order_filled') && inv('minecraft:emerald') === 1, 'order: a filled order gives no second reward; the fish are simply bought');
+  P.hold(NS + 'angler_journal', 1); const f1 = log.forms.length; answers.push(1);
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
+  ok(JSON.stringify(log.forms[f1 + 1]?.body ?? {}).includes('order_done'), 'order: the tide page says it is filled');
+
+  // an empty purse: he takes the order's fish unpaid, and nothing else
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', PURSE);
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); P.hold(NS + 'sea_bass', 6); withRandom(0, () => interactEntity(m));     // the first reward in the table (not emeralds)
+  ok(inv('sea_bass') === 2 && inv('minecraft:emerald') === 0 && MM.orderNear(P)?.have === 4, `order: with his purse empty he takes just the 4 the order asks for, unpaid (${inv('sea_bass')} left)`);
+  clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
+  ok(inv('octopus') === 3, 'order: with his purse empty he buys nothing that is not on the order');
+
+  // a size the order asks for
+  m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
+  setOrder(m, { id: NS + 'sea_bass', n: 2, min: 2 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+  clearInv(); holdStack(stack('sea_bass', 2, ['§7◆'])); interactEntity(m);
+  ok(MM.orderNear(P)?.have === 0 && inv('sea_bass') === 0, 'order: small fish are bought but do not count toward a medium-or-larger order');
+  clearInv(); holdStack(stack('sea_bass', 1, ['§6◆◆◆'])); interactEntity(m);
+  clearInv(); P.hold(NS + 'sea_bass', 1); interactEntity(m);
+  ok(MM.orderNear(P)?.have === 2, 'order: large fish count, and so does a fish with no size mark');
+
+  // every player has their own progress
+  const other = { id: 'p2' };
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 });
+  m.setDynamicProperty(NS + 'order_done', JSON.stringify({ p2: 3 }));
+  ok(MM.orderNear(P)?.have === 0 && MM.orderNear({ ...other, dimension: D, location: m.location })?.have === 3, "order: one player's progress is not another's");
+
+  for (const e of D.getEntities({ type: MERCHANT })) e.remove();
+  P.setDynamicProperty(NS + 'merchant_credit', undefined);
+  P.location = home;
+}
+
+// ================================================================ 1.5.0: wolves, cats and the knife's Looting
+{
+  const PETS = await importScript('creatures/pets.js');
+  const animal = (typeId, { isTamed = false, target, hp = 10, max = 10 } = {}) => {
+    const a = { typeId, id: 'a' + Math.random(), isValid: true, dimension: D, location: { x: 3, y: 64, z: 3 }, target, tamedBy: undefined, effects: [],
+      health: { currentValue: hp, effectiveMax: max, setCurrentValue(v) { this.currentValue = v; } },
+      addEffect(id, t, o) { a.effects.push([id, t, o?.amplifier]); },
+      getComponent(n) {
+        if (n === 'minecraft:is_tamed') return a.tamedBy || isTamed ? {} : undefined;
+        if (n === 'minecraft:tameable') return a.tamedBy || isTamed ? undefined : { tame(p) { a.tamedBy = p; return true; } };
+        if (n === 'minecraft:health') return a.health;
+        return undefined;
+      } };
+    return a;
+  };
+  const offerTo = (a, rnd) => withRandom(rnd, () => interactEntity(a));
+
+  // Fish Bones and the wolf
+  let wolf = animal('minecraft:wolf');
+  clearInv(); P.hold(NS + 'fish_bones', 3);
+  let ev = offerTo(wolf, 0.9);
+  ok(ev.cancel && !wolf.tamedBy && inv('fish_bones') === 2, `wolf: Fish Bones are taken; two times in three the wolf is not tamed yet (${inv('fish_bones')} left)`);
+  offerTo(wolf, 0);
+  ok(wolf.tamedBy === P && inv('fish_bones') === 1, 'wolf: one chance in three, the wolf is tamed to the player who offered');
+  ev = offerTo(wolf, 0);
+  ok(inv('fish_bones') === 1, 'wolf: a tamed wolf takes no more Fish Bones');
+  wolf = animal('minecraft:wolf', { target: P });
+  offerTo(wolf, 0);
+  ok(!wolf.tamedBy && inv('fish_bones') === 1, 'wolf: an angry wolf cannot be tamed and eats nothing');
+  P.hold('minecraft:stick', 1); wolf = animal('minecraft:wolf');
+  ok(!interactEntity(wolf).cancel && !wolf.tamedBy, 'wolf: only Fish Bones do it');
+  P.mode = GameMode.Creative; P.hold(NS + 'fish_bones', 1); wolf = animal('minecraft:wolf');
+  offerTo(wolf, 0);
+  ok(wolf.tamedBy === P && inv('fish_bones') === 1, 'wolf: creative mode keeps the Fish Bones');
+  P.mode = GameMode.Survival;
+
+  // our fish and the cat
+  let cat = animal('minecraft:cat');
+  clearInv(); P.hold(NS + 'carp', 2);
+  ev = offerTo(cat, 0);
+  ok(ev.cancel && cat.tamedBy === P && inv('carp') === 1, 'cat: a carp tames a stray cat (one chance in three), and is eaten');
+  for (const [id, why] of [[NS + 'emperor_tuna', 'a legend'], [NS + 'shrimp', 'shellfish'], [NS + 'crab', 'a crab'], ['minecraft:stick', 'a stick']]) {
+    cat = animal('minecraft:cat'); clearInv(); P.hold(id, 1);
+    ok(!interactEntity(cat).cancel && !cat.tamedBy && P.held()?.amount === 1, `cat: ${why} is not offered to a cat`);
+  }
+  ok(PETS.isCatFish(new ItemStack(NS + 'sweetfish', 1)) && PETS.isCatFish(new ItemStack(NS + 'lobster', 1)) === new ItemStack(NS + 'lobster', 1).hasTag('minecraft:is_fish'),
+    'cat: what counts is the fish tag, as for the cormorant');
+  cat = animal('minecraft:cat', { isTamed: true, hp: 6, max: 10 }); clearInv(); P.hold(NS + 'carp', 2);
+  interactEntity(cat);
+  ok(cat.health.currentValue === 8 && inv('carp') === 1, `cat: a hurt, tamed cat eats a fish and heals a heart (${cat.health.currentValue}/10)`);
+  cat = animal('minecraft:cat', { isTamed: true, hp: 10, max: 10 });
+  interactEntity(cat);
+  ok(inv('carp') === 1, 'cat: a healthy tamed cat is not fed');
+
+  // stray cats stand still for a player who holds a fish and walks
+  const stray = animal('minecraft:cat'), pet = animal('minecraft:cat', { isTamed: true });
+  const getEntities0 = D.getEntities;
+  D.getEntities = o => (o?.type === 'minecraft:cat' ? [stray, pet] : getEntities0(o));
+  clearInv(); P.hold(NS + 'carp', 1); P.isSprinting = false;
+  PETS.holdStrays();
+  ok(stray.effects.length === 1 && stray.effects[0][0] === 'slowness' && pet.effects.length === 0, 'cat: a stray stands still while a walking player holds a fish; a tamed cat is left alone');
+  P.isSprinting = true; PETS.holdStrays();
+  ok(stray.effects.length === 1, 'cat: sprinting at it does not hold a stray');
+  P.isSprinting = false; P.hold(NS + 'emperor_tuna', 1); PETS.holdStrays();
+  ok(stray.effects.length === 1, 'cat: a legend in hand does not hold a stray');
+  D.getEntities = getEntities0;
+
+  // Looting on the knife
+  const IP = S.ItemStack.prototype, getComponent0 = IP.getComponent;
+  IP.getComponent = function (n) { return n === 'minecraft:enchantable' && this.typeId === NS + 'fishing_knife' ? { getEnchantment: id => (id === 'looting' ? { level: 3 } : undefined) } : getComponent0.call(this, n); };
+  clearInv(); P.hold(NS + 'fishing_knife', 1); drops();
+  let tubes = 0;
+  for (let i = 0; i < 200; i++) { fire('world.afterEvents.entityDie', { deadEntity: { typeId: 'minecraft:squid', dimension: D, location: { x: 10, y: 60, z: 10 }, isValid: true }, damageSource: { damagingEntity: P } }); tubes += drops().reduce((a, d) => a + d.amount, 0); }
+  IP.getComponent = getComponent0;
+  ok(tubes > 300 && tubes <= 800, `knife: Looting III brings more squid (200 kills gave ${tubes}; one each without it, up to 4 with)`);
+}
+
+// ================================================================ 1.5.0: sky events
+{
+  const Sk = await importScript('world/sky.js');
+  const { _spotsForTests: spots } = await importScript('events/clamDigging.js');
+  const J = await importScript('journal/journal.js');
+  const skyEvts = () => sent.filter(e => e.id === NS + 'evt').map(e => JSON.parse(e.msg)).filter(m => m.t === 'sky');
+  const at = (day, time) => { clock.abs = day * 24000 + time; clock.day = time; };
+  const day0 = Math.ceil(clock.abs / 24000) + 10;
+  sent.splice(0); weather = 'Clear';
+  at(day0, 6000); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && !skyEvts().length, 'sky: nothing is rolled by day');
+  at(day0, 12000); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === 'meteor' && skyEvts().length === 1 && skyEvts()[0].kind === 'meteor' && skyEvts()[0].phase === 'start' && skyEvts()[0].dim === 'minecraft:overworld' && !('p' in skyEvts()[0]),
+    `sky: rolled at dusk, the start is broadcast as a world event (${JSON.stringify(skyEvts()[0])})`);
+  at(day0, 15000); Sk.watchSky(() => 0.99);
+  ok(Sk.skyTonight() === 'meteor' && skyEvts().length === 1, 'sky: one roll a night (a later look changes nothing)');
+  Sk._resetSkyForTests();
+  ok(Sk.skyTonight() === 'meteor', 'sky: a restart remembers tonight (world property)');
+  // what the night changes: drawn sky, star sand, the journal line
+  P.location = { x: 0.5, y: 70, z: 0.5 }; biome = 'minecraft:plains';
+  const np = log.particles.length;
+  ok(Sk.drawSky(() => 0.3) === 1 && log.particles.slice(np).includes(NS + 'meteor'), 'sky: the meteors are drawn over a player under the open sky');
+  const x = spot(); spots.set(`minecraft:overworld|${x},64,0`, { dim: 'minecraft:overworld', x, y: 64, z: 0, ends: clock.abs + 2400 });
+  drops();
+  const got = withRandom(0.1, () => { fire('world.afterEvents.playerBreakBlock', { block: D.getBlock({ x, y: 64, z: 0 }), brokenBlockPermutation: S.BlockPermutation.resolve('minecraft:sand'), player: P, dimension: D, itemStackBeforeBreak: new ItemStack('minecraft:iron_shovel', 1) }); return drops(); });
+  ok(got.some(d => d.id === NS + 'star_sand'), `sky: on a meteor night a bubbling spot can give Star Sand as well (${got.map(d => d.id.split(':')[1])})`);
+  // dawn
+  at(day0 + 1, 100); sent.splice(0); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && skyEvts().length === 1 && skyEvts()[0].phase === 'end' && skyEvts()[0].kind === 'meteor', 'sky: at dawn it is over, and the end is broadcast');
+  Sk.watchSky(() => 0.05);
+  ok(skyEvts().length === 1, 'sky: the end is broadcast once');
+  // rain at dusk cancels a meteor shower, the aurora is only felt in the cold
+  at(day0 + 1, 12500); weather = 'Rain'; sent.splice(0); Sk.watchSky(() => 0.05);
+  ok(Sk.skyTonight() === '' && !skyEvts().length, 'sky: a meteor shower rolled in the rain is cancelled, nothing is broadcast');
+  weather = 'Clear';
+  at(day0 + 2, 12500); Sk.watchSky(() => 0.15);
+  ok(Sk.skyTonight() === 'aurora' && Sk.skyAt(true) === 'aurora' && Sk.skyAt(false) === '', 'sky: the aurora counts only in the cold');
+  at(day0 + 2, 16000);
+  const np2 = log.particles.length;
+  biome = 'minecraft:plains'; Sk.drawSky(() => 0.3);
+  const warm = log.particles.length - np2;
+  biome = 'minecraft:snowy_plains'; Sk.drawSky(() => 0.3);
+  ok(warm === 0 && log.particles.slice(np2).includes(NS + 'aurora'), 'sky: the aurora is drawn only over a player in a cold biome');
+  biome = 'minecraft:plains';
+}
+
+// ================================================================ 1.5.0: oyster beds and laver rocks grow
+{
+  const SD = await importScript('blocks/shoreDrop.js');
+  const c = comps.get(NS + 'shore_drop');
+  const params = blockDefs.get(NS + 'oyster_bed').components[NS + 'shore_drop'];
+  const G_ = NS + 'growth';
+  const x = spot();
+  D.place('minecraft:sand', { x, y: 63, z: 0 });
+  const bed = D.place(NS + 'oyster_bed', { x, y: 64, z: 0 });
+  ok(st(bed, 'growth') === 2, 'oyster bed: one the world made (or a 1.4 one) is grown');
+  const ev = { permutationToPlace: bed.permutation, cancel: false };
+  c.beforeOnPlayerPlace(ev);
+  bed.setPermutation(ev.permutationToPlace);
+  ok(st(bed, 'growth') === 0, 'oyster bed: one a player sets down starts small');
+  biome = 'minecraft:beach'; bed.isWaterlogged = true; clock.moon = 0; clock.day = 6000;
+  const tickBed = () => guard('tick oyster bed', () => c.onTick({ block: bed }, { params }));
+  tickBed(); clock.abs += 20000; tickBed();
+  ok(st(bed, 'growth') === 0, 'oyster bed: not grown after a short while');
+  clock.abs += 600; tickBed();
+  ok(SD.canGrow(bed) && st(bed, 'growth') === 0, 'oyster bed: under water, on sand, by the sea it can grow');
+  clock.abs += 10000; tickBed();
+  ok(st(bed, 'growth') === 1, `oyster bed: about a day later it is one stage on (${st(bed, 'growth')})`);
+  clock.abs += 200000; tickBed();
+  ok(st(bed, 'growth') === 2, 'oyster bed: out of reach for days, it catches up and stops at grown');
+  // fresh water and dry land do not grow
+  const r = SD.grow(undefined, 0, 1000, true);
+  ok(r.p === 0 && r.stage === 0 && SD.grow({ p: 0, t: 1000, stage: 0 }, 0, 1100, true).p === 200 && SD.grow({ p: 0, t: 1000, stage: 0 }, 0, 1100, false).p === 100,
+    'growth: twice as fast at low tide');
+  biome = 'minecraft:river';
+  ok(!SD.canGrow(bed), 'oyster bed: a river is fresh water, it does not grow there');
+  biome = 'minecraft:beach'; bed.isWaterlogged = false;
+  ok(!SD.canGrow(bed), 'oyster bed: out of the water it does not grow');
+  bed.isWaterlogged = true;
+  // harvest
+  drops(); clearInv(); P.hold(NS + 'carp', 1); use(bed);
+  ok(!drops().length && st(bed, 'growth') === 2, 'oyster bed: a fish in hand does not harvest');
+  clearInv(); use(bed);
+  let d = drops();
+  ok(d.length === 1 && d[0].id === NS + 'oyster' && d[0].amount >= 2 && d[0].amount <= 4 && st(bed, 'growth') === 1,
+    `oyster bed: a grown bed gives ${d[0]?.amount} oysters to an empty hand and goes back to small`);
+  use(bed);
+  ok(!drops().length, 'oyster bed: a small one gives nothing yet');
+  clearInv(); breakBlock(bed);
+  d = drops();
+  ok(d.length === 1 && d[0].amount === 1, 'oyster bed: broken before it is grown it gives a single oyster');
+  const reef = D.place(NS + 'laver_rock', { x: spot(), y: 64, z: 0 });
+  clearInv(); P.hold(NS + 'fishing_knife', 1); use(reef);
+  d = drops();
+  ok(d.length === 1 && d[0].id === NS + 'raw_laver' && d[0].amount >= 2 && st(reef, 'growth') === 1, 'laver rock: a knife harvests a grown one too');
+  const perms = blockDefs.get(NS + 'oyster_bed').permutations;
+  ok(perms.length === 12 && perms.filter(p => p.components['minecraft:transformation'].scale).length === 8,
+    'oyster bed: four facings for each of the three stages, the two young ones drawn smaller');
+  biome = 'minecraft:plains';
+}
+
+// ================================================================ 1.5.0: the fish pond and hatching in the tub
+{
+  const PD = await importScript('blocks/pond.js');
+  const SZ = await importScript('fishing/size.js');
+  const c = comps.get(NS + 'pond_feeder');
+  const x = spot() + 100;
+  biome = 'minecraft:plains';
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) for (const y of [63, 64]) D.place('minecraft:water', { x: x + dx, y, z: dz });
+  const fd = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 });
+  guard('place feeder', () => c.onPlace({ block: fd }));
+  const rec = () => S.world.getDynamicProperty(`${NS}bd:pd:minecraft:overworld:${fd.x},${fd.y},${fd.z}`);
+  const R = () => JSON.parse(rec() ?? 'null');
+  ok(R()?.n === 18 && R().cap === 4 && !R().sea, `pond: 18 blocks of water joined to the feeder make a small fresh pond (${R()?.n}, holds ${R()?.cap})`);
+  const fishIn = () => D.getEntities({ type: NS + 'tank_fish', tags: [`kfv_pond:${fd.x},${fd.y},${fd.z}`] });
+  const put = (id, lore) => { holdStack(stack(id, 1, lore)); use(fd); };
+  clearInv(); put('carp', ['§f◆◆']);
+  ok(R().fish.length === 1 && R().fish[0].cls === 2 && inv('carp') === 0 && fishIn().length === 1, 'pond: a carp goes in and swims there');
+  clearInv(); put('mackerel', ['§f◆◆']);
+  ok(R().fish.length === 1 && inv('mackerel') === 1, 'pond: a sea fish stays out of a fresh pond');
+  clearInv(); put('emperor_tuna', ['§6◆◆◆']);
+  ok(R().fish.length === 1, 'pond: a legend never goes in');
+  clearInv(); put('carp', ['§7◆']); put('carp', ['§f◆◆']);
+  holdStack(stack('fish_meal', 20)); use(fd);
+  ok(PD.meals(R()) === 64 && inv('fish_meal') === 4 && st(fd, 'feed') === 1, `pond: feed is stored up to 64 meals (${PD.meals(R())}), the rest stays in hand`);
+  clearInv(); put('carp', ['§f◆◆']); put('carp', ['§f◆◆']);
+  ok(R().fish.length === 4 && inv('carp') === 1, 'pond: a small pond holds 4 fish, the fifth is refused');
+  answers.length = 0; answers.push(3); clearInv(); use(fd); await settle();
+  ok(R().fish.length === 3 && inv('carp') === 1, 'pond: picking a fish from the list takes it back out');
+  // days go by
+  const tickFd = () => guard('tick feeder', () => c.onTick({ block: fd }));
+  const day = () => Math.floor(clock.abs / 24000);
+  clock.abs = (day() + 1) * 24000 + 100;
+  withRandom(0.9, tickFd);
+  const small = () => R().fish.find(f => f.cls === 1 || f.f);
+  ok(R().fish.every(f => f.d === 1 && !f.h) && PD.meals(R()) === 61, 'pond: at dawn every fish eats one meal');
+  clock.abs += 2 * 24000; withRandom(0.9, tickFd);
+  const grown = R().fish.filter(f => f.f);
+  ok(grown.length === 1 && grown[0].cls === 2 && !R().roe, `pond: after 3 fed days the small carp is medium, and farmed (${JSON.stringify(grown[0])})`);
+  clock.abs += 24000; withRandom(0.1, tickFd);
+  ok(R().roe?.id === NS + 'carp' && st(fd, 'roe') === 1, 'pond: two fed medium carp spawn roe (1 in 4), shown in the basket');
+  // the list: roe first, then the fish
+  clearInv(); const nf = log.forms.length; answers.length = 0; answers.push(0);
+  use(fd); await settle();
+  const form = log.forms[nf];
+  ok(form?.buttons?.length === 5 && !R().roe && inv('fertilized_roe') === 1, `pond: the list has the roe and three fish; picking the roe takes it out (${form?.buttons?.length} buttons)`);
+  const roe = P.inv.find?.(s => s?.typeId === NS + 'fertilized_roe') ?? [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'fertilized_roe');
+  ok(roe?.getDynamicProperty('kfv:roe') === NS + 'carp', 'pond: the Fertilized Roe remembers it is carp');
+  clearInv(); answers.length = 0; answers.push(1);
+  use(fd); await settle();
+  ok(R().fish.length === 2 && inv('carp') === 1, 'pond: and a fish after it');
+  // farmed stacks, and the merchant's price for them
+  const farmedStack = PD.fishStack({ id: NS + 'carp', cls: 2, f: 1 });
+  ok(SZ.isFarmed(farmedStack) && !SZ.isFarmed(stack('carp', 1, ['§f◆◆'])) && SZ.readSize(farmedStack).cls === 2, 'pond: a farmed fish is marked ✿ and keeps its size mark');
+  const wild = PD.fishStack({ id: NS + 'carp', cls: 3, k: { lore: ['§6◆◆◆', '§6★ 80 cm'] } });
+  ok(wild.getLore().includes('§6★ 80 cm') && !SZ.isFarmed(wild), 'pond: a wild fish that did not grow comes back with its record mark');
+  // a second feeder on the same water
+  const ev = { block: D.getBlock({ x: x - 1, y: 64, z: 1 }), player: P, permutationToPlace: fd.permutation, cancel: false };
+  c.beforeOnPlayerPlace(ev);
+  ok(ev.cancel, 'pond: a second feeder on the same pond is not placed');
+  // hunger: no meals left
+  const hr = { cap: 4, food: [], open: 0, fish: [{ id: NS + 'carp', cls: 2, d: 0, g: 4 }, { id: NS + 'carp', cls: 2, d: 0, g: 4 }] };
+  withRandom(0.1, () => PD.dawn(hr, 100));
+  ok(hr.fish.every(f => f.h === 1 && f.cls === 2 && f.g === 4) && hr.fish.length === 2 && !hr.roe, 'pond: with no feed the fish go hungry, do not grow or breed, and none dies');
+  // the pond shrinks
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) D.place('minecraft:air', { x: x + dx, y: 64, z: dz });
+  drops(); clearInv(); answers.length = 0; use(fd); await settle();
+  const out = drops();
+  ok(R().cap === 0 && R().fish.length === 0 && out.filter(d => d.id === NS + 'carp').length === 2, `pond: drained below 18 blocks, the fish come out as items (${out.map(d => d.id.split(':')[1])})`);
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) D.place('minecraft:water', { x: x + dx, y: 64, z: dz });
+  clearInv(); put('carp', ['§f◆◆']); holdStack(stack('earthworm', 5)); use(fd);
+  drops(); clearInv(); breakBlock(fd);
+  const left = drops();
+  ok(left.some(d => d.id === NS + 'carp') && left.some(d => d.id === NS + 'earthworm' && d.amount === 5) && !rec() && fishIn().length === 0,
+    `pond: a broken feeder gives back its fish and feed, and the fish leave the water (${left.map(d => `${d.id.split(':')[1]}×${d.amount}`)})`);
+  // salt makes a sea pond; a sea pond takes mackerel
+  const fd2 = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 }); guard('place feeder', () => c.onPlace({ block: fd2 }));
+  clearInv(); holdStack(stack('sea_salt', 8)); use(fd2);
+  clearInv(); put('mackerel', ['§f◆◆']);
+  ok(PD.isSea(R()) && R().fish[0]?.id === NS + 'mackerel', 'pond: 8 Salt make it a sea pond, and a mackerel goes in');
+  breakBlock(fd2); drops();
+
+  // hatching in the tub
+  const T = await importScript('blocks/tub.js');
+  const tub = D.place(NS + 'wooden_tub', { x: spot(), y: 64, z: 0 });
+  clearInv(); P.hold('minecraft:water_bucket', 1); use(tub);
+  holdStack(PD.roeStack(NS + 'carp')); use(tub);
+  ok(st(tub, 'fill') === 5 && inv('fertilized_roe') === 0, 'tub: Fertilized Roe goes into plain water');
+  clearInv(); clock.abs += 25000; tick(tub);
+  ok(st(tub, 'fill') === 6, 'tub: after a day the roe shows as fry');
+  use(tub);
+  ok(inv('carp') === 0 && st(tub, 'fill') === 6, 'tub: not ready before two days');
+  clock.abs += 24000; use(tub);
+  const fryS = [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'carp');
+  ok(inv('carp') === 2 && SZ.isFarmed(fryS) && SZ.readSize(fryS).cls === 1 && st(tub, 'fill') === 1, 'tub: two days on, 2 small farmed carp, and the water stays');
+  holdStack(PD.roeStack(NS + 'carp')); use(tub); clearInv(); drops(); breakBlock(tub);
+  ok(drops().some(d => d.id === NS + 'fertilized_roe'), 'tub: a tub broken while hatching gives the roe back');
+}
+
+// ================================================================ 1.5.0: the Fishing Skiff
+{
+  const B = await importScript('world/boat.js');
+  const items = [];
+  const container = { emptySlotsCount: 27, addItem(st) { items.push(st); this.emptySlotsCount--; return undefined; } };
+  const props = new Map(), dyn = new Map();
+  const skiff = { typeId: NS + 'fishing_skiff', id: 'sk1', isValid: true, dimension: D, location: { x: 0.5, y: 64, z: 0.5 },
+    getComponent: n => (n === 'minecraft:inventory' ? { container } : undefined),
+    getProperty: k => props.get(k) ?? 0, setProperty: (k, v) => props.set(k, v),
+    getDynamicProperty: k => dyn.get(k), setDynamicProperty: (k, v) => dyn.set(k, v) };
+  const riding = P.getComponent; P.getComponent = n => (n === 'minecraft:riding' ? { entityRidingOn: skiff } : riding.call(P, n));
+  ok(B.boatOf(P) === skiff && B.onSkiff(P), 'skiff: a player sitting in it is on a boat');
+  const left = B.stow(P, stack('carp', 1, ['§f◆◆']));
+  ok(left === undefined && items.length === 1 && items[0].typeId === NS + 'carp', 'skiff: a catch goes into the hold');
+  clearInv(); P.hold(NS + 'fishing_net', 1); P.isSneaking = false;
+  ok(B.useNet(P, skiff, P.held()) && props.get(NS + 'trawl') === 1 && inv('fishing_net') === 0, 'skiff: a net hangs the trawl (the net is used)');
+  P.isSneaking = true; P.hold(NS + 'fishing_net', 1);
+  ok(B.useNet(P, skiff, P.held()) && props.get(NS + 'trawl') === 0 && inv('fishing_net') === 2, 'skiff: crouching, a net takes the trawl in (the net comes back)');
+  P.isSneaking = false;
+  const h = B.haul(() => 0.6);
+  ok(h.length === 1 && h[0].typeId === NS + 'saury' && h[0].getLore()[0] === '§7◆', `skiff: a trawl haul is small (${h.map(x => x.typeId)})`);
+  P.getComponent = riding;
+  ok(B.boatOf(P) === undefined && B.stow(P, stack('carp', 1)) !== undefined, 'skiff: off the boat nothing is stowed');
+}
+
+// ================================================================ 1.5.0: another pack's fish on the board, in tanks and ponds
+{
+  const Rg = await importScript('fishing/registry.js');
+  const PD = await importScript('blocks/pond.js');
+  S.__otherItems.add('testpack:glow_trout'); S.__otherItems.add('testpack:glow_fillet');
+  const send = (kind, body) => guard(`register_${kind}`, () => Rg.onRegister({ id: `${NS}register_${kind}`, message: JSON.stringify({ api: 1, source: 'testpack', ...body }) }));
+  const quiet = console.warn; console.warn = () => {};
+  send('board', { boards: [{ id: 'testpack:glow_trout', like: NS + 'carp', cuts: [
+    { act: 'scale', out: [[NS + 'fish_scales', 1]] }, { act: 'gut', out: [[NS + 'fish_offal', 1]] },
+    { act: 'fillet', out: [['testpack:glow_fillet', 2, 1, 'sized'], [NS + 'fish_bones', 1]] }] }] });
+  send('tank', { tanks: [{ id: 'testpack:glow_trout', like: NS + 'carp', scale: 1.2, pond: 'fresh', breed: true }] });
+  console.warn = quiet;
+  ok(Rg.externalBoard('testpack:glow_trout') && Rg.externalTank('testpack:glow_trout')?.scale === 1.2, 'register_board / register_tank: a pack\'s fish is registered');
+  // the board
+  const bd = D.place(NS + 'fish_cleaning_board', { x: spot(), y: 64, z: 0 });
+  clearInv(); holdStack(stack('testpack:glow_trout', 1, ['§6◆◆◆'])); use(bd);
+  ok(st(bd, 'cut') === 1 && inv('testpack:glow_trout') === 0, 'board: another pack\'s fish is laid down (drawn as a carp)');
+  P.hold(NS + 'fishing_knife', 1); drops();
+  use(bd); use(bd); use(bd);
+  ok(inv('fish_scales') === 1 && inv('fish_offal') === 1 && inv('testpack:glow_fillet') === 3 && inv('fish_bones') === 1 && st(bd, 'cut') === 0,
+    `board: its own cuts: scales, offal, then 2+1 (large) of its own fillets and bones (${inv('testpack:glow_fillet')} fillets)`);
+  // the tank
+  const tk = D.place(NS + 'fish_tank', { x: spot(), y: 64, z: 0 });
+  clearInv(); holdStack(stack('testpack:glow_trout', 1, ['§f◆◆'])); use(tk);
+  ok(inv('testpack:glow_trout') === 0 && D.getEntities({ type: NS + 'tank_fish' }).some(e => e.location.x === tk.x + 0.5 && e.location.z === tk.z + 0.5), 'tank: another pack\'s fish goes in and swims as its like');
+  Rg._clearRegistry();
+  tick(tk);
+  ok(D.getEntities({ type: NS + 'tank_fish' }).some(e => e.location.x === tk.x + 0.5 && e.location.z === tk.z + 0.5), 'tank: before the pack registers again, it still swims (from the saved like)');
+  S.__otherItems.delete('testpack:glow_trout');
+  clearInv(); use(tk);
+  ok(inv('testpack:glow_trout') === 0 && st(tk, 'fish') + 16 * (st(tk, 'fish_bank') ?? 0) > 0, 'tank: while its pack is gone it stays in the tank');
+  log.errors.splice(0);
+  S.__otherItems.add('testpack:glow_trout');
+  clearInv(); use(tk);
+  ok(inv('testpack:glow_trout') === 1, 'tank: with the pack back it comes out as itself');
+  // the pond
+  console.warn = () => {};
+  send('tank', { tanks: [{ id: 'testpack:glow_trout', like: NS + 'carp', pond: 'fresh', breed: true }] });
+  console.warn = quiet;
+  ok(JSON.stringify(PD.pondOf('testpack:glow_trout')) === '["fresh",true]' && PD.whyNot({ cap: 4, fish: [] }, 'testpack:glow_trout') === '', 'pond: a registered creature with pond "fresh" may live in a fresh pond and breed');
+  Rg._clearRegistry();
+  S.__otherItems.delete('testpack:glow_trout'); S.__otherItems.delete('testpack:glow_fillet');
+}
 
 finish('play (world)');

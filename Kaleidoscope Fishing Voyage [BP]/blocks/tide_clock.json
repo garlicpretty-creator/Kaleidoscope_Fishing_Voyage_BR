@@ -1,0 +1,169 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:tide_clock",
+      "states": {
+        "kaleidoscope_fishing:hand": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "kaleidoscope_fishing:moon": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180.0
+        }
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.tide_clock",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_tide_clock",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.wall_tide_clock",
+        "bone_visibility": {
+          "hand_0": "q.block_state('kaleidoscope_fishing:hand') == 0",
+          "hand_1": "q.block_state('kaleidoscope_fishing:hand') == 1",
+          "hand_2": "q.block_state('kaleidoscope_fishing:hand') == 2",
+          "hand_3": "q.block_state('kaleidoscope_fishing:hand') == 3",
+          "hand_4": "q.block_state('kaleidoscope_fishing:hand') == 4",
+          "hand_5": "q.block_state('kaleidoscope_fishing:hand') == 5",
+          "hand_6": "q.block_state('kaleidoscope_fishing:hand') == 6",
+          "hand_7": "q.block_state('kaleidoscope_fishing:hand') == 7",
+          "hand_8": "q.block_state('kaleidoscope_fishing:hand') == 8",
+          "hand_9": "q.block_state('kaleidoscope_fishing:hand') == 9",
+          "hand_10": "q.block_state('kaleidoscope_fishing:hand') == 10",
+          "hand_11": "q.block_state('kaleidoscope_fishing:hand') == 11",
+          "hand_12": "q.block_state('kaleidoscope_fishing:hand') == 12",
+          "hand_13": "q.block_state('kaleidoscope_fishing:hand') == 13",
+          "hand_14": "q.block_state('kaleidoscope_fishing:hand') == 14",
+          "hand_15": "q.block_state('kaleidoscope_fishing:hand') == 15",
+          "moon_l2": "q.block_state('kaleidoscope_fishing:moon') <= 3",
+          "moon_l1": "q.block_state('kaleidoscope_fishing:moon') <= 2 || q.block_state('kaleidoscope_fishing:moon') == 7",
+          "moon_r1": "q.block_state('kaleidoscope_fishing:moon') <= 1 || q.block_state('kaleidoscope_fishing:moon') >= 6",
+          "moon_r2": "q.block_state('kaleidoscope_fishing:moon') == 0 || q.block_state('kaleidoscope_fishing:moon') >= 5"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:collision_box": {
+        "origin": [
+          -6,
+          2,
+          6
+        ],
+        "size": [
+          12,
+          12,
+          2
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -6,
+          2,
+          6
+        ],
+        "size": [
+          12,
+          12,
+          2
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:map_color": "#C9A24A",
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/tide_clock.json",
+      "kaleidoscope_fishing:wall_decor": {},
+      "kaleidoscope_fishing:tide_clock": {},
+      "minecraft:tick": {
+        "interval_range": [
+          100,
+          100
+        ],
+        "looping": true
+      }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

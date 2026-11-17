@@ -50,7 +50,8 @@
         "seconds_to_destroy": 0.4
       },
       "minecraft:map_color": "#8C7A5A",
-      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/glass_float.json"
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/glass_float.json",
+      "kaleidoscope_fishing:star_float": {}
     },
     "permutations": [
       {

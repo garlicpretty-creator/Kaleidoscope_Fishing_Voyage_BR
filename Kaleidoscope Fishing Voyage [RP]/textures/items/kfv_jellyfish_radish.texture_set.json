@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_jellyfish_radish",
+    "metalness_emissive_roughness": "kfv_jellyfish_radish_mer",
+    "normal": "kfv_jellyfish_radish_normal"
+  }
+}

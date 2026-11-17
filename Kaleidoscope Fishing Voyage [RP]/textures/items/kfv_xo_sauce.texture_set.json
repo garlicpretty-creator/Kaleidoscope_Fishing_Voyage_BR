@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_xo_sauce",
+    "metalness_emissive_roughness": "kfv_xo_sauce_mer",
+    "normal": "kfv_xo_sauce_normal"
+  }
+}

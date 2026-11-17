@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:otoro_nigiri"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      },
+      {
+        "item": "kaleidoscope_fishing:otoro"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:otoro_nigiri",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_cookery:cooked_rice"
+      }
+    ]
+  }
+}

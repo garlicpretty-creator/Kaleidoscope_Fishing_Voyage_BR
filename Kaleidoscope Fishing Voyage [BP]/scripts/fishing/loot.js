@@ -16,7 +16,8 @@ export function reqOk(e, ctx) {
   if (r.line && ctx.line !== r.line) return false;
   if (r.bait && ctx.bait !== r.bait) return false;
   if (r.nobait && ctx.bait && ctx.bait !== LURE) return false;
-  if (r.moon && !r.moon.includes(ctx.moon)) return false;
+  if (r.moon && !r.moon.includes(ctx.moon) && !(r.sky_moon && r.sky_moon === ctx.sky)) return false;   // 1.5.0: a sky may stand in for the moon
+  if (r.sky && r.sky !== ctx.sky) return false;
   if (r.tide && ctx.tide !== r.tide) return false;
   if (r.slots && !r.slots.includes(ctx.slot)) return false;
   if (r.dim && ctx.dim !== r.dim) return false;
@@ -77,6 +78,8 @@ function matchWater(entry, ctx) {
   if (ctx.waters.has("void")) return !!entry.waters?.includes("void");     // so has the End's void (v1.2)
   if (ctx.waters.has("end_pond")) return !!entry.waters?.includes("end_pond"); // and End ponds (v1.3)
   if (ctx.waters.has("cave")) return !!entry.waters?.includes("cave");         // and cave water (v1.4)
+  if (ctx.waters.has("deep_dark")) return !!entry.waters?.includes("deep_dark"); // and the Deep Dark's (1.5.0)
+  if (ctx.sky && entry.sky_waters?.[ctx.sky]?.some(w => ctx.waters.has(w))) return true;   // 1.5.0: the starfin under meteors
   return !entry.waters || entry.waters.some(w => ctx.waters.has(w));
 }
 
@@ -89,7 +92,9 @@ function pickWeighted(list, weightOf, rand) {
   return list[list.length - 1];
 }
 
-/** ctx: {waters:Set, depth, cold, slot, raining, bait, tier, moon, tide} -> item id
+/** ctx: {waters:Set, depth, cold, slot, raining, bait, tier, moon, tide, sky} -> item id
+ *  1.5.0: sky ("meteor" | "aurora" | "", world/sky.js skyAt): entry.sky only on that night; entry.sky_waters
+ *  { meteor: [...] } opens more waters on that night.
  *  v1.3 entry fields: slots (only in these time slots), moon: "full" (only on a full-moon
  *  night), tide: { high, low } (weight multiplier at that tide). */
 export function rollCatch(ctx, rand = Math.random) {
@@ -108,6 +113,7 @@ export function rollCatch(ctx, rand = Math.random) {
     && (e.min_depth === undefined || ctx.depth >= e.min_depth)
     && (e.max_depth === undefined || ctx.depth <= e.max_depth)
     && reqOk(e, ctx)
+    && (!e.sky || e.sky === ctx.sky)                                    // 1.5.0: a sky fish only on its night
     && (!e.needBait || (!!ctx.bait && e.needBait.includes(ctx.bait))));   // v1.6.2: e.g. element fish only on arcane bait
   const pick = pickWeighted(pool, e => {
     let w = e.w;
@@ -121,11 +127,13 @@ export function rollCatch(ctx, rand = Math.random) {
     if (e.tide && ctx.tide && e.tide[ctx.tide]) w *= e.tide[ctx.tide];
     if (e.dawn_dusk && (ctx.slot === "dawn" || ctx.slot === "dusk")) w *= e.dawn_dusk;
     if (e.rain && ctx.raining) w *= e.rain;
+    if (e.boat && ctx.boat) w *= e.boat;                                // 1.5.0: e.g. the Meteor Marlin from a boat
     if (e.cold && ctx.cold) w *= e.cold;
     if (e.bait && ctx.bait && e.bait[ctx.bait]) w *= e.bait[ctx.bait];
     if (e.tier_bonus && tier >= 2) w *= e.tier_bonus;
     if (ctx.school) w *= e.school ?? ((e.size && e.w <= 12) ? 1.8 : 1);   // a school draws the less common fish up (v1.4: or the entry's own factor)
     if (e.size && e.w <= 12) w *= ctx.rare || 1;                       // copper / gold hooks
+    if (e.size && e.w <= 12 && !e.req) w *= ctx.luck || 1;             // 1.5.0: Luck of the Sea on the rod; never a legend
     if (ctx.shallow && ctx.shallow !== 1 && e.max_depth !== undefined && e.max_depth <= 6) w *= ctx.shallow;   // v1.4 feather bobber
     return w;
   }, rand);

@@ -1,0 +1,35 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fertilized_roe",
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.ingredients"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.fertilized_roe"
+      },
+      "minecraft:icon": "kfv_fertilized_roe",
+      "minecraft:max_stack_size": 1,
+      "minecraft:food": {
+        "nutrition": 2,
+        "saturation_modifier": 0.4,
+        "can_always_eat": false
+      },
+      "minecraft:use_animation": "eat",
+      "minecraft:use_modifiers": {
+        "use_duration": 1.6,
+        "movement_modifier": 0.33
+      },
+      "minecraft:tags": {
+        "tags": [
+          "minecraft:is_food",
+          "kaleidoscope_fishing:fish_roe_any"
+        ]
+      }
+    }
+  }
+}

@@ -360,6 +360,27 @@
     },
     "kfv_river_lord_catfish_clay_pot": {
       "textures": "textures/blocks/kfv_river_lord_catfish_clay_pot"
+    },
+    "kfv_tide_clock": {
+      "textures": "textures/entity/kfv_tide_clock"
+    },
+    "kfv_board_shell": {
+      "textures": "textures/blocks/kfv_board_shell"
+    },
+    "kfv_wooden_tub": {
+      "textures": "textures/blocks/kfv_wooden_tub"
+    },
+    "kfv_salt_pan": {
+      "textures": "textures/blocks/kfv_salt_pan"
+    },
+    "kfv_lava_fish_tank": {
+      "textures": "textures/blocks/kfv_lava_fish_tank"
+    },
+    "kfv_glowing_glass_float": {
+      "textures": "textures/blocks/kfv_glowing_glass_float"
+    },
+    "kfv_pond_feeder": {
+      "textures": "textures/blocks/kfv_pond_feeder"
     }
   }
 }

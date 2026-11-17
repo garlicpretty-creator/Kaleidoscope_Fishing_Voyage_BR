@@ -46,6 +46,11 @@ export const MG = {
 
 // Swimming pattern by fish. Anything not listed swims "smooth"; legends always "mixed".
 export const PATTERN = {
+  'kaleidoscope_fishing:meteor_marlin': 'dash',   // 1.5.0
+  'kaleidoscope_fishing:sculk_lanternfish': 'dart',   // 1.5.0
+  'kaleidoscope_fishing:echo_ray': 'sinker',   // 1.5.0
+  'kaleidoscope_fishing:cherry_trout': 'dash',   // 1.5.0
+  'kaleidoscope_fishing:mycelium_flounder': 'sinker',   // 1.5.0
   'kaleidoscope_fishing:yellow_croaker': 'dart', 'kaleidoscope_fishing:saury': 'dart', 'kaleidoscope_fishing:flying_fish': 'dart',
   'minecraft:tropical_fish': 'dart', 'kaleidoscope_fishing:skipjack': 'dart', 'kaleidoscope_fishing:golden_croaker': 'dart',
   'kaleidoscope_fishing:mudskipper': 'dart', 'kaleidoscope_fishing:blazefin': 'dart', 'kaleidoscope_fishing:chorus_carp': 'dart',

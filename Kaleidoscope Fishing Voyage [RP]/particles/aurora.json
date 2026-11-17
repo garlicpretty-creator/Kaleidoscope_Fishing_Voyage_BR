@@ -1,0 +1,70 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:aurora",
+      "basic_render_parameters": {
+        "material": "particles_blend",
+        "texture": "textures/particle/kfv_sky"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 14
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_shape_box": {
+        "half_dimensions": [
+          26,
+          3,
+          3
+        ],
+        "direction": [
+          0,
+          0,
+          0
+        ]
+      },
+      "minecraft:particle_initial_speed": 0,
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "math.random(5, 7)"
+      },
+      "minecraft:particle_motion_dynamic": {
+        "linear_acceleration": [
+          "math.sin(variable.particle_random_2 * 360) * 0.2",
+          0,
+          0
+        ]
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "2.5 + variable.particle_random_3 * 2",
+          "9 + variable.particle_random_4 * 6"
+        ],
+        "facing_camera_mode": "rotate_y",
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            16,
+            16
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [
+          "0.35 * variable.particle_random_1",
+          "0.95 - 0.55 * variable.particle_random_1",
+          "0.55 + 0.4 * variable.particle_random_1",
+          "math.sin(180 * variable.particle_age / variable.particle_lifetime) * 0.45"
+        ]
+      }
+    }
+  }
+}

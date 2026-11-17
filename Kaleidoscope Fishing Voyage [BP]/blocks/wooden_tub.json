@@ -1,0 +1,82 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:wooden_tub",
+      "states": {
+        "kaleidoscope_fishing:fill": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "menu_category": {
+        "category": "equipment",
+        "group": "kaleidoscope_cookery:itemGroup.name.cooking_stations"
+      }
+    },
+    "components": {
+      "minecraft:display_name": "%kaleidoscope_fishing.display.item.wooden_tub",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "kfv_wooden_tub",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.wooden_tub",
+        "bone_visibility": {
+          "water": "q.block_state('kaleidoscope_fishing:fill') == 1 || q.block_state('kaleidoscope_fishing:fill') == 5 || q.block_state('kaleidoscope_fishing:fill') == 6",
+          "brine": "q.block_state('kaleidoscope_fishing:fill') == 2 || q.block_state('kaleidoscope_fishing:fill') == 3 || q.block_state('kaleidoscope_fishing:fill') == 4",
+          "clams": "q.block_state('kaleidoscope_fishing:fill') == 3 || q.block_state('kaleidoscope_fishing:fill') == 4",
+          "roe": "q.block_state('kaleidoscope_fishing:fill') == 5",
+          "fry": "q.block_state('kaleidoscope_fishing:fill') == 6"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          6,
+          14
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          6,
+          14
+        ]
+      },
+      "minecraft:tick": {
+        "interval_range": [
+          100,
+          100
+        ],
+        "looping": true
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.6
+      },
+      "minecraft:loot": "loot_tables/kaleidoscope_fishing/blocks/wooden_tub.json",
+      "kaleidoscope_fishing:wooden_tub": {}
+    }
+  }
+}

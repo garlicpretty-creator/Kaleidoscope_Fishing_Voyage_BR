@@ -14,5 +14,13 @@
     "visualBase": "kaleidoscope_fishing:stockpot_dashi",
     "visualCooking": "kaleidoscope_fishing:stockpot_dashi_cooking",
     "visualFinished": "kaleidoscope_fishing:stockpot_dashi_cooking"
+  },
+  {
+    "filled": "kaleidoscope_fishing:shrimp_stock_bucket",
+    "base": "kaleidoscope_fishing:shrimp_stock",
+    "empty": "minecraft:bucket",
+    "visualBase": "kaleidoscope_fishing:stockpot_shrimp_stock",
+    "visualCooking": "kaleidoscope_fishing:stockpot_shrimp_stock_cooking",
+    "visualFinished": "kaleidoscope_fishing:stockpot_shrimp_stock_cooking"
   }
 ]

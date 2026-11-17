@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_shrimp_stock_bucket",
+    "metalness_emissive_roughness": "kfv_shrimp_stock_bucket_mer",
+    "normal": "kfv_shrimp_stock_bucket_normal"
+  }
+}

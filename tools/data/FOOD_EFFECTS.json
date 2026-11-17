@@ -380,5 +380,40 @@
       "duration": 600,
       "amplifier": 0
     }
+  ],
+  "kaleidoscope_fishing:crab_congee": [
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:crab_roe_rice": [
+    {
+      "effect": "absorption",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:jellyfish_salad": [
+    {
+      "effect": "water_breathing",
+      "duration": 600,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:otoro_nigiri": [
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
+  ],
+  "kaleidoscope_fishing:clam_steamed_egg": [
+    {
+      "effect": "regeneration",
+      "duration": 100,
+      "amplifier": 0
+    }
   ]
 }

@@ -12,17 +12,21 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { ICE_HOLE, analyzeWater, isRaining, isWater, moonPhase, tideState, timeSlot, weatherOf } from "./water.js";
 import { BAITS, LEGEND_SET, LURE, fightLength, rollCatch, rollSize } from "./loot.js";
-import { KEEPSAKES } from "../data/generated.js";
+import { KEEPSAKES, PARTS } from "../data/generated.js";
 import { getRecords } from "../journal/records.js";
 import { RODS } from "../data/generated.js";
 import { recordCatch } from "../journal/records.js";
 import { tryStore } from "../tools/basket.js";
+import { emitCaught } from "../api/host.js";
+import { enchantLevel, luckFactor, luckSize, lureTicks } from "../util/enchant.js";
+import { AURORA_BITE, skyAt } from "../world/sky.js";
+import { BOAT_DEPTH, LANTERN_BITE, boatOf, lanternOn, stow } from "../world/boat.js";
 import { classOf, loreFor } from "./size.js";
 import { schoolNear } from "../world/schools.js";
 import { effects, readParts } from "./parts.js";
 // v1.5: the fishing minigame (Stardew-style). Pure logic in minigame.js, the world switch in minigameSwitch.js.
 import { advance, hud, hudDue, newGame } from "./minigame.js";
-import { charset, minigameOn } from "./minigameSwitch.js";
+import { charsetFor, minigameOn } from "./minigameSwitch.js";
 import { MG } from "../data/minigame.js";
 import { CATCH_BY_ID } from "./loot.js";
 import { spawnParticle } from "../util/particles.js";
@@ -65,6 +69,13 @@ const dist2 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2;
 
 function mainhand(player) {
   try { return player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand); } catch { return undefined; }
+}
+export const KEEPSAKE_AGAIN = 0.25;       // a legend caught again drops its keepsake one time in four
+/** What a part counts as when a legend asks for a hook or a line (1.5.0: the Emperor Bone Hook is a Bone Hook). */
+export const partAs = id => PARTS[id]?.as ?? id;
+/** The rod stack in the player's hand (for its enchantments), or undefined. */
+function heldRod(player) {
+  try { const slot = mainhand(player); return slot?.hasItem() && RODS[slot.typeId] ? slot.getItem() : undefined; } catch { return undefined; }
 }
 const isCreative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
 
@@ -140,9 +151,12 @@ function landCatch(player, s, from) {
   // A carried Fish Creel takes ordinary catches straight in; record fish stay out as trophies.
   const legend = LEGEND_SET.has(s.catchId);
   if (legend) { try { stack.setLore([...(stack.getLore() ?? []), "§d✦"]); } catch {} }
-  // v1.4: the first legend of its kind brings its keepsake
-  if (legend && rec.first && KEEPSAKES[s.catchId]) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
-  const stored = !rec.newBest && !legend && tryStore(player, s.catchId, 1, cls) === 0;
+  // v1.4: the first legend of its kind brings its keepsake. 1.5.0: a later one does now and then, so tackle made of it can be made again
+  if (legend && KEEPSAKES[s.catchId] && (rec.first || Math.random() < KEEPSAKE_AGAIN)) { try { dim.spawnItem(new ItemStack(KEEPSAKES[s.catchId], 1), player.location); } catch {} }
+  // 1.5.0: a legend goes into the creel like any catch (it comes out with its ✦); only a record stays in the hand
+  let stored = !rec.newBest && tryStore(player, s.catchId, 1, cls) === 0;
+  if (!stored && !rec.newBest && stow(player, stack) === undefined) stored = true;   // 1.5.0: the skiff's hold
+  emitCaught(player, s.catchId, { via: "rod", size: s.size, cls, rec });       // 1.5.0: other packs hear every landed catch
   if (!stored && (s.inLava || s.inVoid)) {
     // nothing is thrown back over the lava: the catch lands at the angler's feet
     try { dim.spawnItem(stack, player.location).clearVelocity(); } catch {}
@@ -211,15 +225,19 @@ function hookFish(player, s) {
     if (s.bait && !consumeOne(player, s.bait)) s.bait = undefined;
   }
   const school = !!schoolNear(dim, s.bobber.location, 6);
-  const depth = (s.ctx?.depth ?? 0) + s.fx.depth;           // a weighted bobber sinks the bait deeper
+  const boat = !!boatOf(player);                           // 1.5.0: fishing from a boat
+  const depth = (s.ctx?.depth ?? 0) + s.fx.depth + (boat ? BOAT_DEPTH : 0);   // a weighted bobber sinks the bait deeper
+  const luck = enchantLevel(heldRod(player), "luck_of_the_sea");       // 1.5.0: the rod's own enchantments count
   s.catchId = rollCatch({ ...s.ctx, depth, slot: timeSlot(), raining: isRaining(dim), bait: s.bait, tier: s.rod.tier, school, rare: s.fx.rare,
-    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow,
+    luck: luckFactor(luck),
+    moon: moonPhase(), tide: tideState(), shallow: s.fx.shallow, sky: skyAt(!!s.ctx?.cold), boat,
     // v1.4: what a legend asks about: a rod, the weather, the tackle, the dimension, and whether you already have one
-    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: s.parts?.hook, line: s.parts?.line, dim: dim.id,
+    rod: true, thunder: /thunder/i.test(weatherOf(dim)), hook: partAs(s.parts?.hook), line: partAs(s.parts?.line), dim: dim.id,
     caught: new Set(Object.keys(getRecords(player))) });
   // a legend on the line: the bobber turns gold so everyone around can see it
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }
-  s.size = rollSize(s.catchId, s.rod.tier + s.fx.size);
+  s.size = LEGEND_SET.has(s.catchId) ? rollSize(s.catchId, s.rod.tier + s.fx.size)
+    : luckSize(luck, () => rollSize(s.catchId, s.rod.tier + s.fx.size + (boat ? 1 : 0)));
   // v1.5: a fish with a body length plays the minigame (junk, treasure, shrimp and crabs land at once)
   const entry = CATCH_BY_ID[s.catchId];
   if (minigameOn() && entry?.size && s.size !== undefined) {
@@ -376,8 +394,10 @@ function startWaiting(s) {
   const school = !!schoolNear(s.bobber.dimension, s.bobber.location, 6);
   const factor = (s.bait ? BAITS[s.bait]?.biteFactor ?? 1 : 1) * (rain ? 0.8 : 1) *
     (g.hat ? 0.85 : 1) * (g.coat && rain ? 0.8 : 1) * (school ? 0.55 : 1) *
-    s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1);
-  s.biteAt = s.age + Math.round(randInt(lo, hi) * factor);
+    s.fx.bite * (timeSlot() === "night" ? s.fx.night : 1) *
+    (s.ctx?.waters?.has("ice") && skyAt(true) === "aurora" ? AURORA_BITE : 1) *  // 1.5.0: the aurora wakes the ice
+    (s.fx.night === 1 && lanternOn(s.player) ? LANTERN_BITE : 1);                  // 1.5.0: the skiff's lantern, not with a Glow Bobber
+  s.biteAt = s.age + lureTicks(Math.round(randInt(lo, hi) * factor), enchantLevel(heldRod(s.player), "lure"));   // 1.5.0: Lure
 }
 
 // v1.3: End ponds. A missed bite makes the bobber blink 1-3 blocks across the water.
@@ -504,7 +524,7 @@ function tick() {
           startWaiting(s);
           continue;
         }
-        const text = hud(g, charset());
+        const text = hud(g, charsetFor(p));
         if (hudDue(s.hud, text, s.age, g.inside)) {
           // 1.4.0: each line gets a short label (reel track / catch progress) in the player's language
           const [track, bar] = text.split("\n");

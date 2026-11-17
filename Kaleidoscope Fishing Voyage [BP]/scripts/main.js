@@ -6,6 +6,8 @@
 import "./kc/bridge.js";
 import "./kc/guidebookPublisher.js";
 import "./fishing/registry.js";   // v1.6.2: register_bait / register_catch for other packs
+import "./api/host.js";           // 1.5.0: events, and the state / record / catalog requests
+import "./api/family.js";         // 1.5.0: handshakes with Herbal, Harvest and Ranching
 import "./fishing/rod.js";
 import "./fishing/minigameSwitch.js";
 import "./events/foodEffects.js";
@@ -24,7 +26,15 @@ import "./blocks/drying.js";
 import "./blocks/iceHole.js";
 import "./blocks/fishSauceJar.js";
 import "./blocks/villageDecor.js";
+import "./blocks/tideClock.js";
+import "./blocks/tub.js";          // 1.5.0: the Wooden Tub (purging clams, hatching roe)
+import "./blocks/saltPan.js";      // 1.5.0: the Salt Pan     // 1.5.0: the Tide Clock hung on a wall
 import "./world/schools.js";
 import "./creatures/seagull.js";
 import "./creatures/cormorant.js";
+import "./creatures/pets.js";      // 1.5.0: Fish Bones tame wolves, our fish tame cats
 import "./world/merchant.js";
+import "./world/sky.js";         // 1.5.0: meteor showers and aurora nights
+import "./blocks/glassFloat.js";   // 1.5.0: star sand makes a glass float glow
+import "./blocks/pond.js";         // 1.5.0: the fish pond
+import "./world/boat.js";         // 1.5.0: fishing from a boat, the Fishing Skiff
