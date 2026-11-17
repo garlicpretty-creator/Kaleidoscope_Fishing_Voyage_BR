@@ -13,8 +13,9 @@
 //             Fish Offal and Fish Bones as feed and registers its own baits with us.
 //   Harvest   1.0.0 has no api_ping / api_ready of its own (it talks to Cookery, Herbal, Ranching and Tavern, nobody
 //             asks it anything). So we look for its items instead (harvestPresent): our dishes that use its crops are
-//             sent to Cookery only when they exist (kc/bridge.js checks every ingredient). Should Harvest add an
-//             api_ready later, it is remembered like the others.
+//             sent to Cookery only when they exist (kc/bridge.js checks every ingredient). Harvest after 1.0.0 answers
+//             with its own api_ready (capability catalog) and registers baits and pond feed with us; it is remembered
+//             like the others.
 //
 // Registrations in the sister packs last for the world session, like ours: every api_ready sends them again.
 import { ItemTypes, system } from "@minecraft/server";
