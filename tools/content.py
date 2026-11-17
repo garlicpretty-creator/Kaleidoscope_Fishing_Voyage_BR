@@ -17,7 +17,7 @@ BP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [BP]')
 RP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [RP]')
 NS = 'kaleidoscope_fishing'
 PACK_TAG = {'en_US': 'KC: Fishing Voyage', 'zh_TW': '森羅物語：漁歌', 'zh_CN': '森罗物语：渔歌'}
-PLACEABLE = {'en_US': 'Placeable Food', 'zh_TW': '可放置食物', 'zh_CN': '可放置食物'}
+PLACEABLE = {'en_US': 'Placeable Food', 'zh_TW': '可放置的食物', 'zh_CN': '可放置的食物'}
 LANGS = ('en_US', 'zh_TW', 'zh_CN')
 
 
