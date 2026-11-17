@@ -548,8 +548,15 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   const paid = inv('minecraft:emerald');
   ok(spent === 24 && paid + spent <= MERCHANT_BUDGET && paid >= MERCHANT_BUDGET - spent - 6 && inv('anglerfish') === 64 - Math.round(paid / 6 + 0.0),
     `merchant: his purse is ${MERCHANT_BUDGET}: after ${spent} he pays ${paid} more for wanted anglerfish (6 each) and leaves ${inv('anglerfish')} in hand`);
+  const gestures = [], setProp = m.setProperty.bind(m);
+  m.setProperty = (k, v) => { if (k === NS + 'gesture') gestures.push(v); return setProp(k, v); };
   const before = inv('minecraft:emerald'); interactEntity(m);
   ok(inv('minecraft:emerald') === before && log.sounds.includes('mob.wanderingtrader.no'), 'merchant: an empty purse buys nothing (he says no)');
+  ok(gestures[0] === 2, `merchant: saying no, he shakes his head (gesture ${JSON.stringify(gestures)})`);
+  const spentNow = m.getDynamicProperty(NS + 'spent'), creditNow = P.getDynamicProperty(NS + 'merchant_credit');
+  gestures.length = 0; clearInv(); P.hold(NS + 'tuna', 1); m.setDynamicProperty(NS + 'spent', 0); interactEntity(m);
+  ok(gestures[0] === 1, `merchant: buying, he gives a little bow (gesture ${JSON.stringify(gestures)})`);
+  m.setDynamicProperty(NS + 'spent', spentNow); P.setDynamicProperty(NS + 'merchant_credit', creditNow); m.setProperty = setProp; clearInv();
   ok(P.inv.slots.filter(Boolean).every(s => s.typeId === 'minecraft:emerald' || s.typeId === NS + 'anglerfish'), 'merchant: selling only ever pays emeralds (no tackle or other items)');
   clearInv(); P.hold('minecraft:emerald', 5); const ev2 = interactEntity(m);
   ok(!ev2.cancel && inv('minecraft:emerald') === 5, 'merchant: using anything but fish opens his normal trading screen');
@@ -750,6 +757,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   const g = gull({ x: rx + 5, y: 70, z: 0 });
   withRandom(0, () => advance(80, ['seagull.js']));
   ok(st(r, 'count') === 1 && g.getProperty(NS + 'carrying') === true && g.events.includes(NS + 'carry'), `seagull: a gull swoops on an unattended drying rack and takes one fish (count ${st(r, 'count')})`);
+  ok(g.getProperty(NS + 'swoop') === false, 'seagull: once it has the fish it pulls out of the swoop (the swoop pose ends)');
   withRandom(0, () => advance(240, ['seagull.js']));
   ok(!g.isValid && busy.size === 0, 'seagull: the thief flies off and is gone');
   P.location = { x: rx + 2.5, y: 65, z: 0.5 };
@@ -1228,6 +1236,21 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   const put = (id, lore) => { holdStack(stack(id, 1, lore)); use(fd); };
   clearInv(); put('carp', ['§f◆◆']);
   ok(R().fish.length === 1 && R().fish[0].cls === 2 && inv('carp') === 0 && fishIn().length === 1, 'pond: a carp goes in and swims there');
+  {
+    // 1.5.0 (immersive motion): moving to another spot, a pond fish swims there over several ticks instead of popping
+    const f = fishIn()[0];
+    f.teleport({ x: x + 0.5, y: 63.55, z: 0.5 });
+    const to = { x: x + 2.5, y: 63.55, z: 2.5 };
+    const steps = PD.swimTo(D, f, to);
+    advance(2, ['pond.js']);
+    const mid = { ...f.location };
+    ok(steps > 1 && f.getProperty(NS + 'glide') === true && mid.x > x + 0.5 && mid.x < x + 2.5, `pond: a fish moving across the pond glides there (${steps} steps, x ${mid.x.toFixed(2)})`);
+    advance(steps * 2 + 2, ['pond.js']);
+    ok(Math.abs(f.location.x - to.x) < 1e-6 && Math.abs(f.location.z - to.z) < 1e-6 && f.getProperty(NS + 'glide') === false, 'pond: it arrives, and stops gliding');
+    const land = { x: x + 6.5, y: 63.55, z: 0.5 };   // past the feeder: no water in between
+    ok(PD.swimTo(D, f, land) === 0 && f.location.x === land.x, 'pond: with the bank in the way it does not glide through it');
+    f.teleport({ x: x + 0.5, y: 63.55, z: 0.5 });
+  }
   clearInv(); put('mackerel', ['§f◆◆']);
   ok(R().fish.length === 1 && inv('mackerel') === 1, 'pond: a sea fish stays out of a fresh pond');
   clearInv(); put('emperor_tuna', ['§6◆◆◆']);

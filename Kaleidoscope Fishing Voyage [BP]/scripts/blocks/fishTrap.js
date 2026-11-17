@@ -14,6 +14,7 @@ import { analyzeWater, isWater } from "../fishing/water.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
+import { burst, on } from "./stationFx.js";
 import { now, steps } from "../util/clock.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
@@ -170,6 +171,9 @@ const fishTrap = {
       block.dimension.playSound("random.splash", block.center(), { pitch: 1.4, volume: 0.6 });
       spawnParticle(block.dimension, "minecraft:water_splash_particle", block.center());
     } catch {}
+    // 1.5.0 (immersive pass): the cage comes up streaming water, the catch kicking
+    burst(block.dimension, on(block, 0.5, 0.6, 0.5), "spray", "drip");
+    if (!underwater(block)) { try { block.dimension.playSound("mob.fish.flop", block.center(), { pitch: 1.1, volume: 0.5 }); } catch {} }
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (player?.getGameMode() === GameMode.Creative) { writeData("ft", block.dimension, block, undefined); return; }

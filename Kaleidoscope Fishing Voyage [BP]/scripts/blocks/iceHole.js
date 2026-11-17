@@ -22,6 +22,7 @@ import { emitCaught } from "../api/host.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuse } from "../util/hint.js";
+import { ambient, burst } from "./stationFx.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 
 const NS = "kaleidoscope_fishing";
@@ -106,6 +107,8 @@ function landTipUp(player, block) {
   const at = top(block);
   snd(dim, "random.splash", at, 1.2, 0.6);
   fx(dim, "minecraft:water_splash_particle", at, 6);
+  burst(dim, { x: at.x, y: at.y - 0.2, z: at.z }, "spray", "drip");   // 1.5.0: the fish comes up out of the hole streaming
+  snd(dim, "mob.fish.flop", at, 1.0, 0.5);
   if (rec.newBest || rec.first) snd(dim, rec.newBest ? `${NS}.record` : "random.orb", player.location, rec.newBest ? 1.0 : 1.2, 0.6);
   try { dim.spawnEntity("minecraft:xp_orb", player.location); } catch {}
 }
@@ -157,17 +160,24 @@ const iceHole = {
     if (!tip) return;
     const dim = block.dimension, at = top(block);
     if (!isWater(dim.getBlock({ x: block.x, y: block.y - 1, z: block.z }))) return;
+    const water = { x: at.x, y: block.y + 0.8, z: at.z };     // 1.5.0 (immersive pass): the water in the shaft
     if (tip === 1) {
+      ambient(block, "hole", 90, at, () => { if (Math.random() < 0.6) burst(dim, water, "fry"); });   // the line waiting: a bubble now and then
       if (Math.random() < BITE_CHANCE / (skyAt(true) === "aurora" ? AURORA_BITE : 1)) {   // 1.5.0: the aurora wakes the ice
         setTip(block, 2, 0);
         if (someoneNear(dim, at)) snd(dim, "block.bell.hit", at, 1.7, 0.7);
         fx(dim, "minecraft:water_splash_particle", { x: at.x, y: block.y, z: at.z }, 5);
+        burst(dim, water, "spray");
       }
       return;
     }
     const age = (Number(block.permutation.getState(AGE) ?? 0) + 1) % RING_STEPS;   // a hooked fish stays (v1.6.4)
     setTip(block, 2, age);
     if (age === 0 && someoneNear(dim, at)) snd(dim, "block.bell.hit", at, 1.7, 0.5);   // the flag still waving
+    ambient(block, "hole", 90, at, () => {                 // 1.5.0: the fish tugging at the line, slopping water up the shaft
+      burst(dim, water, "spray", "bubbles");
+      snd(dim, "random.splash", at, 1.6, 0.25);
+    });
   },
 };
 

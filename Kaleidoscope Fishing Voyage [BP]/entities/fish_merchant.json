@@ -33,6 +33,15 @@
           ],
           "default": 0,
           "client_sync": true
+        },
+        "kaleidoscope_fishing:gesture": {
+          "type": "int",
+          "range": [
+            0,
+            2
+          ],
+          "default": 0,
+          "client_sync": true
         }
       }
     },

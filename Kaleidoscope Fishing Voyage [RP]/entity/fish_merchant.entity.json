@@ -51,12 +51,27 @@
       },
       "animations": {
         "move": "animation.kaleidoscope_fishing.fish_merchant.move",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "gesture": "animation.kaleidoscope_fishing.fish_merchant.gesture"
       },
       "scripts": {
         "animate": [
           "move",
+          "gesture",
           "look_at_target"
+        ],
+        "initialize": [
+          "variable.kfv_off = math.random(0, 12);"
+        ],
+        "pre_animation": [
+          "variable.kfv_gt = query.property('kaleidoscope_fishing:gesture') > 0 ? variable.kfv_gt + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_bow = (query.property('kaleidoscope_fishing:gesture') == 1) * math.sin(math.clamp(variable.kfv_gt / 1.2, 0, 1) * 180);",
+          "variable.kfv_no = (query.property('kaleidoscope_fishing:gesture') == 2) * math.clamp(variable.kfv_gt / 0.1, 0, 1) * math.clamp(1 - variable.kfv_gt / 1.0, 0, 1);",
+          "variable.kfv_idle = math.clamp(1 - query.modified_move_speed * 4, 0, 1);",
+          "variable.kfv_it = math.mod(query.life_time + variable.kfv_off, 12);",
+          "variable.kfv_call = variable.kfv_idle * math.clamp((variable.kfv_it - 6) / 0.35, 0, 1) * math.clamp((8.2 - variable.kfv_it) / 0.4, 0, 1);",
+          "variable.kfv_nod = variable.kfv_idle * (variable.kfv_it >= 9 && variable.kfv_it < 9.9) * math.abs(math.sin((variable.kfv_it - 9) * 400));",
+          "variable.kfv_lean = variable.kfv_bow * 12 - 3 * variable.kfv_call;"
         ]
       },
       "render_controllers": [

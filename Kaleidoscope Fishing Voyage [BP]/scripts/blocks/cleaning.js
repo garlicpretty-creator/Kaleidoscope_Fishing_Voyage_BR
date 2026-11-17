@@ -17,7 +17,7 @@ import { LARGE, SMALL, applyClass, readSize } from "../fishing/size.js";
 import { readFishIndex, withFishIndex } from "./fishState.js";
 import { fishOut, keepKey, keepOf, stash, unstash } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
-import { spawnParticle } from "../util/particles.js";
+import { burst, on, sound } from "./stationFx.js";
 import { refuse } from "../util/hint.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { emit } from "../api/host.js";
@@ -34,12 +34,14 @@ export function cutYield(cut, cls, rand = Math.random) {
   for (const row of cut.out) if ((row[2] ?? 1) >= 1 || rand() < row[2]) out.push([row[0], countOf(row, cls)]);
   return out;
 }
-// The sound and particles of each kind of cut.
+// The sound and particles of each kind of cut: [sound, pitch, [station effects], [second sound, pitch, volume]?].
+// 1.5.0 (immersive pass): scales flick off silver, gutting splats red, a fillet thunks into the board with wood chips.
 const ACT_FX = {
-  scale: ["mob.sheep.shear", 1.4, "minecraft:basic_crit_particle"], gut: ["mob.slime.small", 1.2],
-  fillet: ["dig.wood", 1.3, "minecraft:basic_crit_particle"], head: ["mob.turtle.baby.step", 1.1, "minecraft:basic_crit_particle"],
-  shell: ["random.break", 1.6], devein: ["mob.slime.small", 1.5], open: ["random.break", 1.2, "minecraft:basic_crit_particle"],
-  legs: ["dig.wood", 1.6], tentacle: ["mob.slime.small", 0.9], bone: ["dig.wood", 0.9], rub: ["dig.sand", 1.4],
+  scale: ["mob.sheep.shear", 1.4, ["scales"], ["dig.sand", 2.0, 0.25]], gut: ["mob.slime.small", 1.2, ["gut"], ["random.splash", 1.9, 0.12]],
+  fillet: ["dig.wood", 1.3, ["chips"], ["hit.wood", 1.6, 0.4]], head: ["mob.turtle.baby.step", 1.1, ["chips", "gut"], ["hit.wood", 1.2, 0.45]],
+  shell: ["random.break", 1.6, ["shell"]], devein: ["mob.slime.small", 1.5, ["gut"]], open: ["random.break", 1.2, ["shell", "drip"]],
+  legs: ["dig.wood", 1.6, ["shell"]], tentacle: ["mob.slime.small", 0.9, ["ink"], ["random.splash", 1.7, 0.12]], bone: ["dig.wood", 0.9, ["chips"]],
+  rub: ["dig.sand", 1.4, ["shell", "salt"]],
 };
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
@@ -90,12 +92,11 @@ function wearKnife(player, slot) {
     d.damage += 1; slot.setItem(it);
   } catch {}
 }
-function fx(block, sound, pitch, particle) {
-  try { block.dimension.playSound(sound, block.center(), { pitch, volume: 0.8 }); } catch {}
-  if (!particle) return;
-  for (let i = 0; i < 5; i++) {
-    try { spawnParticle(block.dimension, particle, { x: block.x + 0.3 + Math.random() * 0.4, y: block.y + 0.3, z: block.z + 0.3 + Math.random() * 0.4 }); } catch {}
-  }
+function fx(block, snd, pitch, effects, layer) {
+  const at = on(block, 0.5, 0.3, 0.5);
+  sound(block.dimension, snd, block.center(), pitch, 0.8);
+  if (layer) sound(block.dimension, layer[0], at, layer[1], layer[2]);
+  for (const e of effects ?? []) burst(block.dimension, { x: at.x + (Math.random() - 0.5) * 0.3, y: at.y, z: at.z + (Math.random() - 0.5) * 0.2 }, e);
 }
 
 const cleaningBoard = {
@@ -123,7 +124,7 @@ const cleaningBoard = {
       if (!creative(player)) { if (held.amount <= 1) slot.setItem(undefined); else { held.amount -= 1; slot.setItem(held); } }
       saveBoard(block, size, c.index, c.first, c.ext);
       block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.first).withState(SIZE, size));
-      fx(block, "mob.fish.flop", 1.0);
+      fx(block, "mob.fish.flop", 1.0, ["drip"]);
       return;
     }
     const first = fish.first;

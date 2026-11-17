@@ -14,12 +14,33 @@
       },
       "animations": {
         "fly": "animation.kaleidoscope_fishing.seagull.fly",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "swoop": "animation.kaleidoscope_fishing.seagull.swoop",
+        "ground": "animation.kaleidoscope_fishing.seagull.ground"
       },
       "scripts": {
         "animate": [
           "fly",
+          "swoop",
+          "ground",
           "look_at_target"
+        ],
+        "initialize": [
+          "variable.kfv_off = math.random(0, 9);"
+        ],
+        "pre_animation": [
+          "variable.kfv_swt = query.property('kaleidoscope_fishing:swoop') ? variable.kfv_swt + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_cat = query.property('kaleidoscope_fishing:carrying') ? variable.kfv_cat + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_flare = query.property('kaleidoscope_fishing:swoop') * math.clamp((variable.kfv_swt - 1.1) / 0.2, 0, 1);",
+          "variable.kfv_dash = query.property('kaleidoscope_fishing:swoop') * math.clamp((variable.kfv_swt - 0.25) / 0.15, 0, 1) * (1 - variable.kfv_flare);",
+          "variable.kfv_esc = query.property('kaleidoscope_fishing:carrying') * math.clamp(1 - variable.kfv_cat / 2.5, 0.35, 1);",
+          "variable.kfv_sq = query.property('kaleidoscope_fishing:carrying') * math.clamp(variable.kfv_cat / 0.06, 0, 1) * math.clamp((0.5 - variable.kfv_cat) / 0.1, 0, 1);",
+          "variable.kfv_idle = query.is_on_ground * math.clamp(1 - query.modified_move_speed * 3, 0, 1);",
+          "variable.kfv_it = math.mod(query.life_time + variable.kfv_off, 9);",
+          "variable.kfv_side = math.mod(math.floor((query.life_time + variable.kfv_off) / 9), 2) * 2 - 1;",
+          "variable.kfv_cry = variable.kfv_idle * (variable.kfv_it >= 0.5 && variable.kfv_it < 1.1) * math.sin((variable.kfv_it - 0.5) * 300);",
+          "variable.kfv_hop = variable.kfv_idle * (variable.kfv_it >= 3 && variable.kfv_it < 3.45) * math.sin((variable.kfv_it - 3) * 400);",
+          "variable.kfv_tilt = variable.kfv_idle * (variable.kfv_it >= 5 && variable.kfv_it < 8) * math.clamp(math.sin((variable.kfv_it - 5) * 60) * 2, 0, 1);"
         ]
       },
       "render_controllers": [
