@@ -11,11 +11,10 @@
 //   Ranching  capability "register_feed": Fish Meal, Dried Fish and (with "feed_1_1") Dried Shrimp go in its
 //             troughs (RANCHING_FEEDS). Ranching answers each with api_result. Ranching itself already takes our
 //             Fish Offal and Fish Bones as feed and registers its own baits with us.
-//   Harvest   1.0.0 has no api_ping / api_ready of its own (it talks to Cookery, Herbal, Ranching and Tavern, nobody
-//             asks it anything). So we look for its items instead (harvestPresent): our dishes that use its crops are
-//             sent to Cookery only when they exist (kc/bridge.js checks every ingredient). Harvest after 1.0.0 answers
-//             with its own api_ready (capability catalog) and registers baits and pond feed with us; it is remembered
-//             like the others.
+//   Harvest   answers api_ping with api_ready from its own API (Harvest docs/API.md); 1.0.0 had none, so we also look
+//             for its items (harvestPresent): our dishes that use its crops are sent to Cookery only when they exist
+//             (kc/bridge.js checks every ingredient). Harvest itself registers its corn and soybeans as bait and okara
+//             as pond feed with us; we send it nothing.
 //
 // Registrations in the sister packs last for the world session, like ours: every api_ready sends them again.
 import { ItemTypes, system } from "@minecraft/server";
