@@ -13,6 +13,7 @@
 //   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
+//   16. 1.6.0: every refusal key the scripts use has one of the four categories (util/hint.js)
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -51,6 +52,7 @@ for (const fn of __subs['system.beforeEvents.startup'] ?? []) {
     });
   } catch (e) { ok(false, `startup handler threw: ${e.message}`); }
 }
+function walkJs(d, acc = []) { for (const f of readdirSync(d)) { const p = join(d, f); statSync(p).isDirectory() ? walkJs(p, acc) : f.endsWith('.js') && acc.push(p); } return acc; }
 function walk(d, acc = []) { for (const f of readdirSync(d)) { const p = join(d, f); statSync(p).isDirectory() ? walk(p, acc) : f.endsWith('.json') && acc.push(p); } return acc; }
 for (const kind of ['block', 'item']) {
   const need = new Map();
@@ -539,6 +541,38 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(warns.length - n0 === bads.length + tbads.length, 'every rejected entry is reported once');
   ok(['board', 'tank'].every(c => R.CAPABILITIES.includes(c)), 'api_ready lists "board" and "tank"');
   R._clearRegistry();
+}
+
+// ---------- 16. 1.6.0: refusal keys ----------
+{
+  const { REASONS } = await imp('util/hint.js');
+  const used = new Map();                      // key -> file
+  const scripts = walkJs(join(BP, 'scripts'));
+  for (const f of scripts) {
+    const src = readFileSync(f, 'utf8');
+    if (f.endsWith('hint.js')) continue;
+    // every string literal in a refuse(...) / refuseAt(...) call's key argument (ternaries included)
+    for (const m of src.matchAll(/\brefuse(?:At)?\(\s*[\w.]+\s*,\s*/g)) {
+      let i = m.index + m[0].length, depth = 0, q = '';
+      const s = i;
+      for (; i < src.length; i++) {
+        const c = src[i];
+        if (q) { if (c === q && src[i - 1] !== '\\') q = ''; continue; }
+        if (c === '"' || c === "'" || c === '`') q = c;
+        else if ('([{'.includes(c)) depth++;
+        else if (')]}'.includes(c)) { if (!depth) break; depth--; }
+        else if (c === ',' && !depth) break;
+      }
+      for (const k of src.slice(s, i).matchAll(/"([a-z0-9_]+)"/g)) used.set(k[1], f.split('/scripts/')[1]);
+    }
+    // keys handed over by a helper: pond.js whyNot() returns its reason as a string
+    const why = /export function whyNot[\s\S]*?\n\}/.exec(src);
+    if (why) for (const k of why[0].matchAll(/"(pond_[a-z0-9_]+)"/g)) used.set(k[1], f.split('/scripts/')[1]);
+  }
+  const missing = [...used].filter(([k]) => !(k in REASONS));
+  ok(used.size >= 60 && !missing.length, `refusal keys: all ${used.size} keys the scripts use have a category (missing: ${missing.map(([k, f]) => `${k} in ${f}`).join(', ') || 'none'})`);
+  const unused = Object.keys(REASONS).filter(k => !used.has(k));
+  ok(!unused.length, `refusal keys: every categorised key is used somewhere (unused: ${unused.join(', ') || 'none'})`);
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

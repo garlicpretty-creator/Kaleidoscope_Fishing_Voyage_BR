@@ -15,7 +15,7 @@ import { readFishIndex, withFishIndex } from "./fishState.js";
 import { fishOut, keepKey, keepOf, stash, unstash } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";   // v1.6.4 (F5): a fish that does not go in says why
+import { refuseAt } from "../util/hint.js";   // v1.6.4 (F5): a fish that does not go in says why
 import { externalTank } from "../fishing/registry.js";
 
 const NS = "kaleidoscope_fishing";
@@ -197,7 +197,7 @@ const fishTank = {
     if (!held && cur > 0) {
       const cls = now.cls;
       const out = fishStack(cur, cls, peek(keepKey("tk", block.dimension, block)));
-      if (!out) return refuse(player, "tank_pack_gone");                 // another pack's creature, its pack gone: it stays
+      if (!out) return refuseAt(player, "tank_pack_gone", block);                 // another pack's creature, its pack gone: it stays
       unstash(keepKey("tk", block.dimension, block));
       give(player, block.center(), out);
       saveSmall(block, 0, 0);
@@ -208,7 +208,7 @@ const fishTank = {
       syncSmall(block, perm);
       return;
     }
-    if (held) refuse(player, idx > 0 ? "tank_occupied" : LAVA_OK.has(canon(held)) !== !!arg?.params?.lava ? "tank_wrong_kind" : "tank_not_fish");
+    if (held) refuseAt(player, idx > 0 ? "tank_occupied" : LAVA_OK.has(canon(held)) !== !!arg?.params?.lava ? "tank_wrong_kind" : "tank_not_fish", block);
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     const { idx: cur, cls } = smallData(block, brokenBlockPermutation);
@@ -294,7 +294,7 @@ const largeTank = {
     }
     const idx = tankIndex(held);
     if (idx > 0) {
-      if (fish.length >= CAP) { snd(dim, t.centre, "random.click", 0.6, 0.5); return refuse(player, "tank_full", CAP); }
+      if (fish.length >= CAP) { snd(dim, t.centre, "random.click", 0.6, 0.5); return refuseAt(player, "tank_full", block, CAP); }
       const stack = slot.getItem();
       const cls = readSize(stack).cls, keep = keepFor(stack);
       takeOne(player, slot);
@@ -308,7 +308,7 @@ const largeTank = {
     if (!held && fish.length) {
       const [i, cls, keep] = fish[fish.length - 1];
       const out = fishStack(i, cls, keep);
-      if (!out) return refuse(player, "tank_pack_gone");
+      if (!out) return refuseAt(player, "tank_pack_gone", block);
       fish.pop();
       writeLarge(dim, t, fish);
       give(player, block.center(), out);
@@ -317,7 +317,7 @@ const largeTank = {
       syncLarge(dim, t, fish);
       return;
     }
-    if (held) refuse(player, "tank_not_fish");
+    if (held) refuseAt(player, "tank_not_fish", block);
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     const dim = block.dimension;

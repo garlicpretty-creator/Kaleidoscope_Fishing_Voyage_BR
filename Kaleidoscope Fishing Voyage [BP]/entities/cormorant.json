@@ -355,8 +355,7 @@
                 "target": "self"
               },
               "use_item": true,
-              "play_sounds": "armor.equip_generic",
-              "interact_text": "action.interact.kfv_put_ring"
+              "play_sounds": "armor.equip_generic"
             },
             {
               "on_interact": {
@@ -380,7 +379,6 @@
               },
               "hurt_item": 1,
               "play_sounds": "shear",
-              "interact_text": "action.interact.kfv_remove_ring",
               "spawn_items": {
                 "table": "loot_tables/kaleidoscope_fishing/entities/cormorant_ring.json"
               }

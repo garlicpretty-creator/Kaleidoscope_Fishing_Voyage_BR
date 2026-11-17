@@ -9,7 +9,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
 import { CATCHES } from "../data/generated.js";
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
@@ -85,21 +85,21 @@ const tub = {
     const fill = fillOf(block);
     const r = rec(block);
     if (held === "minecraft:water_bucket") {
-      if (fill !== 0) return refuse(player, "tub_full");
+      if (fill !== 0) return refuseAt(player, "tub_full", block);
       swapHeld(player, slot, "minecraft:bucket"); setFill(block, 1); snd(block, "bucket.empty_water"); return;
     }
     if (held === "minecraft:bucket") {
-      if (fill !== 1 && fill !== 2) return refuse(player, "tub_busy");
+      if (fill !== 1 && fill !== 2) return refuseAt(player, "tub_busy", block);
       swapHeld(player, slot, "minecraft:water_bucket"); setFill(block, 0); save(block, undefined); snd(block, "bucket.fill_water"); return;
     }
     if (held === SALT) {
-      if (fill !== 1) return refuse(player, fill === 0 ? "tub_need_water" : "tub_salted");
+      if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_salted", block);
       takeOne(player, slot); setFill(block, 2); snd(block, "dig.sand", 1.3); return;
     }
     if (held === CLAM) {
-      if (fill !== 2 && fill !== 3) return refuse(player, fill === 1 ? "tub_need_salt" : "tub_need_water");
+      if (fill !== 2 && fill !== 3) return refuseAt(player, fill === 1 ? "tub_need_salt" : "tub_need_water", block);
       const n = (fill === 3 ? Number(r.n) || 0 : 0) + 1;
-      if (n > TUB_CLAMS) return refuse(player, "tub_clams_full", TUB_CLAMS);
+      if (n > TUB_CLAMS) return refuseAt(player, "tub_clams_full", block, TUB_CLAMS);
       takeOne(player, slot);
       save(block, { n, t: now(), fill: 3 });                // the half day runs from the last clam in
       setFill(block, 3); snd(block, "random.splash", 1.5, 0.4); return;
@@ -110,21 +110,21 @@ const tub = {
       save(block, undefined); setFill(block, 2); snd(block, "random.splash", 1.2, 0.5); return;
     }
     if (held === ROE_ITEM) {                              // 1.5.0: fertilized roe hatches in plain water
-      if (fill !== 1) return refuse(player, fill === 0 ? "tub_need_water" : "tub_busy");
+      if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_busy", block);
       let id;
       try { id = slot.getItem().getDynamicProperty(ROE_PROP); } catch {}
-      if (typeof id !== "string") return refuse(player, "tub_what");
+      if (typeof id !== "string") return refuseAt(player, "tub_what", block);
       takeOne(player, slot);
       save(block, { roe: id, t: now(), fill: 5 });
       setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); return;
     }
     if (!held && (fill === 5 || fill === 6)) {
-      if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuse(player, "tub_hatching");
+      if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuseAt(player, "tub_hatching", block);
       give(player, fry(r.roe), block.center());
       save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); return;
     }
-    if (!held && fill === 3) return refuse(player, "tub_soaking");
-    refuse(player, "tub_what");
+    if (!held && fill === 3) return refuseAt(player, "tub_soaking", block);
+    refuseAt(player, "tub_what", block);
   },
   onTick({ block }) {
     if (fillOf(block) === 5) {                            // the roe turns to fry halfway

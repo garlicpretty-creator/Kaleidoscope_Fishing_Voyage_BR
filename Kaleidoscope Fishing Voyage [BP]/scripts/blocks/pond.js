@@ -27,7 +27,7 @@ import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { externalFeed, externalTank } from "../fishing/registry.js";
 import { isWater } from "../fishing/water.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
 
 const NS = "kaleidoscope_fishing";
@@ -296,7 +296,7 @@ async function showList(player, block) {
     const f = now.fish[pick.i];
     if (!f || f.id !== pick.id) return;
     const out = fishStack(f);
-    if (!out) return refuse(player, "tank_pack_gone");
+    if (!out) return refuseAt(player, "tank_pack_gone", { dimension: dim, location: centreOf(pos) });
     now.fish.splice(pick.i, 1);
     give(player, out, centreOf(pos));
   }
@@ -308,7 +308,7 @@ export const pondFeeder = {
   beforeOnPlayerPlace(e) {
     let c;
     try { c = countPond(e.block.dimension, e.block); } catch { return; }
-    if (c.other) { e.cancel = true; const p = e.player; system.run(() => refuse(p, "pond_has_feeder")); }
+    if (c.other) { e.cancel = true; const p = e.player; system.run(() => refuseAt(p, "pond_has_feeder", e.block)); }
   },
   onPlace({ block }) {
     if (read(block.dimension, block)) return;
@@ -327,7 +327,7 @@ export const pondFeeder = {
     const feed = mealsOf(id);
     if (feed > 0) {
       const room = Math.floor((MAX_MEALS - meals(r)) / feed);
-      if (room <= 0) return refuse(player, "pond_feed_full");
+      if (room <= 0) return refuseAt(player, "pond_feed_full", block);
       const n = Math.min(room, held.amount);
       const top = r.food[r.food.length - 1];
       if (top && top[0] === id) top[1] += n; else r.food.push([id, n]);
@@ -337,8 +337,8 @@ export const pondFeeder = {
       return;
     }
     if (id === SALT) {
-      if (isSea(r)) return refuse(player, "pond_salted");
-      if (held.amount < SALT_NEEDED && !creative(player)) return refuse(player, "pond_salt", SALT_NEEDED);
+      if (isSea(r)) return refuseAt(player, "pond_salted", block);
+      if (held.amount < SALT_NEEDED && !creative(player)) return refuseAt(player, "pond_salt", block, SALT_NEEDED);
       takeHeld(player, slot, SALT_NEEDED);
       r.salt = SALT_NEEDED;
       save(dim, block, r);
@@ -348,7 +348,7 @@ export const pondFeeder = {
     if (pondOf(id) !== undefined || CATCH_IDS.has(canon(id))) {
       recount(block, r);
       const why = whyNot(r, id);
-      if (why) { save(dim, block, r); return refuse(player, why); }
+      if (why) { save(dim, block, r); return refuseAt(player, why, block); }
       const cls = readSize(held).cls;
       const fid = POND[canon(id)] || CATCH_IDS.has(canon(id)) ? canon(id) : id;
       r.fish.push({ id: fid, cls: sized(fid) ? (cls || MEDIUM) : 0, d: 0, g: 0, f: isFarmed(held) ? 1 : 0, k: keepOf(held) });
@@ -358,7 +358,7 @@ export const pondFeeder = {
       try { spawnParticle(dim, "minecraft:water_splash_particle", centreOf(block)); } catch {}
       return;
     }
-    refuse(player, "pond_what");
+    refuseAt(player, "pond_what", block);
   },
   onTick({ block }) {
     const r = read(block.dimension, block);

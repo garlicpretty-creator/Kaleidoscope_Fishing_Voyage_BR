@@ -16,7 +16,7 @@ import { DRYING, FISH_ALIAS } from "../data/generated.js";
 import { applyClass } from "../fishing/size.js";
 import { isRaining } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { parsePos, registerRecords, registerStation, spawnAll } from "./contents.js";
 
 const NS = "kaleidoscope_fishing";
@@ -92,9 +92,9 @@ const dryingRack = {
     const want = id ? DRYING.inputs[id] : undefined;
 
     if (want) {                                           // hang one more
-      if (count !== 0 && kind !== want) return refuse(player, "rack_other_kind");
-      if (count !== 0 && stage !== 0) return refuse(player, "rack_drying");
-      if (count >= DRYING.max) return refuse(player, "rack_full", DRYING.max);
+      if (count !== 0 && kind !== want) return refuseAt(player, "rack_other_kind", block);
+      if (count !== 0 && stage !== 0) return refuseAt(player, "rack_drying", block);
+      if (count >= DRYING.max) return refuseAt(player, "rack_full", block, DRYING.max);
       {
         let lore = [];
         try { lore = held.getLore() ?? []; } catch {}
@@ -117,10 +117,10 @@ const dryingRack = {
         fx(block, "minecraft:basic_crit_particle", 6);
         return;
       }
-      return refuse(player, !count ? "rack_salt_empty" : kind === 2 ? "rack_salted" : kind !== 1 ? "rack_salt_fish_only" : "rack_drying");
+      return refuseAt(player, !count ? "rack_salt_empty" : kind === 2 ? "rack_salted" : kind !== 1 ? "rack_salt_fish_only" : "rack_drying", block);
     }
-    if (!count) return refuse(player, held ? "rack_cannot_dry" : "rack_empty");
-    if (held) return refuse(player, "rack_empty_hand");
+    if (!count) return refuseAt(player, held ? "rack_cannot_dry" : "rack_empty", block);
+    if (held) return refuseAt(player, "rack_empty_hand", block);
     if (stage >= 2) {                                     // collect the whole dry batch
       for (const s of contents(kind, stage, d)) give(player, block, s);
       save(block, { items: [] });

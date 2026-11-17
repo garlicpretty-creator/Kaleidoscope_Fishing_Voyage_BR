@@ -7,7 +7,7 @@ import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/se
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { isRaining } from "../fishing/water.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 
 const NS = "kaleidoscope_fishing";
 const BLOCK = `${NS}:salt_pan`, STAGE = `${NS}:stage`, SALT = `${NS}:sea_salt`;
@@ -45,7 +45,7 @@ const pan = {
     const held = slot?.hasItem() ? slot.typeId : undefined;
     const stage = stageOf(block);
     if (held === "minecraft:water_bucket" && stage === 0) {
-      if (!bySea(block) || !openSky(block)) return refuse(player, "salt_pan_place");
+      if (!bySea(block) || !openSky(block)) return refuseAt(player, "salt_pan_place", block);
       if (!creative(player)) slot.setItem(new ItemStack("minecraft:bucket", 1));
       writeData("sp", block.dimension, block, { p: 0, t: now(), stage: 1 });
       setStage(block, 1); snd(block, "bucket.empty_water"); return;
@@ -57,7 +57,7 @@ const pan = {
       writeData("sp", block.dimension, block, undefined);
       setStage(block, 0); snd(block, "dig.sand", 1.2); return;
     }
-    refuse(player, stage === 0 ? "salt_pan_need_water" : "salt_pan_drying");
+    refuseAt(player, stage === 0 ? "salt_pan_need_water" : "salt_pan_drying", block);
   },
   onTick({ block }) {
     const stage = stageOf(block);

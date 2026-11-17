@@ -315,7 +315,7 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
     `fish tank: a large mackerel goes in (fish index ${st(t, 'fish') + 16 * st(t, 'fish_bank')}, size ${st(t, 'size')}, 1 left in hand)`);
   ok(fishIn(tag).length === 1, `fish tank: one swimming fish entity appears (${fishIn(tag).length})`);
   const snd = log.sounds.length; clock.abs += 20; use(t);
-  ok(inv('mackerel') === 1 && log.sounds.slice(snd).includes('note.bass'), 'fish tank: a second fish is refused (refusal sound)');
+  ok(inv('mackerel') === 1 && log.sounds.slice(snd).includes('random.splash') && !log.sounds.slice(snd).includes('note.bass'), 'fish tank: a second fish is refused (1.6.0: the wet "full" refusal sound)');
   P.selectedSlotIndex = 1; P.hold(undefined); use(t);
   const out = inv('mackerel') === 2 && P.inv.slots.filter(Boolean).every(s => s.typeId !== NS + 'mackerel' || s.getLore().includes('§6◆◆◆'));
   ok(st(t, 'fish') === 0 && st(t, 'size') === 0 && !!out && fishIn(tag).length === 0, 'fish tank: an empty hand takes the fish back with its size mark, the tank empties');
@@ -360,7 +360,7 @@ const fishIn = tag => D.getEntities({ type: TANK_FISH_ID, tags: [tag] });
   const props = fishIn(tag).map(e => e.getProperty(NS + 'tank'));
   ok(props.every(v => v === 1), 'large fish tank: its fish are posed for the large tank (tank property 1)');
   holdStack(stack('mackerel', 1)); const s5 = log.sounds.length; clock.abs += 20; use(anchor);
-  ok(inv('mackerel') === 1 && log.sounds.slice(s5).includes('note.bass') && fishIn(tag).length === 4, 'large fish tank: a fifth fish is refused');
+  ok(inv('mackerel') === 1 && log.sounds.slice(s5).includes('random.splash') && fishIn(tag).length === 4, 'large fish tank: a fifth fish is refused (1.6.0: the wet "full" refusal sound)');
   clearInv(); use(anchor);
   ok(inv('moon_jellyfish') === 1 && fishIn(tag).length === 3, 'large fish tank: an empty hand takes the last fish put in back out');
   drops(); breakBlock(other);
@@ -864,13 +864,24 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
 
 // ================================================================ 8. Refusals: a sound, never text
 {
-  const { refuse } = await importScript('util/hint.js');
-  const s0 = log.sounds.filter(s => s === 'note.bass').length;
-  clock.abs += 100; refuse(P, 'rack_full', 3); refuse(P, 'rack_full', 3);
-  const s1 = log.sounds.filter(s => s === 'note.bass').length;
-  clock.abs += 11; refuse(P, 'rack_full', 3);
-  const s2 = log.sounds.filter(s => s === 'note.bass').length;
+  const { refuse, refuseAt, REASONS, CATEGORIES } = await importScript('util/hint.js');
+  const count = id => log.sounds.filter(s => s === id).length;
+  const s0 = count('note.bass');
+  clock.abs += 100; refuse(P, 'board_need_fish'); refuse(P, 'board_need_fish');
+  const s1 = count('note.bass');
+  clock.abs += 11; refuse(P, 'board_need_fish');
+  const s2 = count('note.bass');
   ok(s1 - s0 === 1 && s2 - s1 === 1, 'refusals: one refusal sound, at most one every 10 ticks');
+  // 1.6.0: four categories, each with its own sound and particle (docs/PLAN_1.6.0.md section 10)
+  const at = D.place(NS + 'drying_rack', { x: spot(), y: 64, z: 0 });
+  const heard = (key, where) => { clock.abs += 20; const a = log.sounds.length, p = log.particles.length; refuseAt(P, key, where); flush(); return { s: log.sounds.slice(a), p: log.particles.slice(p) }; };
+  const miss = heard('jar_need_salt', at), wait = heard('jar_fermenting', at), full = heard('rack_full', at), wet = heard('tub_full', at), place = heard('salt_pan_place', at), bare = heard('tank_full');
+  ok(miss.s.join() === 'note.bass' && miss.p.includes(CATEGORIES.missing.particle), `refusals: "missing" is the low note with grey smoke (${miss.s} / ${miss.p})`);
+  ok(wait.s.join() === 'random.click,random.click' && wait.p.includes(CATEGORIES.notyet.particle), `refusals: "not yet" is two clicks with a bubble (${wait.s} / ${wait.p})`);
+  ok(full.s.join() === 'dig.wood' && wet.s.join() === 'random.splash' && full.p.includes(CATEGORIES.full.particle), `refusals: "full" knocks on wood, or splashes at a tub, tank or pond (${full.s} / ${wet.s})`);
+  ok(place.s.join() === 'dig.stone' && place.p.includes('minecraft:redstone_wire_dust_particle'), `refusals: "not here" is stone with red dust (${place.s} / ${place.p})`);
+  ok(bare.s.join() === 'random.splash' && bare.p.length === 0, 'refusals: without a block only the sound plays');
+  ok(Object.values(REASONS).every(c => c in CATEGORIES), 'refusals: every reason maps to one of the four categories');
   // a handful of refused uses across the stations
   const m0 = log.messages.length, b0 = log.sounds.filter(s => s === 'note.bass').length;
   const cases = [

@@ -18,7 +18,7 @@ import { readFishIndex, withFishIndex } from "./fishState.js";
 import { fishOut, keepKey, keepOf, stash, unstash } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { emit } from "../api/host.js";
 import { enchantLevel, wears } from "../util/enchant.js";
@@ -111,12 +111,12 @@ const cleaningBoard = {
     if (fish && (!rec || rec.idx !== idx || rec.cut !== cut)) saveBoard(block, cls, idx, cut, rec?.ext);   // 1.5.4 / pre-1.6.3 boards: fill the record
 
     if (!fish) {                                         // empty board: lay a fish down
-      if (!held) return refuse(player, "board_need_fish");
+      if (!held) return refuseAt(player, "board_need_fish", block);
       const c = entryFor(held.typeId);
       if (!c) {
         let knifeHeld = false;
         try { knifeHeld = held.hasTag(KNIFE_TAG); } catch {}
-        return refuse(player, knifeHeld ? "board_need_fish" : "board_cannot_clean");
+        return refuseAt(player, knifeHeld ? "board_need_fish" : "board_cannot_clean", block);
       }
       const size = readSize(held).cls;
       stash(key, keepOf(held));
@@ -129,7 +129,7 @@ const cleaningBoard = {
     const first = fish.first;
     if (!held) {                                         // changed your mind before the first cut
       if (cut === first) {
-        try { new ItemStack(fish.id, 1); } catch { return refuse(player, "board_pack_gone"); }   // another pack's fish, its pack gone
+        try { new ItemStack(fish.id, 1); } catch { return refuseAt(player, "board_pack_gone", block); }   // another pack's fish, its pack gone
         give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
       }
       else if (fish.gutted && cut === guttedStage(fish)) {   // 1.5.0: gutted and not yet filleted, it goes to the drying rack
@@ -138,13 +138,13 @@ const cleaningBoard = {
         block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
         fx(block, "mob.fish.flop", 1.2);
       }
-      else refuse(player, "board_finish_knife");
+      else refuseAt(player, "board_finish_knife", block);
       return;
     }
     let knife = false;
     try { knife = held.hasTag(KNIFE_TAG); } catch {}
-    if (!knife) return refuse(player, "board_need_knife");
-    if (!fish.cuts) return refuse(player, "board_pack_gone");   // another pack's fish whose pack has not registered it
+    if (!knife) return refuseAt(player, "board_need_knife", block);
+    if (!fish.cuts) return refuseAt(player, "board_pack_gone", block);   // another pack's fish whose pack has not registered it
     wearKnife(player, slot);
     if (cut === first) stash(key, undefined);            // once the knife is in, the fish is food: its record is let go
     const step = Math.max(0, Math.min(fish.cuts.length - 1, cut - first));   // a board from before 1.5.0 carries on where it was

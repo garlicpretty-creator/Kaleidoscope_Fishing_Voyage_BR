@@ -17,7 +17,7 @@
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { SAUCE_FISH } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 
@@ -109,20 +109,20 @@ const jar = {
     const s = st(block);
     if (s.stage === 0) {
       if (held && SALT.has(held)) {
-        if (s.salted) return refuse(player, "jar_salted");
+        if (s.salted) return refuseAt(player, "jar_salted", block);
         takeOne(player, slot); set(block, { ...s, salted: 1, salt: held }); snd(block, "dig.sand", 1.3); return;
       }
-      if (!s.salted) return refuse(player, "jar_need_salt");
-      if (!held) return refuse(player, "jar_need_fish");
-      if (held === SHRIMP) return refuse(player, "jar_paste_fresh");
+      if (!s.salted) return refuseAt(player, "jar_need_salt", block);
+      if (!held) return refuseAt(player, "jar_need_fish", block);
+      if (held === SHRIMP) return refuseAt(player, "jar_paste_fresh", block);
       const kind = SAUCE_FISH.includes(held) ? 1 : PASTE_SHRIMP.has(held) ? 2 : 0;
-      if (!kind) return refuse(player, "jar_wrong_fish");
+      if (!kind) return refuseAt(player, "jar_wrong_fish", block);
       takeOne(player, slot); set(block, { ...s, kind, stage: 1, left: 1, salted: 1, fish: [held] }); snd(block, "random.splash", 1.4, 0.5); return;
     }
     if (s.stage === 1 && returnOldShrimp(block, s)) return;      // 1.5.0: a half-filled jar of dried shrimp gives them back
     if (s.stage === 1) {                                          // filling: same kind only
       const want = s.kind === 1 ? SAUCE_FISH.includes(held) : PASTE_SHRIMP.has(held);
-      if (!want) return refuse(player, s.kind === 1 ? "jar_more_fish" : "jar_more_shrimp", NEED - s.left);
+      if (!want) return refuseAt(player, s.kind === 1 ? "jar_more_fish" : "jar_more_shrimp", block, NEED - s.left);
       takeOne(player, slot);
       const left = s.left + 1;
       const fish = [...(s.fish ?? Array(s.left).fill(s.kind === 2 ? SHRIMP : SAUCE_FISH[0])), held];
@@ -130,10 +130,10 @@ const jar = {
       else { set(block, { ...s, left, fish }); snd(block, "random.splash", 1.4, 0.5); }
       return;
     }
-    if (s.stage === 2) return refuse(player, "jar_fermenting");   // sealed: wait
+    if (s.stage === 2) return refuseAt(player, "jar_fermenting", block);   // sealed: wait
     const prod = PRODUCT[s.kind];                                  // stage 3: draw a serving
     if (!prod) return;
-    if (held !== prod.vessel) return refuse(player, s.kind === 1 ? "jar_need_bottle" : "jar_need_bowl");
+    if (held !== prod.vessel) return refuseAt(player, s.kind === 1 ? "jar_need_bottle" : "jar_need_bowl", block);
     takeOne(player, slot);
     give(player, block, prod.item);
     const left = s.left - 1;
