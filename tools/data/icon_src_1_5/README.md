@@ -11,6 +11,8 @@ finished icons (outline, margin, recolours), so these stay as they came.
 | everything else (squid, tuna cuts, gutted fish, purged clam, fertilized roe, star sand, nine dishes, eight new fish) | Retro Diffusion, 2026-11-17; one picked out of four each |
 
 Not here, or not final:
-- Shrimp Head: seven tries gave a whole shrimp or a fish, never a head alone; it will be cut from the Shrimp icon.
+- 2026-11-17, second round: Shrimp Head (from a hand drawing, image to image), Peeled Shrimp, Shrimp Shells, Crab Shell,
+  Crab Roe, Jellyfish Strips, Dried Shell-on Shrimp, Whole Squid and Squid Tentacles were generated again (six or
+  twelve each) and replaced. The hand drawing of the Shrimp Head is still `shrimp_head()` in tools/icons_1_5.py.
 - `chutoro.png`, `otoro.png`, `bonito_sashimi.png` all came out as the same red block: the finished icons recolour
   them (medium pink with fat lines, pale pink marbled, dark red with a silver skin edge) so the three tell apart.

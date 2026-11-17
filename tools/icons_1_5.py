@@ -89,16 +89,15 @@ def build():
         out[name] = Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA')
     # Retro Diffusion pictures: a pixel of margin where they touch the edge, then the pack's dark outline
     for name in GENERATED:
-        out[name] = outline(margin(hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA'))))
-    out['shrimp_head'] = shrimp_head()
+        im = hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA'))
+        if name in RAMP:                                  # recoloured so it does not read as its neighbour
+            im = recolour(im, lambda c_: True, RAMP[name])
+        out[name] = outline(margin(im))
     # the gutted fish: the generated picture as it is, and recoloured for skipjack (dark blue back) and flying fish (blue-silver)
     gut = lambda: hard(Image.open(os.path.join(SRC, 'gutted_fish.png')).convert('RGBA'))
     out['gutted_fish'] = outline(margin(gut()))
     out['gutted_skipjack'] = slit_open(source('skipjack'))
     out['gutted_flying_fish'] = slit_open(source('flying_fish'))
-    # Squid Tentacles: skinned pale, like the pack's Squid Tube, so they do not read as the whole (pink-skinned) squid
-    out['squid_tentacles'] = outline(margin(recolour(hard(Image.open(os.path.join(SRC, 'squid_tentacles.png')).convert('RGBA')),
-                                                     lambda c_: True, ['#6a4a4a', '#b89a98', '#e6d2cc', '#f6ece6', '#ffffff'])))
     for name, (ramp, stripes) in CUTS.items():
         im = recolour(hard(Image.open(os.path.join(SRC, f'{name}.png')).convert('RGBA')), lambda c_: True, ramp)
         px = im.load()
@@ -116,12 +115,15 @@ def build():
     return out
 
 
-FINISHED = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell', 'jellyfish_skin',
+FINISHED = ['crab_meat',
             'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
-GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
+GENERATED = ['shrimp_head', 'shrimp_meat', 'shrimp_shell', 'crab_shell', 'crab_roe', 'jellyfish_skin', 'squid_tentacles',
+             'lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
              'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens',
              'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish',
              'purged_clam', 'clam_steamed_egg']
+# Dried Shell-on Shrimp sun-browned, so it is not taken for Salted Shrimp or Shrimp Shells
+RAMP = {'dried_shell_shrimp': ['#2a140c', '#5a3018', '#8a5a30', '#b48450', '#d8b07a']}
 # The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.
 CUTS = {
     'chutoro': (['#5a1a22', '#a63a46', '#d9707a', '#f0a0a6', '#fbe0e0'], 3),   # medium pink, thin fat lines
