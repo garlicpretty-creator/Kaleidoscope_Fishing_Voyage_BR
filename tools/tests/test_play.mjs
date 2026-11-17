@@ -187,6 +187,15 @@ setComps(await boot());
   P.hold(NS + 'fishing_knife', 1); use(c);
   { const rk = place(NS + 'drying_rack'); clearInv(); P.hold(NS + 'carp', 1); use(rk);
     ok(st(rk, 'count') === 0 && inv('carp') === 1, 'drying rack: a whole fish is no longer hung (gut it on the board first)'); }
+  // 1.5.0: the new waters' fish on the board
+  r = cutUp('cherry_trout');
+  ok(r.stages.join() === '1,2,3,0' && r.all.white_fish_fillet === 3, `cleaning board: a cherry trout is scaled, gutted and filleted (${JSON.stringify(r.all)})`);
+  r = cutUp('echo_ray');
+  ok(r.stages.join() === '2,3,0' && r.all.white_fish_fillet === 4, `cleaning board: an echo ray has no scales and gives 4 fillets (${JSON.stringify(r.all)})`);
+  r = cutUp('creek_shrimp');
+  ok(r.all.shrimp_meat === 1 && r.all.shrimp_head === 1, 'cleaning board: a creek shrimp is cut like any shrimp');
+  clearInv(); P.hold(NS + 'spore_seahorse', 1); use(c);
+  ok(inv('spore_seahorse') === 1 && st(c, 'cut') === 0, 'cleaning board: the spore seahorse is refused');
   // 1.5.0: the whole squid, and tuna by part
   let inks = 0;
   for (let i = 0; i < 20; i++) {

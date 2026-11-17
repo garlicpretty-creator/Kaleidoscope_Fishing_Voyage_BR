@@ -793,6 +793,36 @@
     },
     "kfv_clam_steamed_egg": {
       "textures": "textures/items/kfv_clam_steamed_egg"
+    },
+    "kfv_mycelium_flounder": {
+      "textures": "textures/items/kfv_mycelium_flounder"
+    },
+    "kfv_spore_seahorse": {
+      "textures": "textures/items/kfv_spore_seahorse"
+    },
+    "kfv_cherry_trout": {
+      "textures": "textures/items/kfv_cherry_trout"
+    },
+    "kfv_creek_shrimp": {
+      "textures": "textures/items/kfv_creek_shrimp"
+    },
+    "kfv_echo_ray": {
+      "textures": "textures/items/kfv_echo_ray"
+    },
+    "kfv_sculk_lanternfish": {
+      "textures": "textures/items/kfv_sculk_lanternfish"
+    },
+    "kfv_mushroom_flounder_stew": {
+      "textures": "textures/items/kfv_mushroom_flounder_stew"
+    },
+    "kfv_cherry_trout_rice": {
+      "textures": "textures/items/kfv_cherry_trout_rice"
+    },
+    "kfv_fried_creek_shrimp": {
+      "textures": "textures/items/kfv_fried_creek_shrimp"
+    },
+    "kfv_echo_ray_pot": {
+      "textures": "textures/items/kfv_echo_ray_pot"
     }
   }
 }

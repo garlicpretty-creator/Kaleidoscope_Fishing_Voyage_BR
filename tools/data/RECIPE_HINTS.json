@@ -1816,5 +1816,89 @@
         2
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:mushroom_flounder_stew",
+    "nameKey": "kaleidoscope_fishing.name.mushroom_flounder_stew",
+    "icon": "textures/items/kfv_mushroom_flounder_stew",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.brown_mushroom",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.carrot",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout_rice",
+    "nameKey": "kaleidoscope_fishing.name.cherry_trout_rice",
+    "icon": "textures/items/kfv_cherry_trout_rice",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.rice",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.kelp",
+        2
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:fried_creek_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.fried_creek_shrimp",
+    "icon": "textures/items/kfv_fried_creek_shrimp",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.creek_shrimp",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.flour",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray_pot",
+    "nameKey": "kaleidoscope_fishing.name.echo_ray_pot",
+    "icon": "textures/items/kfv_echo_ray_pot",
+    "method": "stockpot",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.white_fish_fillet",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.minecraft.potato",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.red_chili",
+        1
+      ]
+    ]
   }
 ]

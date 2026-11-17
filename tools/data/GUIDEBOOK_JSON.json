@@ -726,7 +726,10 @@
     "kaleidoscope_fishing:seafood_congee",
     "kaleidoscope_fishing:fish_and_chips",
     "kaleidoscope_fishing:fish_ball",
-    "kaleidoscope_fishing:stir_fried_snakehead"
+    "kaleidoscope_fishing:stir_fried_snakehead",
+    "kaleidoscope_fishing:mushroom_flounder_stew",
+    "kaleidoscope_fishing:cherry_trout_rice",
+    "kaleidoscope_fishing:echo_ray_pot"
    ]
   },
   {
@@ -8725,6 +8728,279 @@
    "mechanics": [
     "Glows like a lantern and keeps one lava creature: Blazefin, Lava Eel, Magma Koi, Basalt Crab or the Lava Dragon Koi. Use one on it to put it in, an empty hand to take it back; size marks, records and names are kept. It sets nothing alight. Water fish do not go in, and these lava creatures do not go in a water tank (the Dragon Koi goes in either)."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:mycelium_flounder",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_mycelium_flounder",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Any water on a mushroom island, the commonest catch there. Flat on the bottom, the gills of a mushroom on its back."
+    ],
+    "zh_TW": [
+     "蘑菇島上的任何水域，那裡最常見的漁獲。平貼在水底，背上有像菇褶的花紋。"
+    ],
+    "zh_CN": [
+     "蘑菇岛上的任何水域，那里最常见的渔获。平贴在水底，背上有像菇褶的花纹。"
+    ]
+   },
+   "mechanics": [
+    "Any water on a mushroom island, the commonest catch there. Flat on the bottom, the gills of a mushroom on its back."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:spore_seahorse",
+   "category": "seafood",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_spore_seahorse",
+   "mechanicsByLocale": {
+    "en_US": [
+     "Mushroom island waters, at night only. A seahorse dusted with spores: a curio for a fish tank, not for the pot; the fish merchant pays well for one."
+    ],
+    "zh_TW": [
+     "蘑菇島的水域，只在夜晚。身上沾滿孢子的海馬：養在魚缸裡觀賞，不能下鍋；漁販會出好價錢。"
+    ],
+    "zh_CN": [
+     "蘑菇岛的水域，只在夜晚。身上沾满孢子的海马：养在鱼缸里观赏，不能下锅；渔贩会出好价钱。"
+    ]
+   },
+   "mechanics": [
+    "Mushroom island waters, at night only. A seahorse dusted with spores: a curio for a fish tank, not for the pot; the fish merchant pays well for one."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:cherry_trout",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_cherry_trout",
+   "food": {
+    "nutrition": 2,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Lakes and rivers in a cherry grove; more of them at high tide. A trout with a blossom-pink stripe."
+    ],
+    "zh_TW": [
+     "櫻花樹林裡的湖和河；漲潮時更多。身上有一條櫻花色條紋的鱒魚。"
+    ],
+    "zh_CN": [
+     "樱花树林里的湖和河；涨潮时更多。身上有一条樱花色条纹的鳟鱼。"
+    ]
+   },
+   "mechanics": [
+    "Lakes and rivers in a cherry grove; more of them at high tide. A trout with a blossom-pink stripe."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:creek_shrimp",
+   "category": "seafood",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_creek_shrimp",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.2
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Cherry grove streams, by day; earthworms bring them up. Small and see-through: fry them whole, or use them as any shrimp."
+    ],
+    "zh_TW": [
+     "櫻花樹林的溪流，白天出沒；用蚯蚓比較容易。小小的、半透明：整隻炸來吃，或當一般的蝦用。"
+    ],
+    "zh_CN": [
+     "樱花树林的溪流，白天出没；用蚯蚓比较容易。小小的、半透明：整只炸来吃，或当一般的虾用。"
+    ]
+   },
+   "mechanics": [
+    "Cherry grove streams, by day; earthworms bring them up. Small and see-through: fry them whole, or use them as any shrimp."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:fried_creek_shrimp"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:echo_ray",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_echo_ray",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.3
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Water in the Deep Dark (a pool you make there with a bucket will do). Big, flat and strong. Fishing there makes a noise: crouch and stand on wool."
+    ],
+    "zh_TW": [
+     "深暗之域裡的水（用水桶自己做的水池也可以）。又大又扁、力氣很大。在那裡釣魚會發出聲音：蹲下、站在羊毛上。"
+    ],
+    "zh_CN": [
+     "深暗之域里的水（用水桶自己做的水池也可以）。又大又扁、力气很大。在那里钓鱼会发出声音：蹲下、站在羊毛上。"
+    ]
+   },
+   "mechanics": [
+    "Water in the Deep Dark (a pool you make there with a bucket will do). Big, flat and strong. Fishing there makes a noise: crouch and stand on wool."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:sculk_lanternfish",
+   "category": "fish",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_sculk_lanternfish",
+   "food": {
+    "nutrition": 1,
+    "saturation": 0.1
+   },
+   "mechanicsByLocale": {
+    "en_US": [
+     "Water in the Deep Dark, and only on Glow Bait: it comes to light. Two of them make Glow Bait again."
+    ],
+    "zh_TW": [
+     "深暗之域裡的水，只咬發光餌：牠會被光引來。兩條可以再做成發光餌。"
+    ],
+    "zh_CN": [
+     "深暗之域里的水，只咬发光饵：它会被光引来。两条可以再做成发光饵。"
+    ]
+   },
+   "mechanics": [
+    "Water in the Deep Dark, and only on Glow Bait: it comes to light. Two of them make Glow Bait again."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:mushroom_flounder_stew",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_mushroom_flounder_stew",
+   "food": {
+    "nutrition": 8,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "minecraft:brown_mushroom",
+      "minecraft:brown_mushroom",
+      "minecraft:carrot"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:mushroom_flounder_stew"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:cherry_trout_rice",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_cherry_trout_rice",
+   "food": {
+    "nutrition": 9,
+    "saturation": 0.7,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_cookery:rice",
+      "minecraft:kelp",
+      "minecraft:kelp"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:cherry_trout_rice"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:fried_creek_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_fried_creek_shrimp",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:creek_shrimp",
+      "kaleidoscope_fishing:creek_shrimp",
+      "kaleidoscope_cookery:flour",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:fried_creek_shrimp"
+    }
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:echo_ray_pot",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_echo_ray_pot",
+   "food": {
+    "nutrition": 10,
+    "saturation": 0.8,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:white_fish_fillet",
+      "kaleidoscope_fishing:white_fish_fillet",
+      "minecraft:potato",
+      "kaleidoscope_cookery:red_chili"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:echo_ray_pot"
+    }
+   ]
   }
  ],
  "names": {
@@ -9060,7 +9336,17 @@
    "minecraft:basalt": "Basalt",
    "minecraft:obsidian": "Obsidian",
    "minecraft:lava_bucket": "Lava Bucket",
-   "kaleidoscope_fishing:lava_fish_tank": "Lava Fish Tank"
+   "kaleidoscope_fishing:lava_fish_tank": "Lava Fish Tank",
+   "kaleidoscope_fishing:mycelium_flounder": "Mycelium Flounder",
+   "kaleidoscope_fishing:spore_seahorse": "Spore Seahorse",
+   "kaleidoscope_fishing:cherry_trout": "Cherry Trout",
+   "kaleidoscope_fishing:creek_shrimp": "Creek Shrimp",
+   "kaleidoscope_fishing:echo_ray": "Echo Ray",
+   "kaleidoscope_fishing:sculk_lanternfish": "Sculk Lanternfish",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "Mushroom and Flounder Stew",
+   "kaleidoscope_fishing:cherry_trout_rice": "Cherry Trout Rice",
+   "kaleidoscope_fishing:fried_creek_shrimp": "Fried Creek Shrimp",
+   "kaleidoscope_fishing:echo_ray_pot": "Echo Ray Pot"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -9394,7 +9680,17 @@
    "minecraft:basalt": "玄武岩",
    "minecraft:obsidian": "黑曜石",
    "minecraft:lava_bucket": "岩漿桶",
-   "kaleidoscope_fishing:lava_fish_tank": "熔岩魚缸"
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩魚缸",
+   "kaleidoscope_fishing:mycelium_flounder": "菌褶鰈",
+   "kaleidoscope_fishing:spore_seahorse": "孢子海馬",
+   "kaleidoscope_fishing:cherry_trout": "櫻鱒",
+   "kaleidoscope_fishing:creek_shrimp": "溪蝦",
+   "kaleidoscope_fishing:echo_ray": "回音魟",
+   "kaleidoscope_fishing:sculk_lanternfish": "幽匿燈籠魚",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌燉鰈魚",
+   "kaleidoscope_fishing:cherry_trout_rice": "櫻鱒炊飯",
+   "kaleidoscope_fishing:fried_creek_shrimp": "炸溪蝦",
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟魚煲"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -9728,7 +10024,17 @@
    "minecraft:basalt": "玄武岩",
    "minecraft:obsidian": "黑曜石",
    "minecraft:lava_bucket": "熔岩桶",
-   "kaleidoscope_fishing:lava_fish_tank": "熔岩鱼缸"
+   "kaleidoscope_fishing:lava_fish_tank": "熔岩鱼缸",
+   "kaleidoscope_fishing:mycelium_flounder": "菌褶鲽",
+   "kaleidoscope_fishing:spore_seahorse": "孢子海马",
+   "kaleidoscope_fishing:cherry_trout": "樱鳟",
+   "kaleidoscope_fishing:creek_shrimp": "溪虾",
+   "kaleidoscope_fishing:echo_ray": "回音魟",
+   "kaleidoscope_fishing:sculk_lanternfish": "幽匿灯笼鱼",
+   "kaleidoscope_fishing:mushroom_flounder_stew": "菇菌炖鲽鱼",
+   "kaleidoscope_fishing:cherry_trout_rice": "樱鳟炊饭",
+   "kaleidoscope_fishing:fried_creek_shrimp": "炸溪虾",
+   "kaleidoscope_fishing:echo_ray_pot": "回音魟鱼煲"
   }
  },
  "text": {

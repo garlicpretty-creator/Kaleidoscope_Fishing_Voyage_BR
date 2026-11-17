@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_fried_creek_shrimp",
+    "metalness_emissive_roughness": "kfv_fried_creek_shrimp_mer",
+    "normal": "kfv_fried_creek_shrimp_normal"
+  }
+}

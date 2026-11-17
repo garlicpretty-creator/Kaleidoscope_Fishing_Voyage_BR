@@ -41,7 +41,17 @@ CATCH = {
     'chorus_jellyfish': (54, 'jelly', 20, 1.5, None),
     'dried_shell_shrimp': (55, 'pile', 16, 1.0, None),
     'whole_squid':        (56, 'squid', 22, 1.5, None),
+    # 1.5.0 new fish: their board index is whatever tools/gen_1_5.py gave them (read from CLEANING.json)
+    'mycelium_flounder':  (None, 'flatfish', 22, 1.5, None),
+    'cherry_trout':       (None, 'fish', 11.0, 2.0, True),
+    'creek_shrimp':       (None, 'shrimp', 16, 1.0, (0.0, 0.15)),
+    'echo_ray':           (None, 'flatfish', 26, 1.5, None),
+    'sculk_lanternfish':  (None, 'fish', 7.0, 1.0, True),
 }
+_board = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'CLEANING.json'), encoding='utf-8'))
+for _k, _v in list(CATCH.items()):
+    if _v[0] is None:
+        CATCH[_k] = (_board[f'{NS}:{_k}']['index'],) + _v[1:]
 FLESH = (244, 214, 196)
 ROE = (236, 140, 40)
 MEAT = (246, 236, 224)
@@ -110,12 +120,25 @@ def bell_only(sp):
 
 def stages(name):
     idx, kind, size, hmax, corner = CATCH[name]
-    sp = flat_sprite(name, size)
+    sp = flat_sprite(name, size) if kind != 'fish' else None
     if kind == 'shrimp':
         off = head_off(sp, corner)
         return idx, hmax, {1: sp, 2: off, 3: peeled(off)}
     if kind == 'crab':
         return idx, hmax, {1: sp, 2: recolour_inner(sp, ROE, 0.6), 3: recolour_inner(sp, MEAT, 0.75)}
+    if kind == 'fish':                              # side view, as the older board fish (scales: last field)
+        whole = gb.side_sprite(name, size)
+        if corner:
+            st = {1: whole, 2: gb.scaled_off(whole)}
+        else:
+            st = {2: whole}
+        st[3] = gb.slit(st[2])
+        return idx, hmax, st
+    if kind == 'flatfish':                          # flat on the board as the icon shows it; scaled if it has a first stage
+        first = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'CLEANING.json'), encoding='utf-8'))[f'{NS}:{name}']['first']
+        st = {1: sp, 2: gb.scaled_off(sp)} if first == 1 else {2: sp}
+        st[3] = recolour_inner(st[2], (200, 70, 70), 0.35)
+        return idx, hmax, st
     if kind == 'squid':                             # gutted: the inside shows pale; the cartilage out: paler still
         return idx, hmax, {1: sp, 2: recolour_inner(sp, MEAT, 0.35), 3: recolour_inner(sp, MEAT, 0.7, depth=1)}
     if kind == 'pile':

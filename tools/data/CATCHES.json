@@ -815,5 +815,84 @@
       "line": "kaleidoscope_fishing:wire_line",
       "nobait": true
     }
+  },
+  {
+    "id": "kaleidoscope_fishing:mycelium_flounder",
+    "w": 24,
+    "waters": [
+      "mushroom"
+    ],
+    "size": [
+      20,
+      50
+    ],
+    "fight": 1
+  },
+  {
+    "id": "kaleidoscope_fishing:spore_seahorse",
+    "w": 6,
+    "waters": [
+      "mushroom"
+    ],
+    "time": "night",
+    "off": 0.0,
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout",
+    "w": 24,
+    "waters": [
+      "cherry"
+    ],
+    "size": [
+      25,
+      55
+    ],
+    "fight": 2,
+    "tide": {
+      "high": 1.5
+    }
+  },
+  {
+    "id": "kaleidoscope_fishing:creek_shrimp",
+    "w": 10,
+    "waters": [
+      "cherry"
+    ],
+    "time": "day",
+    "off": 0.0,
+    "bait": {
+      "kaleidoscope_fishing:earthworm": 2
+    },
+    "size": null,
+    "fight": 0
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray",
+    "w": 20,
+    "waters": [
+      "deep_dark"
+    ],
+    "size": [
+      40,
+      120
+    ],
+    "fight": 2
+  },
+  {
+    "id": "kaleidoscope_fishing:sculk_lanternfish",
+    "w": 6,
+    "waters": [
+      "deep_dark"
+    ],
+    "needBait": [
+      "kaleidoscope_fishing:glow_bait"
+    ],
+    "size": [
+      5,
+      12
+    ],
+    "fight": 0
   }
 ]

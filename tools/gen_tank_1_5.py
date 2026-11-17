@@ -16,7 +16,9 @@ RP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [RP]')
 NS = 'kaleidoscope_fishing'
 # new species: (placed like this one, keep still)
 NEW = {'blazefin': ('carp', False), 'magma_koi': ('lava_dragon_koi', False), 'lava_eel': ('eel', False),
-       'basalt_crab': ('crab', False), 'oyster': ('crab', True)}
+       'basalt_crab': ('crab', False), 'oyster': ('crab', True),
+       'mycelium_flounder': ('carp', False), 'spore_seahorse': ('smelt', False), 'cherry_trout': ('rainbow_trout', False),
+       'creek_shrimp': ('shrimp', False), 'echo_ray': ('crab', False), 'sculk_lanternfish': ('smelt', False)}
 LAVA = ['blazefin', 'magma_koi', 'lava_eel', 'basalt_crab', 'lava_dragon_koi']
 
 

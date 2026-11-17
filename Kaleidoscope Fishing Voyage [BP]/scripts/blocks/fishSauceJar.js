@@ -28,7 +28,7 @@ const SEA_SALT = `${NS}:sea_salt`;
 const SALT = new Set([SEA_SALT]);
 // 1.5.0: shrimp paste is fresh shrimp pounded with salt, as it is made for real: Dried Shrimp no longer goes in.
 const SHRIMP = `${NS}:dried_shrimp`;                     // what a jar filled before 1.5.0 may still hold
-export const PASTE_SHRIMP = new Set([`${NS}:shrimp`, `${NS}:live_shrimp`]);
+export const PASTE_SHRIMP = new Set([`${NS}:shrimp`, `${NS}:live_shrimp`, `${NS}:creek_shrimp`]);
 const NEED = 4;                      // fish or shrimp per batch
 export const FERMENT_TICKS = 3600;   // v1.6.4: 3 minutes of world time, sealed -> ready
 const now = () => { try { return world.getAbsoluteTime(); } catch { return system.currentTick; } };

@@ -56,7 +56,13 @@
             "Geometry.magma_koi",
             "Geometry.lava_eel",
             "Geometry.basalt_crab",
-            "Geometry.oyster"
+            "Geometry.oyster",
+            "Geometry.mycelium_flounder",
+            "Geometry.spore_seahorse",
+            "Geometry.cherry_trout",
+            "Geometry.creek_shrimp",
+            "Geometry.echo_ray",
+            "Geometry.sculk_lanternfish"
           ]
         }
       },

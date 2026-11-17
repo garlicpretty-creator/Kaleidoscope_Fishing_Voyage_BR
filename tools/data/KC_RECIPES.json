@@ -93,11 +93,13 @@
       "ingredients": [
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         "kaleidoscope_cookery:red_chili",
         [
@@ -141,7 +143,8 @@
       "ingredients": [
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         "minecraft:egg",
         "minecraft:egg"
@@ -228,7 +231,8 @@
         "kaleidoscope_cookery:rice",
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         "kaleidoscope_fishing:white_fish_fillet"
       ],
@@ -385,7 +389,8 @@
         "kaleidoscope_cookery:raw_noodles",
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         "kaleidoscope_fishing:octopus_slices",
         "kaleidoscope_cookery:green_chili"
@@ -404,7 +409,8 @@
         "kaleidoscope_cookery:rice",
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         [
           "kaleidoscope_fishing:clam",
@@ -443,7 +449,8 @@
       "ingredients": [
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:shrimp_meat"
+          "kaleidoscope_fishing:shrimp_meat",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         [
           "kaleidoscope_fishing:crab",
@@ -1355,15 +1362,18 @@
         "kaleidoscope_fishing:sea_salt",
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:live_shrimp"
+          "kaleidoscope_fishing:live_shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:live_shrimp"
+          "kaleidoscope_fishing:live_shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
         ],
         [
           "kaleidoscope_fishing:shrimp",
-          "kaleidoscope_fishing:live_shrimp"
+          "kaleidoscope_fishing:live_shrimp",
+          "kaleidoscope_fishing:creek_shrimp"
         ]
       ],
       "result": "kaleidoscope_fishing:salted_shrimp",
@@ -1455,6 +1465,76 @@
       "result": "kaleidoscope_fishing:clam_steamed_egg",
       "count": 1,
       "time": 200,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/mushroom_flounder_stew",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "minecraft:brown_mushroom",
+        "minecraft:brown_mushroom",
+        "minecraft:carrot"
+      ],
+      "result": "kaleidoscope_fishing:mushroom_flounder_stew",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/cherry_trout_rice",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_cookery:rice",
+        "minecraft:kelp",
+        "minecraft:kelp"
+      ],
+      "result": "kaleidoscope_fishing:cherry_trout_rice",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/fried_creek_shrimp",
+      "ingredients": [
+        "kaleidoscope_fishing:creek_shrimp",
+        "kaleidoscope_fishing:creek_shrimp",
+        "kaleidoscope_cookery:flour",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:fried_creek_shrimp",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/echo_ray_pot",
+      "ingredients": [
+        "kaleidoscope_fishing:white_fish_fillet",
+        "kaleidoscope_fishing:white_fish_fillet",
+        "minecraft:potato",
+        "kaleidoscope_cookery:red_chili"
+      ],
+      "result": "kaleidoscope_fishing:echo_ray_pot",
+      "count": 1,
+      "time": 300,
       "base": "minecraft:water",
       "carrier": "minecraft:bowl",
       "finishedKind": "default"

@@ -121,7 +121,9 @@ GENERATED = ['shrimp_head', 'shrimp_meat', 'shrimp_shell', 'crab_shell', 'crab_r
              'lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
              'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens',
              'whole_squid', 'fried_squid_tentacles', 'grilled_squid_tentacles', 'otoro_nigiri', 'spicy_dried_fish',
-             'purged_clam', 'clam_steamed_egg']
+             'purged_clam', 'clam_steamed_egg',
+             'mycelium_flounder', 'spore_seahorse', 'cherry_trout', 'creek_shrimp', 'echo_ray', 'sculk_lanternfish',
+             'mushroom_flounder_stew', 'cherry_trout_rice', 'fried_creek_shrimp', 'echo_ray_pot']
 # Dried Shell-on Shrimp sun-browned, so it is not taken for Salted Shrimp or Shrimp Shells
 RAMP = {'dried_shell_shrimp': ['#2a140c', '#5a3018', '#8a5a30', '#b48450', '#d8b07a']}
 # The three tuna cuts came out of the generator as the same red block: each is recoloured so they tell apart.

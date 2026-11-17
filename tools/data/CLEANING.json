@@ -2077,5 +2077,193 @@
         ]
       }
     ]
+  },
+  "kaleidoscope_fishing:mycelium_flounder": {
+    "index": 57,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:cherry_trout": {
+    "index": 58,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ],
+          [
+            "kaleidoscope_fishing:fish_roe",
+            1,
+            0.4
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            3,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ],
+    "gutted": "kaleidoscope_fishing:gutted_fish"
+  },
+  "kaleidoscope_fishing:creek_shrimp": {
+    "index": 59,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "head",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_head",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "shell",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "devein",
+        "out": [
+          [
+            "kaleidoscope_fishing:shrimp_meat",
+            1,
+            1,
+            "sized"
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:echo_ray": {
+    "index": 60,
+    "first": 2,
+    "cuts": [
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            4,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
+  },
+  "kaleidoscope_fishing:sculk_lanternfish": {
+    "index": 61,
+    "first": 1,
+    "cuts": [
+      {
+        "act": "scale",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_scales",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "gut",
+        "out": [
+          [
+            "kaleidoscope_fishing:fish_offal",
+            1
+          ]
+        ]
+      },
+      {
+        "act": "fillet",
+        "out": [
+          [
+            "kaleidoscope_fishing:white_fish_fillet",
+            1,
+            1,
+            "sized"
+          ],
+          [
+            "kaleidoscope_fishing:fish_bones",
+            1
+          ]
+        ]
+      }
+    ]
   }
 }

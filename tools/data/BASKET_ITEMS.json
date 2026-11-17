@@ -273,5 +273,35 @@
     "id": "kaleidoscope_fishing:lava_dragon_koi",
     "nameKey": "kaleidoscope_fishing.name.lava_dragon_koi",
     "icon": "textures/items/kfv_lava_dragon_koi"
+  },
+  {
+    "id": "kaleidoscope_fishing:mycelium_flounder",
+    "nameKey": "kaleidoscope_fishing.name.mycelium_flounder",
+    "icon": "textures/items/kfv_mycelium_flounder"
+  },
+  {
+    "id": "kaleidoscope_fishing:spore_seahorse",
+    "nameKey": "kaleidoscope_fishing.name.spore_seahorse",
+    "icon": "textures/items/kfv_spore_seahorse"
+  },
+  {
+    "id": "kaleidoscope_fishing:cherry_trout",
+    "nameKey": "kaleidoscope_fishing.name.cherry_trout",
+    "icon": "textures/items/kfv_cherry_trout"
+  },
+  {
+    "id": "kaleidoscope_fishing:creek_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.creek_shrimp",
+    "icon": "textures/items/kfv_creek_shrimp"
+  },
+  {
+    "id": "kaleidoscope_fishing:echo_ray",
+    "nameKey": "kaleidoscope_fishing.name.echo_ray",
+    "icon": "textures/items/kfv_echo_ray"
+  },
+  {
+    "id": "kaleidoscope_fishing:sculk_lanternfish",
+    "nameKey": "kaleidoscope_fishing.name.sculk_lanternfish",
+    "icon": "textures/items/kfv_sculk_lanternfish"
   }
 ]

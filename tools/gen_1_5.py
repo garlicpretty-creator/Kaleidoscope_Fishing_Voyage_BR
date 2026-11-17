@@ -780,6 +780,138 @@ def lava_tank():
     c.save('GUIDEBOOK_JSON', g)
 
 
+NEW_FISH = {
+    # key: (names en/tw/cn, habitat en/tw/cn, catch entry, journal sized?, raw food or None, fish tag?, price, board, minigame pattern)
+    'mycelium_flounder': (('Mycelium Flounder', '菌褶鰈', '菌褶鲽'),
+        ('Any water on a mushroom island, the commonest catch there. Flat on the bottom, the gills of a mushroom on its back.',
+         '蘑菇島上的任何水域，那裡最常見的漁獲。平貼在水底，背上有像菇褶的花紋。', '蘑菇岛上的任何水域，那里最常见的渔获。平贴在水底，背上有像菇褶的花纹。'),
+        {'w': 24, 'waters': ['mushroom'], 'size': [20, 50], 'fight': 1}, True, (2, 0.2), True, 0.3333,
+        {'first': 1, 'cuts': 'fish', 'fillet': 3, 'bones': 1}, 'sinker'),
+    'spore_seahorse': (('Spore Seahorse', '孢子海馬', '孢子海马'),
+        ('Mushroom island waters, at night only. A seahorse dusted with spores: a curio for a fish tank, not for the pot; the fish merchant pays well for one.',
+         '蘑菇島的水域，只在夜晚。身上沾滿孢子的海馬：養在魚缸裡觀賞，不能下鍋；漁販會出好價錢。', '蘑菇岛的水域，只在夜晚。身上沾满孢子的海马：养在鱼缸里观赏，不能下锅；渔贩会出好价钱。'),
+        {'w': 6, 'waters': ['mushroom'], 'time': 'night', 'off': 0.0, 'size': None, 'fight': 0}, False, None, False, 1.5, None, None),
+    'cherry_trout': (('Cherry Trout', '櫻鱒', '樱鳟'),
+        ('Lakes and rivers in a cherry grove; more of them at high tide. A trout with a blossom-pink stripe.',
+         '櫻花樹林裡的湖和河；漲潮時更多。身上有一條櫻花色條紋的鱒魚。', '樱花树林里的湖和河；涨潮时更多。身上有一条樱花色条纹的鳟鱼。'),
+        {'w': 24, 'waters': ['cherry'], 'size': [25, 55], 'fight': 2, 'tide': {'high': 1.5}}, True, (2, 0.2), True, 0.3333,
+        {'first': 1, 'cuts': 'fish', 'fillet': 3, 'bones': 1, 'roe': 0.4, 'gutted': True}, 'dash'),
+    'creek_shrimp': (('Creek Shrimp', '溪蝦', '溪虾'),
+        ('Cherry grove streams, by day; earthworms bring them up. Small and see-through: fry them whole, or use them as any shrimp.',
+         '櫻花樹林的溪流，白天出沒；用蚯蚓比較容易。小小的、半透明：整隻炸來吃，或當一般的蝦用。', '樱花树林的溪流，白天出没；用蚯蚓比较容易。小小的、半透明：整只炸来吃，或当一般的虾用。'),
+        {'w': 10, 'waters': ['cherry'], 'time': 'day', 'off': 0.0, 'bait': {NS + 'earthworm': 2}, 'size': None, 'fight': 0}, False, (1, 0.2), False, 0.2,
+        {'first': 1, 'cuts': 'shrimp'}, None),
+    'echo_ray': (('Echo Ray', '回音魟', '回音魟'),
+        ('Water in the Deep Dark (a pool you make there with a bucket will do). Big, flat and strong. Fishing there makes a noise: crouch and stand on wool.',
+         '深暗之域裡的水（用水桶自己做的水池也可以）。又大又扁、力氣很大。在那裡釣魚會發出聲音：蹲下、站在羊毛上。', '深暗之域里的水（用水桶自己做的水池也可以）。又大又扁、力气很大。在那里钓鱼会发出声音：蹲下、站在羊毛上。'),
+        {'w': 20, 'waters': ['deep_dark'], 'size': [40, 120], 'fight': 2}, True, (3, 0.3), True, 0.5,
+        {'first': 2, 'cuts': 'fish', 'fillet': 4, 'bones': 1}, 'sinker'),
+    'sculk_lanternfish': (('Sculk Lanternfish', '幽匿燈籠魚', '幽匿灯笼鱼'),
+        ('Water in the Deep Dark, and only on Glow Bait: it comes to light. Two of them make Glow Bait again.',
+         '深暗之域裡的水，只咬發光餌：牠會被光引來。兩條可以再做成發光餌。', '深暗之域里的水，只咬发光饵：它会被光引来。两条可以再做成发光饵。'),
+        {'w': 6, 'waters': ['deep_dark'], 'needBait': [NS + 'glow_bait'], 'size': [5, 12], 'fight': 0}, True, (1, 0.1), True, 1.0,
+        {'first': 1, 'cuts': 'fish', 'fillet': 1, 'bones': 1}, 'dart'),
+}
+
+
+def new_waters():
+    """Step 10: three new waters and their six fish, a journal page for them, and four dishes (plan 8)."""
+    S = NS
+    J = f'{c.NS}.journal.'
+    c.lang(J + 'group_secret', 'Hidden Waters', '秘境', '秘境', packs=(c.RP,))
+    catches = c.data('CATCHES')
+    journal = c.data('JOURNAL_SPECIES')
+    basket = c.data('BASKET_ITEMS')
+    prices = c.data('MERCHANT_PRICES')
+    board = c.data('CLEANING')
+    next_board = max(f['index'] for f in board.values()) + 1
+    after = 'cave_crayfish'
+    for key, (name, where, entry, sized, edible, fish_tag, price, cut, pattern) in NEW_FISH.items():
+        comp = {}
+        if edible:
+            comp = food(*edible)
+            if fish_tag:
+                comp['minecraft:tags']['tags'].append('minecraft:is_fish')
+        c.item(key, stack=64, group='catches', components=comp or None)
+        path = os.path.join(c.BP, 'items', f'{key}.json')
+        j = c.read_json(path)                                  # catches sit in the pack's own creative group
+        j['minecraft:item']['description']['menu_category']['group'] = f'{c.NS}:itemGroup.name.catches'
+        c.write_json(path, j)
+        c.names(key, *name)
+        c.lang(f'{c.NS}.habitat.{key}', *where, packs=(c.RP,))
+        c.icon(key)
+        c.catalog(key, after)
+        after = key
+        catches = [x for x in catches if x['id'] != S + key] + [{'id': S + key, **entry}]
+        journal = [x for x in journal if x['id'] != S + key] + [{'id': S + key, 'key': key, 'icon': f'textures/items/kfv_{key}', 'sized': sized, 'group': 'secret'}]
+        basket = [x for x in basket if x['id'] != S + key] + [{'id': S + key, 'nameKey': f'{c.NS}.name.{key}', 'icon': f'textures/items/kfv_{key}'}]
+        prices[S + key] = price
+        if cut:
+            idx = board.get(S + key, {}).get('index') or next_board
+            if idx == next_board:
+                next_board += 1
+            if cut['cuts'] == 'shrimp':
+                cuts = [{'act': 'head', 'out': [[S + 'shrimp_head', 1]]}, {'act': 'shell', 'out': [[S + 'shrimp_shell', 1]]},
+                        {'act': 'devein', 'out': [[S + 'shrimp_meat', 1, 1, 'sized']]}]
+                rec = {'index': idx, 'first': 1, 'cuts': cuts}
+            else:
+                cuts = ([{'act': 'scale', 'out': [[S + 'fish_scales', 1]]}] if cut['first'] == 1 else []) + \
+                       [{'act': 'gut', 'out': [[S + 'fish_offal', 1]] + ([[S + 'fish_roe', 1, cut['roe']]] if cut.get('roe') else [])},
+                        {'act': 'fillet', 'out': [[S + 'white_fish_fillet', cut['fillet'], 1, 'sized'], [S + 'fish_bones', cut['bones']]]}]
+                rec = {'index': idx, 'first': cut['first'], 'cuts': cuts}
+                if cut.get('gutted'):
+                    rec['gutted'] = S + 'gutted_fish'
+            board[S + key] = rec
+        food_info = {'nutrition': edible[0], 'saturation': edible[1]} if edible else None
+        c.guide(key, 'fish' if fish_tag else 'seafood', where, name, stack=64, food=food_info)
+    c.save('CATCHES', catches); c.save('JOURNAL_SPECIES', journal); c.save('BASKET_ITEMS', basket)
+    c.save('MERCHANT_PRICES', prices); c.save('CLEANING', board)
+    # minigame swimming patterns
+    mp = os.path.join(c.BP, 'scripts', 'data', 'minigame.js')
+    js = open(mp, encoding='utf-8').read()
+    for key, v in NEW_FISH.items():
+        pat = v[8]
+        if pat and f"'{S}{key}'" not in js:
+            js = js.replace("export const PATTERN = {\n", f"export const PATTERN = {{\n  '{S}{key}': '{pat}',   // 1.5.0\n", 1)
+    with open(mp, 'w', encoding='utf-8', newline='\n') as f:
+        f.write(js)
+    # cormorants take the new fish too
+    cp = os.path.join(c.BP, 'entities', 'cormorant.json')
+    e = c.read_json(cp)
+    groups = e['minecraft:entity']['component_groups']
+    fishy = [S + k for k, v in NEW_FISH.items() if v[5]]
+    for lst in (groups[f'{c.NS}:wild']['minecraft:tameable']['tame_items'], groups[f'{c.NS}:wild']['minecraft:behavior.tempt']['items']):
+        lst += [f for f in fishy if f not in lst]
+    heal = groups[f'{c.NS}:tamed']['minecraft:healable']['items']
+    heal += [{'item': f, 'heal_amount': 4} for f in fishy if f not in [h['item'] for h in heal]]
+    c.write_json(cp, e)
+    # dishes
+    for key, name, n, sat, how, bowl in [
+        ('mushroom_flounder_stew', ('Mushroom and Flounder Stew', '菇菌燉鰈魚', '菇菌炖鲽鱼'), 8, 0.7,
+         [('stockpot', ['white_fish_fillet', 'minecraft:brown_mushroom', 'minecraft:brown_mushroom', 'minecraft:carrot'], None)], True),
+        ('cherry_trout_rice', ('Cherry Trout Rice', '櫻鱒炊飯', '樱鳟炊饭'), 9, 0.7,
+         [('stockpot', ['white_fish_fillet', 'kaleidoscope_cookery:rice', 'minecraft:kelp', 'minecraft:kelp'], None)], True),
+        ('fried_creek_shrimp', ('Fried Creek Shrimp', '炸溪蝦', '炸溪虾'), 6, 0.6,
+         [('wok', ['creek_shrimp', 'creek_shrimp', 'kaleidoscope_cookery:flour', 'kaleidoscope_cookery:oil'], None)], True),
+        ('echo_ray_pot', ('Echo Ray Pot', '回音魟魚煲', '回音魟鱼煲'), 10, 0.8,
+         [('stockpot', ['white_fish_fillet', 'white_fish_fillet', 'minecraft:potato', 'kaleidoscope_cookery:red_chili'], None)], True),
+    ]:
+        c.dish(key, name, n, sat, how, bowl=bowl, after='blindfish_clear_soup')
+    # what else takes them
+    c.recipe_file('crafting', 'glow_bait_from_lanternfish', {'format_version': '1.20.10', 'minecraft:recipe_shapeless': {
+        'description': {'identifier': S + 'glow_bait_from_lanternfish'}, 'tags': ['crafting_table'],
+        'ingredients': [{'item': S + 'sculk_lanternfish'}, {'item': S + 'sculk_lanternfish'}],
+        'result': {'item': S + 'glow_bait', 'count': 2}, 'unlock': [{'item': S + 'sculk_lanternfish'}]}})
+    for rid in ('wok/salt_pepper_shrimp', 'wok/shrimp_scrambled_eggs', 'stockpot/seafood_congee', 'wok/seafood_chow_mein', 'wok/paella', 'stockpot/seafood_hot_pot'):
+        c.kc_alternative(rid, 'shrimp', 'creek_shrimp')
+    table = c.data('KC_RECIPES')
+    for r in table:
+        if r['recipe']['id'] == S + 'stockpot/salted_shrimp':
+            r['recipe']['ingredients'] = [i + [S + 'creek_shrimp'] if isinstance(i, list) and S + 'shrimp' in i and S + 'creek_shrimp' not in i else i
+                                          for i in r['recipe']['ingredients']]
+    c.save('KC_RECIPES', table)
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -796,4 +928,5 @@ if __name__ == '__main__':
     dried_fish()
     tub_and_salt_pan()
     lava_tank()
+    new_waters()
     print('1.5.0 content written; now run: python tools/build.py build')

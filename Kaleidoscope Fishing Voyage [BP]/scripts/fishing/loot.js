@@ -77,6 +77,7 @@ function matchWater(entry, ctx) {
   if (ctx.waters.has("void")) return !!entry.waters?.includes("void");     // so has the End's void (v1.2)
   if (ctx.waters.has("end_pond")) return !!entry.waters?.includes("end_pond"); // and End ponds (v1.3)
   if (ctx.waters.has("cave")) return !!entry.waters?.includes("cave");         // and cave water (v1.4)
+  if (ctx.waters.has("deep_dark")) return !!entry.waters?.includes("deep_dark"); // and the Deep Dark's (1.5.0)
   return !entry.waters || entry.waters.some(w => ctx.waters.has(w));
 }
 

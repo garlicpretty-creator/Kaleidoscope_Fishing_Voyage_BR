@@ -361,5 +361,30 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
     'board format: every catch fits the board (stages 1-3) and every cut gives something (drawing a squid\'s cartilage gives nothing)');
 }
 
+// ---------- 11. the new waters (1.5.0) ----------
+{
+  const roll = (ctx, n) => { const got = {}; for (let i = 0; i < n; i++) { const id = L.rollCatch(ctx); got[id] = (got[id] ?? 0) + 1; } return got; };
+  const base = { depth: 4, rod: true, tier: 2, moon: 2, caught: new Set(), raining: false };
+  let g = roll({ ...base, waters: new Set(['lake', 'mushroom']), slot: 'night' }, 20000);
+  ok(g[`${NS}mycelium_flounder`] > 0 && g[`${NS}spore_seahorse`] > 0, `mushroom island: flounder and, at night, the seahorse (${g[`${NS}mycelium_flounder`]}, ${g[`${NS}spore_seahorse`]})`);
+  g = roll({ ...base, waters: new Set(['lake', 'mushroom']), slot: 'day' }, 20000);
+  ok(!g[`${NS}spore_seahorse`], 'mushroom island: no seahorse by day');
+  g = roll({ ...base, waters: new Set(['river', 'cherry']), slot: 'day', bait: `${NS}earthworm` }, 20000);
+  ok(g[`${NS}cherry_trout`] > 0 && g[`${NS}creek_shrimp`] > 0 && g[`${NS}carp`] > 0, `cherry grove: trout and creek shrimp among the river's own fish (${g[`${NS}cherry_trout`]}, ${g[`${NS}creek_shrimp`]})`);
+  g = roll({ ...base, waters: new Set(['lake']), slot: 'day' }, 20000);
+  ok(!g[`${NS}cherry_trout`] && !g[`${NS}mycelium_flounder`], 'an ordinary lake has neither');
+  g = roll({ ...base, waters: new Set(['deep_dark']), slot: 'day' }, 20000);
+  const ids = Object.keys(g).filter(k => k.startsWith(NS) || k.startsWith('minecraft:'));
+  ok(g[`${NS}echo_ray`] > 0 && !g[`${NS}sculk_lanternfish`] && ids.every(id => !G.CATCHES.find(c => c.id === id) || G.CATCHES.find(c => c.id === id).waters?.includes('deep_dark')),
+    `deep dark: only its own catches; no lanternfish without glow bait (${ids.filter(i => G.CATCHES.some(c => c.id === i)).map(i => i.split(':')[1])})`);
+  g = roll({ ...base, waters: new Set(['deep_dark']), slot: 'day', bait: `${NS}glow_bait` }, 20000);
+  ok(g[`${NS}sculk_lanternfish`] > 0, `deep dark: the lanternfish comes to glow bait (${g[`${NS}sculk_lanternfish`]})`);
+  const sp = G.JOURNAL_SPECIES.filter(s => s.group === 'secret').map(s => s.key);
+  ok(sp.length === 6 && sp.every(k => G.BASKET_ITEMS.some(b => b.id === NS + k) && G.MERCHANT_PRICES[NS + k] > 0 && G.TANK_FISH.includes(NS + k)),
+    `the six new fish have a journal page, a creel place, a price and a tank model (${sp})`);
+  ok(['mycelium_flounder', 'cherry_trout', 'creek_shrimp', 'echo_ray', 'sculk_lanternfish'].every(k => G.CLEANING[NS + k]) && !G.CLEANING[NS + 'spore_seahorse'],
+    'they go on the Fish Cleaning Board, except the seahorse');
+}
+
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

@@ -98,6 +98,7 @@ function underIce(dim, x, surface, z) {
  * Classify water at the bobber.
  * @returns {{waters:Set<string>, depth:number, cold:boolean, biome:string}}
  * waters: river | lake | swamp | beach | ocean | warm_ocean | cold_ocean | deep_ocean
+ *         (1.5.0) mushroom | cherry, and deep_dark on its own
  */
 export function analyzeWater(dim, loc) {
   const x = Math.floor(loc.x), z = Math.floor(loc.z);
@@ -121,6 +122,9 @@ export function analyzeWater(dim, loc) {
     else if (biome.includes("swamp") || biome.includes("mangrove")) { waters.add("swamp"); if (biome.includes("mangrove")) waters.add("mangrove"); }
     else if (biome.includes("beach") || biome.includes("stony_shore")) { waters.add("beach"); waters.add("ocean"); }
     else waters.add("lake");
+    // 1.5.0: two more waters that go with what is already there
+    if (biome.includes("mushroom")) waters.add("mushroom");
+    if (biome.includes("cherry")) waters.add("cherry");
   } else {
     // Fallback inference without the biome API.
     cold = nearby(dim, x, surface, z, COLD, 4);
@@ -132,6 +136,8 @@ export function analyzeWater(dim, loc) {
     else waters.add(depth >= 3 ? "river" : "lake");
     // no estuary here: without biomes a river mouth at sea level reads as ocean, which is what it offers anyway
   }
+  // 1.5.0: water in the Deep Dark is its own world too, checked before the caves it lies in.
+  if (biome.includes("deep_dark")) return { waters: new Set(["deep_dark"]), depth, cold: false, biome, surface };
   // v1.4: cave water is its own world (only cave catches), checked before ice so a frozen cave pool is still a cave.
   if (dim.id === "minecraft:overworld" && surface < CAVE_Y && !skyAbove(dim, x, surface, z)) {
     const cave = new Set(["cave"]);

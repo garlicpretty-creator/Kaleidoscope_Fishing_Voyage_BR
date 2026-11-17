@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:glow_bait_from_lanternfish"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "kaleidoscope_fishing:sculk_lanternfish"
+      },
+      {
+        "item": "kaleidoscope_fishing:sculk_lanternfish"
+      }
+    ],
+    "result": {
+      "item": "kaleidoscope_fishing:glow_bait",
+      "count": 2
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:sculk_lanternfish"
+      }
+    ]
+  }
+}

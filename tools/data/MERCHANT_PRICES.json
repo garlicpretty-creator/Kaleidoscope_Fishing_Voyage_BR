@@ -36,5 +36,11 @@
   "kaleidoscope_fishing:flying_fish": 0.25,
   "kaleidoscope_fishing:lobster": 1.5,
   "kaleidoscope_fishing:king_crab": 2.0,
-  "kaleidoscope_fishing:cave_blindfish": 0.2
+  "kaleidoscope_fishing:cave_blindfish": 0.2,
+  "kaleidoscope_fishing:mycelium_flounder": 0.3333,
+  "kaleidoscope_fishing:spore_seahorse": 1.5,
+  "kaleidoscope_fishing:cherry_trout": 0.3333,
+  "kaleidoscope_fishing:creek_shrimp": 0.2,
+  "kaleidoscope_fishing:echo_ray": 0.5,
+  "kaleidoscope_fishing:sculk_lanternfish": 1.0
 }

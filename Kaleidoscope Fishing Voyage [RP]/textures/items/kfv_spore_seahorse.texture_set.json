@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_spore_seahorse",
+    "metalness_emissive_roughness": "kfv_spore_seahorse_mer",
+    "normal": "kfv_spore_seahorse_normal"
+  }
+}

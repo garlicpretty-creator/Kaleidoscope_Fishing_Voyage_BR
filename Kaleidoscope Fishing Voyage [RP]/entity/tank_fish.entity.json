@@ -62,7 +62,13 @@
         "magma_koi": "geometry.kaleidoscope_fishing.tank_fish.magma_koi",
         "lava_eel": "geometry.kaleidoscope_fishing.tank_fish.lava_eel",
         "basalt_crab": "geometry.kaleidoscope_fishing.tank_fish.basalt_crab",
-        "oyster": "geometry.kaleidoscope_fishing.tank_fish.oyster"
+        "oyster": "geometry.kaleidoscope_fishing.tank_fish.oyster",
+        "mycelium_flounder": "geometry.kaleidoscope_fishing.tank_fish.mycelium_flounder",
+        "spore_seahorse": "geometry.kaleidoscope_fishing.tank_fish.spore_seahorse",
+        "cherry_trout": "geometry.kaleidoscope_fishing.tank_fish.cherry_trout",
+        "creek_shrimp": "geometry.kaleidoscope_fishing.tank_fish.creek_shrimp",
+        "echo_ray": "geometry.kaleidoscope_fishing.tank_fish.echo_ray",
+        "sculk_lanternfish": "geometry.kaleidoscope_fishing.tank_fish.sculk_lanternfish"
       },
       "animations": {
         "swim": "animation.kaleidoscope_fishing.tank_fish.swim",

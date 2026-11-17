@@ -63,7 +63,11 @@
             "kaleidoscope_fishing:cave_blindfish",
             "minecraft:cod",
             "minecraft:salmon",
-            "minecraft:tropical_fish"
+            "minecraft:tropical_fish",
+            "kaleidoscope_fishing:mycelium_flounder",
+            "kaleidoscope_fishing:cherry_trout",
+            "kaleidoscope_fishing:echo_ray",
+            "kaleidoscope_fishing:sculk_lanternfish"
           ],
           "tame_event": {
             "event": "kaleidoscope_fishing:on_tame",
@@ -108,7 +112,11 @@
             "kaleidoscope_fishing:cave_blindfish",
             "minecraft:cod",
             "minecraft:salmon",
-            "minecraft:tropical_fish"
+            "minecraft:tropical_fish",
+            "kaleidoscope_fishing:mycelium_flounder",
+            "kaleidoscope_fishing:cherry_trout",
+            "kaleidoscope_fishing:echo_ray",
+            "kaleidoscope_fishing:sculk_lanternfish"
           ]
         },
         "minecraft:behavior.avoid_mob_type": {
@@ -292,6 +300,22 @@
             },
             {
               "item": "minecraft:tropical_fish",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:mycelium_flounder",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:cherry_trout",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:echo_ray",
+              "heal_amount": 4
+            },
+            {
+              "item": "kaleidoscope_fishing:sculk_lanternfish",
               "heal_amount": 4
             }
           ]
