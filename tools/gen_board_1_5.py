@@ -7,6 +7,7 @@ view like the fish (tools/gen_board_fish.py, whose column modelling this reuses)
   shrimp     1 whole        2 head off (the head end cleared)       3 peeled (pale flesh, a little flatter)
   crab       1 whole        2 shell off (the back shows orange roe) 3 cleaned (pale meat)
   jellyfish  2 whole        3 feelers off (only the bell is left)
+  dried shell-on shrimp   3 a small heap, rubbed once
 Writes models/blocks/fish_cleaning_board_1_5.geo.json, textures/blocks/kfv_board_shell.png (its own material
 instance on the board) and the block permutations. Safe to run again.
 """
@@ -21,7 +22,8 @@ RP, BP, NS = gb.RP, gb.BP, gb.NS
 GEO = os.path.join(RP, 'models', 'blocks', 'fish_cleaning_board_1_5.geo.json')
 TEX_NAME = 'kfv_board_shell'
 TEX = os.path.join(RP, 'textures', 'blocks', TEX_NAME + '.png')
-TW, TH = 256, 128
+TW, TH = 512, 256                # the atlas in pixels: twice the board's 256x128 (the block's textures must share its shape)
+UV = 0.5                         # the models keep the board's 256x128 UV space, so atlas pixels are halved
 
 # name: (board index, kind, size in sprite pixels (0.5 units each), max height, head corner as fractions (x, y))
 CATCH = {
@@ -36,6 +38,7 @@ CATCH = {
     'king_crab':        (52, 'crab', 24, 2.0, None),
     'moon_jellyfish':   (53, 'jelly', 20, 1.5, None),
     'chorus_jellyfish': (54, 'jelly', 20, 1.5, None),
+    'dried_shell_shrimp': (55, 'pile', 16, 1.0, None),
 }
 FLESH = (244, 214, 196)
 ROE = (236, 140, 40)
@@ -111,6 +114,8 @@ def stages(name):
         return idx, hmax, {1: sp, 2: off, 3: peeled(off)}
     if kind == 'crab':
         return idx, hmax, {1: sp, 2: recolour_inner(sp, ROE, 0.6), 3: recolour_inner(sp, MEAT, 0.75)}
+    if kind == 'pile':
+        return idx, hmax, {3: sp}                       # one rub and it is done
     return idx, hmax, {2: sp, 3: bell_only(sp)}
 
 
@@ -131,9 +136,14 @@ def build():
             atlas.alpha_composite(sp.transpose(Image.TRANSPOSE), (u + sp.width, v))
             gb.TEX_NAME = TEX_NAME                      # fish_cubes names the material instance after this
             h = hmax * (0.7 if cut == 3 and CATCH[name][1] == 'shrimp' else 1)
-            cubes = [base] + gb.fish_cubes(sp, h, (u, v))
+            cubes = gb.fish_cubes(sp, h, (u, v))
+            for cube in cubes:
+                for face in cube['uv'].values():
+                    face['uv'] = [round(x * UV, 4) for x in face['uv']]
+                    face['uv_size'] = [round(x * UV, 4) for x in face['uv_size']]
+            cubes = [base] + cubes
             geos.append({'description': {
-                'identifier': f'geometry.{NS}.fish_cleaning_board_{idx}_{cut}', 'texture_width': TW, 'texture_height': TH,
+                'identifier': f'geometry.{NS}.fish_cleaning_board_{idx}_{cut}', 'texture_width': 256, 'texture_height': 128,
                 'visible_bounds_width': 3, 'visible_bounds_height': 3, 'visible_bounds_offset': [0, 0.75, 0]},
                 'bones': [{'name': 'root', 'pivot': [0, 0, 0], 'cubes': cubes}]})
             u += need; row_h = max(row_h, sp.width, sp.height)

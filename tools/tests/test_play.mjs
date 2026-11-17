@@ -74,10 +74,39 @@ setComps(await boot());
 {
   clearInv(); const j = place(NS + 'fish_sauce_jar');
   P.hold(NS + 'sea_salt', 1); use(j);
-  P.hold(NS + 'dried_shrimp', 4); use(j); use(j); use(j); use(j);
+  P.hold(NS + 'dried_shrimp', 4); use(j);
+  ok(inv('dried_shrimp') === 4 && st(j, 'stage') === 0, '1.5.0 fish sauce jar: dried shrimp no longer make shrimp paste');
+  P.hold(NS + 'shrimp', 2); use(j); use(j); P.hold(NS + 'live_shrimp', 2); use(j); use(j);
+  ok(st(j, 'stage') === 2, `fish sauce jar: salt and four fresh shrimp (shrimp or live shrimp) seal it (stage ${st(j, 'stage')})`);
   wait(j, 3700);
   P.hold('minecraft:bowl', 4); for (let i = 0; i < 4; i++) use(j);
-  ok(inv('shrimp_paste') === 4, `fish sauce jar: dried shrimp make shrimp paste (${inv('shrimp_paste')})`);
+  ok(inv('shrimp_paste') === 4, `fish sauce jar: fresh shrimp make shrimp paste (${inv('shrimp_paste')})`);
+}
+{
+  // a jar left half full of dried shrimp by 1.4 gives them back and keeps its salt
+  clearInv(); drops(); const j = place(NS + 'fish_sauce_jar');
+  const { writeData } = await importScript('blocks/blockData.js');
+  writeData('sj', D, j, { left: 2, salted: 1, kind: 2, stage: 1, salt: NS + 'sea_salt', fish: [NS + 'dried_shrimp', NS + 'dried_shrimp'] });
+  j.setPermutation(j.permutation.withState(NS + 'kind', 2).withState(NS + 'stage', 1).withState(NS + 'left', 2).withState(NS + 'salted', 1));
+  tick(j);
+  const back = drops();
+  ok(back.filter(d => d.id === NS + 'dried_shrimp').reduce((a, d) => a + d.amount, 0) === 2 && st(j, 'stage') === 0 && st(j, 'salted') === 1,
+    `fish sauce jar: a 1.4 jar half full of dried shrimp gives them back and keeps its salt (${back.map(d => d.id.split(':')[1])})`);
+}
+{
+  // dried shrimp, the 1.5.0 way: salted shrimp on the tray, then one rub on the board
+  const { KC_RECIPES } = await importScript('data/generated.js');
+  const trays = KC_RECIPES.filter(r => r.kind === 'bamboo_tray').map(r => r.recipe);
+  ok(!trays.some(r => r.input === NS + 'shrimp' || r.result === NS + 'dried_shrimp'), 'dried shrimp: the bamboo tray no longer dries raw shrimp into dried shrimp');
+  ok(trays.some(r => r.input === NS + 'salted_shrimp' && r.result === NS + 'dried_shell_shrimp'), 'dried shrimp: the bamboo tray dries salted shrimp, shells on');
+  const salted = KC_RECIPES.find(r => r.recipe.result === NS + 'salted_shrimp')?.recipe;
+  ok(salted && salted.base === 'minecraft:water' && salted.count === 3 && salted.ingredients.includes(NS + 'sea_salt'), 'dried shrimp: salt and three shrimp boil into three salted shrimp');
+  clearInv(); drops(); const c = place(NS + 'fish_cleaning_board');
+  P.hold(NS + 'dried_shell_shrimp', 1); use(c);
+  const laid = st(c, 'cut');
+  P.hold(NS + 'fishing_knife', 1); use(c);
+  ok(laid === 3 && st(c, 'cut') === 0 && inv('dried_shrimp') === 2 && inv('shrimp_shell') === 1,
+    `dried shrimp: one rub on the board gives 2 dried shrimp and the shells (${inv('dried_shrimp')}, ${inv('shrimp_shell')})`);
 }
 
 // ---------- cleaning board ----------

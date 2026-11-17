@@ -26,7 +26,9 @@ const BLOCK = `${NS}:fish_sauce_jar`;
 const KIND = `${NS}:kind`, STAGE = `${NS}:stage`, LEFT = `${NS}:left`, SALTED = `${NS}:salted`;
 const SEA_SALT = `${NS}:sea_salt`;
 const SALT = new Set([SEA_SALT]);
-const SHRIMP = `${NS}:dried_shrimp`;
+// 1.5.0: shrimp paste is fresh shrimp pounded with salt, as it is made for real: Dried Shrimp no longer goes in.
+const SHRIMP = `${NS}:dried_shrimp`;                     // what a jar filled before 1.5.0 may still hold
+export const PASTE_SHRIMP = new Set([`${NS}:shrimp`, `${NS}:live_shrimp`]);
 const NEED = 4;                      // fish or shrimp per batch
 export const FERMENT_TICKS = 3600;   // v1.6.4: 3 minutes of world time, sealed -> ready
 const now = () => { try { return world.getAbsoluteTime(); } catch { return system.currentTick; } };
@@ -85,6 +87,20 @@ function dropJar(dim, pos, perm) {
   spawnAll(dim, pos, jarContents(s).map(id => new ItemStack(id, 1)));
 }
 
+/** A jar left half filled with Dried Shrimp before 1.5.0: the shrimp come out, the salt stays. True if it did. */
+function returnOldShrimp(block, s) {
+  if (s.stage !== 1 || s.kind !== 2) return false;
+  const fish = s.fish ?? Array(s.left).fill(SHRIMP);
+  const old = fish.filter(id => id === SHRIMP);
+  if (!old.length) return false;
+  spawnAll(block.dimension, block, old.map(id => new ItemStack(id, 1)));
+  const keep = fish.filter(id => id !== SHRIMP);
+  if (keep.length) set(block, { ...s, left: keep.length, fish: keep });
+  else set(block, { ...s, kind: 0, stage: 0, left: 0, fish: undefined });
+  snd(block, "random.pop", 1.2, 0.5);
+  return true;
+}
+
 const jar = {
   onPlayerInteract({ block, player }) {
     if (!player) return;
@@ -98,12 +114,14 @@ const jar = {
       }
       if (!s.salted) return refuse(player, "jar_need_salt");
       if (!held) return refuse(player, "jar_need_fish");
-      const kind = SAUCE_FISH.includes(held) ? 1 : held === SHRIMP ? 2 : 0;
+      if (held === SHRIMP) return refuse(player, "jar_paste_fresh");
+      const kind = SAUCE_FISH.includes(held) ? 1 : PASTE_SHRIMP.has(held) ? 2 : 0;
       if (!kind) return refuse(player, "jar_wrong_fish");
       takeOne(player, slot); set(block, { ...s, kind, stage: 1, left: 1, salted: 1, fish: [held] }); snd(block, "random.splash", 1.4, 0.5); return;
     }
+    if (s.stage === 1 && returnOldShrimp(block, s)) return;      // 1.5.0: a half-filled jar of dried shrimp gives them back
     if (s.stage === 1) {                                          // filling: same kind only
-      const want = s.kind === 1 ? SAUCE_FISH.includes(held) : held === SHRIMP;
+      const want = s.kind === 1 ? SAUCE_FISH.includes(held) : PASTE_SHRIMP.has(held);
       if (!want) return refuse(player, s.kind === 1 ? "jar_more_fish" : "jar_more_shrimp", NEED - s.left);
       takeOne(player, slot);
       const left = s.left + 1;
@@ -127,6 +145,7 @@ const jar = {
     const d = readData("sj", block.dimension, block);
     // v1.5.5: copy a 1.5.4 jar into its record; v1.6.3: and the kind and stage into an older record
     if ((s.left || s.salted || s.stage) && (!d || Number(d.stage ?? -1) !== s.stage || Number(d.kind ?? -1) !== s.kind)) saveJar(block, s);
+    if (returnOldShrimp(block, s)) return;
     if (s.stage !== 2) return;
     if (s.t === undefined) { saveJar(block, { ...s, t: now() - FERMENT_TICKS / 2 }); return; }   // sealed before 1.6.4: half done
     if (fermentDone(s.t, now())) {

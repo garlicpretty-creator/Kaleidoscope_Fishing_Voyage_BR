@@ -1991,5 +1991,24 @@
         ]
       }
     ]
+  },
+  "kaleidoscope_fishing:dried_shell_shrimp": {
+    "index": 55,
+    "first": 3,
+    "cuts": [
+      {
+        "act": "rub",
+        "out": [
+          [
+            "kaleidoscope_fishing:dried_shrimp",
+            2
+          ],
+          [
+            "kaleidoscope_fishing:shrimp_shell",
+            1
+          ]
+        ]
+      }
+    ]
   }
 }

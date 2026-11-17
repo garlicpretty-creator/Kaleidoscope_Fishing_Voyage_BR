@@ -82,6 +82,7 @@
               "kaleidoscope_fishing:skewered_sweetfish",
               "kaleidoscope_fishing:dried_fish",
               "kaleidoscope_fishing:dried_shrimp",
+              "kaleidoscope_fishing:dried_shell_shrimp",
               "kaleidoscope_fishing:seasoned_grouper",
               "kaleidoscope_fishing:seasoned_sea_bream",
               "kaleidoscope_fishing:raw_har_gow",
@@ -110,6 +111,7 @@
               "kaleidoscope_fishing:katsuobushi",
               "kaleidoscope_fishing:bonito_flakes",
               "kaleidoscope_fishing:dashi_bucket",
+              "kaleidoscope_fishing:shrimp_stock_bucket",
               "kaleidoscope_fishing:seasoned_sea_bass",
               "kaleidoscope_fishing:flying_fish_roe",
               "kaleidoscope_fishing:mullet_roe",
@@ -118,7 +120,8 @@
               "kaleidoscope_fishing:karasumi_slices",
               "kaleidoscope_fishing:dried_flying_fish",
               "kaleidoscope_fishing:fish_sauce",
-              "kaleidoscope_fishing:shrimp_paste"
+              "kaleidoscope_fishing:shrimp_paste",
+              "kaleidoscope_fishing:xo_sauce"
             ]
           },
           {
@@ -192,6 +195,8 @@
               "kaleidoscope_fishing:crab_roe_rice",
               "kaleidoscope_fishing:jellyfish_salad",
               "kaleidoscope_fishing:boiled_shrimp",
+              "kaleidoscope_fishing:salted_shrimp",
+              "kaleidoscope_fishing:dried_shrimp_greens",
               "kaleidoscope_fishing:steamed_crab_leg",
               "kaleidoscope_fishing:grilled_crab_leg",
               "kaleidoscope_fishing:blindfish_clear_soup",

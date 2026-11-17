@@ -31,6 +31,7 @@ UNDEFINED_ID kaleidoscope_fishing:river_hut_feature ['river_hut_feature.json', '
 UNDEFINED_ID kaleidoscope_fishing:river_hut_rule ['river_hut_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:roe_paste ['crab_roe_rice.json', 'raw_crab_roe_bun_from_roe.json']
 UNDEFINED_ID kaleidoscope_fishing:salt_from_bucket ['salt_from_bucket.json']
+UNDEFINED_ID kaleidoscope_fishing:shrimp_stock ['generated.js']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring ['starry_spring_feature.json']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring_feature ['starry_spring_feature.json', 'starry_spring_rule.json']
 UNDEFINED_ID kaleidoscope_fishing:starry_spring_rule ['starry_spring_rule.json']

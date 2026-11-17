@@ -1689,5 +1689,43 @@
         1
       ]
     ]
+  },
+  {
+    "id": "kaleidoscope_fishing:salted_shrimp",
+    "nameKey": "kaleidoscope_fishing.name.salted_shrimp",
+    "icon": "textures/items/kfv_salted_shrimp",
+    "method": "stockpot",
+    "count": 3,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.sea_salt",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.name.shrimp",
+        3
+      ]
+    ]
+  },
+  {
+    "id": "kaleidoscope_fishing:dried_shrimp_greens",
+    "nameKey": "kaleidoscope_fishing.name.dried_shrimp_greens",
+    "icon": "textures/items/kfv_dried_shrimp_greens",
+    "method": "wok",
+    "count": 1,
+    "ingredients": [
+      [
+        "kaleidoscope_fishing.name.dried_shrimp",
+        1
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.lettuce",
+        2
+      ],
+      [
+        "kaleidoscope_fishing.ing.kaleidoscope_cookery.oil",
+        1
+      ]
+    ]
   }
 ]

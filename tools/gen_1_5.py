@@ -342,6 +342,172 @@ def shellfish_dishes():
         c.guide_used_by(item, user)
 
 
+def shrimp_head_stock():
+    """Step 5: Shrimp Head Stock, a new stockpot base made the way Fish Stock is: three Shrimp Heads in water.
+    Its bucket, the base and the two liquid layers in the pot are copies of Fish Stock's, tinted shrimp red."""
+    import json, re
+    from PIL import Image
+    import colorsys
+    import pbr
+    def tint(path_in, path_out, liquid_only):
+        im = Image.open(path_in).convert('RGBA'); px = im.load()
+        for y in range(im.height):
+            for x in range(im.width):
+                r, g, b, a = px[x, y]
+                if not a:
+                    continue
+                h, sat, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+                if liquid_only and sat < 0.12:
+                    continue                                  # the bucket's grey metal stays
+                nr, ng, nb = colorsys.hsv_to_rgb(0.035, min(1, max(sat, 0.25) * 1.6 + 0.15), v * 0.97)
+                px[x, y] = (round(nr * 255), round(ng * 255), round(nb * 255), a)
+        im.save(path_out)
+    def clone_json(src, dst, pairs):
+        text = open(src, encoding='utf-8').read()
+        for a_, b_ in pairs:
+            text = text.replace(a_, b_)
+        with open(dst, 'w', encoding='utf-8', newline='\n') as f:
+            f.write(text)
+    BPd, RPd = c.BP, c.RP
+    swap = [('stockpot_fish_stock', 'stockpot_shrimp_stock'), ('fish_stock_bucket', 'shrimp_stock_bucket')]
+    for layer in ('', '_cooking'):
+        clone_json(os.path.join(BPd, 'entities', f'stockpot_fish_stock{layer}.json'), os.path.join(BPd, 'entities', f'stockpot_shrimp_stock{layer}.json'), swap)
+        clone_json(os.path.join(RPd, 'entity', f'stockpot_fish_stock{layer}.entity.json'), os.path.join(RPd, 'entity', f'stockpot_shrimp_stock{layer}.entity.json'), swap)
+        tex = os.path.join(RPd, 'textures', 'entity', f'kfv_stockpot_fish_stock{layer}')
+        out = os.path.join(RPd, 'textures', 'entity', f'kfv_stockpot_shrimp_stock{layer}')
+        tint(tex + '.png', out + '.png', False)
+        clone_json(tex + '.texture_set.json', out + '.texture_set.json', swap)
+        pbr.refresh(out + '.png')
+    rc_path = os.path.join(RPd, 'render_controllers', 'kaleidoscope_fishing_stockpot.render_controllers.json')
+    rc = c.read_json(rc_path)
+    for layer in ('', '_cooking'):
+        rc['render_controllers'][f'controller.render.kaleidoscope_fishing.stockpot_shrimp_stock{layer}'] = \
+            rc['render_controllers'][f'controller.render.kaleidoscope_fishing.stockpot_fish_stock{layer}']
+    c.write_json(rc_path, rc)
+    icon = os.path.join(RPd, 'textures', 'items', 'kfv_shrimp_stock_bucket')
+    tint(os.path.join(RPd, 'textures', 'items', 'kfv_fish_stock_bucket.png'), icon + '.png', True)
+    clone_json(os.path.join(RPd, 'textures', 'items', 'kfv_fish_stock_bucket.texture_set.json'), icon + '.texture_set.json', swap)
+    pbr.refresh(icon + '.png')
+    name = ('Shrimp Head Stock Bucket', '蝦頭高湯桶', '虾头高汤桶')
+    c.item('shrimp_stock_bucket', stack=1, group='ingredients')
+    c.names('shrimp_stock_bucket', *name)
+    c.icon('shrimp_stock_bucket')
+    c.catalog('shrimp_stock_bucket', 'dashi_bucket')
+    bases = [b for b in c.data('STOCKPOT_BASES') if b['base'] != NS + 'shrimp_stock']
+    bases.append({'filled': NS + 'shrimp_stock_bucket', 'base': NS + 'shrimp_stock', 'empty': 'minecraft:bucket',
+                  'visualBase': NS + 'stockpot_shrimp_stock', 'visualCooking': NS + 'stockpot_shrimp_stock_cooking',
+                  'visualFinished': NS + 'stockpot_shrimp_stock_cooking'})
+    c.save('STOCKPOT_BASES', bases)
+    c._baseline(NS + 'shrimp_stock', 'generated.js')            # a stockpot base id, not an item (as fish_stock and dashi)
+    c.kc_recipe('stockpot_exact', {'id': NS + 'stockpot/shrimp_stock', 'ingredients': [NS + 'shrimp_head'] * 3, 'result': NS + 'shrimp_stock_bucket',
+                                   'count': 1, 'time': 300, 'base': 'minecraft:water', 'carrier': 'minecraft:bucket', 'finishedKind': 'default'})
+    c.guide('shrimp_stock_bucket', 'ingredients', (
+        'Three Shrimp Heads boiled in water in the stockpot. Pour it into a stockpot as a soup base; Shrimp Noodle Soup and Seafood Congee take it in place of Fish Stock.',
+        '三個蝦頭在湯鍋裡加水熬成。倒進湯鍋當湯底；鮮蝦湯麵、海鮮粥可以用它代替魚高湯。',
+        '三个虾头在汤锅里加水熬成。倒进汤锅当汤底；鲜虾汤面、海鲜粥可以用它代替鱼高汤。'), name, stack=1,
+        recipes=[{'method': 'Stockpot', 'ingredients': [NS + 'shrimp_head'] * 3, 'count': 1, 'time': 300, 'result': NS + 'shrimp_stock_bucket'}])
+    c.guide_used_by('shrimp_head', 'shrimp_stock_bucket')
+    # dishes that take it in place of Fish Stock: the same recipe again on this base
+    table = c.data('KC_RECIPES')
+    for rid in ('stockpot/seafood_congee', 'stockpot/shrimp_noodle_soup'):
+        src = next(r for r in table if r['recipe']['id'] == NS + rid)
+        twin = json.loads(json.dumps(src))
+        twin['recipe']['id'] = NS + rid + '_shrimp_stock'
+        twin['recipe']['base'] = NS + 'shrimp_stock'
+        table = [r for r in table if r['recipe']['id'] != twin['recipe']['id']] + [twin]
+    c.save('KC_RECIPES', table)
+
+
+def dried_shrimp():
+    """Step 5: Dried Shrimp the real way, the old shortcut gone (plan 5.2, 5.3).
+    salt + 3 shrimp in water -> 3 Salted Shrimp; on the bamboo tray -> Dried Shell-on Shrimp; on the Fish Cleaning
+    Board one rub -> 2 Dried Shrimp and Shrimp Shells. The tray no longer dries raw shrimp; the jar's shrimp paste
+    takes fresh shrimp (blocks/fishSauceJar.js)."""
+    fresh = [NS + 'shrimp', NS + 'live_shrimp']
+    c.dish('salted_shrimp', ('Salted Shrimp', '鹽水蝦', '盐水虾'), 3, 0.4,
+           [('stockpot', ['sea_salt', fresh, fresh, fresh], {'count': 3, 'time': 200})], bowl=False, after='boiled_shrimp',
+           text=('Shrimp boiled in salted water: a small dish as it is, and the first step to Dried Shrimp. Dry it on a bamboo tray.',
+                 '用鹽水煮熟的蝦：本身是一道小菜，也是做蝦米的第一步。放上竹匾曬乾。',
+                 '用盐水煮熟的虾：本身是一道小菜，也是做虾米的第一步。放上竹匾晒干。'))
+    name = ('Dried Shell-on Shrimp', '帶殼蝦乾', '带壳虾干')
+    c.item('dried_shell_shrimp', stack=64, group='ingredients')
+    c.names('dried_shell_shrimp', *name)
+    c.icon('dried_shell_shrimp')
+    c.catalog('dried_shell_shrimp', 'dried_shrimp')
+    table = [r for r in c.data('KC_RECIPES') if r['recipe']['id'] != NS + 'tray/dried_shrimp']
+    c.save('KC_RECIPES', table)
+    c.kc_recipe('bamboo_tray', {'id': NS + 'tray/dried_shell_shrimp', 'input': NS + 'salted_shrimp', 'result': NS + 'dried_shell_shrimp',
+                                'process': 'dry', 'duration': 1200})
+    c.guide('dried_shell_shrimp', 'ingredients', (
+        'Salted Shrimp dried on a bamboo tray. Rub it once on the Fish Cleaning Board with a knife: the shells come off and leave 2 Dried Shrimp.',
+        '鹽水蝦放竹匾曬乾而成。放上魚案板用刀搓一下，殼掉下來，留下 2 份蝦米。', '盐水虾放竹匾晒干而成。放上鱼案板用刀搓一下，壳掉下来，留下 2 份虾米。'),
+        name, stack=64, recipes=[{'method': 'Bamboo Tray', 'ingredients': [NS + 'salted_shrimp'], 'count': 1, 'time': 1200, 'result': NS + 'dried_shell_shrimp'}])
+    c.guide_used_by('salted_shrimp', 'dried_shell_shrimp')
+    # the board: one rub
+    board = c.data('CLEANING')
+    board[NS + 'dried_shell_shrimp'] = {'index': 55, 'first': 3, 'cuts': [
+        {'act': 'rub', 'out': [[NS + 'dried_shrimp', 2], [NS + 'shrimp_shell', 1]]}]}
+    c.save('CLEANING', board)
+    # the guidebook's Dried Shrimp page: the new way only
+    g = c.data('GUIDEBOOK_JSON')
+    for e in g['entries']:
+        if e['id'] == NS + 'dried_shrimp':
+            e.pop('recipes', None)                       # board and tray steps are told in words, as the drying rack's are
+            e['mechanicsByLocale'] = {
+                'en_US': ['Made in three steps: boil Shrimp with Salt into Salted Shrimp (stockpot), dry it on a bamboo tray, then rub the Dried Shell-on Shrimp on the Fish Cleaning Board.'],
+                'zh_TW': ['分三步做：蝦加鹽在湯鍋煮成鹽水蝦，放竹匾曬成帶殼蝦乾，再放上魚案板搓掉殼。'],
+                'zh_CN': ['分三步做：虾加盐在汤锅煮成盐水虾，放竹匾晒成带壳虾干，再放上鱼案板搓掉壳。']}
+            e['mechanics'] = list(e['mechanicsByLocale']['en_US'])
+        if e['id'] == NS + 'shrimp':
+            e['usedBy'] = [u for u in e.get('usedBy', []) if u != NS + 'dried_shrimp']
+    c.save('GUIDEBOOK_JSON', g)
+    # the jar's own words: shrimp paste is made from fresh shrimp now
+    for pack in (c.BP, c.RP):
+        for code, old, new in [('en_US', '; or 4 Dried Shrimp§r', '; or 4 fresh Shrimp (shrimp paste)§r'),
+                               ('zh_TW', '；或 4 份蝦米§r', '；或 4 隻新鮮的蝦（做蝦醬）§r'), ('zh_CN', '；或 4 份虾米§r', '；或 4 只新鲜的虾（做虾酱）§r')]:
+            path = os.path.join(pack, 'texts', f'{code}.lang')
+            text = open(path, encoding='utf-8').read()
+            if old in text:
+                with open(path, 'w', encoding='utf-8', newline='\n') as f:
+                    f.write(text.replace(old, new))
+    g = c.data('GUIDEBOOK_JSON')
+    words = {
+        NS + 'fish_sauce_jar': {
+            'en_US': 'Rub in Salt first, then add 4 small fish (fish sauce) or 4 fresh Shrimp or Live Shrimp (shrimp paste; Dried Shrimp no longer goes in). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each.',
+            'zh_TW': '先放鹽，再放 4 條小魚（做魚露）或 4 隻新鮮的蝦或活蝦（做蝦醬；蝦米不能再用）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。',
+            'zh_CN': '先放盐，再放 4 条小鱼（做鱼露）或 4 只新鲜的虾或活虾（做虾酱；虾米不能再用）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。'},
+        NS + 'shrimp_paste': {
+            'en_US': 'Scooped with a bowl from a Fish Sauce Jar of fresh shrimp pounded with salt.',
+            'zh_TW': '用碗從醃了新鮮蝦的魚露甕舀出。', 'zh_CN': '用碗从腌了新鲜虾的鱼露瓮舀出。'},
+    }
+    for e in g['entries']:
+        if e['id'] in words:
+            e['mechanicsByLocale'] = {k: [v] for k, v in words[e['id']].items()}
+            e['mechanics'] = [words[e['id']]['en_US']]
+        if e['id'] == NS + 'dried_shrimp':
+            e['usedBy'] = [u for u in e.get('usedBy', []) if u != NS + 'shrimp_paste']
+    c.save('GUIDEBOOK_JSON', g)
+    # XO sauce and a greens dish
+    name = ('XO Sauce', 'XO 醬', 'XO 酱')
+    c.item('xo_sauce', stack=16, group='ingredients')
+    c.names('xo_sauce', *name)
+    c.icon('xo_sauce')
+    c.catalog('xo_sauce', 'shrimp_paste')
+    ing = ['dried_shrimp', 'karasumi_slices', 'kaleidoscope_cookery:red_chili', 'kaleidoscope_cookery:oil']
+    recipe = c.shapeless('xo_sauce', ing)
+    c.guide('xo_sauce', 'ingredients', (
+        'A jar of chili sauce rich with Dried Shrimp and karasumi. Goes into a wok dish in place of salt or fish sauce, as in Salt and Pepper Shrimp.',
+        '滿是蝦米和烏魚子的辣醬。可以代替鹽或魚露放進炒鍋料理，例如椒鹽蝦。', '满是虾米和乌鱼子的辣酱。可以代替盐或鱼露放进炒锅料理，例如椒盐虾。'),
+        name, stack=16, recipes=[recipe])
+    for i in ('dried_shrimp', 'karasumi_slices'):
+        c.guide_used_by(i, 'xo_sauce')
+    c.kc_alternative('wok/salt_pepper_shrimp', 'sea_salt', 'xo_sauce')
+    c.kc_alternative('wok/salt_pepper_shrimp', 'shrimp', 'shrimp_meat')
+    c.dish('dried_shrimp_greens', ('Greens with Dried Shrimp', '蝦米炒青菜', '虾米炒青菜'), 6, 0.6,
+           [('wok', ['dried_shrimp', 'kaleidoscope_cookery:lettuce', 'kaleidoscope_cookery:lettuce', 'kaleidoscope_cookery:oil'], None)],
+           bowl=True, after='salted_shrimp')
+
+
 if __name__ == '__main__':
     legends()
     creel()
@@ -352,4 +518,6 @@ if __name__ == '__main__':
     cleaning_format()
     shellfish_board()
     shellfish_dishes()
+    shrimp_head_stock()
+    dried_shrimp()
     print('1.5.0 content written; now run: python tools/build.py build')

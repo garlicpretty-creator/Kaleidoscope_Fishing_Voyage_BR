@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_stockpot_shrimp_stock_cooking",
+    "metalness_emissive_roughness": "kfv_stockpot_shrimp_stock_cooking_mer",
+    "heightmap": "kfv_stockpot_shrimp_stock_cooking_height"
+  }
+}

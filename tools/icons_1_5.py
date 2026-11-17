@@ -96,7 +96,8 @@ def build():
 
 FINISHED = ['shrimp_meat', 'shrimp_shell', 'crab_meat', 'crab_roe', 'crab_shell', 'jellyfish_skin',
             'stir_fried_shrimp', 'crab_congee', 'shrimp_noodle_soup', 'crab_roe_rice', 'jellyfish_salad']
-GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg']
+GENERATED = ['lobster_tomalley', 'crab_leg', 'boiled_shrimp', 'steamed_crab_leg', 'grilled_crab_leg',
+             'salted_shrimp', 'dried_shell_shrimp', 'xo_sauce', 'dried_shrimp_greens']
 
 
 def hard(im):

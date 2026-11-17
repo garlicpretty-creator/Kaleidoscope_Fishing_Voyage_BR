@@ -283,11 +283,11 @@
     "kaleidoscope_fishing:salt_pepper_shrimp",
     "kaleidoscope_fishing:shrimp_scrambled_eggs",
     "kaleidoscope_fishing:seafood_congee",
-    "kaleidoscope_fishing:dried_shrimp",
     "kaleidoscope_fishing:seafood_chow_mein",
     "kaleidoscope_fishing:paella",
     "kaleidoscope_fishing:seafood_hot_pot",
-    "kaleidoscope_fishing:raw_har_gow"
+    "kaleidoscope_fishing:raw_har_gow",
+    "kaleidoscope_fishing:salted_shrimp"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -848,7 +848,8 @@
     "kaleidoscope_fishing:grilled_fish_plank",
     "kaleidoscope_fishing:blindfish_clear_soup",
     "kaleidoscope_fishing:salted_mullet_roe",
-    "kaleidoscope_fishing:fish_sauce_jar"
+    "kaleidoscope_fishing:fish_sauce_jar",
+    "kaleidoscope_fishing:salted_shrimp"
    ],
    "mechanicsByLocale": {
     "en_US": [
@@ -1016,20 +1017,25 @@
     "nutrition": 1,
     "saturation": 0.4
    },
-   "recipes": [
-    {
-     "method": "Bamboo Tray",
-     "ingredients": [
-      "kaleidoscope_fishing:shrimp"
-     ],
-     "count": 1,
-     "time": 1200,
-     "result": "kaleidoscope_fishing:dried_shrimp"
-    }
-   ],
    "usedBy": [
     "kaleidoscope_fishing:dried_shrimp_congee",
-    "kaleidoscope_fishing:fish_sauce_jar"
+    "kaleidoscope_fishing:fish_sauce_jar",
+    "kaleidoscope_fishing:xo_sauce",
+    "kaleidoscope_fishing:dried_shrimp_greens"
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Made in three steps: boil Shrimp with Salt into Salted Shrimp (stockpot), dry it on a bamboo tray, then rub the Dried Shell-on Shrimp on the Fish Cleaning Board."
+    ],
+    "zh_TW": [
+     "分三步做：蝦加鹽在湯鍋煮成鹽水蝦，放竹匾曬成帶殼蝦乾，再放上魚案板搓掉殼。"
+    ],
+    "zh_CN": [
+     "分三步做：虾加盐在汤锅煮成盐水虾，放竹匾晒成带壳虾干，再放上鱼案板搓掉壳。"
+    ]
+   },
+   "mechanics": [
+    "Made in three steps: boil Shrimp with Salt into Salted Shrimp (stockpot), dry it on a bamboo tray, then rub the Dried Shell-on Shrimp on the Fish Cleaning Board."
    ]
   },
   {
@@ -6585,7 +6591,8 @@
     }
    ],
    "usedBy": [
-    "kaleidoscope_fishing:karasumi_fried_rice"
+    "kaleidoscope_fishing:karasumi_fried_rice",
+    "kaleidoscope_fishing:xo_sauce"
    ]
   },
   {
@@ -6662,17 +6669,17 @@
    "icon": "textures/items/kfv_shrimp_paste",
    "mechanicsByLocale": {
     "en_US": [
-     "Scooped with a bowl from a Fish Sauce Jar of salted dried shrimp."
+     "Scooped with a bowl from a Fish Sauce Jar of fresh shrimp pounded with salt."
     ],
     "zh_TW": [
-     "用碗從醃蝦米的魚露甕舀出。"
+     "用碗從醃了新鮮蝦的魚露甕舀出。"
     ],
     "zh_CN": [
-     "用碗从腌虾米的鱼露瓮舀出。"
+     "用碗从腌了新鲜虾的鱼露瓮舀出。"
     ]
    },
    "mechanics": [
-    "Scooped with a bowl from a Fish Sauce Jar of salted dried shrimp."
+    "Scooped with a bowl from a Fish Sauce Jar of fresh shrimp pounded with salt."
    ],
    "usedBy": [
     "kaleidoscope_fishing:shrimp_paste_fried_rice"
@@ -6706,18 +6713,18 @@
     }
    ],
    "mechanicsByLocale": {
+    "en_US": [
+     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 fresh Shrimp or Live Shrimp (shrimp paste; Dried Shrimp no longer goes in). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+    ],
     "zh_TW": [
-     "先放鹽，再放 4 條小魚（做魚露）或 4 份蝦米（做蝦醬）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
+     "先放鹽，再放 4 條小魚（做魚露）或 4 隻新鮮的蝦或活蝦（做蝦醬；蝦米不能再用）。可以用的小魚：小黃魚、公魚、香魚、秋刀魚、鯖魚、泥鰍、生鱈魚，可以混著放。甕會自己封起來發酵約 3 分鐘；蓋子打開後用玻璃瓶取魚露、用碗舀蝦醬，各 4 份。"
     ],
     "zh_CN": [
-     "先放盐，再放 4 条小鱼（做鱼露）或 4 份虾米（做虾酱）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
-    ],
-    "en_US": [
-     "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+     "先放盐，再放 4 条小鱼（做鱼露）或 4 只新鲜的虾或活虾（做虾酱；虾米不能再用）。可以用的小鱼：小黄鱼、公鱼、香鱼、秋刀鱼、鲭鱼、泥鳅、生鳕鱼，可以混着放。瓮会自己封起来发酵约 3 分钟；盖子打开后用玻璃瓶取鱼露、用碗舀虾酱，各 4 份。"
     ]
    },
    "mechanics": [
-    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 Dried Shrimp (shrimp paste). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
+    "Rub in Salt first, then add 4 small fish (fish sauce) or 4 fresh Shrimp or Live Shrimp (shrimp paste; Dried Shrimp no longer goes in). Small fish: Yellow Croaker, Pond Smelt, Sweetfish, Pacific Saury, Mackerel, Loach, Raw Cod; they can be mixed. It seals itself and ferments for about 3 minutes; when the lid is off, draw fish sauce with glass bottles or scoop shrimp paste with bowls: 4 each."
    ]
   },
   {
@@ -7525,6 +7532,9 @@
    },
    "mechanics": [
     "Taken off a shrimp, crayfish or lobster with the first cut on the Fish Cleaning Board. Boil three into Shrimp Head Stock; a bait in the Shrimp Trap."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:shrimp_stock_bucket"
    ]
   },
   {
@@ -7980,6 +7990,185 @@
      "result": "kaleidoscope_fishing:grilled_crab_leg"
     }
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:shrimp_stock_bucket",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 1,
+   "icon": "textures/items/kfv_shrimp_stock_bucket",
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:shrimp_head",
+      "kaleidoscope_fishing:shrimp_head",
+      "kaleidoscope_fishing:shrimp_head"
+     ],
+     "count": 1,
+     "time": 300,
+     "result": "kaleidoscope_fishing:shrimp_stock_bucket"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Three Shrimp Heads boiled in water in the stockpot. Pour it into a stockpot as a soup base; Shrimp Noodle Soup and Seafood Congee take it in place of Fish Stock."
+    ],
+    "zh_TW": [
+     "三個蝦頭在湯鍋裡加水熬成。倒進湯鍋當湯底；鮮蝦湯麵、海鮮粥可以用它代替魚高湯。"
+    ],
+    "zh_CN": [
+     "三个虾头在汤锅里加水熬成。倒进汤锅当汤底；鲜虾汤面、海鲜粥可以用它代替鱼高汤。"
+    ]
+   },
+   "mechanics": [
+    "Three Shrimp Heads boiled in water in the stockpot. Pour it into a stockpot as a soup base; Shrimp Noodle Soup and Seafood Congee take it in place of Fish Stock."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:salted_shrimp",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_salted_shrimp",
+   "food": {
+    "nutrition": 3,
+    "saturation": 0.4
+   },
+   "recipes": [
+    {
+     "method": "Stockpot",
+     "ingredients": [
+      "kaleidoscope_fishing:sea_salt",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp",
+      "kaleidoscope_fishing:shrimp"
+     ],
+     "count": 3,
+     "time": 200,
+     "result": "kaleidoscope_fishing:salted_shrimp"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Shrimp boiled in salted water: a small dish as it is, and the first step to Dried Shrimp. Dry it on a bamboo tray."
+    ],
+    "zh_TW": [
+     "用鹽水煮熟的蝦：本身是一道小菜，也是做蝦米的第一步。放上竹匾曬乾。"
+    ],
+    "zh_CN": [
+     "用盐水煮熟的虾：本身是一道小菜，也是做虾米的第一步。放上竹匾晒干。"
+    ]
+   },
+   "mechanics": [
+    "Shrimp boiled in salted water: a small dish as it is, and the first step to Dried Shrimp. Dry it on a bamboo tray."
+   ],
+   "usedBy": [
+    "kaleidoscope_fishing:dried_shell_shrimp"
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dried_shell_shrimp",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_dried_shell_shrimp",
+   "recipes": [
+    {
+     "method": "Bamboo Tray",
+     "ingredients": [
+      "kaleidoscope_fishing:salted_shrimp"
+     ],
+     "count": 1,
+     "time": 1200,
+     "result": "kaleidoscope_fishing:dried_shell_shrimp"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Salted Shrimp dried on a bamboo tray. Rub it once on the Fish Cleaning Board with a knife: the shells come off and leave 2 Dried Shrimp."
+    ],
+    "zh_TW": [
+     "鹽水蝦放竹匾曬乾而成。放上魚案板用刀搓一下，殼掉下來，留下 2 份蝦米。"
+    ],
+    "zh_CN": [
+     "盐水虾放竹匾晒干而成。放上鱼案板用刀搓一下，壳掉下来，留下 2 份虾米。"
+    ]
+   },
+   "mechanics": [
+    "Salted Shrimp dried on a bamboo tray. Rub it once on the Fish Cleaning Board with a knife: the shells come off and leave 2 Dried Shrimp."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:xo_sauce",
+   "category": "ingredients",
+   "kinds": [
+    "item"
+   ],
+   "stack": 16,
+   "icon": "textures/items/kfv_xo_sauce",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_shrimp",
+      "kaleidoscope_fishing:karasumi_slices",
+      "kaleidoscope_cookery:red_chili",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:xo_sauce"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A jar of chili sauce rich with Dried Shrimp and karasumi. Goes into a wok dish in place of salt or fish sauce, as in Salt and Pepper Shrimp."
+    ],
+    "zh_TW": [
+     "滿是蝦米和烏魚子的辣醬。可以代替鹽或魚露放進炒鍋料理，例如椒鹽蝦。"
+    ],
+    "zh_CN": [
+     "满是虾米和乌鱼子的辣酱。可以代替盐或鱼露放进炒锅料理，例如椒盐虾。"
+    ]
+   },
+   "mechanics": [
+    "A jar of chili sauce rich with Dried Shrimp and karasumi. Goes into a wok dish in place of salt or fish sauce, as in Salt and Pepper Shrimp."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:dried_shrimp_greens",
+   "category": "dishes",
+   "kinds": [
+    "item"
+   ],
+   "stack": 64,
+   "icon": "textures/items/kfv_dried_shrimp_greens",
+   "food": {
+    "nutrition": 6,
+    "saturation": 0.6,
+    "returns": "minecraft:bowl"
+   },
+   "recipes": [
+    {
+     "method": "Wok",
+     "ingredients": [
+      "kaleidoscope_fishing:dried_shrimp",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:lettuce",
+      "kaleidoscope_cookery:oil"
+     ],
+     "count": 1,
+     "time": 200,
+     "result": "kaleidoscope_fishing:dried_shrimp_greens"
+    }
+   ]
   }
  ],
  "names": {
@@ -8289,7 +8478,12 @@
    "kaleidoscope_fishing:jellyfish_salad": "Jellyfish Salad",
    "kaleidoscope_fishing:boiled_shrimp": "Boiled Shrimp",
    "kaleidoscope_fishing:steamed_crab_leg": "Steamed Crab Legs",
-   "kaleidoscope_fishing:grilled_crab_leg": "Grilled Crab Legs"
+   "kaleidoscope_fishing:grilled_crab_leg": "Grilled Crab Legs",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "Shrimp Head Stock Bucket",
+   "kaleidoscope_fishing:salted_shrimp": "Salted Shrimp",
+   "kaleidoscope_fishing:dried_shell_shrimp": "Dried Shell-on Shrimp",
+   "kaleidoscope_fishing:xo_sauce": "XO Sauce",
+   "kaleidoscope_fishing:dried_shrimp_greens": "Greens with Dried Shrimp"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -8597,7 +8791,12 @@
    "kaleidoscope_fishing:jellyfish_salad": "涼拌海蜇皮",
    "kaleidoscope_fishing:boiled_shrimp": "白灼蝦",
    "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹腳",
-   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹腳"
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹腳",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "蝦頭高湯桶",
+   "kaleidoscope_fishing:salted_shrimp": "鹽水蝦",
+   "kaleidoscope_fishing:dried_shell_shrimp": "帶殼蝦乾",
+   "kaleidoscope_fishing:xo_sauce": "XO 醬",
+   "kaleidoscope_fishing:dried_shrimp_greens": "蝦米炒青菜"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -8905,7 +9104,12 @@
    "kaleidoscope_fishing:jellyfish_salad": "凉拌海蜇皮",
    "kaleidoscope_fishing:boiled_shrimp": "白灼虾",
    "kaleidoscope_fishing:steamed_crab_leg": "清蒸蟹脚",
-   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹脚"
+   "kaleidoscope_fishing:grilled_crab_leg": "炭烤蟹脚",
+   "kaleidoscope_fishing:shrimp_stock_bucket": "虾头高汤桶",
+   "kaleidoscope_fishing:salted_shrimp": "盐水虾",
+   "kaleidoscope_fishing:dried_shell_shrimp": "带壳虾干",
+   "kaleidoscope_fishing:xo_sauce": "XO 酱",
+   "kaleidoscope_fishing:dried_shrimp_greens": "虾米炒青菜"
   }
  },
  "text": {

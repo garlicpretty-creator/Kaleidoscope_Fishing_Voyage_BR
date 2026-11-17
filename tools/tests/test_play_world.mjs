@@ -127,7 +127,7 @@ const spot = () => { nx += 12; return nx; };
 const comps = await boot();
 setComps(comps);
 const G = await importScript('data/generated.js');
-const { FEASTS, FOOD_EFFECTS, KC_RECIPES, GUIDEBOOK_JSON, TANK_FISH, WANT_LIST, MERCHANT_PRICES, MERCHANT_BUDGET, RECIPE_HINTS, JOURNAL_SPECIES, CLEANING, BASKET_ITEMS } = G;
+const { STOCKPOT_BASES, FEASTS, FOOD_EFFECTS, KC_RECIPES, GUIDEBOOK_JSON, TANK_FISH, WANT_LIST, MERCHANT_PRICES, MERCHANT_BUDGET, RECIPE_HINTS, JOURNAL_SPECIES, CLEANING, BASKET_ITEMS } = G;
 const startupMessages = log.messages.length;
 P.location = { x: 0.5, y: 65, z: 0.5 };
 
@@ -146,7 +146,7 @@ P.location = { x: 0.5, y: 65, z: 0.5 };
   const longest = Math.max(...sent.slice(n0).map(e => e.msg.length));
   ok(longest <= 2048, `bridge: every registration message is at most 2048 characters (longest ${longest})`);
   ok(new Set(parsed.map(p => p?.kind + '|' + p?.recipe?.id)).size === recs.length, 'bridge: no recipe is registered twice (kind + id unique)');
-  ok(bases.length === 2 && bases.every(e => { const p = JSON.parse(e.msg); return p.filled && p.base && p.empty && p.visualBase; }), `bridge: both stockpot bases (fish stock, dashi) registered with visuals (${bases.length})`);
+  ok(bases.length === STOCKPOT_BASES.length && bases.length >= 3 && bases.every(e => { const p = JSON.parse(e.msg); return p.filled && p.base && p.empty && p.visualBase; }), `bridge: every stockpot base (fish stock, dashi, 1.5.0 shrimp head stock) registered with visuals (${bases.length})`);
   const n1 = sent.length;
   fire('system.afterEvents.scriptEventReceive', { id: 'kaleidoscope_cookery:api_ready', message: JSON.stringify({ api: 1, capabilities: caps }) });
   ok(sent.length === n1, 'bridge: a second api_ready does not register again');

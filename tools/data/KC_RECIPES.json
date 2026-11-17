@@ -91,12 +91,19 @@
     "recipe": {
       "id": "kaleidoscope_fishing:wok/salt_pepper_shrimp",
       "ingredients": [
-        "kaleidoscope_fishing:shrimp",
-        "kaleidoscope_fishing:shrimp",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
         "kaleidoscope_cookery:red_chili",
         [
           "kaleidoscope_fishing:sea_salt",
-          "kaleidoscope_fishing:fish_sauce"
+          "kaleidoscope_fishing:fish_sauce",
+          "kaleidoscope_fishing:xo_sauce"
         ]
       ],
       "result": "kaleidoscope_fishing:salt_pepper_shrimp",
@@ -356,16 +363,6 @@
       "result": "kaleidoscope_fishing:dried_fish",
       "process": "dry",
       "duration": 1800
-    }
-  },
-  {
-    "kind": "bamboo_tray",
-    "recipe": {
-      "id": "kaleidoscope_fishing:tray/dried_shrimp",
-      "input": "kaleidoscope_fishing:shrimp",
-      "result": "kaleidoscope_fishing:dried_shrimp",
-      "process": "dry",
-      "duration": 1200
     }
   },
   {
@@ -1292,6 +1289,113 @@
       "base": "kaleidoscope_fishing:dashi",
       "carrier": "minecraft:bowl",
       "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/shrimp_stock",
+      "ingredients": [
+        "kaleidoscope_fishing:shrimp_head",
+        "kaleidoscope_fishing:shrimp_head",
+        "kaleidoscope_fishing:shrimp_head"
+      ],
+      "result": "kaleidoscope_fishing:shrimp_stock_bucket",
+      "count": 1,
+      "time": 300,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bucket",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/seafood_congee_shrimp_stock",
+      "ingredients": [
+        "kaleidoscope_cookery:rice",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:shrimp_meat"
+        ],
+        "kaleidoscope_fishing:white_fish_fillet"
+      ],
+      "result": "kaleidoscope_fishing:seafood_congee",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:shrimp_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/shrimp_noodle_soup_shrimp_stock",
+      "ingredients": [
+        "kaleidoscope_cookery:raw_noodles",
+        "kaleidoscope_fishing:shrimp_meat",
+        "kaleidoscope_fishing:shrimp_shell"
+      ],
+      "result": "kaleidoscope_fishing:shrimp_noodle_soup",
+      "count": 1,
+      "time": 300,
+      "base": "kaleidoscope_fishing:shrimp_stock",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "stockpot_exact",
+    "recipe": {
+      "id": "kaleidoscope_fishing:stockpot/salted_shrimp",
+      "ingredients": [
+        "kaleidoscope_fishing:sea_salt",
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:live_shrimp"
+        ],
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:live_shrimp"
+        ],
+        [
+          "kaleidoscope_fishing:shrimp",
+          "kaleidoscope_fishing:live_shrimp"
+        ]
+      ],
+      "result": "kaleidoscope_fishing:salted_shrimp",
+      "count": 3,
+      "time": 200,
+      "base": "minecraft:water",
+      "carrier": "minecraft:bowl",
+      "finishedKind": "default"
+    }
+  },
+  {
+    "kind": "bamboo_tray",
+    "recipe": {
+      "id": "kaleidoscope_fishing:tray/dried_shell_shrimp",
+      "input": "kaleidoscope_fishing:salted_shrimp",
+      "result": "kaleidoscope_fishing:dried_shell_shrimp",
+      "process": "dry",
+      "duration": 1200
+    }
+  },
+  {
+    "kind": "wok",
+    "recipe": {
+      "id": "kaleidoscope_fishing:wok/dried_shrimp_greens",
+      "ingredients": [
+        "kaleidoscope_fishing:dried_shrimp",
+        "kaleidoscope_cookery:lettuce",
+        "kaleidoscope_cookery:lettuce",
+        "kaleidoscope_cookery:oil"
+      ],
+      "result": "kaleidoscope_fishing:dried_shrimp_greens",
+      "count": 1,
+      "carrier": "minecraft:bowl",
+      "time": 200
     }
   }
 ]

@@ -736,6 +736,21 @@
     },
     "kfv_grilled_crab_leg": {
       "textures": "textures/items/kfv_grilled_crab_leg"
+    },
+    "kfv_shrimp_stock_bucket": {
+      "textures": "textures/items/kfv_shrimp_stock_bucket"
+    },
+    "kfv_salted_shrimp": {
+      "textures": "textures/items/kfv_salted_shrimp"
+    },
+    "kfv_dried_shell_shrimp": {
+      "textures": "textures/items/kfv_dried_shell_shrimp"
+    },
+    "kfv_xo_sauce": {
+      "textures": "textures/items/kfv_xo_sauce"
+    },
+    "kfv_dried_shrimp_greens": {
+      "textures": "textures/items/kfv_dried_shrimp_greens"
     }
   }
 }
