@@ -235,7 +235,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | --- | --- | --- |
 | 森羅物語：草本 `kaleidoscope_herbal` | `heat_register`（需要 `external_heat`） | 39 道漁歌料理有寒熱值：螃蟹、生魚片、海苔偏寒；蝦、鰻魚、炸物、辣菜、火鍋、下界料理偏熱 |
 | 森羅物語：樂牧 `kaleidoscope_ranching` | `register_feed`（需要 `register_feed`） | 魚粉（混合飼料，2 份）、魚乾（穀物類，1 份）可以放進飼槽；蝦米是補鈣飼料（需要 `feed_1_1`） |
-| 森羅物語：豐收 `kaleidoscope_harvest` | `api_ping`；1.0.0 不回應，所以改看它的物品在不在 | 有豐收的物品時，7 道用豐收作物的漁歌料理才會登記到森羅廚房：薑絲蛤蜊湯、蔥燒魚、蒜蓉蒸蝦、檸檬魚、黃瓜拌海蜇、花生小魚乾、白蘿蔔魚丸湯。豐收以後若加上 `api_ready`，漁歌也會記住 |
+| 森羅物語：豐收 `kaleidoscope_harvest` | `api_ping`；豐收 1.0.0 不回應，所以也看它的物品在不在。之後的豐收會回 `api_ready`，漁歌會記住 | 有豐收的物品時，7 道用豐收作物的漁歌料理才會登記到森羅廚房：薑絲蛤蜊湯、蔥燒魚、蒜蓉蒸蝦、檸檬魚、黃瓜拌海蜇、花生小魚乾、白蘿蔔魚丸湯 |
 
 漁歌另外會聽：
 
@@ -243,6 +243,14 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | --- | --- | --- |
 | `kaleidoscope_cookery:api_ready` / `guidebook_ready` | 森羅廚房 | 註冊配方與湯底；發布圖鑑的漁歌分頁 |
 | `aww:evt` 的 `autofed` | A Witch Way | 背包自動餵食漁歌料理時，照樣給料理的效果 |
+
+其他附加包也會主動找漁歌：
+
+| 附加包 | 送給漁歌 | 效果 |
+| --- | --- | --- |
+| 樂牧 | `register_bait` | 雞胗、豬肝、絞肉、乳酪片當魚餌 |
+| 豐收（1.0.0 之後） | `register_bait`、`register_pond_feed` | 玉米種子、豆渣當魚餌；豆渣、大豆、玉米種子餵魚池 |
+| 草本（1.1.0 之後） | 不註冊，只聽 `evt` 的 `sky` | 流星雨、極光之夜草本作物生長兩倍 |
 
 ## 給草本、樂牧、豐收的對照
 
@@ -283,3 +291,14 @@ system.afterEvents.scriptEventReceive.subscribe(ev => {
 
 system.runTimeout(() => system.sendScriptEvent("kaleidoscope_fishing:api_ping", ME), 20);
 ```
+## 和 burnt-tea-dev 的包握手（下單了、煙火）
+
+這兩個包沒有自己的 `api_ping`，但收註冊。我們載入 20 tick 後主動送，沒裝就沒人聽、什麼都不發生。程式在 `api/burntTea.js`，要送的清單 `data/burntTeaCatalog.js` 由 `tools/gen_burnt_tea.mjs` 從本包的物品、燻爐配方與 zh_TW 語言檔產生（不要手改；測試會檢查它是否過期）。
+
+| 對方 | 送出 | 效果 |
+| --- | --- | --- |
+| 下單了 Order To Cook | `ordertocook:food_catalog_v1`（收到 `food_catalog_request_v1` 時重送） | 料理用中文名上餐廳菜單；杯裝、瓶裝的算飲品。生食材、漁獲、食材分類、飢餓值不到 3 的不上菜單 |
+| 同上 | `ordertocook:smoking_recipes_v1`（回應 `request_smoking_recipes_v1`） | 本包的燻爐配方可以在下單了的爐子上做；目錄名用 `main`，會取代下單了發行時替我們內建的那份 |
+| 煙火 Grilling | `kaleidoscope_grilling:register_smoking`，一組一則 | 神秘烤串上的生肉、生魚烤好後變成熟的那一樣，和 Java 版煙火查燻製配方一樣 |
+
+當兩個倉庫放在本倉庫旁邊時，測試會直接用下單了與煙火自己的程式碼驗證我們的訊息都被接受。

@@ -58,6 +58,7 @@ if node:
     run('tests/test_scripts.mjs', [node, '--import', './tools/tests/mock/hooks.mjs', 'tools/tests/test_scripts.mjs'])
     for t in ('test_play', 'test_play_fishing', 'test_play_world'):
         run(f'tests/{t}.mjs', [node, '--import', './tools/tests/sim/hooks.mjs', f'tools/tests/{t}.mjs'])
+    run('tests/burnt_tea.test.mjs', [node, '--test', 'tools/tests/burnt_tea.test.mjs'])
 else:
     print('\n=== tests/test_scripts.mjs\nskipped: Node.js not found')
     results.append(('tests/test_scripts.mjs (skipped, no Node.js)', False))

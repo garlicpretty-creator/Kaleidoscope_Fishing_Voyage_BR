@@ -267,6 +267,21 @@ if (ranchRepo) {
     `Ranching's own API knows every feed kind and capability we use (${[...new Set(G.RANCHING_FEEDS.map(f => f.kind))].join(', ')})`);
   ok(G.RANCHING_FEEDS.every(f => !feeds.includes(`"${f.item}"`)), 'none of the feeds we register is already built into Ranching (it would be refused)');
 } else console.log('NOTE Ranching repository not found next to this one: register_feed checked against our reading of its API only');
+const harvestRepo = beside('kaleidoscope_harvest_br');
+const harvestFishing = harvestRepo && join(harvestRepo, 'packs', 'BP', 'scripts', 'api', 'fishing.js');
+if (harvestFishing && existsSync(harvestFishing)) {
+  // Harvest's own bridge builds the messages; our registry takes them as any other pack's
+  const { fishingMessages } = await import(pathToFileURL(harvestFishing).href);
+  const msgs = fishingMessages({ api: 1, capabilities: [...R.CAPABILITIES] });
+  R._setItemExists(id => id.startsWith('kaleidoscope_harvest:'));
+  const took = msgs.reduce((n, [id, message]) => n + R.onRegister({ id, message }), 0);
+  const rows = msgs.flatMap(([, m]) => { const j = JSON.parse(m); return [...(j.baits ?? []), ...(j.feeds ?? [])]; });
+  ok(msgs.length === 2 && rows.length > 0 && took === rows.length
+    && rows.every(r => (r.biteFactor !== undefined ? R.externalBait(r.id)?.source === 'kaleidoscope_harvest' : R.externalFeed(r.id) === r.meals)),
+    `Harvest's own bridge: all ${rows.length} of its baits and pond feeds are accepted`);
+  R._clearRegistry();
+  R._setItemExists(id => id.startsWith('testpack:'));
+} else console.log('NOTE Harvest repository (with api/fishing.js) not found next to this one: its baits and pond feeds not checked');
 
 // ---------- 8. enchantments our scripts honour (1.5.0) ----------
 const E = await imp('util/enchant.js');

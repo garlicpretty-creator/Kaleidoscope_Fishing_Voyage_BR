@@ -1,0 +1,1 @@
+export default { root: "../..", ns: "kaleidoscope_fishing", bp: "Kaleidoscope Fishing Voyage [BP]", rp: "Kaleidoscope Fishing Voyage [RP]", module: "Kaleidoscope Fishing Voyage [BP]/scripts/api/burntTea.js", catalog: "Kaleidoscope Fishing Voyage [BP]/scripts/data/burntTeaCatalog.js" };
