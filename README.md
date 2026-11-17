@@ -80,16 +80,18 @@ python tools/run_tests.py     # 跑全部離線測試
 ```
 
 - 遊戲資料表在 `tools/data/*.json`，改完用 `python tools/build.py build` 重新產生 `scripts/data/generated.js`。
+- 1.6.0 的圖示字元：對照在 `tools/data/GLYPHS.json`，`build.py build` 會用 `tools/glyphs.py` 一起產生資源包的 `font/glyph_E1.png`～`glyph_E3.png` 與 `scripts/data/glyphs.js`；`python tools/glyphs.py list` 列出還是暫代圖形（等美術）的字元。
 - 同一份原始碼打包出來的 `.mcaddon` 每次都完全相同。
 
 ### 測試 / Tests
 
-`python tools/run_tests.py` 依序執行下面八項，全部通過才會回傳 0：
+`python tools/run_tests.py` 依序執行下面九項，全部通過才會回傳 0：
 
 | 項目 | 檢查內容 |
 |---|---|
-| `build.py check` | `generated.js` 和 `tools/data` 一致 |
+| `build.py check` | `generated.js` 和 `tools/data` 一致；1.6.0 起也檢查字元表 `font/glyph_*.png` 與 `glyphs.js` 和 `tools/data/GLYPHS.json` 一致 |
 | `validate.py` | 交叉檢查所有 ID 引用。目前固定有 39 項「問題」是誤報（配方和地物規則的 ID 不是物品 ID、森羅物語自己的 ID），列在 `tools/tests/validate_baseline.txt`；只有出現新的項目才算失敗 |
+| `check_notext.py` | 1.6.0 的無字檢查：收線小遊戲以外，腳本、實體不能在畫面上顯示文字（actionbar、聊天訊息、指令、表單、物品說明、互動按鈕）。還沒改完的地方列在檔案裡的「已知例外」，改完就要刪掉那一行 |
 | `check_models.py` | 3D 模型結構。有 10 個模型借用森羅物語的幾何，要把 `Kaleidoscope-Cookery-*.mcaddon` 放在本資料夾的上一層才會一起驗證，否則會註明「未驗證」 |
 | `tests/test_pack.py` | JSON、manifest、物品 icon、光影材質、創造模式選單、方塊放置設定、生怪蛋、世界結構 |
 | `tests/test_scripts.mjs` | 用模擬的遊戲環境載入全部腳本，測試自訂元件註冊、給其他附屬包的 API、傳說魚條件、新魚種、天象、魚池、拖網 |
