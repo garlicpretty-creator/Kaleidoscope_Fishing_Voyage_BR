@@ -110,24 +110,30 @@ def merchant():
         z0 = round(-3.55 + (i - 1) * 0.9, 3)
         for side, u in (('', 0), ('_on', 4)):
             bones.append({'name': f'tag_{i}{side}', 'pivot': [-8.05, 8.6, z0 + 0.4], 'parent': 'tags', 'cubes': [
-                {'origin': [-8.1, 7.2, z0], 'size': [0, 1.2, 0.8], 'uv': {'east': face(u, 0, 4, 6), 'west': face(u + 4, 0, -4, 6)}},
+                {'origin': [-8.125, 7.2, z0], 'size': [0.15, 1.2, 0.8], 'uv': {
+                    'east': face(u, 0, 4, 6), 'west': face(u + 4, 0, -4, 6),
+                    **{f: face(9, 0, 1, 1) for f in ('north', 'south', 'up', 'down')}}},
                 {'origin': [-8.1, 8.4, z0 + 0.35], 'size': [0, 0.6, 0.1], 'uv': {'east': face(8, 0, 1, 1), 'west': face(8, 0, 1, 1)}}]})
     c.write_json(os.path.join(c.RP, 'models', 'entity', 'fish_merchant_tags.geo.json'), {'format_version': '1.12.0', 'minecraft:geometry': [{
         'description': {'identifier': 'geometry.kaleidoscope_fishing.fish_merchant_tags', 'texture_width': 16, 'texture_height': 16,
                         'visible_bounds_width': 3, 'visible_bounds_height': 3, 'visible_bounds_offset': [0, 1.25, 0]},
         'bones': bones}]})
 
-    # tags texture: blank light wood (u 0..3), flipped: darker wood with a green mark (u 4..7), the string (u 8)
+    # tags texture: the blank side is pale wood with grain and a string hole (u 0..3); a flipped tag shows its red
+    # lacquered side with a gold fish stamped on it (u 4..7); the string (u 8); the tag's edge, darker wood (u 9)
     im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
     px = im.load()
+    WOOD, GRAIN, EDGE = (204, 168, 112, 255), (176, 138, 86, 255), (128, 92, 52, 255)
+    RED, RED_DK, GOLD = (178, 44, 36, 255), (122, 28, 24, 255), (240, 196, 84, 255)
+    fish = {(1, 3), (2, 3), (1, 4), (2, 4), (3, 3)}            # a fish facing left, its tail at x 3
     for y in range(6):
         for x in range(4):
             edge = x in (0, 3) or y in (0, 5)
-            px[x, y] = (196, 160, 104, 255) if not edge else (150, 112, 66, 255)
-            px[x + 4, y] = (118, 80, 44, 255) if not edge else (84, 56, 30, 255)
-    for (x, y) in ((5, 2), (6, 2), (5, 3), (6, 3)):
-        px[x, y] = (64, 196, 96, 255)
+            px[x, y] = EDGE if edge else (GRAIN if (x + 2 * y) % 5 == 0 else WOOD)
+            px[x + 4, y] = RED_DK if edge else (GOLD if (x, y) in fish else RED)
+    px[1, 1] = px[5, 1] = (60, 40, 24, 255)                     # the string hole
     px[8, 0] = (90, 70, 50, 255)
+    px[9, 0] = EDGE
     tp = os.path.join(RPT, 'entity', 'kfv_merchant_tags.png')
     save_png(im, tp)
     texture_set(tp, like=os.path.join(RPT, 'entity', 'kfv_fish_merchant_mer.png'))
@@ -149,8 +155,39 @@ def merchant():
 
 # ------------------------------------------------------------------------------------------------ drying rack
 SHRIMP_KIND = 7
-# swatches painted into the rack texture's free rows (y 24..25): body and tail per stage
-SWATCH = {0: ((236, 132, 104), (250, 176, 150)), 1: ((206, 100, 74), (226, 140, 110)), 2: ((162, 76, 50), (186, 104, 76))}
+# per stage (salted, half dry, dry): shell, light, dark. Painted into a free part of the rack texture: one 16 x 8
+# patch per stage at u 64 + 16 * stage, v 4 (segmented abdomen u+0, head with eye and feelers u+4, tail fan u+8)
+SHRIMP = {0: ((236, 132, 104), (252, 184, 156), (186, 86, 62)),
+          1: ((206, 100, 74), (232, 146, 116), (150, 64, 44)),
+          2: ((160, 74, 48), (190, 108, 78), (106, 46, 28))}
+PATCH_U, PATCH_V = 64, 4
+
+
+def paint_shrimp(im):
+    px = im.load()
+    for y in range(24, 26):                  # the 1.6.0 first draft's swatches (x 0..11, y 24..25), no longer used
+        for x in range(12):
+            px[x, y] = (0, 0, 0, 0)
+    for st, (shell, light, dark) in SHRIMP.items():
+        u = PATCH_U + 16 * st
+        for y in range(8):
+            for x in range(16):
+                px[u + x, PATCH_V + y] = (0, 0, 0, 0)
+        for y in range(8):                   # abdomen: shell segments with a light band and a dark joint
+            for x in range(4):
+                px[u + x, PATCH_V + y] = (light if y % 3 == 0 else dark if y % 3 == 2 else shell) + (255,)
+        for y in range(8):                   # head: darker back, an eye, feelers along the lower edge
+            for x in range(4):
+                c = dark if y < 2 else shell
+                if (x, y) == (1, 3):
+                    c = (24, 18, 16)
+                if y == 7 and x % 2 == 0:
+                    c = light
+                px[u + 4 + x, PATCH_V + y] = c + (255,)
+        for y in range(4):                   # tail fan: light with a dark tip
+            for x in range(4):
+                px[u + 8 + x, PATCH_V + y] = (dark if y == 3 else light if x in (1, 2) else shell) + (255,)
+    return im
 
 
 def rack():
@@ -158,37 +195,34 @@ def rack():
     dry['kinds'][str(SHRIMP_KIND)] = {'name': 'shrimp', 'product': S + 'dried_shell_shrimp', 'ticks': 24000}
     dry['inputs'][S + 'salted_shrimp'] = SHRIMP_KIND
     c.save('DRYING', dry)
-    # texture swatches
     tp = os.path.join(RPT, 'blocks', 'kfv_drying_rack.png')
-    im = Image.open(tp).convert('RGBA')
-    for st, (body, tail) in SWATCH.items():
-        for dx in range(2):
-            for dy in range(2):
-                im.putpixel((st * 4 + dx, 24 + dy), body + (255,))
-                im.putpixel((st * 4 + 2 + dx, 24 + dy), tail + (255,))
-    save_png(im, tp)
+    save_png(paint_shrimp(Image.open(tp).convert('RGBA')), tp)
     pbr.refresh(tp)
-    # geometry: the bare rack, then per hanging place a string with four curled shrimp
+    # geometry: the bare rack, then per hanging place a string with four shrimp hung by the tail, head down and
+    # curled, alternately left and right of the string: tail fan, abdomen, head (three cubes, the rest painted)
     gp = os.path.join(c.RP, 'models', 'blocks', 'drying_rack.geo.json')
     geo = c.read_json(gp)
     gs = [x for x in geo['minecraft:geometry'] if not x['description']['identifier'].split('_rack_')[1].startswith(f'{SHRIMP_KIND}_')]
     base = next(x for x in gs if x['description']['identifier'].endswith('_0_0_0'))
     centres = {1: [0.0], 2: [-2.5, 2.5], 3: [-3.75, 0.0, 3.75]}
+    SIDES = ('north', 'south', 'east', 'west', 'up', 'down')
 
-    def solid(u, v, size):
-        return {'origin': None, 'size': size, 'uv': {f: {'uv': [u, v], 'uv_size': [1, 1]} for f in ('north', 'south', 'east', 'west', 'up', 'down')}}
+    def part(stage, du, dv, w, h, size, origin):
+        u = PATCH_U + 16 * stage + du
+        return {'origin': origin, 'size': size, 'uv': {f: {'uv': [u, PATCH_V + dv], 'uv_size': [w, h]} for f in SIDES}}
     for count in (1, 2, 3):
         for stage in (0, 1, 2):
             cubes = json.loads(json.dumps(base['bones'][0]['cubes']))
             for cx in centres[count]:
-                cubes.append({'origin': [cx - 0.25, 4.0, -0.25], 'size': [0.5, 10.0, 0.5], 'uv': {f: {'uv': [104, 14], 'uv_size': [0.5, 1]} for f in ('north', 'south', 'east', 'west', 'up', 'down')}})
+                cubes.append({'origin': [cx - 0.25, 4.0, -0.25], 'size': [0.5, 10.0, 0.5], 'uv': {f: {'uv': [104, 14], 'uv_size': [0.5, 1]} for f in SIDES}})
                 for k, y in enumerate((10.5, 8.5, 6.5, 4.5)):
-                    s = -1 if k % 2 == 0 else 1
-                    body = solid(stage * 4, 24, [1.5, 1.2, 0.8])
-                    body['origin'] = [cx + (0.1 if s > 0 else -1.6), y, -0.4]
-                    tail = solid(stage * 4 + 2, 24, [0.6, 0.6, 0.5])
-                    tail['origin'] = [cx + (1.6 if s > 0 else -2.2), y + 0.5, -0.25]
-                    cubes += [body, tail]
+                    s = 1 if k % 2 else -1
+
+                    def x0(a, w):                # a: distance out from the string, w: width; mirrored to the left
+                        return round(cx + a if s > 0 else cx - a - w, 3)
+                    cubes += [part(stage, 8, 0, 4, 4, [1.2, 0.6, 0.4], [x0(0.2, 1.2), y + 1.3, -0.2]),     # tail fan
+                              part(stage, 0, 0, 4, 8, [1.0, 1.5, 0.8], [x0(0.35, 1.0), y - 0.1, -0.4]),    # abdomen
+                              part(stage, 4, 0, 4, 8, [1.3, 1.1, 1.0], [x0(1.05, 1.3), y - 0.7, -0.5])]    # head
             g = json.loads(json.dumps(base))
             g['description']['identifier'] = f'geometry.kaleidoscope_fishing.drying_rack_{SHRIMP_KIND}_{count}_{stage}'
             g['bones'][0]['cubes'] = cubes
@@ -244,6 +278,41 @@ def ink_from_print(fish_png, paper):
             p, q = im.getpixel((x, y)), paper.getpixel((x, y))
             if p[3] and lum(p) < lum(q) - 40:
                 out.putpixel((x, y), p[:3] + (255,))
+    return out
+
+
+INK_ART = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'print_ink')
+
+
+def ink_from_art(art_png):
+    """The ink of a fish drawn for its print (tools/data/print_ink/<fish>.png, Retro Diffusion through
+    tools/art/rd_glyphs.py: the fish lying flat, head to the left): its shading turned into the old prints' warm
+    black ink, with the paper showing through in specks, centred where the old prints' fish lie (row 14)."""
+    art = Image.open(art_png).convert('RGBA')
+    box = art.getbbox() or (0, 0, 32, 32)
+    art = art.crop(box)
+    if art.width > 30 or art.height > 26:
+        k = min(30 / art.width, 26 / art.height)
+        art = art.resize((max(1, round(art.width * k)), max(1, round(art.height * k))), Image.NEAREST)
+    out = Image.new('RGBA', (32, 32), (0, 0, 0, 0))
+    ox, oy = (32 - art.width) // 2, max(0, min(32 - art.height, 14 - art.height // 2))
+    solid = lambda x, y: 0 <= x < art.width and 0 <= y < art.height and art.getpixel((x, y))[3] >= 128
+    ls = [lum(art.getpixel((x, y))) for y in range(art.height) for x in range(art.width) if solid(x, y)]
+    lo, hi = min(ls), max(ls)
+    for y in range(art.height):
+        for x in range(art.width):
+            if not solid(x, y):
+                continue
+            t = (lum(art.getpixel((x, y))) - lo) / max(1, hi - lo)      # the fish's own shading, 0..1
+            v = 34 + t * 64
+            if (x + 2 * y) % 4 == 0:                                     # scales: a lighter dot in a diagonal grid
+                v += 15
+            if (x * 73 + y * 151) % 29 == 0:                             # a speck where the ink did not take
+                v += 40
+            if not all(solid(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                v = min(v, 34)                                           # the ink pools at the edge
+            v = int(max(22, min(120, v)))
+            out.putpixel((ox + x, oy + y), (v + 6, v + 1, max(0, v - 4), 255))
     return out
 
 
@@ -311,6 +380,9 @@ def prints():
         if os.path.exists(old):
             ink = ink_from_print(old, paper)
             like = os.path.join(BLK, f'kfv_print_{f}_mer.png')
+        elif os.path.exists(os.path.join(INK_ART, f + '.png')):
+            ink = ink_from_art(os.path.join(INK_ART, f + '.png'))
+            like = os.path.join(BLK, 'kfv_print_ink_carp_mer.png')
         elif os.path.exists(ink_png) and f not in NEW_FISH:
             ink, like = None, None
         else:
@@ -361,13 +433,10 @@ def prints():
 
 def placeholders():
     """The PLACEHOLDER art these parts draw (Pillow), still waiting for real art."""
-    out = [('Kaleidoscope Fishing Voyage [RP]/textures/entity/kfv_merchant_tags.png', 'the order tags (blank / flipped) under the fish merchant\'s order fish'),
-           ('Kaleidoscope Fishing Voyage [RP]/models/entity/fish_merchant_tags.geo.json', 'the order tags\' shapes'),
-           ('Kaleidoscope Fishing Voyage [RP]/animations/fish_merchant.animation.json', 'tags: the row centred by hand; the shrug added to the gesture animation'),
-           ('Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_drying_rack.png', 'drying rack: hanging shrimp colours (x 0..11, y 24..25)'),
-           ('Kaleidoscope Fishing Voyage [RP]/models/blocks/drying_rack.geo.json', 'drying rack: drying_rack_7_* (a string of four shrimp per place)'),
+    out = [('Kaleidoscope Fishing Voyage [RP]/animations/fish_merchant.animation.json', 'tags: the row centred by hand (z sign unchecked in game); the shrug added to the gesture animation'),
            ('Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_print_paper_seal.png', 'sealed print paper (cut from the old carp print: real art, kept)')]
-    out += [(f'Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_print_ink_{f}.png', f'fish print ink of {f}: its item icon in grey ink') for f in NEW_FISH]
+    out += [(f'Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_print_ink_{f}.png', f'fish print ink of {f}: its item icon in grey ink')
+            for f in NEW_FISH if not os.path.exists(os.path.join(INK_ART, f + '.png'))]
     return out
 
 

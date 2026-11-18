@@ -1,13 +1,13 @@
-"""1.6.0 placeholder icons: the Fish Creel's four fill looks and the Hand Net (docs/PLAN_1.6.0.md sections 7.1, 8).
+"""1.6.0 icons: the Fish Creel's four fill looks and the Hand Net (docs/PLAN_1.6.0.md sections 7.1, 8).
 
   python tools/gen_basket_net_icons.py
 
-PLACEHOLDERS, drawn here with Pillow until art is made (plan section 17: the creel looks are the creel icon with
-fish tails and heads heaped on it; the net is to be generated and touched up):
-  textures/items/kfv_fish_basket_few.png    1-25 % full: one tail sticks out of the mouth
-  textures/items/kfv_fish_basket_half.png   up to 62 %: two tails
-  textures/items/kfv_fish_basket_most.png   up to full: tails and a head
-  textures/items/kfv_fish_basket_full.png   full: a heap of fish over the rim, the sides bulge
+The creel looks are the empty creel icon with fish painted into its mouth (LOOKS, pixel rows); the net is the
+Retro Diffusion picture tools/data/item_art/hand_net.png with its mesh drawn in (plan section 17):
+  textures/items/kfv_fish_basket_few.png    1-25 % full: one silver tail sticks out of the mouth
+  textures/items/kfv_fish_basket_half.png   up to 62 %: a silver and a gold tail, backs showing in the mouth
+  textures/items/kfv_fish_basket_most.png   up to full: two tails and a head, the mouth full
+  textures/items/kfv_fish_basket_full.png   full: a heap of fish over the rim, one hanging down the side, the sides bulge
   textures/items/kfv_hand_net.png           a wooden handle, a hoop and the mesh
 Each gets a texture set whose MER / normal maps come from tools/pbr.py. Deterministic: same input, same pixels.
 The empty creel keeps textures/items/kfv_fish_basket.png.
@@ -19,6 +19,8 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pbr  # noqa: E402
 
+STAGES = ["few", "half", "most", "full"]
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ITEMS = os.path.join(ROOT, "Kaleidoscope Fishing Voyage [RP]", "textures", "items")
 
@@ -28,56 +30,58 @@ WOOD, WOOD_DK, WOOD_LT = (140, 96, 52, 255), (92, 60, 30, 255), (184, 136, 80, 2
 MESH, MESH_DK = (226, 218, 188, 255), (170, 160, 128, 255)
 
 
-def tail(px, x, y, c=SILVER, d=SILVER_DK):
-    """A forked tail standing up out of the creel, its fork at row y (3 px wide, 3 tall)."""
-    for dx, dy, col in ((0, 0, c), (2, 0, c), (0, 1, d), (1, 1, c), (2, 1, d), (1, 2, c)):
-        px[x + dx, y + dy] = col
-
-
-def head(px, x, y):
-    """A fish head peeking over the rim, looking left: 4 px wide, 3 tall, with an eye."""
-    for dx in range(4):
-        for dy in range(3):
-            if (dx, dy) in ((0, 0), (0, 2)):
-                continue
-            px[x + dx, y + dy] = SILVER_LT if dy == 0 else (SILVER if dy == 1 else SILVER_DK)
-    px[x + 1, y + 1] = EYE
+# The creel's mouth is rows 0-2 of the empty creel icon; each look paints fish over it, row by row ("." keeps
+# the creel's pixel). S light silver, s silver, d dark silver, e eye, G gold, g dark gold, w white glint.
+INK = {"S": (222, 234, 240, 255), "s": (176, 196, 210, 255), "d": (96, 116, 136, 255), "e": (20, 24, 30, 255),
+       "G": (244, 196, 84, 255), "g": (176, 108, 32, 255), "w": (255, 255, 255, 255)}
+LOOKS = {
+    "few": ["..........S.S...",
+            "..........dsd...",
+            "...........s...."],
+    "half": [".....G.G..S.S...",
+             ".....gGg..dsd...",
+             "....dSSsgGsSs..."],
+    "most": ["...S.S....G.G...",
+             "...dsdwSSe.gGg..",
+             "...SSsssdsGGGg..",
+             "....dsdd..gg...."],
+    "full": ["S.SwSSSe..GGGGe.",
+             "dsdSssssdGwGggg.",
+             ".SSSsssdsGGGgg..",
+             "Ssdsdsdd.ggg.d..",
+             "Sd..............",
+             "se..............",
+             "d..............."],
+}
 
 
 def creel(stage):
     img = Image.open(os.path.join(ITEMS, "kfv_fish_basket.png")).convert("RGBA")
     px = img.load()
-    if stage >= 1:
-        tail(px, 9, 0)
-    if stage >= 2:
-        tail(px, 4, 0, GOLD, GOLD_DK)
-    if stage >= 3:
-        head(px, 6, 1)
-    if stage >= 4:
-        tail(px, 12, 1)
-        head(px, 1, 2)
-        for y in range(6, 13):                         # the sides bulge one pixel
+    for y, row in enumerate(LOOKS[STAGES[stage - 1]]):
+        for x, ch in enumerate(row[:16]):
+            if ch in INK and (y < 3 or px[x, y][3] or stage == 4):   # below the rim only over the creel, but a
+                                                                   # full creel has a fish hanging over the side
+                px[x, y] = INK[ch]
+    if stage == 4:
+        for y in range(6, 13):                         # full: the sides bulge one pixel
             if px[14, y][3] and not px[15, y][3]:
                 px[15, y] = (110, 64, 26, 255)
     return img
 
 
+NET_ART = os.path.join(ROOT, "tools", "data", "item_art", "hand_net.png")
+
+
 def hand_net():
-    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    """The Retro Diffusion net (tools/art/rd_glyphs.py, art.hand_net) with its mesh drawn in: the pale pixels
+    inside the hoop become a light / dark string check, so the net reads as a net at 16 px."""
+    img = Image.open(NET_ART).convert("RGBA")
     px = img.load()
-    for i in range(8):                                 # the handle, bottom left to the hoop
-        x, y = 1 + i, 14 - i
-        px[x, y] = WOOD
-        if x + 1 < 16:
-            px[x + 1, y] = WOOD_DK
-    px[1, 14] = WOOD_LT
-    ring = [(9, 2), (10, 1), (11, 1), (12, 1), (13, 2), (14, 3), (14, 4), (14, 5), (13, 6), (12, 7), (11, 7), (10, 7),
-            (9, 6), (8, 5), (8, 4), (8, 3)]
-    for x, y in ring:
-        px[x, y] = WOOD_LT
-    for y in range(2, 7):                              # the mesh inside the hoop
-        for x in range(9, 14):
-            if px[x, y][3] == 0:
+    for y in range(16):
+        for x in range(16):
+            r, g, b, a = px[x, y]
+            if a and min(r, g, b) > 120 and max(r, g, b) - min(r, g, b) < 40:
                 px[x, y] = MESH if (x + y) % 2 == 0 else MESH_DK
     return img
 
@@ -96,8 +100,6 @@ def save(name, img):
     pbr.refresh(png)
     return png
 
-
-STAGES = ["few", "half", "most", "full"]
 
 if __name__ == "__main__":
     out = [save(f"kfv_fish_basket_{s}", creel(i + 1)) for i, s in enumerate(STAGES)]

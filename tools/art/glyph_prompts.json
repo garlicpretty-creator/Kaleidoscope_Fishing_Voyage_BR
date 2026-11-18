@@ -1,0 +1,346 @@
+{
+ "_doc": "Retro Diffusion prompts for the 1.6.0 glyph pictures (tools/art/rd_glyphs.py). Picked art lands in tools/data/glyph_src/<name>.png (symbols) or glyph_src/<ns>/<item>.png (items); tools/glyphs.py build uses it in the same cell.",
+ "style": "rd_plus__mc_item",
+ "size": 16,
+ "candidates": 4,
+ "seed": 20261118,
+ "items": {
+  "fish.unknown": {
+   "prompt": "simple grey fish silhouette side view facing left, plain, bold outline",
+   "outline": true
+  },
+  "item.unknown": {
+   "prompt": "small closed brown cloth bundle tied with string, mystery item",
+   "outline": true
+  },
+  "minecraft:cod": {
+   "prompt": "raw cod fish side view, pale tan brown speckled body, white belly, facing left"
+  },
+  "minecraft:salmon": {
+   "prompt": "raw salmon fish side view, red and silver body, facing left"
+  },
+  "minecraft:tropical_fish": {
+   "prompt": "small tropical fish side view, bright orange and white stripes, facing left"
+  },
+  "minecraft:pufferfish": {
+   "prompt": "round yellow pufferfish with small spikes, puffed up, side view"
+  },
+  "minecraft:cooked_salmon": {
+   "prompt": "grilled salmon fillet, browned orange flesh, side view"
+  },
+  "minecraft:egg": {
+   "prompt": "single cream white chicken egg"
+  },
+  "minecraft:sugar": {
+   "prompt": "small pile of white sugar crystals"
+  },
+  "minecraft:carrot": {
+   "prompt": "single orange carrot with green leafy top, diagonal"
+  },
+  "minecraft:kelp": {
+   "prompt": "single strand of green kelp seaweed with small bladders, diagonal"
+  },
+  "minecraft:dried_kelp": {
+   "prompt": "dark green dried kelp sheet, folded"
+  },
+  "minecraft:potato": {
+   "prompt": "single brown potato with small eyes"
+  },
+  "minecraft:bowl": {
+   "prompt": "empty brown wooden bowl, side view"
+  },
+  "minecraft:ice": {
+   "prompt": "small cube of pale blue clear ice block"
+  },
+  "minecraft:oak_slab": {
+   "prompt": "flat rectangular plank of light oak wood, isometric slab",
+   "seed": 7331
+  },
+  "minecraft:cauldron": {
+   "prompt": "dark grey iron cauldron pot with feet, isometric"
+  },
+  "minecraft:campfire": {
+   "prompt": "small campfire, crossed logs with orange flames"
+  },
+  "minecraft:bamboo": {
+   "prompt": "single green bamboo stalk with leaf, diagonal"
+  },
+  "minecraft:crimson_fungus": {
+   "prompt": "small red nether mushroom fungus with yellow spots"
+  },
+  "minecraft:brown_mushroom": {
+   "prompt": "single small brown mushroom"
+  },
+  "minecraft:chorus_fruit": {
+   "prompt": "purple bumpy chorus fruit, round lumpy"
+  },
+  "minecraft:rotten_flesh": {
+   "prompt": "piece of rotten flesh, greenish brown meat"
+  },
+  "water.river": {
+   "prompt": "round badge icon, top view of a winding blue river through green grass",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.lake": {
+   "prompt": "icon of a round calm blue lake with a lily pad",
+   "outline": true
+  },
+  "water.swamp": {
+   "prompt": "icon of murky green swamp water with reeds and lily pad",
+   "outline": true
+  },
+  "water.ocean": {
+   "prompt": "icon of deep blue ocean waves with white foam crests",
+   "outline": true
+  },
+  "water.warm_ocean": {
+   "prompt": "round badge icon, top view of clear turquoise tropical sea water with orange and pink coral",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.cold_ocean": {
+   "prompt": "round badge icon, top view of dark blue cold sea water with white ice floes",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.deep_ocean": {
+   "prompt": "round badge icon, dark navy blue deep sea water with a few white bubbles rising",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.beach": {
+   "prompt": "round badge icon, top view of half yellow sand and half blue sea wave",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.estuary": {
+   "prompt": "round badge icon, top view of a blue river widening into the sea, muddy banks with reeds",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.mangrove": {
+   "prompt": "icon of mangrove tree roots in brown green water",
+   "outline": true
+  },
+  "water.ice": {
+   "prompt": "icon of frozen ice sheet with a round fishing hole showing dark water",
+   "outline": true
+  },
+  "water.cave": {
+   "prompt": "round badge icon, dark grey stone cave with a small pool of blue water at the bottom",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.lava": {
+   "prompt": "icon of glowing orange lava pool with bubbles",
+   "outline": true
+  },
+  "water.mushroom": {
+   "prompt": "icon of purple water pond with a small red mushroom on the shore",
+   "outline": true
+  },
+  "water.cherry": {
+   "prompt": "icon of light blue pond with pink cherry blossom petals floating",
+   "outline": true
+  },
+  "water.deep_dark": {
+   "prompt": "round badge icon, very dark teal water with glowing cyan sculk dots",
+   "outline": true,
+   "seed": 7331
+  },
+  "water.end_pond": {
+   "prompt": "icon of pale violet water pond on yellow end stone",
+   "outline": true
+  },
+  "water.void": {
+   "prompt": "round badge icon, black space with tiny white stars and a purple swirl",
+   "outline": true,
+   "seed": 7331
+  },
+  "time.day": {
+   "prompt": "bright yellow sun with rays",
+   "outline": true
+  },
+  "time.night": {
+   "prompt": "pale yellow crescent moon with one small star",
+   "outline": true
+  },
+  "time.dawn": {
+   "prompt": "orange sun half rising above the horizon line, sunrise",
+   "outline": true
+  },
+  "time.dusk": {
+   "prompt": "red sun half hidden behind a dark horizon line, purple sky, sunset",
+   "outline": true,
+   "seed": 7331
+  },
+  "time.any": {
+   "prompt": "icon split diagonally, yellow sun on one half and blue night with crescent moon on the other",
+   "outline": true
+  },
+  "weather.clear": {
+   "prompt": "bright yellow sun in a clear blue sky, round badge icon",
+   "outline": true,
+   "seed": 7331
+  },
+  "weather.rain": {
+   "prompt": "grey rain cloud with blue falling raindrops",
+   "outline": true
+  },
+  "weather.thunder": {
+   "prompt": "dark grey storm cloud with a yellow lightning bolt",
+   "outline": true
+  },
+  "sky.meteor": {
+   "prompt": "a shooting star, small yellow star head with a long white glowing trail going diagonally down left",
+   "outline": true,
+   "seed": 7331
+  },
+  "sky.aurora": {
+   "prompt": "round badge icon, night sky with wavy green and pink aurora curtains above dark hills",
+   "outline": true,
+   "seed": 7331
+  },
+  "station.wok": {
+   "prompt": "black iron chinese wok pan with a long handle, side view",
+   "outline": true
+  },
+  "station.stockpot": {
+   "prompt": "silver metal stock pot with lid and steam",
+   "outline": true
+  },
+  "station.steamer": {
+   "prompt": "stacked round bamboo steamer baskets with lid",
+   "outline": true
+  },
+  "station.teapot": {
+   "prompt": "brown clay teapot with spout and handle",
+   "outline": true
+  },
+  "station.crafting": {
+   "prompt": "wooden workbench table with tools on top, isometric",
+   "outline": true
+  },
+  "station.furnace": {
+   "prompt": "grey stone furnace with glowing orange fire opening, front view",
+   "outline": true
+  },
+  "station.campfire": {
+   "prompt": "campfire with crossed logs and a cooking pot hanging over flames",
+   "outline": true
+  },
+  "station.fish_sauce_jar": {
+   "prompt": "large brown glazed clay fermentation jar with a cloth lid tied with rope",
+   "outline": true
+  },
+  "station.wooden_tub": {
+   "prompt": "round wooden barrel tub with metal hoops, filled with water, side view",
+   "outline": true
+  },
+  "station.salt_pan": {
+   "prompt": "shallow square clay tray filled with white salt crystals",
+   "outline": true
+  },
+  "station.bamboo_tray": {
+   "prompt": "flat round woven bamboo drying tray with small dried fish on it",
+   "outline": true
+  },
+  "station.pond_feeder": {
+   "prompt": "small wooden fish feeding tray on a short post with brown pellets",
+   "outline": true,
+   "seed": 7331
+  },
+  "bowl.full": {
+   "prompt": "wooden bowl heaped full with brown fish feed pellets",
+   "outline": true
+  },
+  "bowl.half": {
+   "prompt": "wooden bowl half full of brown fish feed pellets",
+   "outline": true
+  },
+  "bowl.empty": {
+   "prompt": "empty wooden bowl, side view",
+   "outline": true
+  },
+  "ui.gear": {
+   "prompt": "grey metal cog wheel with square teeth, settings icon, flat front view",
+   "outline": true,
+   "seed": 7331
+  },
+  "ui.recipes": {
+   "prompt": "open recipe book with a bowl drawn on the page",
+   "outline": true
+  },
+  "ui.merchant": {
+   "prompt": "head of a fishmonger wearing a woven conical straw hat, front view",
+   "outline": true
+  },
+  "ui.animation": {
+   "prompt": "yellow film reel with sparkle, flat icon",
+   "outline": true,
+   "seed": 7331
+  },
+  "art.hand_net": {
+   "prompt": "small fishing hand net, short wooden handle, round wooden hoop with white string mesh net bag, diagonal, handle bottom left",
+   "dest": "tools/data/item_art/hand_net.png",
+   "seed": 7331
+  },
+  "print.mycelium_flounder": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, flat oval flounder flatfish, both eyes on top, fringe fins all round the body, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/mycelium_flounder.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.spore_seahorse": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, seahorse lying sideways, curled tail, horse shaped head, long snout, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/spore_seahorse.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.cherry_trout": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, slender trout, forked tail, small dorsal fin, spotted body, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/cherry_trout.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.creek_shrimp": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, small freshwater shrimp, curved segmented body, fan tail, long antennae, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/creek_shrimp.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.echo_ray": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, stingray, wide diamond shaped body with wings, long thin whip tail, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/echo_ray.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.sculk_lanternfish": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, deep sea lanternfish, big head, large eye, small glowing dots along the belly, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/sculk_lanternfish.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.meteor_marlin": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, marlin, long spear bill, tall sail dorsal fin, crescent tail, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/meteor_marlin.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  },
+  "print.aurora_icefish": {
+   "prompt": "traditional japanese gyotaku fish print, black ink on white, slender icefish, translucent body, long pointed head, small fins, side view, lying horizontal, head facing left, whole body",
+   "size": 32,
+   "dest": "tools/data/print_ink/aurora_icefish.png",
+   "seed": 7331,
+   "style": "rd_plus__mc_item"
+  }
+ }
+}

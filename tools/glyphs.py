@@ -458,6 +458,14 @@ FOREIGN = {
 }
 GLYPH_SRC = os.path.join(DATA, "glyph_src")
 
+
+def local_src(name):
+    """The picture kept in tools/data/glyph_src for a glyph, or None: an item id "ns:item" is
+    glyph_src/ns/item.png, any other name (a symbol) is glyph_src/<name>.png ("water.river.png")."""
+    ns, colon, n = name.partition(":")
+    p = os.path.join(GLYPH_SRC, ns, n + ".png") if colon else os.path.join(GLYPH_SRC, name + ".png")
+    return os.path.relpath(p, ROOT).replace(os.sep, "/") if os.path.exists(p) else None
+
 WATER_DRAW = {
     "river": "water:4a90e0", "lake": "water:3a70c0", "swamp": "water:607040", "ocean": "water:2a60c0",
     "warm_ocean": "water:30b0c0", "cold_ocean": "water:305090", "deep_ocean": "water:203070", "beach": "water:d8c080",
@@ -519,21 +527,19 @@ def wanted():
     def src_of(item):
         if item in icons:
             return icons[item]
-        if item in FOREIGN:
-            return "draw:" + FOREIGN[item]
-        ns, _, n = item.partition(":")
-        local = os.path.join(GLYPH_SRC, ns, n + ".png")
-        if os.path.exists(local):
-            return os.path.relpath(local, ROOT).replace(os.sep, "/")
-        return "draw:item"
+        return local_src(item) or ("draw:" + FOREIGN[item] if item in FOREIGN else "draw:item")
 
-    out = [("fish", "fish.unknown", "draw:fish_unknown")]
+    def sym(name, src):
+        """A symbol's drawn placeholder gives way to its picture in glyph_src/<name>.png."""
+        return (local_src(name) or src) if src.startswith("draw:") else src
+
+    out = [("fish", "fish.unknown", sym("fish.unknown", "draw:fish_unknown"))]
     out += [("fish", c, src_of(c)) for c in catches]
     out += [("fish", f"shadow.{c}", "shadow:" + src_of(c)) for c in catches if not src_of(c).startswith("draw:")]
     out += [("fish", f"shadow.{c}", "draw:fish_unknown") for c in catches if src_of(c).startswith("draw:")]
     out += [("fish", b["id"], src_of(b["id"])) for b in load("BASKET_ITEMS.json")]   # 1.6.0: all the creel holds
-    out += [("symbols", f"water.{w}", "draw:" + s) for w, s in WATER_DRAW.items()]
-    out += [("symbols", n, s) for n, s in SYMBOLS]
+    out += [("symbols", f"water.{w}", sym(f"water.{w}", "draw:" + s)) for w, s in WATER_DRAW.items()]
+    out += [("symbols", n, sym(n, s)) for n, s in SYMBOLS]
     tackle = list(load("PARTS.json")) + list(load("RODS.json"))
     baits = []
     for c in load("CATCHES.json"):
@@ -576,6 +582,10 @@ def synced(spec):
     overflow = {"food": "food2"}
     for page, name, src in wanted():
         if name in spec["glyphs"]:
+            g = spec["glyphs"][name]
+            # a placeholder whose art has arrived: the new picture, in the same cell (indices never move)
+            if g["src"].startswith("draw:") and not src.startswith("draw:"):
+                spec["glyphs"][name] = {**g, "src": src}
             continue
         p = page
         while len(used.get(p, ())) >= GRID * GRID:
@@ -722,6 +732,9 @@ def check():
     new, added = sync(write=False)
     if added:
         problems.append(f"GLYPHS.json lacks {len(added)} glyph(s) (first: {', '.join(added[:5])}): run  python tools/build.py build")
+    art = sorted(n for n in spec["glyphs"] if n in new["glyphs"] and new["glyphs"][n]["src"] != spec["glyphs"][n]["src"])
+    if art:
+        problems.append(f"glyph_src has art for {len(art)} placeholder(s) (first: {', '.join(art[:5])}): run  python tools/build.py build")
     for hexp, (_, pixels) in sheets(spec).items():
         p = os.path.join(FONT, f"glyph_{hexp}.png")
         if not os.path.exists(p) or Image.open(p).convert("RGBA").tobytes() != pixels:

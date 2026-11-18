@@ -277,7 +277,10 @@ const harvestFishing = harvestRepo && join(harvestRepo, 'packs', 'BP', 'scripts'
 if (harvestFishing && existsSync(harvestFishing)) {
   // Harvest's own bridge builds the messages; our registry takes them as any other pack's
   const { fishingMessages } = await import(pathToFileURL(harvestFishing).href);
-  const msgs = fishingMessages({ api: 1, capabilities: [...R.CAPABILITIES] });
+  // Harvest returns [event, payload]; since 2026-11-18 the payload is an object that its send() turns into the
+  // scriptevent text, earlier it was the text itself: take either, as the text the game would deliver
+  const msgs = fishingMessages({ api: 1, capabilities: [...R.CAPABILITIES] })
+    .map(([id, m]) => [id, typeof m === 'string' ? m : JSON.stringify(m)]);
   R._setItemExists(id => id.startsWith('kaleidoscope_harvest:'));
   const took = msgs.reduce((n, [id, message]) => n + R.onRegister({ id, message }), 0);
   const rows = msgs.flatMap(([, m]) => { const j = JSON.parse(m); return [...(j.baits ?? []), ...(j.feeds ?? [])]; });

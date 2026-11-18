@@ -16,3 +16,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Retro Diffusion candidates (tools/art/rd_glyphs.py); the picks are committed
+tools/art/candidates/
