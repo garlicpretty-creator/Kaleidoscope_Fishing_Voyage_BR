@@ -8,6 +8,8 @@ import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { isRaining } from "../fishing/water.js";
 import { refuseAt } from "../util/hint.js";
+import { biomeIdAt } from "../util/biome.js";
+import { ambient, burst, on } from "./stationFx.js";
 
 const NS = "kaleidoscope_fishing";
 const BLOCK = `${NS}:salt_pan`, STAGE = `${NS}:stage`, SALT = `${NS}:sea_salt`;
@@ -17,12 +19,13 @@ const creative = p => { try { return p.getGameMode() === GameMode.Creative; } ca
 const stageOf = block => Number(block.permutation.getState(STAGE) ?? 0);
 const setStage = (block, s) => { try { block.setPermutation(block.permutation.withState(STAGE, s)); } catch {} };
 const snd = (block, id, pitch = 1, volume = 0.7) => { try { block.dimension.playSound(id, block.center(), { pitch, volume }); } catch {} };
+// 1.5.0 (immersive pass, stationFx.js): heat shimmering off the brine in the sun, a glint once it is salt.
+const face = block => on(block, 0.5, 0.2, 0.5);
+const fx = (block, ...names) => burst(block.dimension, face(block), ...names);
 
 /** By the sea: an ocean or beach biome (where the game can tell). Exported for tests. */
 export function bySea(block) {
-  let id = "";
-  try { id = String(block.dimension.getBiome?.(block.location)?.id ?? ""); } catch {}
-  return /ocean|beach|shore/.test(id);
+  return /ocean|beach|shore/.test(biomeIdAt(block.dimension, block.location));
 }
 /** Nothing above it but air: open to the sun. */
 export function openSky(block) {
@@ -48,19 +51,20 @@ const pan = {
       if (!bySea(block) || !openSky(block)) return refuseAt(player, "salt_pan_place", block);
       if (!creative(player)) slot.setItem(new ItemStack("minecraft:bucket", 1));
       writeData("sp", block.dimension, block, { p: 0, t: now(), stage: 1 });
-      setStage(block, 1); snd(block, "bucket.empty_water"); return;
+      setStage(block, 1); snd(block, "bucket.empty_water"); fx(block, "spray"); return;
     }
     if (!held && stage === 3) {
       const stack = new ItemStack(SALT, SALT_YIELD);
       try { const left = player.getComponent("minecraft:inventory")?.container?.addItem(stack); if (left) block.dimension.spawnItem(left, block.center()); }
       catch { try { block.dimension.spawnItem(stack, block.center()); } catch {} }
       writeData("sp", block.dimension, block, undefined);
-      setStage(block, 0); snd(block, "dig.sand", 1.2); return;
+      setStage(block, 0); snd(block, "dig.sand", 1.2); snd(block, "dig.gravel", 1.7, 0.35); fx(block, "salt", "salt"); return;
     }
     refuseAt(player, stage === 0 ? "salt_pan_need_water" : "salt_pan_drying", block);
   },
   onTick({ block }) {
     const stage = stageOf(block);
+    if (stage === 3) { ambient(block, "pan", 90, face(block), () => { if (Math.random() < 0.5) fx(block, "sparkle"); }); return; }
     if (stage !== 1 && stage !== 2) return;
     const r = readData("sp", block.dimension, block) ?? { p: 0, t: now() };
     const n = now(), dt = Math.max(0, Math.min(200, n - (Number(r.t) || n)));   // a pan out of reach counts nothing
@@ -68,7 +72,8 @@ const pan = {
     const p = (Number(r.p) || 0) + (sunny ? dt : 0);
     const next = stageFor(p);
     writeData("sp", block.dimension, block, { p, t: n, stage: next });
-    if (next !== stage) { setStage(block, next); if (next === 3) snd(block, "random.pop", 0.9, 0.5); }
+    if (next !== stage) { setStage(block, next); if (next === 3) { snd(block, "random.pop", 0.9, 0.5); fx(block, "sparkle_burst"); } }
+    else if (sunny) ambient(block, "pan", 90, face(block), () => fx(block, "heat"));   // drying: heat wisps over the pan
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (player && creative(player)) { writeData("sp", block.dimension, block, undefined); return; }

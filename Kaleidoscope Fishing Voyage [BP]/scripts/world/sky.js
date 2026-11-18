@@ -14,6 +14,7 @@
 import { system, world } from "@minecraft/server";
 import { isRaining, timeSlot } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
+import { canonBiome } from "../util/biome.js";
 import { emit } from "../api/host.js";
 
 const NS = "kaleidoscope_fishing";
@@ -91,7 +92,7 @@ function underSky(player) {
   } catch { return false; }
 }
 function coldAt(player) {
-  try { return COLD_BIOME.test(String(player.dimension.getBiome(player.location)?.id ?? "")); } catch { return false; }
+  try { return COLD_BIOME.test(canonBiome(player.dimension.getBiome(player.location)?.id)); } catch { return false; }
 }
 /** Draw tonight's sky for the players who can see it. Exported for tests. */
 export function drawSky(rand = Math.random) {

@@ -15,23 +15,38 @@
       "animations": {
         "move": "animation.kaleidoscope_fishing.cormorant.move",
         "idle": "animation.kaleidoscope_fishing.cormorant.idle",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "dive": "animation.kaleidoscope_fishing.cormorant.dive",
+        "catch": "animation.kaleidoscope_fishing.cormorant.catch"
       },
       "scripts": {
         "initialize": [
-          "variable.kfv_off = math.random(0, 14);"
+          "variable.kfv_off = math.random(0, 14);",
+          "variable.kfv_crt = 0;variable.kfv_dvt = 0;"
         ],
         "pre_animation": [
+          "variable.kfv_crt = variable.kfv_crt ?? 0;variable.kfv_dvt = variable.kfv_dvt ?? 0;",
           "variable.kfv_t = math.mod(query.life_time + variable.kfv_off, 14);",
           "variable.kfv_side = math.mod(math.floor((query.life_time + variable.kfv_off) / 14), 2) * 2 - 1;",
           "variable.kfv_idle = math.clamp(1 - query.modified_move_speed * 3, 0, 1) * (1 - query.property('kaleidoscope_fishing:diving')) * (1 - query.property('kaleidoscope_fishing:carrying'));",
           "variable.kfv_wing = variable.kfv_idle * query.is_on_ground * (variable.kfv_t < 4) * math.clamp(math.sin(variable.kfv_t * 45) * 1.8, 0, 1);",
           "variable.kfv_preen = variable.kfv_idle * (variable.kfv_t >= 6 && variable.kfv_t < 9) * math.clamp(math.sin((variable.kfv_t - 6) * 60) * 2, 0, 1);",
-          "variable.kfv_flick = variable.kfv_idle * (variable.kfv_t >= 10.5 && variable.kfv_t < 11.1);"
+          "variable.kfv_flick = variable.kfv_idle * (variable.kfv_t >= 10.5 && variable.kfv_t < 11.1);",
+          "variable.kfv_dvt = query.property('kaleidoscope_fishing:diving') ? variable.kfv_dvt + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_crt = query.property('kaleidoscope_fishing:carrying') ? variable.kfv_crt + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_dw = query.property('kaleidoscope_fishing:diving') * math.clamp(variable.kfv_dvt / 0.2, 0, 1) * math.clamp((0.55 - variable.kfv_dvt) / 0.1, 0, 1);",
+          "variable.kfv_dl = query.property('kaleidoscope_fishing:diving') * math.clamp((variable.kfv_dvt - 0.45) / 0.1, 0, 1);",
+          "variable.kfv_du = query.property('kaleidoscope_fishing:diving') * math.clamp((variable.kfv_dvt - 0.9) / 0.2, 0, 1);",
+          "variable.kfv_shake = query.property('kaleidoscope_fishing:carrying') * math.clamp(variable.kfv_crt / 0.08, 0, 1) * math.clamp((0.6 - variable.kfv_crt) / 0.15, 0, 1);",
+          "variable.kfv_sw = query.property('kaleidoscope_fishing:carrying') * (1 - query.property('kaleidoscope_fishing:ringed')) * math.clamp((variable.kfv_crt - 1.1) / 0.15, 0, 1) * math.clamp((1.98 - variable.kfv_crt) / 0.12, 0, 1);",
+          "variable.kfv_gulp = query.property('kaleidoscope_fishing:carrying') * (1 - query.property('kaleidoscope_fishing:ringed')) * math.clamp((variable.kfv_crt - 1.45) / 0.35, 0, 1);",
+          "variable.kfv_tryg = query.property('kaleidoscope_fishing:carrying') * query.property('kaleidoscope_fishing:ringed') * math.clamp((variable.kfv_crt - 1.1) / 0.1, 0, 1) * math.clamp((1.5 - variable.kfv_crt) / 0.1, 0, 1);"
         ],
         "animate": [
           "move",
           "idle",
+          "dive",
+          "catch",
           "look_at_target"
         ]
       },

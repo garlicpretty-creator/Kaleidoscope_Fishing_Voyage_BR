@@ -14,8 +14,9 @@ The clock is a brass disc held flat in the hand, read from above with "forward" 
 Everything that carries meaning is a cube, not a painted mark, so nothing depends on how a face's texture is
 mirrored (the painted ticks and the bezel's engraving are symmetric). The turning and the moon are Molang in
 animations/tide_clock.animation.json and render_controllers/kfv_tide_clock.render_controllers.json; they follow
-fishing/water.js tideState(). The hand turns clockwise (a negative Y rotation: Bedrock's Y angle runs the other way
-round).
+fishing/water.js tideState(). The hand turns clockwise, which in game is a POSITIVE Y rotation in the animation
+(checked in game 2026-11-17: with the old negative sign the held hand ran anticlockwise, the mirror of the wall clock;
+tools/render_models.py draws Y the other way round, so do not judge the held hand by its preview).
 
 On a wall (1.5.0) the same dial is a block, 1.5 times the size, with the blue arc at the top. A block cannot run
 Molang on the time of day, so the hand is one of 16 bones, 22.5 degrees apart, and blocks/tideClock.js shows the

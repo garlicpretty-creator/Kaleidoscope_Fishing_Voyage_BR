@@ -6,7 +6,7 @@
       "bones": {
         "body": {
           "rotation": [
-            "math.sin(query.modified_distance_moved * 38) * 2 * query.modified_move_speed + (1 - query.is_on_ground) * -8",
+            "math.sin(query.modified_distance_moved * 38) * 2 * query.modified_move_speed + (1 - query.is_on_ground) * -8 + 5 * query.modified_move_speed * query.is_on_ground",
             0,
             "math.sin(query.modified_distance_moved * 19) * 3 * query.modified_move_speed"
           ],
@@ -18,36 +18,36 @@
         },
         "leg_l": {
           "rotation": [
-            "math.cos(query.modified_distance_moved * 38) * 30 * query.modified_move_speed + (1 - query.is_on_ground) * 75",
+            "math.cos(query.modified_distance_moved * 38) * 36 * query.modified_move_speed + (1 - query.is_on_ground) * 75",
             0,
             0
           ]
         },
         "leg_r": {
           "rotation": [
-            "-(math.cos(query.modified_distance_moved * 38) * 30 * query.modified_move_speed) + (1 - query.is_on_ground) * 75",
+            "-(math.cos(query.modified_distance_moved * 38) * 36 * query.modified_move_speed) + (1 - query.is_on_ground) * 75",
             0,
             0
           ]
         },
         "neck": {
           "rotation": [
-            "math.sin(query.life_time * 50) * 3 + math.sin(query.modified_distance_moved * 76) * 9 * query.modified_move_speed + query.property('kaleidoscope_fishing:pecking') * 60 + (1 - query.is_on_ground) * 25",
-            "math.sin(query.life_time * 21) * 10 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground",
+            "math.sin(query.life_time * 50) * 3 * variable.kfv_still + math.sin(query.modified_distance_moved * 76) * 9 * query.modified_move_speed + math.sin(query.modified_distance_moved * 38 - 60) * 8 * query.modified_move_speed * query.is_on_ground + (1 - query.is_on_ground) * 25",
+            "math.sin(query.life_time * 21) * 10 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground * variable.kfv_still",
             0
           ]
         },
         "neck_upper": {
           "rotation": [
-            "-math.sin(query.modified_distance_moved * 76) * 7 * query.modified_move_speed - (1 - query.is_on_ground) * 20",
+            "-math.sin(query.modified_distance_moved * 76) * 7 * query.modified_move_speed - (1 - query.is_on_ground) * 20 - math.sin(query.modified_distance_moved * 38 - 60) * 8 * query.modified_move_speed * query.is_on_ground",
             0,
             0
           ]
         },
         "head": {
           "rotation": [
-            "query.property('kaleidoscope_fishing:pecking') * 15 + math.sin(query.modified_distance_moved * 76 + 40) * 5 * query.modified_move_speed",
-            "math.sin(query.life_time * 33) * math.sin(query.life_time * 9) * 25 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground",
+            "math.sin(query.modified_distance_moved * 76 + 40) * 5 * query.modified_move_speed",
+            "math.sin(query.life_time * 33) * math.sin(query.life_time * 9) * 25 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground * variable.kfv_still",
             0
           ]
         },
@@ -70,6 +70,53 @@
             0,
             0,
             "-((1 - query.is_on_ground) * (math.sin(query.life_time * 600) * 35 + 25)) - math.sin(query.modified_distance_moved * 19) * 3 * query.modified_move_speed"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.heron.hunt": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "rotation": [
+            "6 * variable.kfv_coil + 10 * variable.kfv_st",
+            0,
+            0
+          ]
+        },
+        "neck": {
+          "rotation": [
+            "-22 * variable.kfv_coil * (1 - variable.kfv_st) + 70 * variable.kfv_st",
+            0,
+            0
+          ]
+        },
+        "neck_upper": {
+          "rotation": [
+            "28 * variable.kfv_coil * (1 - variable.kfv_st) - 5 * variable.kfv_st",
+            0,
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "-6 * variable.kfv_coil * (1 - variable.kfv_st) + 20 * variable.kfv_st",
+            0,
+            0
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            0,
+            0,
+            "4 * variable.kfv_st"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            0,
+            "-4 * variable.kfv_st"
           ]
         }
       }

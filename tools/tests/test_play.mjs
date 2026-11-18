@@ -342,6 +342,70 @@ setComps(await boot());
   ok(!missing.length, `journal: every index icon exists (${missing.join(', ') || icons.length + ' icons'})`);
 }
 
+// ---------- 1.5.0: workstation effects (immersive pass: particles and sounds, blocks/stationFx.js) ----------
+{
+  const SF = 'station_';
+  const since = n => log.particles.slice(n).filter(p => p.startsWith(NS + SF)).map(p => p.slice(NS.length + SF.length));
+  // cleaning board: each cut has its own bits flying
+  clearInv(); drops(); const c = place(NS + 'fish_cleaning_board');
+  P.hold(NS + 'grey_mullet', 1); use(c); P.hold(NS + 'fishing_knife', 1);
+  const cuts = [];
+  for (let g = 0; st(c, 'cut') > 0 && g < 5; g++) { const n = log.particles.length; use(c); cuts.push(since(n)); }
+  ok(cuts[0]?.includes('scales') && cuts[1]?.includes('gut') && cuts.at(-1)?.includes('chips'),
+    `effects: the board's scaling cut flicks scales, gutting splats, filleting throws chips (${cuts.map(x => x.join('+')).join(' / ')})`);
+  // wooden tub: salt stirs the brine; clams breathe bubbles and spit sand while purging, throttled per block
+  clearInv(); const t = place(NS + 'wooden_tub');
+  P.hold('minecraft:water_bucket', 1); use(t);
+  let n = log.particles.length; P.hold(NS + 'sea_salt', 1); use(t);
+  ok(since(n).includes('stir') && since(n).includes('salt'), `effects: salt stirs into the tub's water (${since(n)})`);
+  P.hold(NS + 'clam', 2); use(t); use(t);
+  clock.abs += 200; n = log.particles.length; tick(t); tick(t);
+  const purge = since(n);
+  ok(purge.filter(x => x === 'purge').length === 1 && purge.includes('sand'), `effects: purging clams bubble and spit sand, once per block tick at most (${purge})`);
+  const gp = D.getPlayers; D.getPlayers = () => [];
+  clock.abs += 200; n = log.particles.length; tick(t);
+  ok(!since(n).length, 'effects: with no player near, an idle tub spawns nothing');
+  D.getPlayers = gp;
+  // salt pan: heat in the sun, a glint when it turns to salt, flakes when it is scraped up
+  const getBiome0 = D.getBiome; D.getBiome = () => ({ id: 'minecraft:beach' });
+  clearInv(); const s = place(NS + 'salt_pan');
+  P.hold('minecraft:water_bucket', 1); use(s);
+  n = log.particles.length; wait(s, 13000, 60);
+  ok(since(n).includes('heat') && since(n).includes('sparkle_burst') && st(s, 'stage') === 3, `effects: the salt pan shimmers while drying and glints when done (${[...new Set(since(n))]})`);
+  n = log.particles.length; P.hold(undefined); use(s);
+  ok(since(n).includes('salt') && inv('sea_salt') === 4, 'effects: scraping the salt up throws white flakes');
+  D.getBiome = getBiome0;
+  // fish sauce jar: bubbles and vapour while sealed, a puff when it opens, drips when a serving is drawn
+  const { SAUCE_FISH } = await importScript('data/generated.js');
+  clearInv(); const j = place(NS + 'fish_sauce_jar');
+  P.selectedSlotIndex = 1; P.hold(NS + 'sea_salt', 1); use(j); P.selectedSlotIndex = 0; P.hold(SAUCE_FISH[0], 4); for (let i = 0; i < 4; i++) use(j);
+  clock.abs += 200; n = log.particles.length; tick(j);
+  ok(st(j, 'stage') === 2 && since(n).includes('ferment'), `effects: a sealed jar bubbles at the lid (${since(n)})`);
+  n = log.particles.length; wait(j, 3700);
+  ok(st(j, 'stage') === 3 && since(n).includes('jar_pop') && log.sounds.includes('block.barrel.open'), 'effects: the lid pops off with a puff when the sauce is ready');
+  n = log.particles.length; P.hold('minecraft:glass_bottle', 1); use(j);
+  ok(since(n).includes('sauce') && inv('fish_sauce') === 1, 'effects: drawing a bottle drips sauce off the rim');
+  // drying rack: fresh fish drip; a dry batch glints
+  clearInv(); const r = place(NS + 'drying_rack');
+  P.hold(NS + 'gutted_fish', 1); use(r);
+  clock.abs += 300; n = log.particles.length; tick(r);
+  ok(since(n).includes('drip_slow'), `effects: fresh fish on the rack drip (${since(n)})`);
+  n = log.particles.length; wait(r, 48200);
+  ok(st(r, 'stage') === 2 && since(n).includes('sparkle_burst'), 'effects: a batch that turns dry glints');
+  // pond feeder: feed thrown in scatters pellets onto the water
+  const x = 400;
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) for (const y of [63, 64]) D.place('minecraft:water', { x: x + dx, y, z: dz });
+  const fd = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 });
+  for (const [comp] of compsOf(fd)) comp.onPlace?.({ block: fd });
+  clearInv(); n = log.particles.length; P.hold(NS + 'fish_meal', 2); use(fd);
+  ok(since(n).includes('pellets') && since(n).includes('pellet_drop'), `effects: feeding the pond scatters pellets onto the water (${since(n)})`);
+  // every station effect the scripts sent has its particle file
+  const RPp = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]', 'particles');
+  const used = [...new Set(log.particles.filter(p => p.startsWith(NS + SF)).map(p => p.slice(NS.length)))];
+  const lost = used.filter(id => !existsSync(join(RPp, `kfv_${id}.json`)));
+  ok(used.length >= 15 && !lost.length, `effects: every station particle used has its file (${used.length} used${lost.length ? '; missing ' + lost.join(', ') : ''})`);
+}
+
 // ---------- sweep: every scripted block against a handful of held items ----------
 const HELD = [undefined, 'carp', 'sea_salt', 'grey_mullet', 'salted_mullet_roe', 'dried_shrimp', 'shrimp', 'live_shrimp',
   'fishing_knife', 'angler_journal', 'minecraft:glass_bottle', 'minecraft:bowl', 'minecraft:stick', 'minecraft:bucket', 'emperor_tuna'];

@@ -183,6 +183,19 @@ const CLASS_PRICE = { 0: 1, [SMALL]: 0.6, [MEDIUM]: 1, [LARGE]: 1.6 };
 export const priceOf = id => MERCHANT_PRICES[id] ?? externalPrice(id);
 const CREDIT = `${NS}:merchant_credit`, SPENT = `${NS}:spent`;
 const snd = (e, id, pitch = 1, volume = 0.8) => { try { e.dimension.playSound(id, e.location, { pitch, volume }); } catch {} };
+// 1.5.0 (immersive motion): a gesture the resource pack plays for about 1.5 s: 1 a little bow and nod (a sale, or the
+// trading screen opening), 2 a shake of the head (he will not buy).
+const gestureAt = new Map();
+function gesture(m, kind) {
+  const tick = system.currentTick;
+  gestureAt.set(m.id, tick);
+  try { m.setProperty(`${NS}:gesture`, kind); } catch {}
+  system.runTimeout(() => {
+    if (gestureAt.get(m.id) !== tick) return;
+    gestureAt.delete(m.id);
+    try { if (m.isValid) m.setProperty(`${NS}:gesture`, 0); } catch {}
+  }, 30);
+}
 
 function sell(player, merchant, id) {
   const slot = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
@@ -202,7 +215,7 @@ function sell(player, merchant, id) {
   // a short purse does not stop his order: the fish it still asks for are taken as well, unpaid
   const bought = n;
   n = Math.max(bought, Math.min(stack.amount, room));
-  if (n <= 0) { snd(merchant, "mob.wanderingtrader.no"); return; }
+  if (n <= 0) { snd(merchant, "mob.wanderingtrader.no"); gesture(merchant, 2); return; }
   const total = credit + bought * each, paid = Math.floor(total);
   try { player.setDynamicProperty(CREDIT, Math.round((total - paid) * 1000) / 1000); } catch {}
   try { merchant.setDynamicProperty(SPENT, spent + paid); } catch {}
@@ -215,6 +228,7 @@ function sell(player, merchant, id) {
     catch { try { player.dimension.spawnItem(em, player.location); } catch {} }
   }
   snd(merchant, "mob.wanderingtrader.yes");
+  gesture(merchant, 1);
   emit("sold", player, { id, n, paid });
   fillOrder(merchant, player, Math.min(n, room));
   snd(player, paid > 0 ? "random.orb" : "random.pop", 1.2, 0.5);
@@ -231,3 +245,11 @@ world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
   ev.cancel = true;                                      // no trading screen: he takes the fish
   system.run(() => { try { sell(player, target, id); } catch (err) { console.warn(`[Fishing Voyage] merchant sale: ${err}`); } });
 });
+
+// Opening his trading screen earns a bow as well.
+try {
+  world.afterEvents.playerInteractWithEntity.subscribe(ev => {
+    if (ev.target?.typeId !== MERCHANT) return;
+    try { gesture(ev.target, 1); } catch {}
+  });
+} catch {}

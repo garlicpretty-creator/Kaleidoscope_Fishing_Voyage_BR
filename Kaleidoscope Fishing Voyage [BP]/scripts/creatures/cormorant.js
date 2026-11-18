@@ -9,6 +9,7 @@ import { isWater } from "../fishing/water.js";
 import { SMALL, applyClass } from "../fishing/size.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
+import { biomeIdAt } from "../util/biome.js";
 
 const NS = "kaleidoscope_fishing";
 const CORM = `${NS}:cormorant`;
@@ -101,8 +102,7 @@ function findWater(c) {
 }
 
 function pickFish(dim, at) {
-  let biome = "";
-  try { biome = String(dim.getBiome?.(at)?.id ?? ""); } catch {}
+  const biome = biomeIdAt(dim, at);
   const table = /ocean|beach|shore/.test(biome) ? SEA : RIVER;
   let r = Math.random() * table.reduce((a, [, w]) => a + w, 0);
   for (const [id, w] of table) { r -= w; if (r <= 0) return id.includes(":") ? id : `${NS}:${id}`; }
@@ -120,15 +120,34 @@ function dive(c, owner, water) {
   // otherwise pop it straight back up between script updates (v1.4.1: it only ever bobbed).
   // The hold is the only thing keeping it down: the dive event no longer switches gravity off, since
   // removing that group afterwards also removed the base physics and the cormorant floated into the sky.
+  // 1.5.0 (immersive motion): first it crouches on its spot, eyeing the water (WINDUP ticks: the resource pack's dive
+  // animation tucks the wings and draws the head back), then it leaps along a short arc (LEAP ticks, nose down) and
+  // plunges with a splash; only then is it held under.
   const under = { x: water.x, y: water.y - 1, z: water.z };
-  try { c.teleport(under); } catch {}
-  snd(dim, "random.splash", water, 1.1, 0.6);
-  fx(dim, "minecraft:water_splash_particle", { x: water.x, y: water.y + 1, z: water.z });
+  const entry = { x: water.x, y: water.y + 0.9, z: water.z };
+  const from = { ...c.location };
+  const WINDUP = 10, LEAP = 8, PLUNGE = WINDUP + LEAP;
+  const facing = { x: water.x + (water.x - from.x), y: water.y, z: water.z + (water.z - from.z) };
   let t = 0;
   const h = system.runInterval(() => {
     t += 2;
     if (!c.isValid) { system.clearRun(h); state.delete(c.id); return; }
-    if (t < 60) {
+    if (t <= WINDUP) { try { c.teleport(from, { facingLocation: facing }); } catch {} return; }
+    if (t < PLUNGE) {
+      const k = (t - WINDUP) / LEAP;
+      const at = { x: from.x + (entry.x - from.x) * k, y: from.y + (entry.y - from.y) * k + Math.sin(Math.PI * k) * 0.9, z: from.z + (entry.z - from.z) * k };
+      try { c.teleport(at, { facingLocation: facing }); } catch {}
+      return;
+    }
+    if (t === PLUNGE) {
+      try { c.teleport(under); } catch {}
+      snd(dim, "random.splash", water, 1.1, 0.6);
+      fx(dim, "minecraft:water_splash_particle", { x: water.x, y: water.y + 1, z: water.z });
+      fx(dim, `${NS}:creature_splash`, { x: water.x, y: water.y + 0.95, z: water.z });
+      fx(dim, `${NS}:creature_ripple`, { x: water.x, y: water.y + 0.9, z: water.z });
+      return;
+    }
+    if (t < PLUNGE + 60) {
       try { c.teleport(under); } catch {}
       if (t % 10 === 0) fx(dim, "minecraft:water_wake_particle", { x: water.x + Math.random() - 0.5, y: water.y + 0.95, z: water.z + Math.random() - 0.5 });
       return;
@@ -142,6 +161,7 @@ function dive(c, owner, water) {
     try { c.triggerEvent(`${NS}:surface`); } catch {}
     snd(dim, "random.splash", water, 1.3, 0.5);
     fx(dim, "minecraft:water_splash_particle", { x: water.x, y: water.y + 1, z: water.z });
+    fx(dim, `${NS}:creature_ripple`, { x: water.x, y: water.y + 0.9, z: water.z });
     snd(dim, `${NS}.cormorant`, water, 1.1, 0.7);
     system.runTimeout(() => deliver(c, owner, fish), 40);
   }, 2);

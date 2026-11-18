@@ -3,6 +3,7 @@
 // the water type is inferred from depth, sea level and nearby blocks, so the add-on still
 // works on builds without the biome API.
 import { world } from "@minecraft/server";
+import { canonBiome } from "../util/biome.js";
 
 const SEA_LEVEL = 63;
 const MAX_DEPTH_SCAN = 24;
@@ -18,7 +19,7 @@ function biomeId(dim, loc) {
   try {
     if (typeof dim.getBiome !== "function") return "";
     const b = dim.getBiome(loc);
-    return String(b?.id ?? b?.typeId ?? "").replace(/^minecraft:/, "");
+    return canonBiome(b?.id ?? b?.typeId ?? "").replace(/^minecraft:/, "");
   } catch { return ""; }
 }
 

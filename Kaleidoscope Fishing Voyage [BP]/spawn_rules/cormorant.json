@@ -14,14 +14,14 @@
           "adjust_for_weather": false
         },
         "minecraft:weight": {
-          "default": 14
+          "default": 4
         },
         "minecraft:herd": {
-          "min_size": 2,
-          "max_size": 3
+          "min_size": 1,
+          "max_size": 2
         },
         "minecraft:density_limit": {
-          "surface": 6
+          "surface": 2
         },
         "minecraft:biome_filter": {
           "all_of": [
@@ -34,6 +34,10 @@
                 {
                   "test": "has_biome_tag",
                   "value": "mangrove_swamp"
+                },
+                {
+                  "test": "has_biome_tag",
+                  "value": "bop_like_mangrove_swamp"
                 }
               ]
             },
@@ -53,20 +57,28 @@
           "adjust_for_weather": false
         },
         "minecraft:weight": {
-          "default": 10
+          "default": 4
         },
         "minecraft:herd": {
-          "min_size": 2,
-          "max_size": 4
+          "min_size": 1,
+          "max_size": 2
         },
         "minecraft:density_limit": {
-          "surface": 6
+          "surface": 2
         },
         "minecraft:biome_filter": {
           "all_of": [
             {
-              "test": "has_biome_tag",
-              "value": "beach"
+              "any_of": [
+                {
+                  "test": "has_biome_tag",
+                  "value": "beach"
+                },
+                {
+                  "test": "has_biome_tag",
+                  "value": "bop_like_beach"
+                }
+              ]
             },
             {
               "test": "has_biome_tag",

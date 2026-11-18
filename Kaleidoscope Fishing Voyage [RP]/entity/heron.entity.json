@@ -14,12 +14,31 @@
       },
       "animations": {
         "move": "animation.kaleidoscope_fishing.heron.move",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "hunt": "animation.kaleidoscope_fishing.heron.hunt"
       },
       "scripts": {
+        "initialize": [
+          "variable.kfv_off = math.random(0, 12);",
+          "variable.kfv_hc = 0;variable.kfv_hs = 0;variable.kfv_pkt = 0;"
+        ],
         "animate": [
           "move",
+          "hunt",
           "look_at_target"
+        ],
+        "pre_animation": [
+          "variable.kfv_hc = variable.kfv_hc ?? 0;variable.kfv_hs = variable.kfv_hs ?? 0;variable.kfv_pkt = variable.kfv_pkt ?? 0;",
+          "variable.kfv_pkt = query.property('kaleidoscope_fishing:pecking') ? variable.kfv_pkt + math.min(query.delta_time, 0.1) : 0;",
+          "variable.kfv_hc = query.property('kaleidoscope_fishing:pecking') ? math.clamp(variable.kfv_pkt / 0.3, 0, 1) : math.max(0, variable.kfv_hc - math.min(query.delta_time, 0.1) * 2.5);",
+          "variable.kfv_hs = query.property('kaleidoscope_fishing:pecking') ? math.clamp((variable.kfv_pkt - 0.6) / 0.08, 0, 1) : math.max(0, variable.kfv_hs - math.min(query.delta_time, 0.1) * 2.5);",
+          "variable.kfv_idle = query.is_on_ground * math.clamp(1 - query.modified_move_speed * 3, 0, 1);",
+          "variable.kfv_it = math.mod(query.life_time + variable.kfv_off, 12);",
+          "variable.kfv_ic = variable.kfv_idle * math.clamp((variable.kfv_it - 8) / 0.3, 0, 1) * math.clamp((10.5 - variable.kfv_it) / 0.4, 0, 1);",
+          "variable.kfv_is = variable.kfv_ic * math.clamp((variable.kfv_it - 8.7) / 0.08, 0, 1);",
+          "variable.kfv_coil = math.max(variable.kfv_hc, variable.kfv_ic);",
+          "variable.kfv_st = math.max(variable.kfv_hs, variable.kfv_is);",
+          "variable.kfv_still = 1 - variable.kfv_coil;"
         ]
       },
       "render_controllers": [
