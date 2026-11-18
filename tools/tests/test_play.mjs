@@ -326,12 +326,16 @@ setComps(await boot());
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() });
   await new Promise(r => setTimeout(r, 20)); flush();
   const form = log.forms[n];
-  const keys = (form?.buttons ?? []).map(b => b.t?.translate ?? String(b.t));
+  const { G } = await importScript('data/glyphs.js');
+  const { GROUPS, groupGlyph } = await importScript('journal/journal.js');
+  const keys = (form?.buttons ?? []).map(b => String(b.t));
   ok(!!form, `journal: using it opens the index (${keys.length} buttons)`);
-  const want = ['recipes', 'tide', 'group_freshwater', 'group_wetland', 'group_sea', 'group_ice', 'group_lava', 'group_end', 'group_cave', 'group_secret', 'group_sky', 'group_legend'];
-  ok(want.every(k => keys.includes('kaleidoscope_fishing.journal.' + k)) && keys.indexOf('kaleidoscope_fishing.journal.group_legend') > keys.indexOf('kaleidoscope_fishing.journal.group_sky'),
-    'journal: recipes, tides and the ten groups are there (1.5.0: Hidden Waters and Sky, legends last)');
-  ok(!keys.some(k => /title_|contest|longline|hints|cleaning/.test(k)), `journal: no titles, contest, longline, hint or cleaning pages (${keys.map(k => k.split('.').pop()).join(', ')})`);
+  const want = ['freshwater', 'wetland', 'sea', 'ice', 'lava', 'end', 'cave', 'secret', 'sky', 'legend'];
+  // 1.6.0: glyph buttons only: the pot, the tide clock, one water per group (legends ✦, last), the gear
+  ok(GROUPS.join() === want.join() && keys.join('|') === [G['ui.recipes'], G['ui.tide_clock'], ...want.map(groupGlyph), G['ui.gear']].join('|') && groupGlyph('legend') === '✦'
+    && new Set(want.map(groupGlyph)).size === want.length,
+    'journal: recipes, tides and the ten groups are there as glyphs, each group its own (1.5.0: Hidden Waters and Sky, legends last)');
+  ok(form?.title === ' ' && !(form?.buttons ?? []).some(b => typeof b.t !== 'string'), 'journal: the index has a blank title and no translated text');
   const icons = (form?.buttons ?? []).map(b => b.icon).filter(Boolean);
   const RP = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]');
   const missing = icons.filter(i => !existsSync(join(RP, i + '.png')));

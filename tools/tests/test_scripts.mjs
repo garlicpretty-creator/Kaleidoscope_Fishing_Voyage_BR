@@ -598,7 +598,8 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(!noWater.length, `glyphs: all ${waters.length} waters have a symbol (missing: ${noWater.join(', ') || 'none'})`);
   const symbols = ['time.day', 'time.night', 'time.dawn', 'time.dusk', 'weather.rain', 'weather.thunder', 'tide.high', 'tide.low', 'tide.slack',
     ...Array.from({ length: 8 }, (_, i) => `moon.${i}`), 'sky.meteor', 'sky.aurora', 'dot.full', 'dot.empty', 'mark.x', 'mark.tick', 'mark.cross',
-    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown'];
+    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown',
+    'mark.sep', 'ui.animation', 'ui.merchant', 'ui.recipe_scrap', 'arrow.up'];   // 1.6.0 step 6: the journal's picture pages
   const noSym = symbols.filter(s => !hasGlyph(s));
   ok(!noSym.length, `glyphs: the plan's symbols are there (missing: ${noSym.join(', ') || 'none'})`);
   const tackle = [...Object.keys(D.PARTS), ...Object.keys(D.RODS)].filter(id => !hasGlyph(id));
