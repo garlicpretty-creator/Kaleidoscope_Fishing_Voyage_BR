@@ -524,10 +524,10 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   answers.push(1);
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
   const tide = log.forms[f0 + 1];
-  const txt = String(tide?.body ?? '');
+  const txt = JSON.stringify(tide?.body ?? {});
   const nowWants = JSON.parse(m.getDynamicProperty(NS + 'wants') ?? '[]');
   const GL = await importScript('data/glyphs.js');
-  ok(txt.includes(`${GL.G['ui.merchant']}  ${nowWants.map(GL.fishGlyph).join(' ')}`) && nowWants.length === 2, 'journal: the tide page shows the merchant and his two wanted fish (glyphs)');
+  ok(txt.includes('market_wants') && nowWants.length === 2 && nowWants.every(w => txt.includes(`name.${short(w)}"`)), 'journal: the tide page lists the merchant\'s two wanted fish');
 
   // selling: fixed wants so the prices are known
   m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna'.slice(1), NS + 'anglerfish'].map(x => x.replace('::', ':'))));
@@ -689,143 +689,57 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   ok(!log.sounds.slice(s1).includes('random.orb'), 'journal: holding it again does not flourish again');
   P.hold(NS + 'recipe_scrap', 2); const f0 = log.forms.length;
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
-  // 1.6.0: every journal page is glyphs only (docs/PLAN_1.6.0.md 6.6): title, body and buttons hold nothing but
-  // private-use glyph characters, the symbols ◆ ✿ ✦ ★ and white space; never a translated message, never a digit
-  const GL = await importScript('data/glyphs.js');
-  const BK = await importScript('journal/book.js');
-  const JJ = await importScript('journal/journal.js');
-  const { recipeLine } = await importScript('journal/recipes.js');
-  const GLYPHY = s => typeof s === 'string' && [...s].every(ch => /\s/.test(ch) || '◆✿✦★'.includes(ch) || (ch.charCodeAt(0) >= 0xE000 && ch.charCodeAt(0) <= 0xF8FF));
-  const glyphOnly = f => !!f && GLYPHY(f.title) && GLYPHY(f.body ?? '') && f.buttons.every(b => GLYPHY(b.t));
-  const scrapForm = log.forms[f0];
-  ok(learned(P).size === 2 && inv('recipe_scrap') === 1 && log.forms.length === f0 + 1 && RECIPE_HINTS.some(r => scrapForm.body === BK.spaced(recipeLine(r)) && learned(P).has(r.id) && r.id !== r3.id),
-    `journal: reading a recipe scrap teaches one more dish, uses the scrap and shows that recipe's line (${learned(P).size} known)`);
-  ok(glyphOnly(scrapForm), 'journal: the recipe-scrap page is glyphs only');
+  ok(learned(P).size === 2 && inv('recipe_scrap') === 1 && log.forms.length === f0 + 1 && RECIPE_HINTS.some(r => r.nameKey === log.forms[f0].title?.translate && learned(P).has(r.id)),
+    `journal: reading a recipe scrap teaches one more dish, uses the scrap and shows that recipe (${learned(P).size} known)`);
 
-  // every recipe line, read back against RECIPE_HINTS: station ┃ ingredient (dots for 2+) ... → dish (dots for 2+)
-  {
-    const full = n => (n > 1 ? GL.G['dot.full'].repeat(n) : '');
-    const bad = RECIPE_HINTS.filter(r => {
-      const parts = recipeLine(r).split(' ');
-      const want = [GL.stationGlyph(r.method), GL.G['mark.sep'], ...r.ingredients.map(([k, n]) => GL.itemGlyph(k) + full(n)), GL.G['arrow.right'], GL.itemGlyph(r.id) + full(r.count)];
-      return parts.join('|') !== want.join('|') || !GLYPHY(recipeLine(r)) || GL.itemGlyph(r.id) === GL.G['item.unknown'] || GL.stationGlyph(r.method) === GL.G['item.unknown'];
-    });
-    ok(!bad.length, `journal: all ${RECIPE_HINTS.length} recipe lines are station ┃ ingredients → dish, with dots for counts, as RECIPE_HINTS says (wrong: ${bad.map(r => short(r.id)).join(', ') || 'none'})`);
-    const oyster = RECIPE_HINTS.find(r => r.id === NS + 'oyster_omelette');
-    ok(!oyster || recipeLine(oyster).startsWith(`${GL.G['station.wok']} ${GL.G['mark.sep']} ${GL.G[NS + 'oyster']}${GL.dots(2, 2)} `), 'journal: oyster omelette reads wok ┃ oyster ●● ...');
-  }
-
+  const J = 'kaleidoscope_fishing.journal.';
+  const titleOf = f => f?.title?.translate ?? String(f?.title);
   async function openJournal(seq) {
     clearInv(); P.hold(NS + 'angler_journal', 1); const n = log.forms.length;
     answers.length = 0; answers.push(...seq);
-    fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle(40);
+    fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle(30);
     answers.length = 0;
     return log.forms.slice(n);
   }
-  const PG = BK.PAGE, RPAGES = Math.ceil(RECIPE_HINTS.length / PG);
   // recipes: index -> recipes -> a known recipe -> back -> back to the index -> close
-  let fs = await openJournal([0, 3, 0, PG + 1]);
-  ok(fs.length === 5 && fs.every(glyphOnly) && fs.every(f => f.title === ' '), `journal: index > recipes > ${short(r3.id)} > recipes > index, every page glyphs only with a blank title (${fs.length} pages)`);
-  ok(fs[2]?.body === BK.spaced(recipeLine(r3)) && fs[2].buttons.length === 1 && fs[2].buttons[0].t === BK.BACK, 'journal: a recipe page is its one line and the back arrow');
-  ok(fs[1]?.buttons?.length === PG + 2 && fs[1].buttons[PG].t === BK.NEXT && fs[1].buttons[PG + 1].t === BK.BACK
-    && fs[1].buttons.slice(0, PG).every((b, i) => b.t === (learned(P).has(RECIPE_HINTS[i].id) ? GL.itemGlyph(RECIPE_HINTS[i].id) : GL.G['ui.recipe_scrap'])),
-    `journal: the recipe list shows ${PG} dishes a page, known ones as their glyph and the rest as a recipe scrap, then → and back`);
-  // paging through all the recipes: → on each page; the last page has ← and back only
-  fs = await openJournal([0, ...Array.from({ length: RPAGES - 1 }, (_, p) => (p === 0 ? PG : PG + 1))]);
-  const pages = fs.slice(1);
-  const shown = pages.flatMap(f => f.buttons.filter(b => ![BK.PREV, BK.NEXT, BK.BACK].includes(b.t)));
-  ok(pages.length === RPAGES && shown.length === RECIPE_HINTS.length && pages.every((f, p) => f.body.endsWith(GL.dots(p + 1, RPAGES)) && f.buttons.length <= PG + 3)
-    && pages.at(-1).buttons.slice(-2).map(b => b.t).join() === [BK.PREV, BK.BACK].join() && pages.every(glyphOnly),
-    `journal: ${RECIPE_HINTS.length} recipes on ${RPAGES} pages of at most ${PG}, turned with the arrows; the page dots tell where you are`);
-  const unknownIdx = RECIPE_HINTS.findIndex((r, i) => i >= PG && !learned(P).has(r.id));
-  fs = await openJournal([0, PG, unknownIdx - PG]);
-  ok(fs.length === 4 && fs[3].body === fs[2].body && fs[3].body.endsWith(GL.dots(2, RPAGES)), 'journal: an unknown recipe keeps you on the same page of the recipe list');
+  let fs = await openJournal([0, 3, 0, RECIPE_HINTS.length]);
+  ok(fs.map(titleOf).join(' > ') === [J + 'title', J + 'recipes', r3.nameKey, J + 'recipes', J + 'title'].join(' > '), `journal: index > recipes > ${short(r3.id)} > recipes > index (${fs.map(f => short(titleOf(f))).join(' > ')})`);
+  const rbody = JSON.stringify(fs[2]?.body ?? {});
+  ok(rbody.includes(`method_${r3.method}`) && r3.ingredients.every(([k]) => rbody.includes(k)), 'journal: a recipe page shows its station and every ingredient');
+  ok(fs[1]?.buttons?.length === RECIPE_HINTS.length + 1 && fs[1].buttons.filter(b => b.t?.translate === J + 'unknown').length === RECIPE_HINTS.length - 2, 'journal: the recipe list shows known dishes by name and the rest as unknown');
+  const unknownIdx = RECIPE_HINTS.findIndex(r => !learned(P).has(r.id));
+  fs = await openJournal([0, unknownIdx]);
+  ok(fs.map(titleOf).slice(0, 3).join() === [J + 'title', J + 'recipes', J + 'recipes'].join(), 'journal: an unknown recipe keeps you on the recipe list');
   // tide (no merchant about)
   fs = await openJournal([1, 0]);
-  const WA = await importScript('fishing/water.js');
-  ok(fs.length === 3 && glyphOnly(fs[1]) && fs[1].body.trimStart().startsWith(GL.G[`tide.${WA.tideState()}`])
-    && fs[1].body.includes(GL.G[`moon.${WA.moonPhase()}`]) && !fs[1].body.includes(GL.G['ui.merchant']) && fs[1].buttons.length === 1,
-    'journal: index > tide (tide and moon glyphs; no merchant about, no merchant glyph) > back to the index');
+  ok(fs.map(titleOf).join() === [J + 'title', J + 'tide', J + 'title'].join() && JSON.stringify(fs[1].body).includes('market_none') && /tide_(high|low)/.test(JSON.stringify(fs[1].body)),
+    'journal: index > tide (tide, moon, "no merchant about") > back to the index');
   // every water group, one species page each
-  const { GROUPS } = JJ;
+  const { GROUPS } = await importScript('journal/journal.js');
   const first = JOURNAL_SPECIES[0];
   P.setDynamicProperty(NS + 'journal', JSON.stringify({ [first.id]: { n: 3, b: 42 } }));
   for (let gi = 0; gi < GROUPS.length; gi++) {
     const g = GROUPS[gi], list = JOURNAL_SPECIES.filter(sp => (sp.group ?? 'freshwater') === g);
-    const back = list.length > PG ? PG + 1 : list.length;
-    fs = await openJournal([2 + gi, 0, 0, back]);
-    const rec = list[0].id === first.id ? { n: 3, b: 42 } : undefined;
-    const pic = sp => (sp.id === first.id ? GL.fishGlyph(sp.id) : GL.shadowGlyph(sp.id));
-    ok(fs.length === 5 && fs.every(glyphOnly) && fs[1].body.trimStart().startsWith(JJ.groupGlyph(g)) && fs[1].buttons.slice(0, Math.min(PG, list.length)).every((b, i) => b.t === pic(list[i]))
-      && fs[2].body === BK.spaced(JJ.speciesBody(list[0], rec)) && fs[2].body.trimStart().startsWith(pic(list[0])),
-      `journal: index > ${g} (${list.length} species: fish or shadow) > ${short(list[0].id)} page > ${g} > index, glyphs only`);
+    fs = await openJournal([2 + gi, 0, 0, list.length]);
+    const want = [J + 'title', J + `group_${g}`, list[0].id === first.id ? `kaleidoscope_fishing.name.${first.key}` : J + 'unknown', J + `group_${g}`, J + 'title'];
+    const sbody = JSON.stringify(fs[2]?.body ?? {});
+    const bodyOk = list[0].id === first.id ? sbody.includes(J + 'times') && (!first.sized || sbody.includes(J + 'best')) : sbody.includes(J + 'not_yet');
+    ok(fs.map(titleOf).join() === want.join() && fs[1].buttons.length === list.length + 1 && bodyOk,
+      `journal: index > ${g} (${list.length} species) > ${short(list[0].id)} page > ${g} > index`);
   }
-  // the sea has more than a page: the 21st fish is on page two, and its back arrow returns to page two
-  {
-    const gi = GROUPS.indexOf('sea'), list = JOURNAL_SPECIES.filter(sp => (sp.group ?? 'freshwater') === 'sea');
-    fs = await openJournal([2 + gi, PG, 0, 0]);
-    ok(list.length > PG && fs.length === 5 && fs[2].buttons[0].t === GL.shadowGlyph(list[PG].id) && fs[3].body === BK.spaced(JJ.speciesBody(list[PG], undefined)) && fs[4].body === fs[2].body,
-      `journal: the sea's ${list.length} species take two pages; a fish on page two goes back to page two`);
-  }
-  fs = await openJournal([]);
-  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 3 && glyphOnly(fs[0]) && fs[0].body.replace(/\s/g, '').length === JOURNAL_SPECIES.length
-    && fs[0].body.trimStart().startsWith(GL.fishGlyph(first.id)) && fs[0].body.includes(GL.shadowGlyph(JOURNAL_SPECIES[1].id)),
-    'journal: the index body is the 60-fish strip (caught: the fish, the rest: shadows); closing the form closes the journal');
+  fs = await openJournal([GROUPS.length + 3]);
+  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 4, 'journal: the close button closes the journal');
 
-  // the species row, read from the data (6.3) for every catch
+  // records: beating your best marks a record (records.js r, kept for later use)
   {
-    const { CATCHES, RODS } = await importScript('data/generated.js');
-    const { classOf } = await importScript('fishing/size.js');
-    const has = (s, name) => s.includes(GL.G[name]);
-    const bad = [];
-    for (const e of CATCHES) {
-      const f = JJ.speciesFacts(e.id, undefined), q = e.req ?? {};
-      const why = [];
-      if (f.waters !== (e.waters ?? []).slice(0, 4).map(w => GL.G[`water.${w}`]).join('')) why.push('waters');
-      const slots = q.slots ?? e.slots;
-      if (slots ? f.time !== slots.map(s => GL.G[`time.${s}`]).join('')
-        : (has(f.time, 'time.day') !== (e.time === 'day') || has(f.time, 'time.night') !== (e.time === 'night') || has(f.time, 'time.dawn') !== !!e.dawn_dusk
-          || has(f.time, 'time.any') !== (!e.time && !e.dawn_dusk))) why.push('time');
-      if (has(f.weather, 'weather.rain') !== (!!e.rain || q.weather === 'rain') || has(f.weather, 'weather.thunder') !== (q.weather === 'thunder')) why.push('weather');
-      for (const t of ['high', 'low']) if (has(f.tide, `tide.${t}`) !== (!!e.tide?.[t] || q.tide === t)) why.push('tide');
-      for (let m = 0; m < 8; m++) if (has(f.moon, `moon.${m}`) !== ((m === 0 && e.moon === 'full') || (Array.isArray(e.moon) && e.moon.includes(m)) || !!q.moon?.includes(m))) why.push(`moon ${m}`);
-      for (const k of ['meteor', 'aurora']) if (has(f.sky, `sky.${k}`) !== (e.sky === k || q.sky_moon === k || !!e.sky_waters?.[k])) why.push('sky');
-      const rodId = Object.keys(RODS).find(id => f.rod.startsWith(GL.G[id]));
-      const need = Math.max(e.tier ?? 1, q.tier ?? 1);
-      if (!rodId || RODS[rodId].tier < need) why.push('rod tier');
-      if (q.hook && !has(f.rod, q.hook)) why.push('hook');
-      if (q.line && !has(f.rod, q.line)) why.push('line');
-      const liked = [q.bait, ...(e.needBait ?? []), ...Object.keys(e.bait ?? {})].filter(Boolean);
-      if ([...f.bait].length !== Math.min(3, new Set(liked).size) || ![...f.bait].every(ch => liked.some(b => GL.itemGlyph(b) === ch))) why.push('bait');
-      if (f.times || f.size) why.push('record shown without a catch');
-      if (!GLYPHY(Object.values(f).join(''))) why.push('not glyphs');
-      if (why.length) bad.push(`${short(e.id)}: ${why.join(', ')}`);
-    }
-    ok(!bad.length, `journal: every species row matches CATCHES (waters, time, weather, tide, moon, sky, rod, baits) (${bad.join('; ') || `${CATCHES.length} fish`})`);
-    const rodOf = id => Object.keys(RODS).find(r => JJ.speciesFacts(NS + id).rod.startsWith(GL.G[r]))?.split(':')[1];
-    ok(rodOf('carp') === 'bamboo_fishing_rod' && rodOf('anglerfish') === 'voyage_fishing_rod' && rodOf('blazefin') === 'lava_fishing_rod'
-      && rodOf('void_eel') === 'ender_fishing_rod' && rodOf('starfin') === 'bamboo_fishing_rod' && rodOf('river_lord_catfish') === 'voyage_fishing_rod',
-      'journal: the lowest rod: bamboo for a carp (and a starfin under meteors), voyage for an anglerfish or a legend, lava for lava fish, ender for the void');
-    const tuna = JJ.speciesFacts(NS + 'emperor_tuna');
-    ok(tuna.bait.startsWith(GL.itemGlyph(NS + 'live_shrimp')) && has(tuna.tide, 'tide.high') && has(tuna.moon, 'moon.0') && has(tuna.weather, 'weather.rain'),
-      'journal: a legend shows what it asks for (emperor tuna: live shrimp, high tide, full moon, rain)');
-    const dotsOf = n => JJ.speciesFacts(NS + 'carp', { n }).times;
-    ok(dotsOf(1) === GL.dots(1, 5) && dotsOf(5) === GL.dots(5, 5) && dotsOf(6) === GL.dots(5, 5) + GL.G['mark.star'] && dotsOf(40) === dotsOf(6),
-      'journal: times caught: one to five dots, five dots and a star past five');
-    const [lo, hi] = CATCHES.find(c => c.id === NS + 'carp').size;
-    const sizeOf = (b, r) => JJ.speciesFacts(NS + 'carp', { n: 2, b, r }).size;
-    ok(sizeOf(lo) === '◆' && sizeOf(Math.round((lo + hi) / 2)) === '◆◆' && sizeOf(hi) === '◆◆◆' && sizeOf(hi, 1) === '◆◆◆★' && classOf(NS + 'carp', hi) === 3
-      && JJ.speciesFacts(NS + 'shrimp', { n: 2 }).size === '',
-      'journal: best size as ◆ / ◆◆ / ◆◆◆, a ★ after a record; no size, no mark');
     const { recordCatch, getRecords } = await importScript('journal/records.js');
     P.setDynamicProperty(NS + 'journal', undefined);
-    recordCatch(P, NS + 'carp', lo); const noRec = getRecords(P)[NS + 'carp'].r;
-    recordCatch(P, NS + 'carp', hi);
-    ok(!noRec && getRecords(P)[NS + 'carp'].r === 1 && JJ.speciesBody(JOURNAL_SPECIES[0], getRecords(P)[NS + 'carp']).includes('◆◆◆★'),
-      'journal: beating your best marks a record, and the species page shows ◆◆◆★');
+    recordCatch(P, NS + 'carp', 10); const noRec = getRecords(P)[NS + 'carp'].r;
+    recordCatch(P, NS + 'carp', 200);
+    ok(!noRec && getRecords(P)[NS + 'carp'].r === 1 && getRecords(P)[NS + 'carp'].b === 200, 'journal: beating your best marks a record');
   }
 
-  // 1.5.0 settings (journal/settings.js, the one page with words): each player's own track style; only an operator
+  // 1.5.0 settings (journal/settings.js): each player's own track style; only an operator
   // sees the minigame switch and, 1.6.0, the animation switch (util/fx.js)
   {
     const SW = await importScript('fishing/minigameSwitch.js');
@@ -837,14 +751,14 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
     ok(FX.animationsOn(), 'settings: the animations are on by default');
     delete P.commandPermissionLevel; delete P.playerPermissionLevel;
     fs = await openJournal([SET, 0, 1, 0]);
-    ok(fs[0].title === ' ' && isSettings(fs[1]) && fs[1].buttons.length === 2 && JSON.stringify(fs[1].body).includes('settings_op_only') && JSON.stringify(fs[1].body).includes('settings_anim_on'),
+    ok(titleOf(fs[0]) === J + 'title' && isSettings(fs[1]) && fs[1].buttons.length === 2 && JSON.stringify(fs[1].body).includes('settings_op_only') && JSON.stringify(fs[1].body).includes('settings_anim_on'),
       'journal settings: a player who is not an operator sees the track style and Back, and is told why there is no switch');
     ok(SW.charsetFor(P) === 'ascii' && SW.charset() === 'block', `journal settings: the track style is the player's own (theirs ${SW.charsetFor(P)}, the world's ${SW.charset()})`);
     ok(SW.charsetFor({ getDynamicProperty: () => undefined }) === 'block', 'journal settings: a player who has not chosen follows the world');
     ok(SW.minigameOn() && FX.animationsOn(), 'journal settings: without operator rights the minigame and the animations stay as they were');
     P.commandPermissionLevel = 1;
     fs = await openJournal([SET, 1, 3]);
-    ok(fs[1].buttons.length === 4 && !SW.minigameOn() && JSON.stringify(fs[2].body).includes('settings_minigame_off') && fs[3]?.title === ' ', 'journal settings: an operator turns the minigame off for the world; back goes to the index');
+    ok(fs[1].buttons.length === 4 && !SW.minigameOn() && JSON.stringify(fs[2].body).includes('settings_minigame_off') && titleOf(fs[3]) === J + 'title', 'journal settings: an operator turns the minigame off for the world; back goes to the index');
     fs = await openJournal([SET, 1, 0, 3]);
     ok(SW.minigameOn() && SW.charsetFor(P) === 'block', 'journal settings: and on again; the track style switches back');
     fs = await openJournal([SET, 2, 3]);
@@ -1134,9 +1048,9 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   // the journal tells the count
   P.hold(NS + 'angler_journal', 1); const f0 = log.forms.length; answers.push(1);
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
-  const GL = await importScript('data/glyphs.js');
-  const body = String(log.forms[f0 + 1]?.body ?? '');
-  ok(body.includes(`${GL.fishGlyph(NS + 'sea_bass')}  ${GL.dots(3, 4)}`), 'order: the tide page shows the order\'s fish and how far you are (3 of 4 dots)');
+  const body = JSON.stringify(log.forms[f0 + 1]?.body ?? {});
+  ok(body.includes('market_order') && body.includes('name.sea_bass') && body.includes('×4') && body.includes('order_progress') && body.includes('"3","4"'),
+    'order: the tide page shows the order, its count and how far you are (3 of 4)');
   // filling it: a reward, once
   clearInv(); P.hold(NS + 'sea_bass', 5); drops(); n0 = sent.length;
   const before = P.inv.slots.filter(Boolean).reduce((a, s) => a + (s.typeId === NS + 'sea_bass' ? 0 : s.amount), 0);
@@ -1153,7 +1067,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(!evtsSince(n0).some(e => e.t === 'order_filled') && inv('minecraft:emerald') === 1, 'order: a filled order gives no second reward; the fish are simply bought');
   P.hold(NS + 'angler_journal', 1); const f1 = log.forms.length; answers.push(1);
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
-  ok(String(log.forms[f1 + 1]?.body ?? '').includes(`${GL.fishGlyph(NS + 'sea_bass')}  ${GL.G['mark.tick']}`), 'order: the tide page shows a tick when it is filled');
+  ok(JSON.stringify(log.forms[f1 + 1]?.body ?? {}).includes('order_done'), 'order: the tide page says it is filled');
   // 1.6.0: the emeralds' dings
   { m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
     setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
@@ -1289,8 +1203,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(Sk.skyTonight() === 'meteor' && skyEvts().length === 1, 'sky: one roll a night (a later look changes nothing)');
   Sk._resetSkyForTests();
   ok(Sk.skyTonight() === 'meteor', 'sky: a restart remembers tonight (world property)');
-  const { G: GLY } = await importScript('data/glyphs.js');
-  ok(J.tideBody(P).split('\n')[0].endsWith(GLY['sky.meteor']), 'sky: the journal tide page shows tonight\'s meteor shower after the tide and the moon');
+  ok(JSON.stringify(J.tideBody(P)).includes('journal.sky_meteor'), 'sky: the journal tide page tells of tonight\'s meteor shower');
   // what the night changes: drawn sky, star sand, the journal line
   P.location = { x: 0.5, y: 70, z: 0.5 }; biome = 'minecraft:plains';
   const np = log.particles.length;
@@ -1302,7 +1215,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   // dawn
   at(day0 + 1, 100); sent.splice(0); Sk.watchSky(() => 0.05);
   ok(Sk.skyTonight() === '' && skyEvts().length === 1 && skyEvts()[0].phase === 'end' && skyEvts()[0].kind === 'meteor', 'sky: at dawn it is over, and the end is broadcast');
-  ok(!J.tideBody(P).includes(GLY['sky.meteor']), 'sky: by dawn the tide page shows no sky');
+  ok(!JSON.stringify(J.tideBody(P)).includes('journal.sky_'),'sky: by dawn the tide page shows no sky');
   Sk.watchSky(() => 0.05);
   ok(skyEvts().length === 1, 'sky: the end is broadcast once');
   // rain at dusk cancels a meteor shower, the aurora is only felt in the cold

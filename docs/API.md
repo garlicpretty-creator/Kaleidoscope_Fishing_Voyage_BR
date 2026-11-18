@@ -89,13 +89,13 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `bait` | 特定餌的倍率 `{"<餌>":1.5}` | 0–3；餌必須是內建或已註冊的 |
 | `needBait` | 只有用這些餌才上鉤 | 同上 |
 | `sky` | 只在這種天象的夜晚上鉤（1.5.0，要有 `sky` capability） | `"meteor"`（流星雨）或 `"aurora"`（極光之夜；只在寒冷的地方算數） |
-| `like` | 手帳裡借用哪一種漁歌的魚的圖示字元（1.6.0，要有 `no_text` capability） | 漁歌的漁獲 ID（`catalog_request` 的 `catches` 裡沒有 `source` 的那些），例如外部的鱸魚寫 `"kaleidoscope_fishing:sea_bass"` |
+| `like` | 這條魚的圖示字元借用哪一種漁歌的魚（1.6.0，要有 `no_text` capability；目前畫面上沒有用到，見下方） | 漁歌的漁獲 ID（`catalog_request` 的 `catches` 裡沒有 `source` 的那些），例如外部的鱸魚寫 `"kaleidoscope_fishing:sea_bass"` |
 
 水域：`river`、`lake`、`swamp`、`mangrove`、`estuary`、`beach`、`ocean`、`warm_ocean`、`cold_ocean`、`deep_ocean`、`cave`、`ice`、`lava`、`end_pond`、`void`；1.5.0 加上 `mushroom`（蘑菇島）、`cherry`（櫻花樹林）、`deep_dark`（深暗之域，和洞穴一樣只出自己的漁獲）。
 
 不接受：`req`（傳說魚條件）。1.4.0 的漁歌收到 `sky` 會拒絕整筆漁獲，先確認 `capabilities` 有 `sky`。
 
-**手帳裡的外部漁獲（1.6.0）**：手帳只有圖示字元，而字元表是資源包裡的圖，執行中加不進去，所以外部註冊的魚沒有自己的字元。沒寫 `like` 的魚用一個通用的魚影字元；寫了 `like` 就借用那種魚的字元。魚種頁的水域、時段等圖示照你註冊的條件顯示。`like` 只影響圖示，不影響上鉤的條件。1.5.0 以前的漁歌不認得 `like`，會拒絕整筆漁獲：先確認 `capabilities` 有 `no_text`。
+**外部漁獲的圖示字元（1.6.0）**：字元表是資源包裡的圖，執行中加不進去，所以外部註冊的魚沒有自己的字元；寫了 `like` 就借用那種魚的字元（`glyphLikeOf`）。1.6.0 的手帳原本只用圖示字元，正式版改回用文字（和 1.5.0 一樣只列漁歌自己的魚），所以 `like` 目前沒有畫面上的用處，只是照樣接受、記下來，留給之後的圖示使用。`like` 不影響上鉤的條件。1.5.0 以前的漁歌不認得 `like`，會拒絕整筆漁獲：先確認 `capabilities` 有 `no_text`。
 
 ### 漁販收購價 — `register_price`（1.5.0）
 

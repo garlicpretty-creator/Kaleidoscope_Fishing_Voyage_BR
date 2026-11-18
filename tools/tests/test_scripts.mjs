@@ -684,13 +684,6 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(a === 1 && b === 0 && c === 0 && d === 1, 'register_catch: "like" must name one of our catches');
   ok(R.glyphLikeOf('testpack:perch') === `${NS}sea_bass` && R.glyphLikeOf('testpack:perch4') === undefined && R.glyphLikeOf('testpack:nothing') === undefined,
     'glyphLikeOf: the borrowed catch, or undefined (no "like", not registered)');
-  {
-    const JR = await imp('journal/journal.js');
-    const GL = await imp('data/glyphs.js');
-    ok(JR.fishGlyph('testpack:perch') === GL.fishGlyph(`${NS}sea_bass`) && JR.shadowGlyph('testpack:perch') === GL.shadowGlyph(`${NS}sea_bass`)
-      && JR.fishGlyph('testpack:perch4') === GL.fishGlyph('testpack:perch4') && JR.fishGlyph(`${NS}carp`) === GL.fishGlyph(`${NS}carp`),
-      'journal: an outside catch borrows its "like" glyph and shadow; without "like" the generic fish; ours unchanged');
-  }
   R._clearRegistry();
   const api = readFileSync(join(ROOT, 'docs', 'API.md'), 'utf8');
   ok(['no_text', '`like`', '`order`', 'glyph_E1', '四類'].every(k => api.includes(k)), 'docs/API.md describes no_text, like, the order event, the glyph pages and the refusal sounds');

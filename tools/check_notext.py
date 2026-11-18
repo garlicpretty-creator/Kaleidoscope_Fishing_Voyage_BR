@@ -35,6 +35,8 @@ EXCEPTIONS = {
     ("scripts/fishing/minigame.js", "actionbar"): (PERMANENT, "reeling minigame (section 4.2)"),
     ("scripts/fishing/minigameSwitch.js", "message"): (PERMANENT, "reply to an operator's /scriptevent kaleidoscope_fishing:minigame"),
     ("scripts/journal/settings.js", "form"): (PERMANENT, "journal settings page (minigame style, operator switches; 22.1 #8)"),
+    ("scripts/journal/journal.js", "form"): (PERMANENT, "journal pages in words (2026-11-18: the picture-book journal read worse than text)"),
+    ("scripts/journal/recipes.js", "form"): (PERMANENT, "journal recipe pages in words (2026-11-18, with the journal)"),
     ("entities/fishing_skiff.json", "interact_text"): (PERMANENT, "vanilla's own boat label (action.interact.ride.boat), as on every boat; without it touch screens may lose the board button"),
 }
 
