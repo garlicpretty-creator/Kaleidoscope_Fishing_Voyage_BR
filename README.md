@@ -44,6 +44,7 @@ An unofficial fishing and seafood add-on for the Bedrock Edition port of Kaleido
 2. 從 [Releases](../../releases/latest) 下載 `.mcaddon`，點兩下匯入 Minecraft。 / Download the `.mcaddon` from [Releases](../../releases/latest) and open it.
 3. 在世界設定中同時啟用森羅物語與漁歌的行為包、資源包。 / Enable both add-ons' behaviour and resource packs in the world settings.
 4. 從舊版升級：先刪掉舊的漁歌再匯入新版，並先備份世界。 / Upgrading: remove the old Fishing Voyage first, and back up your world.
+5. **版本號對照**：以前流傳過 1.5～1.6 的測試版（腳本註解裡的 `v1.5.5`、`v1.6.3` 這類字樣就是它們）。正式的 1.5.0、1.6.0 和那些舊的 1.5.x、1.6.x 測試版無關；玩過舊測試版的世界不要直接換成正式版。 / **Version numbers**: there used to be 1.5–1.6 test builds (the `v1.5.5`, `v1.6.3` notes in script comments are theirs). The official 1.5.0 and 1.6.0 are unrelated to those old 1.5.x / 1.6.x test builds; do not move a world played with a test build straight to an official release.
 
 不想玩收線小遊戲，可以輸入 `/scriptevent kaleidoscope_fishing:minigame off`。
 To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame off`.
@@ -65,6 +66,7 @@ To turn the reeling minigame off: `/scriptevent kaleidoscope_fishing:minigame of
 - 只能註冊自己命名空間的物品；每次載入世界，收到 `api_ready` 之後要重新註冊。 / Register only items of your own namespace, again on every world load after `api_ready`.
 - 完整的介面文件：[`docs/API.md`](docs/API.md)。 / Full reference: [`docs/API.md`](docs/API.md).
 - 1.5.0 的企劃書：[`docs/PLAN_1.5.0.md`](docs/PLAN_1.5.0.md)；遊戲內檢測表：[`docs/TEST_CHECKLIST_1.5.md`](docs/TEST_CHECKLIST_1.5.md)。 / The 1.5.0 plan and in-game checklist.
+- 1.6.0 企劃書（定案，無字的漁港）：[`docs/PLAN_1.6.0.md`](docs/PLAN_1.6.0.md)；遊戲內檢測表：[`docs/TEST_CHECKLIST_1.6.md`](docs/TEST_CHECKLIST_1.6.md)；更新公告：[`RELEASE_NOTES_v1.6.0.md`](RELEASE_NOTES_v1.6.0.md)。 / The 1.6.0 plan, in-game checklist and release notes.
 - 帶 `kaleidoscope_cookery:kitchen_knife` 標籤的刀都能在魚案板使用。 / Any knife tagged `kaleidoscope_cookery:kitchen_knife` works on the fish cleaning board.
 
 ## 從原始碼打包 / Building from source
@@ -78,16 +80,18 @@ python tools/run_tests.py     # 跑全部離線測試
 ```
 
 - 遊戲資料表在 `tools/data/*.json`，改完用 `python tools/build.py build` 重新產生 `scripts/data/generated.js`。
+- 1.6.0 的圖示字元：對照在 `tools/data/GLYPHS.json`，`build.py build` 會用 `tools/glyphs.py` 一起產生資源包的 `font/glyph_E1.png`～`glyph_E3.png` 與 `scripts/data/glyphs.js`；`python tools/glyphs.py list` 列出還是暫代圖形（等美術）的字元。
 - 同一份原始碼打包出來的 `.mcaddon` 每次都完全相同。
 
 ### 測試 / Tests
 
-`python tools/run_tests.py` 依序執行下面八項，全部通過才會回傳 0：
+`python tools/run_tests.py` 依序執行下面九項，全部通過才會回傳 0：
 
 | 項目 | 檢查內容 |
 |---|---|
-| `build.py check` | `generated.js` 和 `tools/data` 一致 |
+| `build.py check` | `generated.js` 和 `tools/data` 一致；1.6.0 起也檢查字元表 `font/glyph_*.png` 與 `glyphs.js` 和 `tools/data/GLYPHS.json` 一致 |
 | `validate.py` | 交叉檢查所有 ID 引用。目前固定有 39 項「問題」是誤報（配方和地物規則的 ID 不是物品 ID、森羅物語自己的 ID），列在 `tools/tests/validate_baseline.txt`；只有出現新的項目才算失敗 |
+| `check_notext.py` | 1.6.0 的無字檢查：收線小遊戲以外，腳本、實體不能在畫面上顯示文字（actionbar、聊天訊息、指令、表單、物品說明、互動按鈕）。還沒改完的地方列在檔案裡的「已知例外」，改完就要刪掉那一行 |
 | `check_models.py` | 3D 模型結構。有 10 個模型借用森羅物語的幾何，要把 `Kaleidoscope-Cookery-*.mcaddon` 放在本資料夾的上一層才會一起驗證，否則會註明「未驗證」 |
 | `tests/test_pack.py` | JSON、manifest、物品 icon、光影材質、創造模式選單、方塊放置設定、生怪蛋、世界結構 |
 | `tests/test_scripts.mjs` | 用模擬的遊戲環境載入全部腳本，測試自訂元件註冊、給其他附屬包的 API、傳說魚條件、新魚種、天象、魚池、拖網 |

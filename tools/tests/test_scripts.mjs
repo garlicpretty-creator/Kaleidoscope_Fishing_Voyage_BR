@@ -13,6 +13,10 @@
 //   14. 1.5.0: the trawl, the Meteor Marlin from a boat
 //   13. 1.5.0: the fish pond: sizes, who lives where, register_pond_feed
 //   12. 1.5.0: sky events: the nightly roll, pity, rain, the sky fish, the starfin, the aurora's char, the API
+//   18. 1.6.0: lore keeps only symbols: the record ★ hides its length, old "★ N cm" is converted; rod and roe lore are glyphs
+//   17. 1.6.0: glyph characters: every catch, water, dish, ingredient, station and tackle part has one
+//   16. 1.6.0: every refusal key the scripts use has one of the four categories (util/hint.js)
+//   19. 1.6.0: the API (no_text, like), the merchant's tags and dings, harbour sounds, fish prints, the shrimp rack, gulls
 // Run through tools/run_tests.py, or: node --import ./tools/tests/mock/hooks.mjs tools/tests/test_scripts.mjs
 // Exit code 1 if anything fails.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -51,6 +55,7 @@ for (const fn of __subs['system.beforeEvents.startup'] ?? []) {
     });
   } catch (e) { ok(false, `startup handler threw: ${e.message}`); }
 }
+function walkJs(d, acc = []) { for (const f of readdirSync(d)) { const p = join(d, f); statSync(p).isDirectory() ? walkJs(p, acc) : f.endsWith('.js') && acc.push(p); } return acc; }
 function walk(d, acc = []) { for (const f of readdirSync(d)) { const p = join(d, f); statSync(p).isDirectory() ? walk(p, acc) : f.endsWith('.json') && acc.push(p); } return acc; }
 for (const kind of ['block', 'item']) {
   const need = new Map();
@@ -539,6 +544,244 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(warns.length - n0 === bads.length + tbads.length, 'every rejected entry is reported once');
   ok(['board', 'tank'].every(c => R.CAPABILITIES.includes(c)), 'api_ready lists "board" and "tank"');
   R._clearRegistry();
+}
+
+// ---------- 16. 1.6.0: refusal keys ----------
+{
+  const { REASONS } = await imp('util/hint.js');
+  const used = new Map();                      // key -> file
+  const scripts = walkJs(join(BP, 'scripts'));
+  for (const f of scripts) {
+    const src = readFileSync(f, 'utf8');
+    if (f.endsWith('hint.js')) continue;
+    // every string literal in a refuse(...) / refuseAt(...) call's key argument (ternaries included)
+    for (const m of src.matchAll(/\brefuse(?:At)?\(\s*[\w.]+\s*,\s*/g)) {
+      let i = m.index + m[0].length, depth = 0, q = '';
+      const s = i;
+      for (; i < src.length; i++) {
+        const c = src[i];
+        if (q) { if (c === q && src[i - 1] !== '\\') q = ''; continue; }
+        if (c === '"' || c === "'" || c === '`') q = c;
+        else if ('([{'.includes(c)) depth++;
+        else if (')]}'.includes(c)) { if (!depth) break; depth--; }
+        else if (c === ',' && !depth) break;
+      }
+      for (const k of src.slice(s, i).matchAll(/"([a-z0-9_]+)"/g)) used.set(k[1], f.split('/scripts/')[1]);
+    }
+    // keys handed over by a helper: pond.js whyNot() returns its reason as a string
+    const why = /export function whyNot[\s\S]*?\n\}/.exec(src);
+    if (why) for (const k of why[0].matchAll(/"(pond_[a-z0-9_]+)"/g)) used.set(k[1], f.split('/scripts/')[1]);
+  }
+  const missing = [...used].filter(([k]) => !(k in REASONS));
+  ok(used.size >= 60 && !missing.length, `refusal keys: all ${used.size} keys the scripts use have a category (missing: ${missing.map(([k, f]) => `${k} in ${f}`).join(', ') || 'none'})`);
+  const unused = Object.keys(REASONS).filter(k => !used.has(k));
+  ok(!unused.length, `refusal keys: every categorised key is used somewhere (unused: ${unused.join(', ') || 'none'})`);
+}
+
+// ---------- 17. 1.6.0: glyph characters ----------
+{
+  const GL = await imp('data/glyphs.js');
+  const D = await imp('data/generated.js');
+  const { G, PAGES, glyph, hasGlyph, fishGlyph, shadowGlyph, itemGlyph, stationGlyph, idOfKey, dots, PLACEHOLDERS } = GL;
+  const chars = Object.values(G);
+  ok(chars.length > 300 && new Set(chars).size === chars.length, `glyphs: ${chars.length} glyphs, no two share a character`);
+  const pageHex = new Set(Object.values(PAGES).map(h => parseInt(h, 16)));
+  ok(chars.every(c => c.length === 1 && pageHex.has(c.charCodeAt(0) >> 8)), 'glyphs: every glyph is one private-use character on one of the PAGES');
+  const ids = D.CATCHES.map(c => c.id);
+  const noFish = ids.filter(id => !hasGlyph(id) || !hasGlyph(`shadow.${id}`));
+  ok(!noFish.length && ids.every(id => fishGlyph(id) === G[id] && shadowGlyph(id) === G[`shadow.${id}`]),
+    `glyphs: all ${ids.length} catches (legends included) have a picture and a silhouette (missing: ${noFish.join(', ') || 'none'})`);
+  ok(fishGlyph('testpack:mystery_fish') === G['fish.unknown'] && shadowGlyph('testpack:mystery_fish') === G['fish.unknown'] && glyph('no.such') === G['fish.unknown'],
+    'glyphs: another pack\'s fish (or any unknown name) falls back to the generic fish');
+  ok(fishGlyph('kaleidoscope_chinesefood:yellow_croaker') === G['kaleidoscope_fishing:yellow_croaker'], 'glyphs: an aliased fish uses its own glyph');
+  const waters = [...new Set(D.CATCHES.flatMap(c => c.waters ?? []))];
+  const noWater = waters.filter(w => !hasGlyph(`water.${w}`));
+  ok(!noWater.length, `glyphs: all ${waters.length} waters have a symbol (missing: ${noWater.join(', ') || 'none'})`);
+  const symbols = ['time.day', 'time.night', 'time.dawn', 'time.dusk', 'weather.rain', 'weather.thunder', 'tide.high', 'tide.low', 'tide.slack',
+    ...Array.from({ length: 8 }, (_, i) => `moon.${i}`), 'sky.meteor', 'sky.aurora', 'dot.full', 'dot.empty', 'mark.x', 'mark.tick', 'mark.cross',
+    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown',
+    'mark.sep', 'ui.animation', 'ui.merchant', 'ui.recipe_scrap', 'arrow.up'];   // 1.6.0 step 6: the journal's picture pages
+  const noSym = symbols.filter(s => !hasGlyph(s));
+  ok(!noSym.length, `glyphs: the plan's symbols are there (missing: ${noSym.join(', ') || 'none'})`);
+  const tackle = [...Object.keys(D.PARTS), ...Object.keys(D.RODS)].filter(id => !hasGlyph(id));
+  ok(!tackle.length, `glyphs: every hook, line, bobber and rod has a glyph (missing: ${tackle.join(', ') || 'none'})`);
+  const baits = [...new Set(D.CATCHES.flatMap(c => [...Object.keys(c.bait ?? {}), ...(c.req?.bait ? [c.req.bait] : [])]))].filter(id => !hasGlyph(id));
+  ok(!baits.length, `glyphs: every bait the catches like has a glyph (missing: ${baits.join(', ') || 'none'})`);
+  const dishes = D.RECIPE_HINTS.filter(h => !hasGlyph(h.id)).map(h => h.id);
+  ok(D.RECIPE_HINTS.length === 102 && !dishes.length, `glyphs: all ${D.RECIPE_HINTS.length} dishes have a glyph (missing: ${dishes.join(', ') || 'none'})`);
+  const ings = [...new Set(D.RECIPE_HINTS.flatMap(h => h.ingredients.map(i => i[0])))];
+  const noIng = ings.filter(k => !hasGlyph(idOfKey(k)) || itemGlyph(k) === G['item.unknown']);
+  ok(ings.length > 100 && !noIng.length, `glyphs: all ${ings.length} ingredients of the recipe hints have a glyph by their key (missing: ${noIng.join(', ') || 'none'})`);
+  const methods = [...new Set(D.RECIPE_HINTS.map(h => h.method))].filter(m => stationGlyph(m) === G['item.unknown']);
+  ok(!methods.length, `glyphs: every cooking method has a station glyph (missing: ${methods.join(', ') || 'none'})`);
+  ok(idOfKey('kaleidoscope_fishing.ing.minecraft.egg') === 'minecraft:egg' && idOfKey('kaleidoscope_fishing.name.oyster') === 'kaleidoscope_fishing:oyster'
+    && idOfKey('kaleidoscope_fishing.ing.kaleidoscope_cookery.raw_noodles') === 'kaleidoscope_cookery:raw_noodles', 'glyphs: recipe keys turn into item ids');
+  ok(dots(3, 5) === G['dot.full'].repeat(3) + G['dot.empty'].repeat(2) && dots(9, 5) === G['dot.full'].repeat(5) && dots(-1, 2) === G['dot.empty'].repeat(2) && dots(0, 0) === '',
+    'glyphs: dots(n, max) gives n filled and max - n empty dots, clamped');
+  ok(PLACEHOLDERS.every(n => hasGlyph(n)) && !PLACEHOLDERS.some(n => ids.includes(n) && n.startsWith('kaleidoscope_fishing:')), `glyphs: ${PLACEHOLDERS.length} placeholders listed; none of our own fish is one`);
+}
+
+// ---------- 18. 1.6.0: lore keeps only symbols ----------
+{
+  const SZ = await imp('fishing/size.js');
+  const { G } = await imp('data/glyphs.js');
+  const { partsLore } = await imp('fishing/parts.js');
+  const fake = (typeId, lore = [], maxAmount = 64) => {
+    const dyn = new Map();
+    return { typeId, maxAmount, _lore: [...lore], getLore() { return [...this._lore]; }, setLore(l) { this._lore = [...l]; },
+      getDynamicProperty: k => dyn.get(k), setDynamicProperty(k, v) { if (maxAmount !== 1) throw new Error('stackable'); dyn.set(k, v); }, dyn };
+  };
+  const visible = l => l.replace(/§./g, '');
+  const lore = SZ.loreFor(SZ.LARGE, 77);
+  ok(lore.length === 2 && visible(lore[1]) === '★' && !/cm|\d/.test(visible(lore.join(''))), `lore: a record shows only ★, no length or "cm" (${JSON.stringify(lore)})`);
+  const rec = fake(NS + 'carp', lore);
+  const r = SZ.readSize(rec);
+  ok(r.cls === SZ.LARGE && r.cm === 77 && r.record, 'lore: the hidden length reads back (77 cm, record, large)');
+  const old = fake(NS + 'carp', ['§f◆◆', '§6★ 45 cm']);
+  const ro = SZ.readSize(old);
+  ok(ro.cls === 2 && ro.cm === 45 && ro.record, 'lore: an old "★ 45 cm" fish still reads as a 45 cm record');
+  ok(SZ.upgradeStack(old) && old.getLore()[1] === SZ.recordLine(45) && SZ.readSize(old).cm === 45 && !SZ.upgradeStack(old),
+    `lore: upgradeStack turns "★ 45 cm" into ★ with the length hidden, once (${JSON.stringify(old.getLore())})`);
+  ok(JSON.stringify(SZ.upgradeLore(['§6◆◆◆', '§6★ 120 cm', '§d✦'])) === JSON.stringify(['§6◆◆◆', SZ.recordLine(120), '§d✦']), 'lore: upgradeLore leaves the other lines alone');
+  const one = fake('testpack:big_fish', [], 1);
+  SZ.setRecord(one, 63);
+  ok(one.dyn.get(SZ.CM_KEY) === 63 && SZ.readSize(one).cm === 63, 'lore: a stack that does not stack also keeps the length in kaleidoscope_fishing:cm');
+  const fish = fake(NS + 'carp', ['§7◆']);
+  SZ.setRecord(fish, 30);
+  ok(!fish.dyn.size && SZ.readSize(fish).cm === 30 && fish.getLore()[0] === '§7◆', 'lore: a stacking fish keeps it in the lore line only (no dynamic property on stackable items)');
+  const bare = fake(NS + 'carp', []);
+  bare.getDynamicProperty = () => 50;
+  ok(SZ.readSize(bare).cm === 50 && SZ.readSize(bare).record, 'lore: the dynamic property alone is read too');
+  const pl = partsLore({ hook: NS + 'gold_hook', line: NS + 'wire_line', bobber: NS + 'glow_bobber' });
+  ok(pl.length === 1 && visible(pl[0]) === `${G[NS + 'gold_hook']} ${G[NS + 'wire_line']} ${G[NS + 'glow_bobber']}` && partsLore({}).length === 0,
+    'lore: a rod shows its hook, line and bobber as three glyphs; no parts, no lore');
+  const glyphOnly = s => [...visible(s)].every(c => c === ' ' || (c.charCodeAt(0) >= 0xE000 && c.charCodeAt(0) <= 0xF8FF));
+  ok(glyphOnly(pl[0]), 'lore: the rod line has nothing but glyphs');
+  for (const f of ['blocks/pond.js', 'blocks/tub.js']) {
+    const src = readFileSync(join(BP, 'scripts', f), 'utf8');
+    ok(!src.includes('lore.roe_of') && /setLore\(\[`§r\$\{fishGlyph\(id\)\}`\]\)/.test(src), `lore: ${f} labels roe with the fish's glyph, not its name`);
+  }
+}
+
+// ---------- 19. 1.6.0: the API (no_text, like), the merchant's tags and dings, harbour sounds, prints, the shrimp rack, gulls ----------
+{
+  const RP = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]');
+  const J = p => JSON.parse(readFileSync(p, 'utf8'));
+  // the API
+  ok(R.CAPABILITIES.includes('no_text'), 'api_ready lists "no_text"');
+  console.log = () => {};
+  R._clearRegistry();
+  R._setItemExists(id => id.startsWith('testpack:'));
+  const reg = e => R.onRegister({ id: `${NS}register_catch`, message: JSON.stringify({ api: 1, source: 'testpack', catches: [e] }) });
+  const a = reg({ id: 'testpack:perch', w: 5, waters: ['river'], like: `${NS}sea_bass` });
+  const b = reg({ id: 'testpack:perch2', w: 5, waters: ['river'], like: 'testpack:perch' });
+  const c = reg({ id: 'testpack:perch3', w: 5, waters: ['river'], like: 7 });
+  const d = reg({ id: 'testpack:perch4', w: 5, waters: ['river'] });
+  console.log = log;
+  ok(a === 1 && b === 0 && c === 0 && d === 1, 'register_catch: "like" must name one of our catches');
+  ok(R.glyphLikeOf('testpack:perch') === `${NS}sea_bass` && R.glyphLikeOf('testpack:perch4') === undefined && R.glyphLikeOf('testpack:nothing') === undefined,
+    'glyphLikeOf: the borrowed catch, or undefined (no "like", not registered)');
+  {
+    const JR = await imp('journal/journal.js');
+    const GL = await imp('data/glyphs.js');
+    ok(JR.fishGlyph('testpack:perch') === GL.fishGlyph(`${NS}sea_bass`) && JR.shadowGlyph('testpack:perch') === GL.shadowGlyph(`${NS}sea_bass`)
+      && JR.fishGlyph('testpack:perch4') === GL.fishGlyph('testpack:perch4') && JR.fishGlyph(`${NS}carp`) === GL.fishGlyph(`${NS}carp`),
+      'journal: an outside catch borrows its "like" glyph and shadow; without "like" the generic fish; ours unchanged');
+  }
+  R._clearRegistry();
+  const api = readFileSync(join(ROOT, 'docs', 'API.md'), 'utf8');
+  ok(['no_text', '`like`', '`order`', 'glyph_E1', '四類'].every(k => api.includes(k)), 'docs/API.md describes no_text, like, the order event, the glyph pages and the refusal sounds');
+
+  // the merchant: the 1.5 fish are wanted, and hang from his pole
+  const M = await imp('world/merchant.js');
+  const fresh = ['mycelium_flounder', 'spore_seahorse', 'cherry_trout', 'creek_shrimp', 'echo_ray', 'sculk_lanternfish', 'meteor_marlin', 'aurora_icefish'].map(f => NS + f);
+  ok(fresh.every(f => G.WANT_LIST.includes(f) && G.MERCHANT_PRICES[f] !== undefined), 'merchant: the 8 fish of 1.5 are on the want list, and he has a price for each');
+  const ent = J(join(BP, 'entities', 'fish_merchant.json'))['minecraft:entity'].description.properties;
+  ok(['want_a', 'want_b', 'order'].every(k => ent[NS + k].range[1] === G.WANT_LIST.length) && ent[NS + 'order_n'].range[1] === M.TAGS_MAX
+    && ent[NS + 'order_have'].range[1] === M.TAGS_MAX && ent[NS + 'gesture'].range[1] === M.GESTURES.refuse,
+    `merchant: the properties reach every wanted fish (${G.WANT_LIST.length}), ${M.TAGS_MAX} tags and the gestures`);
+  const ce = J(join(RP, 'entity', 'fish_merchant.entity.json'))['minecraft:client_entity'].description;
+  ok(G.WANT_LIST.every((f, i) => ce.textures[`w${i + 1}`] === `textures/items/kfv_${f.split(':')[1]}` && existsSync(join(RP, ce.textures[`w${i + 1}`] + '.png'))),
+    'merchant: the pole has a picture for every wanted fish, in WANT_LIST order');
+  const rc = J(join(RP, 'render_controllers', 'kfv_merchant_wants.render_controllers.json')).render_controllers;
+  ok(['want_a', 'want_b', 'order'].every(k => rc[`controller.render.kfv_merchant_${k}`].arrays.textures['Array.wants'].length === G.WANT_LIST.length + 1),
+    'merchant: the three pole render controllers index every wanted fish');
+  const tagGeo = J(join(RP, 'models', 'entity', 'fish_merchant_tags.geo.json'))['minecraft:geometry'][0].bones.map(x => x.name);
+  const vis = Object.assign({}, ...rc['controller.render.kfv_merchant_tags'].part_visibility);
+  ok([...Array(M.TAGS_MAX).keys()].every(i => tagGeo.includes(`tag_${i + 1}`) && tagGeo.includes(`tag_${i + 1}_on`) && vis[`tag_${i + 1}`] && vis[`tag_${i + 1}_on`]),
+    `merchant: ${M.TAGS_MAX} tags, each with a blank and a flipped side shown by the render controller`);
+  const anims = J(join(RP, 'animations', 'fish_merchant.animation.json')).animations;
+  const gArms = anims[ce.animations.gesture]?.bones?.arms;
+  ok(gArms && JSON.stringify(gArms).includes('kfv_no') && anims[ce.animations.tags] && ['gesture', 'tags'].every(k => ce.scripts.animate.includes(k)),
+    'merchant: the immersive gesture animation nods and shakes his head, now with a shrug; the tag row animation runs too');
+  ok(JSON.stringify(M.dingsFor(4, true, false).map(x => x.pitch)) === '[1.2,1.5]' && M.dingsFor(1, false, false).length === 1
+    && M.dingsFor(1, false, true).length === 1 && M.dingsFor(1, false, true)[0].pitch < M.dingsFor(1, false, false)[0].pitch && M.dingsFor(0, true, false).length === 0,
+    'merchant: wanted fish ding twice, others once, farmed fish once and lower; nothing paid, no ding');
+
+  // harbour sounds
+  const A = await imp('world/ambience.js');
+  ok(A.scenesFor({ pier: true, beach: true, day: true, gullNear: false }).join() === 'pier,gulls'
+    && A.scenesFor({ beach: true, day: true, gullNear: true }).length === 0 && A.scenesFor({ beach: true, day: false }).length === 0,
+    'ambience: pier creaks near a pier; distant gulls on a beach by day, not with a gull about, not at night');
+  ok(A.scenesFor({ skiff: true }).join() === 'skiff' && A.scenesFor({ skiff: true, holdFish: true }).join() === 'skiff,slap'
+    && A.scenesFor({ night: true, lantern: true }).join() === 'lantern' && A.scenesFor({ night: false, lantern: true }).length === 0
+    && A.scenesFor({ skiff: true, trawl: true }).includes('trawl'), 'ambience: the skiff creaks (the hold slaps only with fish), the lantern hums at night, the trawl drags');
+  const timers = {}, ctx = { pier: true };
+  let heard = [];
+  for (let t = 0; t <= 6000; t += A.CHECK) heard.push(...A.due(ctx, timers, t, () => 0.5).map(s => ({ ...s, t })));
+  const gaps = heard.slice(1).map((s, i) => s.t - heard[i].t);
+  ok(heard.length >= 10 && heard.every(s => s.scene === 'pier') && gaps.every(g => g >= A.SCENES.pier.gap[0] && g <= A.SCENES.pier.gap[1] + A.CHECK),
+    `ambience: on a pier a sound every 10-30 s (${heard.length} in 5 minutes)`);
+  A.due({}, timers, 6100, () => 0.5);
+  ok(!Object.keys(timers).length, 'ambience: leaving a scene forgets its timer');
+  const amb = readFileSync(join(BP, 'scripts', 'world', 'ambience.js'), 'utf8');
+  ok(!/dimension\.playSound|\.playSound\(\s*["`][^"`]+["`]\s*,\s*[a-z]+\.location/.test(amb) && /p\.playSound\(/.test(amb), 'ambience: only the player hears it (player.playSound)');
+  const defs = readFileSync(join(RP, 'sounds', 'sound_definitions.json'), 'utf8');
+  ok(Object.values(A.SCENES).flatMap(s => s.sounds).every(s => !s.id.startsWith(NS) || defs.includes(`"${s.id}"`)), 'ambience: our own sounds it uses exist');
+
+  // fish prints
+  const DE = await imp('blocks/decor.js');
+  const T = await imp('data/tank.js');
+  ok(fresh.every(f => T.printIndex(f) > 0 && T.printIndex(f) < 64), 'prints: the 8 fish of 1.5 have prints (index under 64)');
+  const range = G.CATCHES.find(x => x.id === NS + 'carp').size;
+  ok(DE.printShrink(NS + 'carp', { cm: range[1] }) === 0 && DE.printShrink(NS + 'carp', { cm: range[0] }) === 3
+    && DE.printShrink(NS + 'carp', { cm: (range[0] + range[1]) / 2 + 1 }) === 1 && DE.printShrink(NS + 'carp', { cls: 3 }) === 0
+    && DE.printShrink(NS + 'carp', { cls: 1 }) === 2 && DE.printShrink(NS + 'carp', {}) === 1 && DE.printShrink(NS + 'king_crab', { cls: 1 }) === 0,
+    'prints: the fish is drawn by its record length in the species range (longest full size); else by size class; crabs full');
+  const pb = J(join(BP, 'blocks', 'fish_print.json'))['minecraft:block'];
+  const tt = J(join(RP, 'textures', 'terrain_texture.json')).texture_data;
+  const inks = pb.permutations.map(p => p.components['minecraft:material_instances']?.ink?.texture).filter(Boolean);
+  const want = [...new Set([...G.TANK_FISH.slice(0, T.PRINTABLE), ...G.PRINT_EXTRA].map(f => T.printIndex(f)))];
+  ok(pb.description.states[NS + 'shrink'].join() === '0,1,2,3' && Object.keys(pb.components['minecraft:geometry'].bone_visibility).length === 4
+    && inks.length === want.length * 4 && inks.every(t => tt[t] && existsSync(join(RP, tt[t].textures + '.png'))),
+    `prints: 4 sizes of ink, and every print (${want.length}) has its ink picture`);
+  // the shrimp rack
+  ok(G.DRYING.inputs[NS + 'salted_shrimp'] && G.DRYING.kinds[G.DRYING.inputs[NS + 'salted_shrimp']].product === NS + 'dried_shell_shrimp',
+    'drying rack: Salted Shrimp hang and dry into Dried Shell-on Shrimp (as on the bamboo tray)');
+  const tray = G.KC_RECIPES.find(r => r.kind === 'bamboo_tray' && r.recipe.input === NS + 'salted_shrimp');
+  ok(tray?.recipe.result === G.DRYING.kinds[G.DRYING.inputs[NS + 'salted_shrimp']].product, 'drying rack: the same product as the bamboo tray recipe');
+  const rack = J(join(BP, 'blocks', 'drying_rack.json'))['minecraft:block'];
+  const k = G.DRYING.inputs[NS + 'salted_shrimp'];
+  const rgeo = new Set(J(join(RP, 'models', 'blocks', 'drying_rack.geo.json'))['minecraft:geometry'].map(g => g.description.identifier));
+  const rperm = rack.permutations.filter(p => p.condition.includes(`kind') == ${k} `));
+  ok(rack.description.states[NS + 'kind'].includes(k) && rperm.length === 9 && rperm.every(p => rgeo.has(p.components['minecraft:geometry'])),
+    'drying rack: a string of shrimp for every count and stage');
+  // gulls
+  const gull = J(join(BP, 'entities', 'seagull.json'))['minecraft:entity'].components['minecraft:conditional_bandwidth_optimization'];
+  ok(gull?.default_values?.max_optimized_distance >= 128, 'seagull: far gulls keep moving smoothly (bandwidth optimization starts further out)');
+}
+
+// ---------- 20. 1.6.0: the pond list and the creel's words are gone (plan steps 7, 8) ----------
+{
+  const langs = ['en_US', 'zh_TW', 'zh_CN'].map(l => readFileSync(join(ROOT, 'Kaleidoscope Fishing Voyage [RP]', 'texts', `${l}.lang`), 'utf8'));
+  ok(langs.every(t => !/^kaleidoscope_fishing\.(pond\.|journal\.basket_)/m.test(t)) && langs.every(t => /^kaleidoscope_fishing\.name\.hand_net=/m.test(t)),
+    'lang: no pond.* or journal.basket_* keys left; the Hand Net has a name in each language');
+  const pond = readFileSync(join(BP, 'scripts', 'blocks', 'pond.js'), 'utf8'), basket = readFileSync(join(BP, 'scripts', 'tools', 'basket.js'), 'utf8');
+  ok(!/FormData|translate|showList/.test(pond) && !/translate|\/ \$\{CAPACITY\}/.test(basket), 'pond.js has no form; basket.js no translated text and no "N / 256"');
+  const PD = await imp('blocks/pond.js');
+  const feeder = JSON.parse(readFileSync(join(BP, 'blocks', 'pond_feeder.json'), 'utf8'))['minecraft:block'];
+  ok(JSON.stringify(feeder.description.states['kaleidoscope_fishing:feed']) === '[0,1,2,3]' && Object.keys(feeder.components['minecraft:geometry'].bone_visibility).join() === 'feed_low,feed,feed_more,roe'
+    && [0, 1, 31, 32, 55, 56, 64].map(PD.troughStage).join() === '0,1,1,2,2,3,3', 'pond: the trough has four looks (block state feed 0-3, bones feed_low / feed / feed_more)');
 }
 
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');

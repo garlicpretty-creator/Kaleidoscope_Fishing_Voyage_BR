@@ -13,12 +13,12 @@
 // kind and stage on the rack's next block tick.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { DRYING, FISH_ALIAS } from "../data/generated.js";
-import { applyClass } from "../fishing/size.js";
+import { applyClass, upgradeLore } from "../fishing/size.js";
 import { isRaining } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { ambient, burst, on } from "./stationFx.js";
-import { parsePos, registerRecords, registerStation, spawnAll } from "./contents.js";
+import { registerRecords, registerStation, spawnAll } from "./contents.js";
 
 const NS = "kaleidoscope_fishing";
 const KIND = `${NS}:kind`, COUNT = `${NS}:count`, STAGE = `${NS}:stage`;
@@ -80,7 +80,7 @@ const stateOf = perm => ({ kind: Number(perm.getState(KIND) ?? 0), count: Number
 // v1.2.0: the fish's whole description (size mark, "★ N cm" of a record) comes back with it
 const rawStack = it => {
   const s = new ItemStack(it.id, 1);
-  if (Array.isArray(it.lore) && it.lore.length) { try { s.setLore(it.lore); } catch {} return s; }
+  if (Array.isArray(it.lore) && it.lore.length) { try { s.setLore(upgradeLore(it.lore)); } catch {} return s; }   // 1.6.0: old "★ N cm" comes back as ★
   return it.cls ? applyClass(s, it.cls) : s;           // racks filled by v1.2.0-pre2..pre7
 };
 const productOf = kind => DRYING.kinds[kind]?.product;
@@ -105,12 +105,12 @@ const dryingRack = {
     const want = id ? DRYING.inputs[id] : undefined;
 
     if (want) {                                           // hang one more
-      if (count !== 0 && kind !== want) return refuse(player, "rack_other_kind");
-      if (count !== 0 && stage !== 0) return refuse(player, "rack_drying");
-      if (count >= DRYING.max) return refuse(player, "rack_full", DRYING.max);
+      if (count !== 0 && kind !== want) return refuseAt(player, "rack_other_kind", block);
+      if (count !== 0 && stage !== 0) return refuseAt(player, "rack_drying", block);
+      if (count >= DRYING.max) return refuseAt(player, "rack_full", block, DRYING.max);
       {
         let lore = [];
-        try { lore = held.getLore() ?? []; } catch {}
+        try { lore = upgradeLore(held.getLore() ?? []); } catch {}
         d.items.push({ id, lore });
         if (count === 0) { d.p = 0; }
         d.t = now();
@@ -131,10 +131,10 @@ const dryingRack = {
         sfx(block, "salt", "salt");
         return;
       }
-      return refuse(player, !count ? "rack_salt_empty" : kind === 2 ? "rack_salted" : kind !== 1 ? "rack_salt_fish_only" : "rack_drying");
+      return refuseAt(player, !count ? "rack_salt_empty" : kind === 2 ? "rack_salted" : kind !== 1 ? "rack_salt_fish_only" : "rack_drying", block);
     }
-    if (!count) return refuse(player, held ? "rack_cannot_dry" : "rack_empty");
-    if (held) return refuse(player, "rack_empty_hand");
+    if (!count) return refuseAt(player, held ? "rack_cannot_dry" : "rack_empty", block);
+    if (held) return refuseAt(player, "rack_empty_hand", block);
     if (stage >= 2) {                                     // collect the whole dry batch
       for (const s of contents(kind, stage, d)) give(player, block, s);
       save(block, { items: [] });

@@ -91,8 +91,13 @@
         },
         "arms": {
           "rotation": [
-            "-22 * variable.kfv_call - 6 * variable.kfv_bow",
+            "-22 * variable.kfv_call - 6 * variable.kfv_bow + 14 * variable.kfv_no",
             0,
+            0
+          ],
+          "position": [
+            0,
+            "1.5 * variable.kfv_no",
             0
           ]
         },
@@ -115,6 +120,18 @@
             "-variable.kfv_lean + math.sin(query.life_time * 55 + 80) * 3 + math.sin(variable.kfv_gt * 400) * 6 * variable.kfv_bow",
             0,
             "math.sin(query.life_time * 41 + 50) * 2"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fish_merchant.tags": {
+      "loop": true,
+      "bones": {
+        "tags": {
+          "position": [
+            0,
+            0,
+            "0.45 * (8 - query.property('kaleidoscope_fishing:order_n'))"
           ]
         }
       }

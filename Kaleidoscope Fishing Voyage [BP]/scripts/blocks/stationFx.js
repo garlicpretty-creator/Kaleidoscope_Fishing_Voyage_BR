@@ -8,6 +8,7 @@
 // per block and kind.
 import { system } from "@minecraft/server";
 import { spawnParticle } from "../util/particles.js";
+import { animationsOn } from "../util/fx.js";
 
 const NS = "kaleidoscope_fishing";
 export const NEAR = 24;
@@ -46,8 +47,10 @@ export function burst(dim, at, ...names) {
 export function sound(dim, id, at, pitch = 1, volume = 0.7) {
   try { dim.playSound(id, at, { pitch, volume }); } catch {}
 }
-/** An idle effect for a block's tick: runs `fn` only with a player near and not more often than `gap` ticks. */
+/** An idle effect for a block's tick: runs `fn` only with a player near and not more often than `gap` ticks.
+ * 1.6.0: idle effects follow the world's animations switch; one-shot feedback on a player's own use does not. */
 export function ambient(block, kind, gap, at, fn) {
+  if (!animationsOn()) return false;
   if (!due(block, kind, gap)) return false;
   if (!playerNear(block.dimension, at)) return false;
   try { fn(); } catch {}

@@ -13,7 +13,7 @@ import { TRAP_BAITS } from "../data/generated.js";
 import { analyzeWater, isWater } from "../fishing/water.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { burst, on } from "./stationFx.js";
 import { now, steps } from "../util/clock.js";
 import { readData, writeData } from "./blockData.js";
@@ -153,7 +153,7 @@ const fishTrap = {
     const p = block.permutation;
     const c = Number(p.getState(CATCH) ?? 0);
     if (held && TRAP_BAITS.includes(held)) {
-      if (p.getState(BAIT) === 1) return refuse(player, "trap_baited");
+      if (p.getState(BAIT) === 1) return refuseAt(player, "trap_baited", block);
       if (player.getGameMode() !== GameMode.Creative) {
         const it = slot.getItem();
         if (it.amount <= 1) slot.setItem(undefined); else { it.amount -= 1; slot.setItem(it); }
@@ -163,8 +163,8 @@ const fishTrap = {
       if (underwater(block)) puff(block, 6, 0.25);
       return;
     }
-    if (held) return refuse(player, c > 0 ? "trap_empty_hand" : "trap_not_bait");
-    if (c <= 0) return refuse(player, p.getState(BAIT) !== 1 ? "trap_need_bait" : underwater(block) ? "trap_waiting" : "trap_underwater");
+    if (held) return refuseAt(player, c > 0 ? "trap_empty_hand" : "trap_not_bait", block);
+    if (c <= 0) return refuseAt(player, p.getState(BAIT) !== 1 ? "trap_need_bait" : underwater(block) ? "trap_waiting" : "trap_underwater", block);
     for (const id of contents(p)) give(player, block, id === `${NS}:shrimp` && Math.random() < LIVE_CHANCE ? `${NS}:live_shrimp` : id);
     setTrap(block, p.withState(CATCH, 0).withState(CRAB, 0));
     try {

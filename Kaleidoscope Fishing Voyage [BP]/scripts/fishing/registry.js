@@ -36,6 +36,12 @@
 //                                       "scale":1,"tank":"water"|"lava"|"both","pond":"none"|"fresh"|"salt"|"both","breed":false}]}
 //                                       the item goes in fish tanks (and, with `pond`, fish ponds), drawn as `like`.
 // api_ready also lists what api/host.js offers: "events", "state", "records", "catalog" (see that file).
+//
+// 1.6.0:
+//   capability "no_text"                this pack shows no text on screen outside the reeling minigame (docs/PLAN_1.6.0.md
+//                                       section 4); a sister pack may read it to decide whether to do the same
+//   register_catch "like"               optional: one of our catches (an id of CATCHES) whose glyph the journal shows for
+//                                       the outside fish (glyphLikeOf); without it the journal uses the plain fish shadow
 import { system, ItemTypes } from "@minecraft/server";
 import { ADDON_VERSION, CATCHES, CLEANING, LEGENDS, POND_FEEDS, TANK_FISH } from "../data/generated.js";
 
@@ -51,7 +57,7 @@ export const EV = {
   board: `${SOURCE}:register_board`,
   tank: `${SOURCE}:register_tank`,
 };
-export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog", "sky", "pond_feed", "board", "tank"];
+export const CAPABILITIES = ["bait", "catch", "price", "events", "state", "records", "catalog", "sky", "pond_feed", "board", "tank", "no_text"];
 const SKIES = ["meteor", "aurora"];          // world/sky.js (not imported: it imports the host, which imports this)
 export const LIMITS = Object.freeze({ w: [1, 20], biteFactor: [0.5, 1], size: [1, 500], fight: [0, 3], depth: [0, 64],
   factor: [0, 3], moonBoost: [1, 2], price: [0.05, 3], meals: [1, 4], perSource: 64 });
@@ -79,6 +85,9 @@ let onChange = () => {};           // loot.js rebuilds its lookups
 export const externalCatches = () => [...catches.values()];
 export const externalBait = id => baits.get(id);
 export const externalBaits = () => [...baits.values()];
+/** 1.6.0: the built-in catch whose glyph the journal borrows for an outside catch (register_catch "like"), or
+ *  undefined (no such registration, or registered without "like": the journal shows the plain fish shadow). */
+export const glyphLikeOf = id => catches.get(id)?.like;
 /** What the Fish Merchant pays for an outside fish (emeralds for a medium one), or undefined. */
 export const externalPrice = id => prices.get(id)?.price;
 /** loot.js wires these at load (builtin bait test, change callback). */
@@ -134,6 +143,7 @@ function catchEntry(e, source) {
   }
   for (const k of ["rain", "cold", "dawn_dusk", "school", "tier_bonus", "boat"]) if (e[k] !== undefined) { if (!num(e[k], LIMITS.factor)) return `${e.id}: ${k} 0..3`; out[k] = e[k]; }
   if (e.sky !== undefined) { if (!SKIES.includes(e.sky)) return `${e.id}: sky must be "meteor" or "aurora"`; out.sky = e.sky; }
+  if (e.like !== undefined) { if (typeof e.like !== "string" || !BUILTIN.has(e.like)) return `${e.id}: like must be one of our catches`; out.like = e.like; }   // 1.6.0
   const knownBait = id => typeof id === "string" && ID_RE.test(id) && (builtinBait(id) || baits.has(id));
   if (e.bait !== undefined) {
     if (!e.bait || typeof e.bait !== "object") return `${e.id}: bait`;

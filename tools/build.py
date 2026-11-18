@@ -5,13 +5,19 @@ one JSON file per export in tools/data/ and writes scripts/data/generated.js fro
 
   python tools/build.py extract   generated.js -> tools/data/*.json  (one-time bootstrap; overwrites data/)
   python tools/build.py build     tools/data/*.json -> generated.js
-  python tools/build.py check     build in memory and fail if generated.js differs
+  python tools/build.py check     build in memory and fail if generated.js (or the 1.6.0 glyphs) differ
   python tools/build.py pack      build, then zip both packs into ../Kaleidoscope_Fishing_Voyage_v<version>.mcaddon
+
+1.6.0: build and check also run tools/glyphs.py (font/glyph_*.png and scripts/data/glyphs.js from
+tools/data/GLYPHS.json).
 
 Edit tools/data/*.json, never generated.js. GUIDEBOOK_JSON is stored as an object and written back as
 the ASCII-only JSON string Cookery's guidebook API expects (script events carry it in chunks).
 """
 import json, os, re, sys, zipfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import glyphs  # noqa: E402  (1.6.0)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -74,12 +80,14 @@ def build():
     with open(GEN, "w", encoding="utf-8", newline="\n") as f:
         f.write(render())
     print(f"wrote {GEN}")
+    glyphs.build()
 
 
 def check():
     if body(render()) != body(open(GEN, encoding="utf-8").read()):
         sys.exit("generated.js is out of date: run  python tools/build.py build")
     print("generated.js matches tools/data")
+    glyphs.check()
 
 
 def version():

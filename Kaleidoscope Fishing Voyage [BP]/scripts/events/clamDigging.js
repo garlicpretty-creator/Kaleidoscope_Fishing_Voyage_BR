@@ -6,7 +6,6 @@
 import { ItemStack, system, world } from "@minecraft/server";
 import { isRaining, isWater, tideState } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
-import { canonBiome } from "../util/biome.js";
 import { skyTonight } from "../world/sky.js";
 
 const NS = "kaleidoscope_fishing";
@@ -30,7 +29,7 @@ const keyOf = (dimId, l) => `${dimId}|${l.x},${l.y},${l.z}`;
 
 function biomeIsBeach(dim, loc) {
   try {
-    if (typeof dim.getBiome === "function") return canonBiome(dim.getBiome(loc)?.id).includes("beach");
+    if (typeof dim.getBiome === "function") return String(dim.getBiome(loc)?.id ?? "").includes("beach");
   } catch {}
   return false;
 }

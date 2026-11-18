@@ -34,6 +34,12 @@
           2,
           3,
           4
+        ],
+        "kaleidoscope_fishing:shrink": [
+          0,
+          1,
+          2,
+          3
         ]
       },
       "traits": {
@@ -47,15 +53,27 @@
     },
     "components": {
       "minecraft:display_name": "%kaleidoscope_fishing.display.item.fish_print",
-      "minecraft:geometry": "geometry.kaleidoscope_fishing.fish_print",
+      "minecraft:geometry": {
+        "identifier": "geometry.kaleidoscope_fishing.fish_print",
+        "bone_visibility": {
+          "ink_0": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) > 0 && q.block_state('kaleidoscope_fishing:shrink') == 0",
+          "ink_1": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) > 0 && q.block_state('kaleidoscope_fishing:shrink') == 1",
+          "ink_2": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) > 0 && q.block_state('kaleidoscope_fishing:shrink') == 2",
+          "ink_3": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) > 0 && q.block_state('kaleidoscope_fishing:shrink') == 3"
+        }
+      },
       "minecraft:material_instances": {
         "*": {
           "texture": "kfv_print_frame_wood",
-          "render_method": "opaque"
+          "render_method": "alpha_test"
         },
         "paper": {
           "texture": "kfv_print_paper",
-          "render_method": "opaque"
+          "render_method": "alpha_test"
+        },
+        "ink": {
+          "texture": "kfv_print_paper",
+          "render_method": "alpha_test"
         }
       },
       "minecraft:collision_box": false,
@@ -148,11 +166,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -163,11 +185,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -178,11 +204,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -193,11 +223,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_carp_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -208,11 +242,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grass_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grass_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -223,11 +261,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grass_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grass_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -238,11 +280,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grass_carp",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grass_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -253,11 +299,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grass_carp_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grass_carp",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -268,11 +318,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -283,11 +337,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -298,11 +356,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -313,11 +375,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_catfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -328,11 +394,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sweetfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sweetfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -343,11 +413,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sweetfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sweetfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -358,11 +432,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sweetfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sweetfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -373,11 +451,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sweetfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sweetfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -388,11 +470,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mackerel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mackerel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -403,11 +489,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mackerel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mackerel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -418,11 +508,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mackerel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mackerel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -433,11 +527,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mackerel_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mackerel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -448,11 +546,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_yellow_croaker",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_yellow_croaker",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -463,11 +565,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_yellow_croaker",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_yellow_croaker",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -478,11 +584,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_yellow_croaker",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_yellow_croaker",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -493,11 +603,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_yellow_croaker_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_yellow_croaker",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -508,11 +622,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bream",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bream",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -523,11 +641,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bream",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bream",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -538,11 +660,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bream",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bream",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -553,11 +679,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bream_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bream",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -568,11 +698,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tropical_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tropical_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -583,11 +717,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tropical_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tropical_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -598,11 +736,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tropical_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tropical_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -613,11 +755,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tropical_fish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tropical_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -628,11 +774,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -643,11 +793,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -658,11 +812,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -673,11 +831,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_tuna_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -688,11 +850,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -703,11 +869,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -718,11 +888,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -733,11 +907,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_eel_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -748,11 +926,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_hairtail",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_hairtail",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -763,11 +945,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_hairtail",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_hairtail",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -778,11 +964,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_hairtail",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_hairtail",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -793,11 +983,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_hairtail_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_hairtail",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -808,11 +1002,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grouper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grouper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -823,11 +1021,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grouper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grouper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -838,11 +1040,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grouper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grouper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -853,11 +1059,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grouper_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grouper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -868,11 +1078,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cod",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cod",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -883,11 +1097,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cod",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cod",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -898,11 +1116,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cod",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cod",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -913,11 +1135,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cod_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cod",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -928,11 +1154,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_salmon",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_salmon",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -943,11 +1173,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_salmon",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_salmon",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -958,11 +1192,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_salmon",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_salmon",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -973,11 +1211,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_salmon_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_salmon",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -988,11 +1230,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_saury",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_saury",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1003,11 +1249,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_saury",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_saury",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1018,11 +1268,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_saury",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_saury",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1033,11 +1287,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_saury_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_saury",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1048,11 +1306,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_anglerfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_anglerfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1063,11 +1325,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_anglerfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_anglerfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1078,11 +1344,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_anglerfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_anglerfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1093,11 +1363,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_anglerfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_anglerfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1108,11 +1382,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_octopus",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_octopus",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1123,11 +1401,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_octopus",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_octopus",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1138,11 +1420,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_octopus",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_octopus",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1153,11 +1439,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_octopus_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_octopus",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1168,11 +1458,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_pufferfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_pufferfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1183,11 +1477,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_pufferfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_pufferfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1198,11 +1496,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_pufferfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_pufferfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1213,11 +1515,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_pufferfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_pufferfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1228,11 +1534,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_skipjack",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_skipjack",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1243,11 +1553,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_skipjack",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_skipjack",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1258,11 +1572,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_skipjack",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_skipjack",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1273,11 +1591,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_skipjack_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_skipjack",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1288,11 +1610,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_smelt",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_smelt",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1303,11 +1629,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_smelt",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_smelt",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1318,11 +1648,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_smelt",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_smelt",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1333,11 +1667,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_smelt_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_smelt",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1348,11 +1686,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_rainbow_trout",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_rainbow_trout",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1363,11 +1705,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_rainbow_trout",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_rainbow_trout",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1378,11 +1724,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_rainbow_trout",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_rainbow_trout",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1393,11 +1743,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_rainbow_trout_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_rainbow_trout",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1408,11 +1762,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_arctic_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_arctic_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1423,11 +1781,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_arctic_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_arctic_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1438,11 +1800,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_arctic_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_arctic_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1453,11 +1819,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_arctic_char_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_arctic_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1468,11 +1838,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_void_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_void_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1483,11 +1857,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_void_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_void_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1498,11 +1876,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_void_eel",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_void_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1513,11 +1895,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_void_eel_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_void_eel",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1528,11 +1914,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_starfin",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_starfin",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1543,11 +1933,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_starfin",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_starfin",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1558,11 +1952,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_starfin",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_starfin",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1573,11 +1971,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_starfin_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_starfin",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1588,11 +1990,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bass",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bass",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1603,11 +2009,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bass",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bass",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1618,11 +2028,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bass",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bass",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1633,11 +2047,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_sea_bass_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sea_bass",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1648,11 +2066,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grey_mullet",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grey_mullet",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1663,11 +2085,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grey_mullet",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grey_mullet",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1678,11 +2104,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grey_mullet",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grey_mullet",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1693,11 +2123,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_grey_mullet_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_grey_mullet",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1708,11 +2142,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_loach",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_loach",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1723,11 +2161,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_loach",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_loach",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1738,11 +2180,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_loach",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_loach",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1753,11 +2199,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_loach_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_loach",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1768,11 +2218,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_snakehead",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_snakehead",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1783,11 +2237,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_snakehead",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_snakehead",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1798,11 +2256,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_snakehead",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_snakehead",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1813,11 +2275,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_snakehead_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_snakehead",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1828,11 +2294,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mudskipper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mudskipper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1843,11 +2313,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mudskipper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mudskipper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1858,11 +2332,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mudskipper",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mudskipper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1873,11 +2351,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_mudskipper_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mudskipper",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1888,11 +2370,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_flying_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_flying_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1903,11 +2389,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_flying_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_flying_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1918,11 +2408,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_flying_fish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_flying_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1933,11 +2427,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_flying_fish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_flying_fish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1948,11 +2446,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lobster",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lobster",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1963,11 +2465,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lobster",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lobster",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1978,11 +2484,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lobster",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lobster",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -1993,11 +2503,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lobster_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lobster",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2008,11 +2522,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_king_crab",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_king_crab",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2023,11 +2541,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_king_crab",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_king_crab",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2038,11 +2560,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_king_crab",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_king_crab",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2053,11 +2579,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_king_crab_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_king_crab",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2068,11 +2598,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_blindfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_blindfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2083,11 +2617,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_blindfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_blindfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2098,11 +2636,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_blindfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_blindfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2113,11 +2655,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_blindfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_blindfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2128,11 +2674,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_crayfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_crayfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2143,11 +2693,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_crayfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_crayfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2158,11 +2712,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_crayfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_crayfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2173,11 +2731,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_cave_crayfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cave_crayfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2188,11 +2750,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_river_lord_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_river_lord_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2203,11 +2769,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_river_lord_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_river_lord_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2218,11 +2788,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_river_lord_catfish",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_river_lord_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2233,11 +2807,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_river_lord_catfish_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_river_lord_catfish",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2248,11 +2826,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_emperor_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_emperor_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2263,11 +2845,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_emperor_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_emperor_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2278,11 +2864,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_emperor_tuna",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_emperor_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2293,11 +2883,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_emperor_tuna_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_emperor_tuna",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2308,11 +2902,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_frostlake_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_frostlake_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2323,11 +2921,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_frostlake_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_frostlake_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2338,11 +2940,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_frostlake_char",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_frostlake_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2353,11 +2959,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_frostlake_char_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_frostlake_char",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2368,11 +2978,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_bronze",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lava_dragon_koi",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lava_dragon_koi",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2383,11 +2997,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_silver",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lava_dragon_koi",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lava_dragon_koi",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2398,11 +3016,15 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lava_dragon_koi",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lava_dragon_koi",
+              "render_method": "alpha_test"
             }
           }
         }
@@ -2413,11 +3035,623 @@
           "minecraft:material_instances": {
             "*": {
               "texture": "kfv_print_frame_gold",
-              "render_method": "opaque"
+              "render_method": "alpha_test"
             },
             "paper": {
-              "texture": "kfv_print_lava_dragon_koi_seal",
-              "render_method": "opaque"
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_lava_dragon_koi",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 55 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mycelium_flounder",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 55 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mycelium_flounder",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 55 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mycelium_flounder",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 55 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_mycelium_flounder",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_spore_seahorse",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_spore_seahorse",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_spore_seahorse",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 56 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_spore_seahorse",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 57 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cherry_trout",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 57 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cherry_trout",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 57 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cherry_trout",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 57 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_cherry_trout",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 58 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_creek_shrimp",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 58 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_creek_shrimp",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 58 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_creek_shrimp",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 58 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_creek_shrimp",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 59 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_echo_ray",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 59 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_echo_ray",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 59 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_echo_ray",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 59 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_echo_ray",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 60 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sculk_lanternfish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 60 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sculk_lanternfish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 60 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sculk_lanternfish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 60 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_sculk_lanternfish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 61 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_meteor_marlin",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 61 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_meteor_marlin",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 61 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_meteor_marlin",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 61 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_meteor_marlin",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 62 && q.block_state('kaleidoscope_fishing:tier') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_bronze",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_aurora_icefish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 62 && q.block_state('kaleidoscope_fishing:tier') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_silver",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_aurora_icefish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 62 && q.block_state('kaleidoscope_fishing:tier') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_aurora_icefish",
+              "render_method": "alpha_test"
+            }
+          }
+        }
+      },
+      {
+        "condition": "(q.block_state('kaleidoscope_fishing:fish') + 16 * q.block_state('kaleidoscope_fishing:fish_bank')) == 62 && q.block_state('kaleidoscope_fishing:tier') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "kfv_print_frame_gold",
+              "render_method": "alpha_test"
+            },
+            "paper": {
+              "texture": "kfv_print_paper_seal",
+              "render_method": "alpha_test"
+            },
+            "ink": {
+              "texture": "kfv_print_ink_aurora_icefish",
+              "render_method": "alpha_test"
             }
           }
         }

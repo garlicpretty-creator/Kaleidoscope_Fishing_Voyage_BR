@@ -7,8 +7,7 @@ import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/se
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { isRaining } from "../fishing/water.js";
-import { refuse } from "../util/hint.js";
-import { biomeIdAt } from "../util/biome.js";
+import { refuseAt } from "../util/hint.js";
 import { ambient, burst, on } from "./stationFx.js";
 
 const NS = "kaleidoscope_fishing";
@@ -25,7 +24,9 @@ const fx = (block, ...names) => burst(block.dimension, face(block), ...names);
 
 /** By the sea: an ocean or beach biome (where the game can tell). Exported for tests. */
 export function bySea(block) {
-  return /ocean|beach|shore/.test(biomeIdAt(block.dimension, block.location));
+  let id = "";
+  try { id = String(block.dimension.getBiome?.(block.location)?.id ?? ""); } catch {}
+  return /ocean|beach|shore/.test(id);
 }
 /** Nothing above it but air: open to the sun. */
 export function openSky(block) {
@@ -48,7 +49,7 @@ const pan = {
     const held = slot?.hasItem() ? slot.typeId : undefined;
     const stage = stageOf(block);
     if (held === "minecraft:water_bucket" && stage === 0) {
-      if (!bySea(block) || !openSky(block)) return refuse(player, "salt_pan_place");
+      if (!bySea(block) || !openSky(block)) return refuseAt(player, "salt_pan_place", block);
       if (!creative(player)) slot.setItem(new ItemStack("minecraft:bucket", 1));
       writeData("sp", block.dimension, block, { p: 0, t: now(), stage: 1 });
       setStage(block, 1); snd(block, "bucket.empty_water"); fx(block, "spray"); return;
@@ -60,7 +61,7 @@ const pan = {
       writeData("sp", block.dimension, block, undefined);
       setStage(block, 0); snd(block, "dig.sand", 1.2); snd(block, "dig.gravel", 1.7, 0.35); fx(block, "salt", "salt"); return;
     }
-    refuse(player, stage === 0 ? "salt_pan_need_water" : "salt_pan_drying");
+    refuseAt(player, stage === 0 ? "salt_pan_need_water" : "salt_pan_drying", block);
   },
   onTick({ block }) {
     const stage = stageOf(block);

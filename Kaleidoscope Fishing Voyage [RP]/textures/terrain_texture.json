@@ -76,150 +76,6 @@
     "kfv_print_paper": {
       "textures": "textures/blocks/kfv_print_paper"
     },
-    "kfv_print_carp": {
-      "textures": "textures/blocks/kfv_print_carp"
-    },
-    "kfv_print_carp_seal": {
-      "textures": "textures/blocks/kfv_print_carp_seal"
-    },
-    "kfv_print_grass_carp": {
-      "textures": "textures/blocks/kfv_print_grass_carp"
-    },
-    "kfv_print_grass_carp_seal": {
-      "textures": "textures/blocks/kfv_print_grass_carp_seal"
-    },
-    "kfv_print_catfish": {
-      "textures": "textures/blocks/kfv_print_catfish"
-    },
-    "kfv_print_catfish_seal": {
-      "textures": "textures/blocks/kfv_print_catfish_seal"
-    },
-    "kfv_print_sweetfish": {
-      "textures": "textures/blocks/kfv_print_sweetfish"
-    },
-    "kfv_print_sweetfish_seal": {
-      "textures": "textures/blocks/kfv_print_sweetfish_seal"
-    },
-    "kfv_print_mackerel": {
-      "textures": "textures/blocks/kfv_print_mackerel"
-    },
-    "kfv_print_mackerel_seal": {
-      "textures": "textures/blocks/kfv_print_mackerel_seal"
-    },
-    "kfv_print_yellow_croaker": {
-      "textures": "textures/blocks/kfv_print_yellow_croaker"
-    },
-    "kfv_print_yellow_croaker_seal": {
-      "textures": "textures/blocks/kfv_print_yellow_croaker_seal"
-    },
-    "kfv_print_sea_bream": {
-      "textures": "textures/blocks/kfv_print_sea_bream"
-    },
-    "kfv_print_sea_bream_seal": {
-      "textures": "textures/blocks/kfv_print_sea_bream_seal"
-    },
-    "kfv_print_tropical_fish": {
-      "textures": "textures/blocks/kfv_print_tropical_fish"
-    },
-    "kfv_print_tropical_fish_seal": {
-      "textures": "textures/blocks/kfv_print_tropical_fish_seal"
-    },
-    "kfv_print_tuna": {
-      "textures": "textures/blocks/kfv_print_tuna"
-    },
-    "kfv_print_tuna_seal": {
-      "textures": "textures/blocks/kfv_print_tuna_seal"
-    },
-    "kfv_print_eel": {
-      "textures": "textures/blocks/kfv_print_eel"
-    },
-    "kfv_print_eel_seal": {
-      "textures": "textures/blocks/kfv_print_eel_seal"
-    },
-    "kfv_print_hairtail": {
-      "textures": "textures/blocks/kfv_print_hairtail"
-    },
-    "kfv_print_hairtail_seal": {
-      "textures": "textures/blocks/kfv_print_hairtail_seal"
-    },
-    "kfv_print_grouper": {
-      "textures": "textures/blocks/kfv_print_grouper"
-    },
-    "kfv_print_grouper_seal": {
-      "textures": "textures/blocks/kfv_print_grouper_seal"
-    },
-    "kfv_print_cod": {
-      "textures": "textures/blocks/kfv_print_cod"
-    },
-    "kfv_print_cod_seal": {
-      "textures": "textures/blocks/kfv_print_cod_seal"
-    },
-    "kfv_print_salmon": {
-      "textures": "textures/blocks/kfv_print_salmon"
-    },
-    "kfv_print_salmon_seal": {
-      "textures": "textures/blocks/kfv_print_salmon_seal"
-    },
-    "kfv_print_saury": {
-      "textures": "textures/blocks/kfv_print_saury"
-    },
-    "kfv_print_saury_seal": {
-      "textures": "textures/blocks/kfv_print_saury_seal"
-    },
-    "kfv_print_anglerfish": {
-      "textures": "textures/blocks/kfv_print_anglerfish"
-    },
-    "kfv_print_anglerfish_seal": {
-      "textures": "textures/blocks/kfv_print_anglerfish_seal"
-    },
-    "kfv_print_octopus": {
-      "textures": "textures/blocks/kfv_print_octopus"
-    },
-    "kfv_print_octopus_seal": {
-      "textures": "textures/blocks/kfv_print_octopus_seal"
-    },
-    "kfv_print_pufferfish": {
-      "textures": "textures/blocks/kfv_print_pufferfish"
-    },
-    "kfv_print_pufferfish_seal": {
-      "textures": "textures/blocks/kfv_print_pufferfish_seal"
-    },
-    "kfv_print_skipjack": {
-      "textures": "textures/blocks/kfv_print_skipjack"
-    },
-    "kfv_print_skipjack_seal": {
-      "textures": "textures/blocks/kfv_print_skipjack_seal"
-    },
-    "kfv_print_smelt": {
-      "textures": "textures/blocks/kfv_print_smelt"
-    },
-    "kfv_print_smelt_seal": {
-      "textures": "textures/blocks/kfv_print_smelt_seal"
-    },
-    "kfv_print_rainbow_trout": {
-      "textures": "textures/blocks/kfv_print_rainbow_trout"
-    },
-    "kfv_print_rainbow_trout_seal": {
-      "textures": "textures/blocks/kfv_print_rainbow_trout_seal"
-    },
-    "kfv_print_arctic_char": {
-      "textures": "textures/blocks/kfv_print_arctic_char"
-    },
-    "kfv_print_arctic_char_seal": {
-      "textures": "textures/blocks/kfv_print_arctic_char_seal"
-    },
-    "kfv_print_void_eel": {
-      "textures": "textures/blocks/kfv_print_void_eel"
-    },
-    "kfv_print_void_eel_seal": {
-      "textures": "textures/blocks/kfv_print_void_eel_seal"
-    },
-    "kfv_print_starfin": {
-      "textures": "textures/blocks/kfv_print_starfin"
-    },
-    "kfv_print_starfin_seal": {
-      "textures": "textures/blocks/kfv_print_starfin_seal"
-    },
     "kfv_drying_rack": {
       "textures": "textures/blocks/kfv_drying_rack"
     },
@@ -262,90 +118,6 @@
     "kfv_catch_crate": {
       "textures": "textures/blocks/kfv_catch_crate"
     },
-    "kfv_print_sea_bass": {
-      "textures": "textures/blocks/kfv_print_sea_bass"
-    },
-    "kfv_print_sea_bass_seal": {
-      "textures": "textures/blocks/kfv_print_sea_bass_seal"
-    },
-    "kfv_print_grey_mullet": {
-      "textures": "textures/blocks/kfv_print_grey_mullet"
-    },
-    "kfv_print_grey_mullet_seal": {
-      "textures": "textures/blocks/kfv_print_grey_mullet_seal"
-    },
-    "kfv_print_loach": {
-      "textures": "textures/blocks/kfv_print_loach"
-    },
-    "kfv_print_loach_seal": {
-      "textures": "textures/blocks/kfv_print_loach_seal"
-    },
-    "kfv_print_snakehead": {
-      "textures": "textures/blocks/kfv_print_snakehead"
-    },
-    "kfv_print_snakehead_seal": {
-      "textures": "textures/blocks/kfv_print_snakehead_seal"
-    },
-    "kfv_print_mudskipper": {
-      "textures": "textures/blocks/kfv_print_mudskipper"
-    },
-    "kfv_print_mudskipper_seal": {
-      "textures": "textures/blocks/kfv_print_mudskipper_seal"
-    },
-    "kfv_print_flying_fish": {
-      "textures": "textures/blocks/kfv_print_flying_fish"
-    },
-    "kfv_print_flying_fish_seal": {
-      "textures": "textures/blocks/kfv_print_flying_fish_seal"
-    },
-    "kfv_print_lobster": {
-      "textures": "textures/blocks/kfv_print_lobster"
-    },
-    "kfv_print_lobster_seal": {
-      "textures": "textures/blocks/kfv_print_lobster_seal"
-    },
-    "kfv_print_king_crab": {
-      "textures": "textures/blocks/kfv_print_king_crab"
-    },
-    "kfv_print_king_crab_seal": {
-      "textures": "textures/blocks/kfv_print_king_crab_seal"
-    },
-    "kfv_print_cave_blindfish": {
-      "textures": "textures/blocks/kfv_print_cave_blindfish"
-    },
-    "kfv_print_cave_blindfish_seal": {
-      "textures": "textures/blocks/kfv_print_cave_blindfish_seal"
-    },
-    "kfv_print_cave_crayfish": {
-      "textures": "textures/blocks/kfv_print_cave_crayfish"
-    },
-    "kfv_print_cave_crayfish_seal": {
-      "textures": "textures/blocks/kfv_print_cave_crayfish_seal"
-    },
-    "kfv_print_river_lord_catfish": {
-      "textures": "textures/blocks/kfv_print_river_lord_catfish"
-    },
-    "kfv_print_river_lord_catfish_seal": {
-      "textures": "textures/blocks/kfv_print_river_lord_catfish_seal"
-    },
-    "kfv_print_emperor_tuna": {
-      "textures": "textures/blocks/kfv_print_emperor_tuna"
-    },
-    "kfv_print_emperor_tuna_seal": {
-      "textures": "textures/blocks/kfv_print_emperor_tuna_seal"
-    },
-    "kfv_print_frostlake_char": {
-      "textures": "textures/blocks/kfv_print_frostlake_char"
-    },
-    "kfv_print_frostlake_char_seal": {
-      "textures": "textures/blocks/kfv_print_frostlake_char_seal"
-    },
-    "kfv_print_lava_dragon_koi": {
-      "textures": "textures/blocks/kfv_print_lava_dragon_koi"
-    },
-    "kfv_print_lava_dragon_koi_seal": {
-      "textures": "textures/blocks/kfv_print_lava_dragon_koi_seal"
-    },
     "kfv_emperor_whole_tuna": {
       "textures": "textures/blocks/kfv_emperor_whole_tuna"
     },
@@ -381,6 +153,147 @@
     },
     "kfv_pond_feeder": {
       "textures": "textures/blocks/kfv_pond_feeder"
+    },
+    "kfv_print_paper_seal": {
+      "textures": "textures/blocks/kfv_print_paper_seal"
+    },
+    "kfv_print_ink_carp": {
+      "textures": "textures/blocks/kfv_print_ink_carp"
+    },
+    "kfv_print_ink_grass_carp": {
+      "textures": "textures/blocks/kfv_print_ink_grass_carp"
+    },
+    "kfv_print_ink_catfish": {
+      "textures": "textures/blocks/kfv_print_ink_catfish"
+    },
+    "kfv_print_ink_sweetfish": {
+      "textures": "textures/blocks/kfv_print_ink_sweetfish"
+    },
+    "kfv_print_ink_mackerel": {
+      "textures": "textures/blocks/kfv_print_ink_mackerel"
+    },
+    "kfv_print_ink_yellow_croaker": {
+      "textures": "textures/blocks/kfv_print_ink_yellow_croaker"
+    },
+    "kfv_print_ink_sea_bream": {
+      "textures": "textures/blocks/kfv_print_ink_sea_bream"
+    },
+    "kfv_print_ink_tropical_fish": {
+      "textures": "textures/blocks/kfv_print_ink_tropical_fish"
+    },
+    "kfv_print_ink_tuna": {
+      "textures": "textures/blocks/kfv_print_ink_tuna"
+    },
+    "kfv_print_ink_eel": {
+      "textures": "textures/blocks/kfv_print_ink_eel"
+    },
+    "kfv_print_ink_hairtail": {
+      "textures": "textures/blocks/kfv_print_ink_hairtail"
+    },
+    "kfv_print_ink_grouper": {
+      "textures": "textures/blocks/kfv_print_ink_grouper"
+    },
+    "kfv_print_ink_cod": {
+      "textures": "textures/blocks/kfv_print_ink_cod"
+    },
+    "kfv_print_ink_salmon": {
+      "textures": "textures/blocks/kfv_print_ink_salmon"
+    },
+    "kfv_print_ink_saury": {
+      "textures": "textures/blocks/kfv_print_ink_saury"
+    },
+    "kfv_print_ink_anglerfish": {
+      "textures": "textures/blocks/kfv_print_ink_anglerfish"
+    },
+    "kfv_print_ink_octopus": {
+      "textures": "textures/blocks/kfv_print_ink_octopus"
+    },
+    "kfv_print_ink_pufferfish": {
+      "textures": "textures/blocks/kfv_print_ink_pufferfish"
+    },
+    "kfv_print_ink_skipjack": {
+      "textures": "textures/blocks/kfv_print_ink_skipjack"
+    },
+    "kfv_print_ink_smelt": {
+      "textures": "textures/blocks/kfv_print_ink_smelt"
+    },
+    "kfv_print_ink_rainbow_trout": {
+      "textures": "textures/blocks/kfv_print_ink_rainbow_trout"
+    },
+    "kfv_print_ink_arctic_char": {
+      "textures": "textures/blocks/kfv_print_ink_arctic_char"
+    },
+    "kfv_print_ink_void_eel": {
+      "textures": "textures/blocks/kfv_print_ink_void_eel"
+    },
+    "kfv_print_ink_starfin": {
+      "textures": "textures/blocks/kfv_print_ink_starfin"
+    },
+    "kfv_print_ink_sea_bass": {
+      "textures": "textures/blocks/kfv_print_ink_sea_bass"
+    },
+    "kfv_print_ink_grey_mullet": {
+      "textures": "textures/blocks/kfv_print_ink_grey_mullet"
+    },
+    "kfv_print_ink_loach": {
+      "textures": "textures/blocks/kfv_print_ink_loach"
+    },
+    "kfv_print_ink_snakehead": {
+      "textures": "textures/blocks/kfv_print_ink_snakehead"
+    },
+    "kfv_print_ink_mudskipper": {
+      "textures": "textures/blocks/kfv_print_ink_mudskipper"
+    },
+    "kfv_print_ink_flying_fish": {
+      "textures": "textures/blocks/kfv_print_ink_flying_fish"
+    },
+    "kfv_print_ink_lobster": {
+      "textures": "textures/blocks/kfv_print_ink_lobster"
+    },
+    "kfv_print_ink_king_crab": {
+      "textures": "textures/blocks/kfv_print_ink_king_crab"
+    },
+    "kfv_print_ink_cave_blindfish": {
+      "textures": "textures/blocks/kfv_print_ink_cave_blindfish"
+    },
+    "kfv_print_ink_cave_crayfish": {
+      "textures": "textures/blocks/kfv_print_ink_cave_crayfish"
+    },
+    "kfv_print_ink_river_lord_catfish": {
+      "textures": "textures/blocks/kfv_print_ink_river_lord_catfish"
+    },
+    "kfv_print_ink_emperor_tuna": {
+      "textures": "textures/blocks/kfv_print_ink_emperor_tuna"
+    },
+    "kfv_print_ink_frostlake_char": {
+      "textures": "textures/blocks/kfv_print_ink_frostlake_char"
+    },
+    "kfv_print_ink_lava_dragon_koi": {
+      "textures": "textures/blocks/kfv_print_ink_lava_dragon_koi"
+    },
+    "kfv_print_ink_mycelium_flounder": {
+      "textures": "textures/blocks/kfv_print_ink_mycelium_flounder"
+    },
+    "kfv_print_ink_spore_seahorse": {
+      "textures": "textures/blocks/kfv_print_ink_spore_seahorse"
+    },
+    "kfv_print_ink_cherry_trout": {
+      "textures": "textures/blocks/kfv_print_ink_cherry_trout"
+    },
+    "kfv_print_ink_creek_shrimp": {
+      "textures": "textures/blocks/kfv_print_ink_creek_shrimp"
+    },
+    "kfv_print_ink_echo_ray": {
+      "textures": "textures/blocks/kfv_print_ink_echo_ray"
+    },
+    "kfv_print_ink_sculk_lanternfish": {
+      "textures": "textures/blocks/kfv_print_ink_sculk_lanternfish"
+    },
+    "kfv_print_ink_meteor_marlin": {
+      "textures": "textures/blocks/kfv_print_ink_meteor_marlin"
+    },
+    "kfv_print_ink_aurora_icefish": {
+      "textures": "textures/blocks/kfv_print_ink_aurora_icefish"
     }
   }
 }

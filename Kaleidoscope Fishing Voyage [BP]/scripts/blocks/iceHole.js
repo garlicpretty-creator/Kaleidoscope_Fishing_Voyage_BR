@@ -21,7 +21,7 @@ import { recordCatch } from "../journal/records.js";
 import { emitCaught } from "../api/host.js";
 import { tryStore } from "../tools/basket.js";
 import { spawnParticle } from "../util/particles.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { ambient, burst } from "./stationFx.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 
@@ -128,7 +128,7 @@ const iceHole = {
     if (held && RODS[held.typeId]) { useRodItem(player, held); return; }   // fish through the hole
     if (tip === 0 && held?.typeId === TIP_UP) {                            // set a tip-up
       const list = liveOwned(player);
-      if (list.length >= TIP_UP_LIMIT) { snd(dim, "dig.wood", at, 0.6, 0.5); setOwned(player, list); return refuse(player, "tipup_limit", TIP_UP_LIMIT); }
+      if (list.length >= TIP_UP_LIMIT) { snd(dim, "dig.wood", at, 0.6, 0.5); setOwned(player, list); return refuseAt(player, "tipup_limit", block, TIP_UP_LIMIT); }
       takeOne(player, slot);
       if (!list.includes(keyOf(block))) list.push(keyOf(block));
       setOwned(player, list);
@@ -146,8 +146,8 @@ const iceHole = {
       snd(dim, "dig.wood", at, 0.9);
       return;
     }
-    if (tip === 1) return refuse(player, held?.typeId === TIP_UP ? "tipup_set" : "tipup_empty_hand");
-    return refuse(player, "icehole_use");
+    if (tip === 1) return refuseAt(player, held?.typeId === TIP_UP ? "tipup_set" : "tipup_empty_hand", block);
+    return refuseAt(player, "icehole_use", block);
   },
 
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
@@ -193,7 +193,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
   const loc = { x: block.x, y: block.y, z: block.z }, dim = block.dimension;
   system.run(() => {
     try {
-      if (!isWater(dim.getBlock({ x: loc.x, y: loc.y - 1, z: loc.z }))) { snd(dim, "dig.glass", loc, 0.6, 0.5); refuse(player, "auger_no_water"); return; }
+      if (!isWater(dim.getBlock({ x: loc.x, y: loc.y - 1, z: loc.z }))) { snd(dim, "dig.glass", loc, 0.6, 0.5); refuseAt(player, "auger_no_water", { dimension: dim, location: { x: loc.x + 0.5, y: loc.y + 1, z: loc.z + 0.5 } }); return; }
       dim.getBlock(loc)?.setType(ICE_HOLE);
       const c = { x: loc.x + 0.5, y: loc.y + 1, z: loc.z + 0.5 };
       snd(dim, "dig.glass", c, 1.3);

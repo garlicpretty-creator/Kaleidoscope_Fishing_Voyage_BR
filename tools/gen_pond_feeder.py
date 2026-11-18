@@ -8,8 +8,12 @@ tools/gen_1_5.py fish-pond step), so run it AFTER those whenever they are run ag
 kfv_pond_feeder) and the same bones, which blocks/pond_feeder.json shows by state (blocks/pond.js sets them):
   feeder   always: a stone footing, a stout post with two braces, a plank deck, a feed trough on the deck, and a
            beam reaching out over the water with a net basket hanging from it on three ropes
-  feed     state kaleidoscope_fishing:feed == 1 (there are meals left): pellets heaped in the trough, a few spilled
-           on the deck, and a tied burlap feed sack beside it
+  feed_low   1.6.0: state kaleidoscope_fishing:feed == 1 (a little feed left): a thin layer of pellets in the trough
+             (the trough fill below, squashed, on the same texture pixels)
+  feed       state kaleidoscope_fishing:feed >= 2 (more than a third): the trough filled with pellets
+  feed_more  1.6.0: state kaleidoscope_fishing:feed == 3 (nearly full): pellets heaped over the trough, a few spilled
+             on the deck, and a tied burlap feed sack beside it
+             (1.5.0 had one `feed` bone for "any meals left"; blocks/pond.js troughStage() picks the stage)
   roe      state kaleidoscope_fishing:roe == 1 (the pond spawned roe): orange clumps of roe in the net basket
 The basket hangs on the north side (-z). The texture is painted in code (tools/facepaint.py), 1 texture pixel per
 model unit, every face its own pixels; the RTX maps are refreshed (tools/pbr.py). Also writes the 128x128 guidebook
@@ -175,7 +179,7 @@ def s_roe(p, n):
 def model():
     sheet = Sheet()
     g = Part(sheet)
-    feeder, feed, roe = [], [], []
+    feeder, feed, more, roe = [], [], [], []
     # footing and post
     feeder.append(g.box([-4, 0, -1.5], [4, 2, 6.5], s_stone))
     feeder.append(g.box([-3, 2, -0.5], [3, 2.5, 5.5], s_stone))
@@ -207,19 +211,22 @@ def model():
     feeder.append(g.box([-2, 2, -8], [2, 5.5, -4], s_mesh, faces=('north', 'south', 'east', 'west', 'down')))
     # feed: pellets in the trough and on the deck, the sack
     feed.append(g.box([-5.25, 11.5, 1.25], [0.25, 12.75, 4.25], s_pellets))
-    feed.append(g.box([-4, 12.75, 2], [-1, 13.25, 3.5], s_pellets))
+    more.append(g.box([-4, 12.75, 2], [-1, 13.25, 3.5], s_pellets))
     for x, z in ((1.75, 0.0), (-2.5, -1.5), (2.5, 5.5), (-6.0, 5.8)):
-        feed.append(g.box([x - 0.3, 11, z - 0.3], [x + 0.3, 11.5, z + 0.3], s_pellets))
-    feed.append(g.box([2.5, 11, 1.25], [6, 14.5, 4.75], s_sack))
-    feed.append(g.box([3, 14.5, 1.75], [5.5, 15.25, 4.25], s_sack))
-    feed.append(g.box([3.75, 15.25, 2.5], [4.75, 16.25, 3.5], s_tie))
-    feed.append(g.box([3.5, 15.25, 2.25], [5, 15.75, 3.75], s_tie))
+        more.append(g.box([x - 0.3, 11, z - 0.3], [x + 0.3, 11.5, z + 0.3], s_pellets))
+    more.append(g.box([2.5, 11, 1.25], [6, 14.5, 4.75], s_sack))
+    more.append(g.box([3, 14.5, 1.75], [5.5, 15.25, 4.25], s_sack))
+    more.append(g.box([3.75, 15.25, 2.5], [4.75, 16.25, 3.5], s_tie))
+    more.append(g.box([3.5, 15.25, 2.25], [5, 15.75, 3.75], s_tie))
+    # 1.6.0: a thin layer for "a little left": the trough fill squashed to 0.5 high, on the same texture pixels
+    # (the face dicts are shared, not copied: the sheet fills their uv in when it is saved)
+    low = [{'origin': list(feed[0]['origin']), 'size': [feed[0]['size'][0], 0.5, feed[0]['size'][2]], 'uv': feed[0]['uv']}]
     # roe: clumps on the basket floor
     for x0, x1, z0, z1, top in ((-1.75, 0.25, -7.75, -5.75, 3.75), (0.0, 1.75, -6.5, -4.25, 3.25),
                                 (-1.5, 0.5, -5.5, -4.25, 2.75), (0.75, 1.75, -7.75, -6.5, 2.75)):
         roe.append(g.box([x0, 2.05, z0], [x1, top, z1], s_roe))
     bones = [{'name': 'root', 'pivot': [0, 0, 0]}]
-    for name, cubes in (('feeder', feeder), ('feed', feed), ('roe', roe)):
+    for name, cubes in (('feeder', feeder), ('feed_low', low), ('feed', feed), ('feed_more', more), ('roe', roe)):
         bones.append({'name': name, 'parent': 'root', 'pivot': [0, 0, 0], 'cubes': cubes})
     return sheet, bones
 

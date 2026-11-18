@@ -144,6 +144,32 @@
       },
       "minecraft:fire_immune": {},
       "minecraft:conditional_bandwidth_optimization": {}
+    },
+    "component_groups": {
+      "kaleidoscope_fishing:pond_hit": {
+        "minecraft:custom_hit_test": {
+          "hitboxes": [
+            {
+              "width": 1.0,
+              "height": 0.6,
+              "pivot": [
+                0,
+                0.55,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "events": {
+      "kaleidoscope_fishing:pond_fish": {
+        "add": {
+          "component_groups": [
+            "kaleidoscope_fishing:pond_hit"
+          ]
+        }
+      }
     }
   }
 }

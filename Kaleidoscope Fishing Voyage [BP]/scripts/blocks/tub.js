@@ -2,16 +2,19 @@
 //   purging clams   water + Salt makes brine; up to 8 Clams soak in it; after half a day an empty hand takes
 //                   out Purged Clams (the brine stays for the next batch)
 //   hatching roe    (with the fish pond) Fertilized Roe in plain water: fry after a day, and after two an empty
-//                   hand takes out 2 small farmed fish of its kind (blocks/pond.js)
+//                   hand takes out 2 small farmed fish of its kind (blocks/pond.js); 1.6.0: so does the Hand Net
+//                   (tools/handNet.js), at the cost of one use
 // A water bucket fills it, an empty bucket drains it. The state `fill` is what shows:
 //   0 empty  1 water  2 brine  3 clams soaking  4 clams purged  5 roe  6 fry
 // What it holds is kept in a block record ("tb": { n, t }), so a tub removed in any way gives its clams back.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
-import { refuse } from "../util/hint.js";
+import { refuseAt } from "../util/hint.js";
 import { ambient, burst, on } from "./stationFx.js";
 import { CATCHES } from "../data/generated.js";
+import { fishGlyph } from "../data/glyphs.js";
+import { HAND_NET, wearNet } from "../tools/handNet.js";
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
 
 const NS = "kaleidoscope_fishing";
@@ -64,7 +67,7 @@ export function tubContents(fill, r) {
 function roeBack(id) {
   const s = new ItemStack(ROE_ITEM, 1);
   try { s.setDynamicProperty(ROE_PROP, id); } catch {}
-  try { s.setLore([{ translate: `${NS}.lore.roe_of`, with: { rawtext: [{ translate: `${NS}.name.${id.split(":")[1]}` }] } }]); } catch {}
+  try { s.setLore([`§r${fishGlyph(id)}`]); } catch {}   // 1.6.0: the fish's picture, no words (the species is ROE_PROP)
   return s;
 }
 /** Two small farmed fish of a kind, hatched in the tub. */
@@ -88,21 +91,21 @@ const tub = {
     const fill = fillOf(block);
     const r = rec(block);
     if (held === "minecraft:water_bucket") {
-      if (fill !== 0) return refuse(player, "tub_full");
+      if (fill !== 0) return refuseAt(player, "tub_full", block);
       swapHeld(player, slot, "minecraft:bucket"); setFill(block, 1); snd(block, "bucket.empty_water"); snd(block, "random.splash", 1.6, 0.25); fx(block, "spray", "bubbles"); return;
     }
     if (held === "minecraft:bucket") {
-      if (fill !== 1 && fill !== 2) return refuse(player, "tub_busy");
+      if (fill !== 1 && fill !== 2) return refuseAt(player, "tub_busy", block);
       swapHeld(player, slot, "minecraft:water_bucket"); setFill(block, 0); save(block, undefined); snd(block, "bucket.fill_water"); fx(block, "drip"); return;
     }
     if (held === SALT) {
-      if (fill !== 1) return refuse(player, fill === 0 ? "tub_need_water" : "tub_salted");
+      if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_salted", block);
       takeOne(player, slot); setFill(block, 2); snd(block, "dig.sand", 1.3); snd(block, "random.swim", 1.6, 0.25); fx(block, "salt", "stir"); return;
     }
     if (held === CLAM) {
-      if (fill !== 2 && fill !== 3) return refuse(player, fill === 1 ? "tub_need_salt" : "tub_need_water");
+      if (fill !== 2 && fill !== 3) return refuseAt(player, fill === 1 ? "tub_need_salt" : "tub_need_water", block);
       const n = (fill === 3 ? Number(r.n) || 0 : 0) + 1;
-      if (n > TUB_CLAMS) return refuse(player, "tub_clams_full", TUB_CLAMS);
+      if (n > TUB_CLAMS) return refuseAt(player, "tub_clams_full", block, TUB_CLAMS);
       takeOne(player, slot);
       save(block, { n, t: now(), fill: 3 });                // the half day runs from the last clam in
       setFill(block, 3); snd(block, "random.splash", 1.5, 0.4); fx(block, "bubbles"); return;
@@ -113,21 +116,23 @@ const tub = {
       save(block, undefined); setFill(block, 2); snd(block, "random.splash", 1.2, 0.5); fx(block, "drip", "spray"); return;
     }
     if (held === ROE_ITEM) {                              // 1.5.0: fertilized roe hatches in plain water
-      if (fill !== 1) return refuse(player, fill === 0 ? "tub_need_water" : "tub_busy");
+      if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_busy", block);
       let id;
       try { id = slot.getItem().getDynamicProperty(ROE_PROP); } catch {}
-      if (typeof id !== "string") return refuse(player, "tub_what");
+      if (typeof id !== "string") return refuseAt(player, "tub_what", block);
       takeOne(player, slot);
       save(block, { roe: id, t: now(), fill: 5 });
       setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); fx(block, "fry"); return;
     }
-    if (!held && (fill === 5 || fill === 6)) {
-      if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuse(player, "tub_hatching");
+    if ((!held || held === HAND_NET) && (fill === 5 || fill === 6)) {
+      if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuseAt(player, "tub_hatching", block);
       give(player, fry(r.roe), block.center());
-      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); fx(block, "spray", "drip"); return;
+      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); fx(block, "spray", "drip");
+      if (held === HAND_NET) wearNet(player);
+      return;
     }
-    if (!held && fill === 3) return refuse(player, "tub_soaking");
-    refuse(player, "tub_what");
+    if (!held && fill === 3) return refuseAt(player, "tub_soaking", block);
+    refuseAt(player, "tub_what", block);
   },
   onTick({ block }) {
     if (fillOf(block) === 5) {                            // the roe turns to fry halfway

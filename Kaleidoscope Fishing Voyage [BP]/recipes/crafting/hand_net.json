@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:hand_net"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " SN",
+      " /S",
+      "/S "
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:string"
+      },
+      "N": {
+        "item": "kaleidoscope_fishing:fishing_net"
+      },
+      "/": {
+        "item": "minecraft:stick"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:hand_net",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "kaleidoscope_fishing:fishing_net"
+      }
+    ]
+  }
+}

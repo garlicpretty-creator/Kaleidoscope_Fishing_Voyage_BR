@@ -11,7 +11,6 @@
 import { EquipmentSlot, GameMode, ItemStack, system } from "@minecraft/server";
 import { readData, writeData } from "./blockData.js";
 import { now } from "../util/clock.js";
-import { biomeIdAt } from "../util/biome.js";
 import { isWater, tideState } from "../fishing/water.js";
 
 const NS = "kaleidoscope_fishing";
@@ -45,7 +44,7 @@ export function canGrow(block) {
   let below;
   try { below = block.below()?.typeId; } catch {}
   if (!BEDS.has(below)) return false;
-  try { return SEA.test(biomeIdAt(block.dimension, block.location)); } catch { return false; }
+  try { return SEA.test(String(block.dimension.getBiome?.(block.location)?.id ?? "")); } catch { return false; }
 }
 
 /** Growth this tick: { progress, stage } from the record and the time gone by. Exported for tests. */

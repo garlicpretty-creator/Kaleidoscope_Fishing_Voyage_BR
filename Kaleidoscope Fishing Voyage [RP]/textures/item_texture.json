@@ -320,6 +320,21 @@
     "kfv_fish_basket": {
       "textures": "textures/items/kfv_fish_basket"
     },
+    "kfv_fish_basket_few": {
+      "textures": "textures/items/kfv_fish_basket_few"
+    },
+    "kfv_fish_basket_half": {
+      "textures": "textures/items/kfv_fish_basket_half"
+    },
+    "kfv_fish_basket_most": {
+      "textures": "textures/items/kfv_fish_basket_most"
+    },
+    "kfv_fish_basket_full": {
+      "textures": "textures/items/kfv_fish_basket_full"
+    },
+    "kfv_hand_net": {
+      "textures": "textures/items/kfv_hand_net"
+    },
     "kfv_fish_meal_bait": {
       "textures": "textures/items/kfv_fish_meal_bait"
     },

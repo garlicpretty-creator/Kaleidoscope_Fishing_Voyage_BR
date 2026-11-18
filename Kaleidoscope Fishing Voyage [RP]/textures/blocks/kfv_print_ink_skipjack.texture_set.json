@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_print_ink_skipjack",
+    "metalness_emissive_roughness": "kfv_print_ink_skipjack_mer",
+    "heightmap": "kfv_print_ink_skipjack_height"
+  }
+}

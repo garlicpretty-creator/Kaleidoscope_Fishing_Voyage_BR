@@ -19,6 +19,7 @@ import "./blocks/feast.js";
 import "./blocks/shoreDrop.js";
 import "./tools/basket.js";
 import "./tools/knife.js";
+import "./tools/handNet.js";      // 1.6.0: the Hand Net (pond, tub, tank)
 import "./blocks/decor.js";
 import "./blocks/tanks.js";
 import "./journal/recipes.js";
@@ -39,3 +40,4 @@ import "./world/sky.js";         // 1.5.0: meteor showers and aurora nights
 import "./blocks/glassFloat.js";   // 1.5.0: star sand makes a glass float glow
 import "./blocks/pond.js";         // 1.5.0: the fish pond
 import "./world/boat.js";         // 1.5.0: fishing from a boat, the Fishing Skiff
+import "./world/ambience.js";     // 1.6.0: harbour sounds (pier, gulls, skiff, lantern, trawl)
