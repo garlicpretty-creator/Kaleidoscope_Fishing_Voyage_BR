@@ -49,6 +49,7 @@ const BY_CATEGORY = {
   full: [
     "rack_full", "tank_full", "tub_full", "tub_clams_full", "pond_feed_full", "tipup_limit",
     "tank_occupied", "tipup_set", "pond_full",
+    "merchant_purse",                    // 1.6.0: the fish merchant's purse is empty (he shakes his head)
   ],
   place: [
     "salt_pan_place", "pond_has_feeder", "board_pack_gone", "tank_pack_gone",

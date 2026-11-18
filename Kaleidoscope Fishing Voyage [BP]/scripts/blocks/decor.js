@@ -180,6 +180,21 @@ const tackleRack = {
 // kept). The frame shows how big it was: 1 bronze (small), 2 silver (medium), 3 gold (large),
 // 4 gold with a red seal (record fish). Breaking it gives the blank frame back.
 const PRINT_TIER = `${NS}:tier`;
+// 1.6.0 (plan 14.1): the fish on the print is drawn at one of 4 sizes (state shrink: 0 full .. 3 smallest), by where
+// its length falls in the species' range: the longer the record, the bigger the fish. Without a length (not a
+// record) the size class decides; a species with no sizes (crabs, shrimp) is drawn full. Prints from before 1.6.0
+// have shrink 0, the full size they always had.
+const PRINT_SHRINK = `${NS}:shrink`;
+/** The print's shrink state (0..3) for a fish id and what its stack says ({ cls, cm } from readSize). */
+export function printShrink(id, { cls = 0, cm } = {}) {
+  const r = SIZE[id];
+  if (!r) return 0;
+  if (typeof cm === "number" && Number.isFinite(cm)) {
+    const p = Math.max(0, Math.min(1, (cm - r[0]) / Math.max(1, r[1] - r[0])));
+    return p >= 0.75 ? 0 : p >= 0.5 ? 1 : p >= 0.25 ? 2 : 3;
+  }
+  return cls === LARGE ? 0 : cls === SMALL ? 2 : 1;
+}
 const WALL_FACES = { North: "north", South: "south", East: "east", West: "west" };
 const fishPrint = {
   // Hangs on walls only: turned to the face that was clicked, never placed on a floor or ceiling.
@@ -195,10 +210,12 @@ const fishPrint = {
     const stack = slot?.hasItem() ? slot.getItem() : undefined;
     const idx = stack ? printIndex(canon(stack.typeId)) : 0;
     if (idx <= 0) return;                             // v1.3's new tank species have no print (1.4's do)
-    const { cls, record } = readSize(stack);
+    const { cls, cm, record } = readSize(stack);
     if (upgradeStack(stack)) { try { slot.setItem(stack); } catch {} }   // 1.6.0: an old "★ N cm" becomes the new ★
     const tier = record ? 4 : (cls || MEDIUM);
-    block.setPermutation(withFishIndex(block.permutation, idx).withState(PRINT_TIER, tier));
+    let perm = withFishIndex(block.permutation, idx).withState(PRINT_TIER, tier);
+    try { perm = perm.withState(PRINT_SHRINK, printShrink(canon(stack.typeId), { cls, cm })); } catch {}
+    block.setPermutation(perm);
     snd(block, "item.book.page_turn", 0.8, 0.9);
     snd(block, "mob.squid.ink_squirt", 1.2, 0.5);
     for (let k = 0; k < 6; k++) {

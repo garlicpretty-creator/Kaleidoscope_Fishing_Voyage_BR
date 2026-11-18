@@ -29,6 +29,11 @@
       "name": "flying_fish",
       "product": "kaleidoscope_fishing:dried_flying_fish",
       "ticks": 24000
+    },
+    "7": {
+      "name": "shrimp",
+      "product": "kaleidoscope_fishing:dried_shell_shrimp",
+      "ticks": 24000
     }
   },
   "inputs": {
@@ -36,7 +41,8 @@
     "kaleidoscope_fishing:salted_mullet_roe": 5,
     "kaleidoscope_fishing:gutted_fish": 1,
     "kaleidoscope_fishing:gutted_skipjack": 4,
-    "kaleidoscope_fishing:gutted_flying_fish": 6
+    "kaleidoscope_fishing:gutted_flying_fish": 6,
+    "kaleidoscope_fishing:salted_shrimp": 7
   },
   "salt": [
     "kaleidoscope_fishing:sea_salt"

@@ -66,6 +66,161 @@
           ]
         }
       }
+    },
+    "animation.kaleidoscope_fishing.fish_merchant.tags": {
+      "loop": true,
+      "bones": {
+        "tags": {
+          "position": [
+            0,
+            0,
+            "0.45 * (8 - query.property('kaleidoscope_fishing:order_n'))"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fish_merchant.nod": {
+      "animation_length": 1.0,
+      "bones": {
+        "head": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.2": [
+              16,
+              0,
+              0
+            ],
+            "0.4": [
+              0,
+              0,
+              0
+            ],
+            "0.6": [
+              16,
+              0,
+              0
+            ],
+            "0.8": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fish_merchant.refuse": {
+      "animation_length": 1.3,
+      "bones": {
+        "head": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.15": [
+              0,
+              -22,
+              0
+            ],
+            "0.35": [
+              0,
+              22,
+              0
+            ],
+            "0.55": [
+              0,
+              -22,
+              0
+            ],
+            "0.75": [
+              0,
+              22,
+              0
+            ],
+            "0.9": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "arms": {
+          "position": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.3": [
+              0,
+              1.5,
+              0
+            ],
+            "1.0": [
+              0,
+              1.5,
+              0
+            ],
+            "1.3": [
+              0,
+              0,
+              0
+            ]
+          },
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.3": [
+              12,
+              0,
+              0
+            ],
+            "1.0": [
+              12,
+              0,
+              0
+            ],
+            "1.3": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "body": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.3": [
+              0,
+              0,
+              3
+            ],
+            "1.0": [
+              0,
+              0,
+              -3
+            ],
+            "1.3": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
     }
   }
 }

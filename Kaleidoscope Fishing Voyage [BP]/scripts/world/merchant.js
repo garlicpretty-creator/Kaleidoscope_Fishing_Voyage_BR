@@ -6,6 +6,11 @@
 // He buys fish when you use one on him: the whole stack in your hand, sizes mixed or not, and
 // big fish fetch more (small x0.6, large x1.6, a record x2.5). The trading screen only matched
 // identical stacks, so the buying moved here (v1.2-pre7); the screen keeps what he sells.
+// 1.6.0 (docs/PLAN_1.6.0.md section 11): no text anywhere. The order shows as wooden tags under its fish, one
+// flipping per fish handed in; a filled order gets a nod, a quiet level-up and emerald sparkles (and "order" on
+// kaleidoscope_fishing:evt); emeralds ding twice for a wanted fish, once for any other, once and lower for a farmed
+// one; an empty purse gets a head shake and a shrug and the "full" refusal sound (util/hint.js), though the
+// order's fish are still taken. The 8 fish of 1.5 joined WANT_LIST (tools/gen_1_6.py writes the pole's textures).
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { isWater } from "../fishing/water.js";
 import { FISH_ALIAS, MERCHANT_BUDGET, MERCHANT_PRICES } from "../data/generated.js";
@@ -14,6 +19,7 @@ import { WANT_LIST } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
 import { externalPrice } from "../fishing/registry.js";
 import { emit } from "../api/host.js";
+import { refuseAt } from "../util/hint.js";
 
 const NS = "kaleidoscope_fishing";
 const MERCHANT = `${NS}:fish_merchant`;
@@ -104,6 +110,28 @@ export function wantsNear(player) {
   return wantsOf(near).slice(0, 2);
 }
 
+// --------------------------------------------------------------- what he shows (1.6.0)
+// No text (docs/PLAN_1.6.0.md section 11): under the order's fish hangs a row of small wooden tags, one per fish
+// the order asks for (order_n, at most 8); each fish handed in flips one (order_have). Progress is per player but
+// an entity property is one value for everyone, so the tags show the progress of the last player who handed fish
+// in. A filled order: he nods. An empty purse: he shakes his head and shrugs (gesture, played by the RP's
+// animation controller; it falls back to 0 after GESTURE_TICKS so the next one plays again).
+const ORDER_N = `${NS}:order_n`, ORDER_HAVE = `${NS}:order_have`, GESTURE = `${NS}:gesture`;
+export const TAGS_MAX = 8;
+export const GESTURES = Object.freeze({ none: 0, nod: 1, refuse: 2 });
+const GESTURE_TICKS = 30;
+function setProp(m, k, v) { try { m.setProperty(k, v); } catch {} }
+/** Hang the tags for one player's progress (n tags, `have` of them flipped). */
+function showTags(m, n, have) {
+  setProp(m, ORDER_N, Math.max(0, Math.min(TAGS_MAX, n | 0)));
+  setProp(m, ORDER_HAVE, Math.max(0, Math.min(TAGS_MAX, n | 0, have | 0)));
+}
+/** Play a gesture (GESTURES.nod / .refuse) once. */
+export function gesture(m, kind) {
+  setProp(m, GESTURE, kind);
+  try { system.runTimeout(() => { try { if (m.isValid !== false) m.setProperty(GESTURE, 0); } catch {} }, GESTURE_TICKS); } catch {}
+}
+
 // --------------------------------------------------------------- his order (1.5.0)
 // Besides the two fish of the day, a merchant carries one order for his whole visit: so many of one fish, now and
 // then of medium size or better. Fish sold to him count toward it, each player on their own; a filled order
@@ -129,11 +157,18 @@ function setOrder(m) {
   const o = { id, n: orderCount(id), min: rangeOf(id) && Math.random() < ORDER_SIZED_CHANCE ? MEDIUM : 0 };
   try { m.setDynamicProperty(ORDER, JSON.stringify(o)); m.setDynamicProperty(ORDER_DONE, "{}"); } catch {}
   try { m.setProperty(ORDER, WANT_LIST.indexOf(id) + 1); } catch {}
+  showTags(m, o.n, 0);                                // 1.6.0: a row of blank tags
   return o;
 }
 /** The merchant's order { id, n, min }. One who came before 1.5.0 gets his the first time he is asked. */
 export function orderOf(m) {
-  try { const v = JSON.parse(m.getDynamicProperty(ORDER) ?? "null"); if (v && typeof v.id === "string" && v.n > 0) return v; } catch {}
+  try {
+    const v = JSON.parse(m.getDynamicProperty(ORDER) ?? "null");
+    if (v && typeof v.id === "string" && v.n > 0) {
+      try { if (!m.getProperty(ORDER_N)) showTags(m, v.n, 0); } catch {}   // a merchant from 1.5.0 gets his tags
+      return v;
+    }
+  } catch {}
   wantsOf(m);
   return setOrder(m);
 }
@@ -156,6 +191,7 @@ function fillOrder(m, player, n) {
   if (before >= o.n) return;
   done[player.id] = Math.min(o.n, before + n);
   try { m.setDynamicProperty(ORDER_DONE, JSON.stringify(done)); } catch {}
+  showTags(m, o.n, done[player.id]);                  // 1.6.0: one tag flips per fish
   if (done[player.id] < o.n) return;
   let roll = Math.random() * ORDER_REWARDS.reduce((a, r) => a + r.w, 0);
   const reward = ORDER_REWARDS.find(r => (roll -= r.w) <= 0) ?? ORDER_REWARDS[0];
@@ -165,8 +201,13 @@ function fillOrder(m, player, n) {
   }
   bell(m.dimension, m.location, 0.9);
   system.runTimeout(() => { try { bell(m.dimension, m.location, 0.9); } catch {} }, 6);
-  try { player.playSound("random.levelup", { pitch: 1.4, volume: 0.5 }); } catch {}
+  gesture(m, GESTURES.nod);                           // 1.6.0: he nods, a quiet level-up and emerald sparkles
+  try { player.playSound("random.levelup", { pitch: 1.4, volume: 0.3 }); } catch {}
+  for (let i = 0; i < 6; i++) {
+    try { spawnParticle(m.dimension, "minecraft:villager_happy", { x: m.location.x + (Math.random() - 0.5) * 1.2, y: m.location.y + 1 + Math.random(), z: m.location.z + (Math.random() - 0.5) * 1.2 }); } catch {}
+  }
   emit("order_filled", player, { id: o.id, n: o.n });
+  emit("order", player, { kind: "filled", id: o.id, n: o.n });   // 1.6.0: the same, in the "kind" form
 }
 /** The nearest merchant's order for the journal: { id, n, min, have }; undefined if none is about. */
 export function orderNear(player) {
@@ -202,7 +243,12 @@ function sell(player, merchant, id) {
   // a short purse does not stop his order: the fish it still asks for are taken as well, unpaid
   const bought = n;
   n = Math.max(bought, Math.min(stack.amount, room));
-  if (n <= 0) { snd(merchant, "mob.wanderingtrader.no"); return; }
+  if (n <= 0) {                                        // 1.6.0: an empty purse: he shakes his head and shrugs
+    gesture(merchant, GESTURES.refuse);
+    refuseAt(player, "merchant_purse", { dimension: merchant.dimension, location: { ...merchant.location, y: merchant.location.y + 1.8 } });
+    return;
+  }
+  if (bought <= 0) gesture(merchant, GESTURES.refuse);  // the order's fish taken unpaid: the same shrug
   const total = credit + bought * each, paid = Math.floor(total);
   try { player.setDynamicProperty(CREDIT, Math.round((total - paid) * 1000) / 1000); } catch {}
   try { merchant.setDynamicProperty(SPENT, spent + paid); } catch {}
@@ -217,9 +263,23 @@ function sell(player, merchant, id) {
   snd(merchant, "mob.wanderingtrader.yes");
   emit("sold", player, { id, n, paid });
   fillOrder(merchant, player, Math.min(n, room));
-  snd(player, paid > 0 ? "random.orb" : "random.pop", 1.2, 0.5);
+  dings(player, paid, want > 1, farmed);
   for (let i = 0; i < 3; i++) {
     try { spawnParticle(merchant.dimension, "minecraft:villager_happy", { x: merchant.location.x + (Math.random() - 0.5), y: merchant.location.y + 2, z: merchant.location.z + (Math.random() - 0.5) }); } catch {}
+  }
+}
+
+/** 1.6.0: the emeralds' sound. A wanted fish: two dings; any other: one; a farmed fish: one, lower. None unpaid. */
+export function dingsFor(paid, wanted, farmed) {
+  if (!(paid > 0)) return [];
+  if (farmed) return [{ pitch: 0.9, delay: 0 }];
+  return wanted ? [{ pitch: 1.2, delay: 0 }, { pitch: 1.5, delay: 4 }] : [{ pitch: 1.2, delay: 0 }];
+}
+function dings(player, paid, wanted, farmed) {
+  if (!(paid > 0)) { snd(player, "random.pop", 1.2, 0.5); return; }
+  for (const d of dingsFor(paid, wanted, farmed)) {
+    const play = () => { try { player.playSound("random.orb", { pitch: d.pitch, volume: 0.5 }); } catch {} };
+    if (d.delay) { try { system.runTimeout(play, d.delay); } catch {} } else play();
   }
 }
 

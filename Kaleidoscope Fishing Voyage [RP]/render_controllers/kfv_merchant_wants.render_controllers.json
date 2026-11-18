@@ -41,7 +41,15 @@
             "Texture.w33",
             "Texture.w34",
             "Texture.w35",
-            "Texture.w36"
+            "Texture.w36",
+            "Texture.w37",
+            "Texture.w38",
+            "Texture.w39",
+            "Texture.w40",
+            "Texture.w41",
+            "Texture.w42",
+            "Texture.w43",
+            "Texture.w44"
           ]
         }
       },
@@ -106,7 +114,15 @@
             "Texture.w33",
             "Texture.w34",
             "Texture.w35",
-            "Texture.w36"
+            "Texture.w36",
+            "Texture.w37",
+            "Texture.w38",
+            "Texture.w39",
+            "Texture.w40",
+            "Texture.w41",
+            "Texture.w42",
+            "Texture.w43",
+            "Texture.w44"
           ]
         }
       },
@@ -171,7 +187,15 @@
             "Texture.w33",
             "Texture.w34",
             "Texture.w35",
-            "Texture.w36"
+            "Texture.w36",
+            "Texture.w37",
+            "Texture.w38",
+            "Texture.w39",
+            "Texture.w40",
+            "Texture.w41",
+            "Texture.w42",
+            "Texture.w43",
+            "Texture.w44"
           ]
         }
       },
@@ -193,6 +217,70 @@
         },
         {
           "want_b": false
+        }
+      ]
+    },
+    "controller.render.kfv_merchant_tags": {
+      "geometry": "Geometry.tags",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.tags"
+      ],
+      "part_visibility": [
+        {
+          "*": true
+        },
+        {
+          "tag_1": "query.property('kaleidoscope_fishing:order_n') >= 1 && query.property('kaleidoscope_fishing:order_have') < 1"
+        },
+        {
+          "tag_1_on": "query.property('kaleidoscope_fishing:order_n') >= 1 && query.property('kaleidoscope_fishing:order_have') >= 1"
+        },
+        {
+          "tag_2": "query.property('kaleidoscope_fishing:order_n') >= 2 && query.property('kaleidoscope_fishing:order_have') < 2"
+        },
+        {
+          "tag_2_on": "query.property('kaleidoscope_fishing:order_n') >= 2 && query.property('kaleidoscope_fishing:order_have') >= 2"
+        },
+        {
+          "tag_3": "query.property('kaleidoscope_fishing:order_n') >= 3 && query.property('kaleidoscope_fishing:order_have') < 3"
+        },
+        {
+          "tag_3_on": "query.property('kaleidoscope_fishing:order_n') >= 3 && query.property('kaleidoscope_fishing:order_have') >= 3"
+        },
+        {
+          "tag_4": "query.property('kaleidoscope_fishing:order_n') >= 4 && query.property('kaleidoscope_fishing:order_have') < 4"
+        },
+        {
+          "tag_4_on": "query.property('kaleidoscope_fishing:order_n') >= 4 && query.property('kaleidoscope_fishing:order_have') >= 4"
+        },
+        {
+          "tag_5": "query.property('kaleidoscope_fishing:order_n') >= 5 && query.property('kaleidoscope_fishing:order_have') < 5"
+        },
+        {
+          "tag_5_on": "query.property('kaleidoscope_fishing:order_n') >= 5 && query.property('kaleidoscope_fishing:order_have') >= 5"
+        },
+        {
+          "tag_6": "query.property('kaleidoscope_fishing:order_n') >= 6 && query.property('kaleidoscope_fishing:order_have') < 6"
+        },
+        {
+          "tag_6_on": "query.property('kaleidoscope_fishing:order_n') >= 6 && query.property('kaleidoscope_fishing:order_have') >= 6"
+        },
+        {
+          "tag_7": "query.property('kaleidoscope_fishing:order_n') >= 7 && query.property('kaleidoscope_fishing:order_have') < 7"
+        },
+        {
+          "tag_7_on": "query.property('kaleidoscope_fishing:order_n') >= 7 && query.property('kaleidoscope_fishing:order_have') >= 7"
+        },
+        {
+          "tag_8": "query.property('kaleidoscope_fishing:order_n') >= 8 && query.property('kaleidoscope_fishing:order_have') < 8"
+        },
+        {
+          "tag_8_on": "query.property('kaleidoscope_fishing:order_n') >= 8 && query.property('kaleidoscope_fishing:order_have') >= 8"
         }
       ]
     }

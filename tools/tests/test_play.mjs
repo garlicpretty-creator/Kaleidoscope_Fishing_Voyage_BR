@@ -57,6 +57,19 @@ setComps(await boot());
   ok(d.filter(x => x.id === NS + 'gutted_fish').length === 2, `drying rack: breaking it drops the fish on it (${d.map(x => x.id.split(':')[1]).join(', ') || 'nothing'})`);
 }
 
+{
+  // 1.6.0 (plan 14.2): Salted Shrimp hang as a string of shrimp and dry overnight, as on the bamboo tray
+  clearInv(); const r = place(NS + 'drying_rack');
+  P.hold(NS + 'salted_shrimp', 3); use(r); use(r);
+  ok(st(r, 'kind') === 7 && st(r, 'count') === 2 && inv('salted_shrimp') === 1, `drying rack: salted shrimp hang (kind ${st(r, 'kind')}, count ${st(r, 'count')})`);
+  P.hold(NS + 'gutted_fish', 1); use(r);
+  ok(st(r, 'count') === 2 && inv('gutted_fish') === 1, 'drying rack: no fish on a string of shrimp');
+  wait(r, 12100);
+  ok(st(r, 'stage') === 1, `drying rack: the shrimp are half dry by evening (stage ${st(r, 'stage')})`);
+  wait(r, 12100); P.hold(undefined); use(r);
+  ok(inv('dried_shell_shrimp') === 2 && st(r, 'count') === 0, `drying rack: two Dried Shell-on Shrimp after a day (${inv('dried_shell_shrimp')})`);
+}
+
 // ---------- fish sauce jar ----------
 {
   clearInv(); const j = place(NS + 'fish_sauce_jar');
@@ -317,6 +330,17 @@ setComps(await boot());
   P.hold(NS + 'carp', 1); use(f);
   ok(st(f, 'tier') > 0, `fish print: printing a carp sets a frame (tier ${st(f, 'tier')})`);
   ok(st(f, 'tier') !== 4, 'fish print: an unmarked fish does not get the record frame');
+  ok(st(f, 'shrink') === 1, `fish print: an unmarked fish (counts as medium) is drawn a size down (1.6.0; shrink ${st(f, 'shrink')})`);
+  // 1.6.0 (plan 14.1): a record is drawn by its length in the species' range
+  const { recordLine } = await importScript('fishing/size.js');
+  const sized = cm => { const s = new ItemStack(NS + 'carp', 1); s.setLore(['§6◆◆◆', recordLine(cm)]); return s; };
+  const [lo, hi] = (await importScript('data/generated.js')).CATCHES.find(c => c.id === NS + 'carp').size;
+  clearInv(); const big = place(NS + 'fish_print'); P.inv.setItem(P.selectedSlotIndex, sized(hi)); use(big);
+  clearInv(); const small = place(NS + 'fish_print'); P.inv.setItem(P.selectedSlotIndex, sized(lo)); use(small);
+  ok(st(big, 'tier') === 4 && st(big, 'shrink') === 0 && st(small, 'tier') === 4 && st(small, 'shrink') === 3,
+    `fish print: the longest record fills the paper, the shortest is drawn smallest (shrink ${st(big, 'shrink')} / ${st(small, 'shrink')})`);
+  clearInv(); const nf = place(NS + 'fish_print'); P.hold(NS + 'echo_ray', 1); use(nf);
+  ok(st(nf, 'tier') > 0 && st(nf, 'fish') + 16 * st(nf, 'fish_bank') > 54, 'fish print: a fish of 1.5 (echo ray) makes a print');
 }
 
 // ---------- journal ----------

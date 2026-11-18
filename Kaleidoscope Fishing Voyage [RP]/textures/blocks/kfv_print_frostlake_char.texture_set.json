@@ -1,8 +1,0 @@
-{
-  "format_version": "1.16.100",
-  "minecraft:texture_set": {
-    "color": "kfv_print_frostlake_char",
-    "metalness_emissive_roughness": "kfv_print_frostlake_char_mer",
-    "heightmap": "kfv_print_frostlake_char_height"
-  }
-}

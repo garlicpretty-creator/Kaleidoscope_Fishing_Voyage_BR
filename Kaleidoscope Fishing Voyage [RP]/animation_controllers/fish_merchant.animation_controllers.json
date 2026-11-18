@@ -1,0 +1,42 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.kaleidoscope_fishing.fish_merchant.gesture": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "transitions": [
+            {
+              "nod": "query.property('kaleidoscope_fishing:gesture') == 1"
+            },
+            {
+              "refuse": "query.property('kaleidoscope_fishing:gesture') == 2"
+            }
+          ]
+        },
+        "nod": {
+          "animations": [
+            "nod"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('kaleidoscope_fishing:gesture') != 1"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "refuse": {
+          "animations": [
+            "refuse"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('kaleidoscope_fishing:gesture') != 2"
+            }
+          ],
+          "blend_transition": 0.2
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@
 //          cleaned  id            the last cut of a fish on the Fish Cleaning Board
 //          sold     id, n, paid   fish sold to the Fish Merchant (paid in emeralds)
 //          order_filled  id, n   the player handed in the last fish of the merchant's order
+//          order    kind ("filled"), id, n   1.6.0: the same moment in the "kind" form (sent with order_filled)
 //          tide     state ("high" | "low")   world event, no "p": the tide turned
 //          sky      kind ("meteor" | "aurora"), phase ("start" at dusk | "end" at dawn), dim   world event   "sky"
 //   in   kaleidoscope_fishing:state_request   {"api":1,"source":"<ns>","req"?}                   capability "state"

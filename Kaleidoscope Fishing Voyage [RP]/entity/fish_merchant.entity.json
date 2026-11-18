@@ -43,20 +43,36 @@
         "w33": "textures/items/kfv_flying_fish",
         "w34": "textures/items/kfv_lobster",
         "w35": "textures/items/kfv_king_crab",
-        "w36": "textures/items/kfv_cave_blindfish"
+        "w36": "textures/items/kfv_cave_blindfish",
+        "w37": "textures/items/kfv_mycelium_flounder",
+        "w38": "textures/items/kfv_spore_seahorse",
+        "w39": "textures/items/kfv_cherry_trout",
+        "w40": "textures/items/kfv_creek_shrimp",
+        "w41": "textures/items/kfv_echo_ray",
+        "w42": "textures/items/kfv_sculk_lanternfish",
+        "w43": "textures/items/kfv_meteor_marlin",
+        "w44": "textures/items/kfv_aurora_icefish",
+        "tags": "textures/entity/kfv_merchant_tags"
       },
       "geometry": {
         "default": "geometry.kaleidoscope_fishing.fish_merchant",
-        "wants": "geometry.kaleidoscope_fishing.fish_merchant_wants"
+        "wants": "geometry.kaleidoscope_fishing.fish_merchant_wants",
+        "tags": "geometry.kaleidoscope_fishing.fish_merchant_tags"
       },
       "animations": {
         "move": "animation.kaleidoscope_fishing.fish_merchant.move",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "tags": "animation.kaleidoscope_fishing.fish_merchant.tags",
+        "nod": "animation.kaleidoscope_fishing.fish_merchant.nod",
+        "refuse": "animation.kaleidoscope_fishing.fish_merchant.refuse",
+        "gesture": "controller.animation.kaleidoscope_fishing.fish_merchant.gesture"
       },
       "scripts": {
         "animate": [
           "move",
-          "look_at_target"
+          "look_at_target",
+          "tags",
+          "gesture"
         ]
       },
       "render_controllers": [
@@ -69,6 +85,9 @@
         },
         {
           "controller.render.kfv_merchant_order": "query.property('kaleidoscope_fishing:order') > 0"
+        },
+        {
+          "controller.render.kfv_merchant_tags": "query.property('kaleidoscope_fishing:order') > 0 && query.property('kaleidoscope_fishing:order_n') > 0"
         }
       ],
       "spawn_egg": {

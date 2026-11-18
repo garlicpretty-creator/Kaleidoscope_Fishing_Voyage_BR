@@ -548,8 +548,13 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   const paid = inv('minecraft:emerald');
   ok(spent === 24 && paid + spent <= MERCHANT_BUDGET && paid >= MERCHANT_BUDGET - spent - 6 && inv('anglerfish') === 64 - Math.round(paid / 6 + 0.0),
     `merchant: his purse is ${MERCHANT_BUDGET}: after ${spent} he pays ${paid} more for wanted anglerfish (6 each) and leaves ${inv('anglerfish')} in hand`);
-  const before = inv('minecraft:emerald'); interactEntity(m);
-  ok(inv('minecraft:emerald') === before && log.sounds.includes('mob.wanderingtrader.no'), 'merchant: an empty purse buys nothing (he says no)');
+  const before = inv('minecraft:emerald'), s0 = log.sounds.length, gestures = [];
+  const realSet = m.setProperty.bind(m);
+  m.setProperty = (k, v) => { if (k === NS + 'gesture') gestures.push(v); realSet(k, v); };
+  clock.abs += 20; interactEntity(m); flush();
+  m.setProperty = realSet;
+  ok(inv('minecraft:emerald') === before && gestures[0] === 2 && gestures.at(-1) === 0 && log.sounds.slice(s0).includes('dig.wood'),
+    `merchant: an empty purse buys nothing: he shakes his head and shrugs, and it sounds "full" (1.6.0; gestures ${gestures})`);
   ok(P.inv.slots.filter(Boolean).every(s => s.typeId === 'minecraft:emerald' || s.typeId === NS + 'anglerfish'), 'merchant: selling only ever pays emeralds (no tackle or other items)');
   clearInv(); P.hold('minecraft:emerald', 5); const ev2 = interactEntity(m);
   ok(!ev2.cancel && inv('minecraft:emerald') === 5, 'merchant: using anything but fish opens his normal trading screen');
@@ -996,6 +1001,7 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   let n0 = sent.length;
   interactEntity(m);
   ok(MM.orderNear(P)?.have === 3 && inv('minecraft:emerald') === 1, `order: 3 sea bass are paid as usual and count toward the order (have ${MM.orderNear(P)?.have}/4, ${inv('minecraft:emerald')} emerald)`);
+  ok(m.getProperty(NS + 'order_n') === 4 && m.getProperty(NS + 'order_have') === 3, `order: 4 tags hang under the order fish and 3 have flipped (1.6.0; ${m.getProperty(NS + 'order_n')}/${m.getProperty(NS + 'order_have')})`);
   ok(!evtsSince(n0).some(e => e.t === 'order_filled'), 'order: nothing is handed over before it is filled');
   // the journal tells the count
   P.hold(NS + 'angler_journal', 1); const f0 = log.forms.length; answers.push(1);
@@ -1009,17 +1015,32 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   const filled = evtsSince(n0).filter(e => e.t === 'order_filled');
   ok(MM.orderNear(P)?.have === 4 && filled.length === 1 && filled[0].id === NS + 'sea_bass' && filled[0].n === 4 && filled[0].p === P.id,
     `order: the fourth fish fills it, and other packs hear "order_filled" (${JSON.stringify(filled)})`);
+  const kinded = evtsSince(n0).filter(e => e.t === 'order');
+  ok(kinded.length === 1 && kinded[0].kind === 'filled' && kinded[0].id === NS + 'sea_bass' && kinded[0].n === 4 && kinded[0].p === P.id,
+    `order: and "order" with kind "filled" (1.6.0; ${JSON.stringify(kinded)})`);
+  ok(m.getProperty(NS + 'order_have') === 4 && log.sounds.includes('random.levelup'), 'order: every tag has flipped, and a quiet level-up plays');
   ok(inv('minecraft:emerald') === 3 + 6 && inv('sea_bass') === 0, `order: he still buys the whole stack (5 x 0.5 and the 0.5 owed = 3 emeralds) and adds the reward (${inv('minecraft:emerald')} emeralds)`);
   clearInv(); P.hold(NS + 'sea_bass', 2); n0 = sent.length; interactEntity(m);
   ok(!evtsSince(n0).some(e => e.t === 'order_filled') && inv('minecraft:emerald') === 1, 'order: a filled order gives no second reward; the fish are simply bought');
   P.hold(NS + 'angler_journal', 1); const f1 = log.forms.length; answers.push(1);
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
   ok(JSON.stringify(log.forms[f1 + 1]?.body ?? {}).includes('order_done'), 'order: the tide page says it is filled');
+  // 1.6.0: the emeralds' dings
+  { m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', 0);
+    setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+    const s0 = log.sounds.length; clearInv(); P.hold(NS + 'tuna', 1); interactEntity(m); flush();
+    const s1 = log.sounds.length; clearInv(); P.hold(NS + 'octopus', 4); interactEntity(m); flush();
+    const orbs = (a, b) => log.sounds.slice(a, b).filter(x => x === 'random.orb').length;
+    ok(orbs(s0, s1) === 2 && orbs(s1) === 1, `order: a wanted fish dings twice, another once (1.6.0; ${orbs(s0, s1)}, ${orbs(s1)})`); }
 
   // an empty purse: he takes the order's fish unpaid, and nothing else
   m = fresh(); m.setDynamicProperty(NS + 'wants', JSON.stringify([NS + 'tuna', NS + 'anglerfish'])); m.setDynamicProperty(NS + 'spent', PURSE);
-  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0);
+  setOrder(m, { id: NS + 'sea_bass', n: 4, min: 0 }); P.setDynamicProperty(NS + 'merchant_credit', 0.6);   // not even half an emerald left
+  const gs = [], rs = m.setProperty.bind(m);
+  m.setProperty = (k, v) => { if (k === NS + 'gesture') gs.push(v); rs(k, v); };
   clearInv(); P.hold(NS + 'sea_bass', 6); withRandom(0, () => interactEntity(m));     // the first reward in the table (not emeralds)
+  m.setProperty = rs;
+  ok(gs[0] === 2 && gs.includes(1), `order: an empty purse takes the order's fish with a shrug, then he nods at the filled order (1.6.0; gestures ${gs})`);
   ok(inv('sea_bass') === 2 && inv('minecraft:emerald') === 0 && MM.orderNear(P)?.have === 4, `order: with his purse empty he takes just the 4 the order asks for, unpaid (${inv('sea_bass')} left)`);
   clearInv(); P.hold(NS + 'octopus', 3); interactEntity(m);
   ok(inv('octopus') === 3, 'order: with his purse empty he buys nothing that is not on the order');
@@ -1343,6 +1364,56 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(h.length === 1 && h[0].typeId === NS + 'saury' && h[0].getLore()[0] === '§7◆', `skiff: a trawl haul is small (${h.map(x => x.typeId)})`);
   P.getComponent = riding;
   ok(B.boatOf(P) === undefined && B.stow(P, stack('carp', 1)) !== undefined, 'skiff: off the boat nothing is stowed');
+}
+
+// ================================================================ 1.6.0: harbour sounds (world/ambience.js)
+{
+  const A = await importScript('world/ambience.js');
+  const home = { ...P.location }, day0 = clock.day, b0 = biome;
+  const x = 3000, z = 3000;
+  // a jetty: spruce planks over water
+  for (let dx = -1; dx <= 1; dx++) { D.place('minecraft:water', { x: x + dx, y: 63, z }); D.place('minecraft:spruce_planks', { x: x + dx, y: 64, z }); }
+  ok(A.nearPier(D, { x: x + 0.5, y: 65, z: z + 0.5 }) && A.nearPier(D, { x: x + 6.5, y: 65, z: z + 0.5 }) && !A.nearPier(D, { x: x + 40.5, y: 65, z: z + 0.5 }),
+    'ambience: planks over water count as a pier, standing on it or within 8 blocks');
+  D.place('minecraft:stone', { x: x + 20, y: 63, z }); D.place('minecraft:spruce_planks', { x: x + 20, y: 64, z });
+  ok(!A.isPierBlock(D.getBlock({ x: x + 20, y: 64, z })), 'ambience: planks on dry ground are no pier');
+  D.place(NS + 'fishing_lantern', { x: x + 2, y: 66, z: z + 3 });
+  ok(A.nearLantern(D, { x: x + 0.5, y: 65, z: z + 0.5 }) && !A.nearLantern(D, { x: x - 6.5, y: 65, z: z + 0.5 }), 'ambience: a Fishing Lantern within 4 blocks');
+  // a player on the jetty hears it, alone, over five minutes; at night the lantern hums too
+  A._reset(); P.location = { x: x + 0.5, y: 65, z: z + 0.5 }; clock.day = 6000; biome = 'minecraft:plains';
+  let s0 = log.sounds.length, n0 = log.sounds.length;
+  for (let t = 0; t < 6000; t += A.CHECK) A.tick(clock.abs + t, () => 0.5);
+  const heard = log.sounds.slice(s0);
+  ok(heard.length >= 8 && heard.every(id => ['random.wood_click', 'dig.cloth', 'random.splash'].includes(id)), `ambience: on the pier by day, creaks, ropes and waves (${heard.length} in 5 minutes)`);
+  A._reset(); clock.day = 18000; s0 = log.sounds.length;
+  for (let t = 0; t < 2400; t += A.CHECK) A.tick(clock.abs + t, () => 0.5);
+  ok(log.sounds.slice(s0).includes('beacon.ambient'), 'ambience: at night the lantern hums');
+  // far-off gulls on a beach by day, unless a gull is about
+  A._reset(); P.location = { x: x + 200.5, y: 65, z: z + 0.5 }; clock.day = 6000; biome = 'minecraft:beach'; s0 = log.sounds.length;
+  for (let t = 0; t < 6000; t += A.CHECK) A.tick(clock.abs + t, () => 0.5);
+  ok(log.sounds.slice(s0).includes(NS.replace(':', '.') + 'gull'), 'ambience: distant gulls on the beach by day');
+  const gull = D.spawnEntity(NS + 'seagull', { x: x + 205, y: 70, z });
+  A._reset(); s0 = log.sounds.length;
+  for (let t = 0; t < 6000; t += A.CHECK) A.tick(clock.abs + t, () => 0.5);
+  ok(!log.sounds.slice(s0).includes(NS.replace(':', '.') + 'gull'), 'ambience: no far-off gulls when a real one is near');
+  gull.remove();
+  // the skiff: creaks; the fish slap only with fish in the hold; the trawl drags
+  const hold = [];
+  const container = { size: 27, getItem: i => hold[i] };
+  const props = new Map();
+  const skiff = { typeId: NS + 'fishing_skiff', id: 'sk2', isValid: true, dimension: D, location: { ...P.location },
+    getComponent: n => (n === 'minecraft:inventory' ? { container } : undefined), getProperty: k => props.get(k) ?? 0 };
+  const riding = P.getComponent; P.getComponent = n => (n === 'minecraft:riding' ? { entityRidingOn: skiff } : riding.call(P, n));
+  biome = 'minecraft:ocean';
+  const ride = ticks => { A._reset(); const s = log.sounds.length; for (let t = 0; t < ticks; t += A.CHECK) A.tick(clock.abs + t, () => 0.5); return log.sounds.slice(s); };
+  let r = ride(6000);
+  ok(r.length > 0 && !r.includes('mob.fish.flop') && !r.includes('random.swim') && !r.includes('liquid.water'), 'ambience: the skiff creaks; an empty hold does not slap');
+  hold[3] = stack('mackerel', 2); props.set(NS + 'trawl', 1);
+  r = ride(6000);
+  ok(r.includes('mob.fish.flop') && (r.includes('random.swim') || r.includes('liquid.water')), 'ambience: fish in the hold slap now and then; the trawl drags through the water');
+  P.getComponent = riding;
+  ok(n0 >= 0 && !log.commands.slice(-50).some(c => /playsound/.test(c)), 'ambience: no playsound commands (player.playSound only)');
+  P.location = home; clock.day = day0; biome = b0; A._reset();
 }
 
 // ================================================================ 1.5.0: another pack's fish on the board, in tanks and ponds

@@ -1,8 +1,0 @@
-{
-  "format_version": "1.16.100",
-  "minecraft:texture_set": {
-    "color": "kfv_print_cod_seal",
-    "metalness_emissive_roughness": "kfv_print_cod_seal_mer",
-    "heightmap": "kfv_print_cod_seal_height"
-  }
-}
