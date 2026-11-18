@@ -848,6 +848,15 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
     ok(!FX.animationsOn() && S.world.getDynamicProperty(NS + 'animations') === false, 'settings: animationsOn() is kept in a world property (still off after a reload)');
     fs = await openJournal([SET, 2, 3]);
     ok(FX.animationsOn(), 'journal settings: and on again');
+    {
+      const SF = await importScript('blocks/stationFx.js');
+      const blk = { dimension: S.world.getDimension('overworld'), x: 9001, y: 64, z: 9001 };
+      FX.setAnimations(false);
+      let ran = false;
+      SF.ambient(blk, 'anim_test', 1, SF.on(blk), () => { ran = true; });
+      ok(!ran, 'animations off: a station idle effect (stationFx.ambient) does not run');
+      FX.setAnimations(true);
+    }
     delete P.commandPermissionLevel; P.setDynamicProperty(NS + 'charset', undefined); SW._reset();
     S.world.setDynamicProperty(NS + 'animations', undefined); FX._resetFx();
   }
