@@ -306,6 +306,13 @@ def draw(spec, name):
         d.polygon(pts, fill=c)
     elif shape == "gear":
         d_gear(img)
+    elif shape == "bar":                              # a plain vertical divider
+        d.rectangle((7, 1, 8, 14), fill=white)
+        ring = False
+    elif shape == "anim":                             # a block with motion lines: "things move"
+        d.rectangle((6, 4, 13, 11), fill=rgb("a07040"))
+        for y in (5, 8, 11):
+            d.line((1, y, 4, y), fill=white)
     elif shape == "recipes":
         d_pot(d, rgb("707880"), steam=True, handle=True)
     elif shape == "merchant":
@@ -479,6 +486,9 @@ SYMBOLS = [
     ("ui.gear", "draw:gear"), ("ui.recipes", "draw:recipes"), ("ui.tide_clock", "textures/items/kfv_tide_clock"),
     ("ui.merchant", "draw:merchant"), ("ui.basket", "textures/items/kfv_fish_basket"),
     ("ui.recipe_scrap", "textures/items/kfv_recipe_scrap"), ("ui.journal", "textures/items/kfv_angler_journal"),
+    # 1.6.0 step 6 (journal picture book): the bar between a recipe's station and its ingredients, the settings
+    # page's animation switch (section 12.3)
+    ("mark.sep", "draw:bar"), ("ui.animation", "draw:anim"),
 ]
 
 # RECIPE_HINTS "method" -> station glyph (the journal's recipe line starts with it)

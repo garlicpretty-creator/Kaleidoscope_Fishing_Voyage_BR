@@ -230,6 +230,8 @@
     "kaleidoscope_fishing:white_fish_fillet": {"page": "symbols", "index": 104, "src": "textures/items/kfv_white_fish_fillet"},
     "kaleidoscope_fishing:dried_fish": {"page": "symbols", "index": 105, "src": "textures/items/kfv_dried_fish"},
     "kaleidoscope_fishing:fish_offal": {"page": "symbols", "index": 106, "src": "textures/items/kfv_fish_offal"},
+    "mark.sep": {"page": "symbols", "index": 107, "src": "draw:bar"},
+    "ui.animation": {"page": "symbols", "index": 108, "src": "draw:anim"},
     "kaleidoscope_fishing:grilled_fish": {"page": "food", "index": 0, "src": "textures/items/kfv_grilled_fish"},
     "kaleidoscope_fishing:oyster_omelette": {"page": "food", "index": 1, "src": "textures/items/kfv_oyster_omelette"},
     "kaleidoscope_fishing:salt_pepper_shrimp": {"page": "food", "index": 2, "src": "textures/items/kfv_salt_pepper_shrimp"},

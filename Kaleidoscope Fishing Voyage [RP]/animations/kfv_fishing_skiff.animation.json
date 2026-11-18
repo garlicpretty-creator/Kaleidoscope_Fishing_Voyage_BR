@@ -1,0 +1,158 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.fishing_skiff.motion": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            0,
+            "v.wet * (0.45 * math.sin(q.life_time * 95) + 0.25 * math.sin(q.life_time * 151 + 40)) + 0.2 * v.go * math.sin(v.phase * 2)",
+            0
+          ],
+          "rotation": [
+            "-(v.wet * (1.4 * math.sin(q.life_time * 61) + 0.6 * math.sin(q.life_time * 103 + 70)) + math.clamp(v.turn / 12, -3, 3))",
+            0.0,
+            "-(1 * (v.wet * 0.8 * math.sin(q.life_time * 77 + 20) + 1.6 * v.go + 0.25 * math.clamp(v.acc, -4, 4)))"
+          ]
+        },
+        "lantern": {
+          "rotation": [
+            "-(0.5 * v.wet * (1.4 * math.sin(q.life_time * 61) + 0.6 * math.sin(q.life_time * 103 + 70)))",
+            0.0,
+            0
+          ]
+        },
+        "lamp": {
+          "rotation": [
+            "-(v.wet * 3.5 * math.sin(q.life_time * 61 - 60) + math.clamp(v.turn / 6, -10, 10))",
+            0.0,
+            "-(-1 * (v.la + v.wet * 2.5 * math.sin(q.life_time * 77 - 40)))"
+          ]
+        },
+        "oar_left": {
+          "rotation": [
+            0,
+            "-1 * ((10 - 40 * math.cos(v.phase)) - 84) * v.wl",
+            0
+          ]
+        },
+        "oar_left_dip": {
+          "rotation": [
+            "-(1 * ((9 + 16 * math.sin(v.phase)) - 20) * v.wl)",
+            0.0,
+            0
+          ]
+        },
+        "oar_right": {
+          "rotation": [
+            0,
+            "1 * ((10 - 40 * math.cos(v.phase)) - 84) * v.wr",
+            0
+          ]
+        },
+        "oar_right_dip": {
+          "rotation": [
+            "-(-1 * ((9 + 16 * math.sin(v.phase)) - 20) * v.wr)",
+            0.0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fishing_skiff.trawl": {
+      "loop": true,
+      "bones": {
+        "tow": {
+          "rotation": [
+            0,
+            "math.clamp(v.turn / 4, -10, 10)",
+            "-(1 * (v.tow - 37))"
+          ]
+        },
+        "headline": {
+          "position": [
+            0,
+            "0.35 * math.sin(q.life_time * 130)",
+            0
+          ],
+          "rotation": [
+            "-(4 * math.sin(q.life_time * 110))",
+            0.0,
+            "-(-1 * (v.tow - 37))"
+          ]
+        },
+        "bag_a": {
+          "rotation": [
+            0,
+            "(2.5 + 3 * v.go) * math.sin(q.life_time * 70 - 0) - math.clamp(v.turn / 8, -8, 8)",
+            "-(1 * (9.0 * (1 - v.go) + 2 * math.sin(q.life_time * 90 - 10)))"
+          ],
+          "scale": [
+            1,
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 0.0)",
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 40.0)"
+          ]
+        },
+        "bag_b": {
+          "rotation": [
+            0,
+            "(3.5 + 4 * v.go) * math.sin(q.life_time * 70 - 50) - math.clamp(v.turn / 6, -8, 8)",
+            "-(1 * (6.5 * (1 - v.go) + 3 * math.sin(q.life_time * 90 - 60)))"
+          ],
+          "scale": [
+            1,
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 70.0)",
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 110.0)"
+          ]
+        },
+        "bag_c": {
+          "rotation": [
+            0,
+            "(4.5 + 5 * v.go) * math.sin(q.life_time * 70 - 100) - math.clamp(v.turn / 4, -8, 8)",
+            "-(1 * (4.0 * (1 - v.go) + 4 * math.sin(q.life_time * 90 - 110)))"
+          ],
+          "scale": [
+            1,
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 140.0)",
+            "1 + (0.05 + 0.07 * v.go) * math.sin(q.life_time * 160 - 180.0)"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fishing_skiff.wake": {
+      "loop": true,
+      "animation_length": 0.2,
+      "particle_effects": {
+        "0.0": {
+          "effect": "wake",
+          "locator": "stern"
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fishing_skiff.spray": {
+      "loop": true,
+      "animation_length": 0.25,
+      "particle_effects": {
+        "0.0": {
+          "effect": "spray",
+          "locator": "bow"
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.fishing_skiff.net_fish": {
+      "loop": true,
+      "animation_length": 1.7,
+      "particle_effects": {
+        "0.35": {
+          "effect": "net_fish",
+          "locator": "net_fish"
+        },
+        "1.2": {
+          "effect": "net_fish",
+          "locator": "net_fish"
+        }
+      }
+    }
+  }
+}

@@ -20,6 +20,32 @@
       "geometry": {
         "default": "geometry.kaleidoscope_fishing.bobber"
       },
+      "animations": {
+        "float": "animation.kaleidoscope_fishing.bobber.float",
+        "nibble": "animation.kaleidoscope_fishing.bobber.nibble",
+        "bite": "animation.kaleidoscope_fishing.bobber.bite",
+        "thrash": "animation.kaleidoscope_fishing.bobber.thrash",
+        "pop": "animation.kaleidoscope_fishing.bobber.pop"
+      },
+      "scripts": {
+        "animate": [
+          {
+            "float": "q.property('kaleidoscope_fishing:motion') == 1"
+          },
+          {
+            "nibble": "q.property('kaleidoscope_fishing:motion') == 2"
+          },
+          {
+            "bite": "q.property('kaleidoscope_fishing:motion') == 3"
+          },
+          {
+            "thrash": "q.property('kaleidoscope_fishing:motion') == 4"
+          },
+          {
+            "pop": "q.property('kaleidoscope_fishing:motion') == 5"
+          }
+        ]
+      },
       "render_controllers": [
         "controller.render.kfv_bobber"
       ]

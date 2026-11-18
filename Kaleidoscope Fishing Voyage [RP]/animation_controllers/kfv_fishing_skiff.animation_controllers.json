@@ -1,0 +1,71 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.kaleidoscope_fishing.fishing_skiff.wake": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "transitions": [
+            {
+              "on": "v.spd > 1.2 && v.wet > 0.5"
+            }
+          ]
+        },
+        "on": {
+          "animations": [
+            "wake"
+          ],
+          "transitions": [
+            {
+              "default": "v.spd < 0.8 || v.wet < 0.5"
+            }
+          ]
+        }
+      }
+    },
+    "controller.animation.kaleidoscope_fishing.fishing_skiff.spray": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "transitions": [
+            {
+              "on": "v.spd > 5 && v.wet > 0.5"
+            }
+          ]
+        },
+        "on": {
+          "animations": [
+            "spray"
+          ],
+          "transitions": [
+            {
+              "default": "v.spd < 4 || v.wet < 0.5"
+            }
+          ]
+        }
+      }
+    },
+    "controller.animation.kaleidoscope_fishing.fishing_skiff.net_fish": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "transitions": [
+            {
+              "on": "q.property('kaleidoscope_fishing:trawl') == 1"
+            }
+          ]
+        },
+        "on": {
+          "animations": [
+            "net_fish"
+          ],
+          "transitions": [
+            {
+              "default": "!(q.property('kaleidoscope_fishing:trawl') == 1)"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

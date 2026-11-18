@@ -599,7 +599,8 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(!noWater.length, `glyphs: all ${waters.length} waters have a symbol (missing: ${noWater.join(', ') || 'none'})`);
   const symbols = ['time.day', 'time.night', 'time.dawn', 'time.dusk', 'weather.rain', 'weather.thunder', 'tide.high', 'tide.low', 'tide.slack',
     ...Array.from({ length: 8 }, (_, i) => `moon.${i}`), 'sky.meteor', 'sky.aurora', 'dot.full', 'dot.empty', 'mark.x', 'mark.tick', 'mark.cross',
-    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown'];
+    'arrow.left', 'arrow.right', 'bowl.full', 'bowl.half', 'bowl.empty', 'ui.gear', 'ui.recipes', 'ui.tide_clock', 'fish.unknown', 'item.unknown',
+    'mark.sep', 'ui.animation', 'ui.merchant', 'ui.recipe_scrap', 'arrow.up'];   // 1.6.0 step 6: the journal's picture pages
   const noSym = symbols.filter(s => !hasGlyph(s));
   ok(!noSym.length, `glyphs: the plan's symbols are there (missing: ${noSym.join(', ') || 'none'})`);
   const tackle = [...Object.keys(D.PARTS), ...Object.keys(D.RODS)].filter(id => !hasGlyph(id));
@@ -680,6 +681,13 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   ok(a === 1 && b === 0 && c === 0 && d === 1, 'register_catch: "like" must name one of our catches');
   ok(R.glyphLikeOf('testpack:perch') === `${NS}sea_bass` && R.glyphLikeOf('testpack:perch4') === undefined && R.glyphLikeOf('testpack:nothing') === undefined,
     'glyphLikeOf: the borrowed catch, or undefined (no "like", not registered)');
+  {
+    const JR = await imp('journal/journal.js');
+    const GL = await imp('data/glyphs.js');
+    ok(JR.fishGlyph('testpack:perch') === GL.fishGlyph(`${NS}sea_bass`) && JR.shadowGlyph('testpack:perch') === GL.shadowGlyph(`${NS}sea_bass`)
+      && JR.fishGlyph('testpack:perch4') === GL.fishGlyph('testpack:perch4') && JR.fishGlyph(`${NS}carp`) === GL.fishGlyph(`${NS}carp`),
+      'journal: an outside catch borrows its "like" glyph and shadow; without "like" the generic fish; ours unchanged');
+  }
   R._clearRegistry();
   const api = readFileSync(join(ROOT, 'docs', 'API.md'), 'utf8');
   ok(['no_text', '`like`', '`order`', 'glyph_E1', '四類'].every(k => api.includes(k)), 'docs/API.md describes no_text, like, the order event, the glyph pages and the refusal sounds');
@@ -702,10 +710,10 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   const vis = Object.assign({}, ...rc['controller.render.kfv_merchant_tags'].part_visibility);
   ok([...Array(M.TAGS_MAX).keys()].every(i => tagGeo.includes(`tag_${i + 1}`) && tagGeo.includes(`tag_${i + 1}_on`) && vis[`tag_${i + 1}`] && vis[`tag_${i + 1}_on`]),
     `merchant: ${M.TAGS_MAX} tags, each with a blank and a flipped side shown by the render controller`);
-  const ac = J(join(RP, 'animation_controllers', 'fish_merchant.animation_controllers.json')).animation_controllers['controller.animation.kaleidoscope_fishing.fish_merchant.gesture'];
   const anims = J(join(RP, 'animations', 'fish_merchant.animation.json')).animations;
-  ok(ac && ['nod', 'refuse'].every(s => ac.states[s] && anims[ce.animations[s]]) && ce.scripts.animate.includes('gesture') && ce.scripts.animate.includes('tags'),
-    'merchant: the gesture controller plays the nod and the head shake with a shrug');
+  const gArms = anims[ce.animations.gesture]?.bones?.arms;
+  ok(gArms && JSON.stringify(gArms).includes('kfv_no') && anims[ce.animations.tags] && ['gesture', 'tags'].every(k => ce.scripts.animate.includes(k)),
+    'merchant: the immersive gesture animation nods and shakes his head, now with a shrug; the tag row animation runs too');
   ok(JSON.stringify(M.dingsFor(4, true, false).map(x => x.pitch)) === '[1.2,1.5]' && M.dingsFor(1, false, false).length === 1
     && M.dingsFor(1, false, true).length === 1 && M.dingsFor(1, false, true)[0].pitch < M.dingsFor(1, false, false)[0].pitch && M.dingsFor(0, true, false).length === 0,
     'merchant: wanted fish ding twice, others once, farmed fish once and lower; nothing paid, no ding');

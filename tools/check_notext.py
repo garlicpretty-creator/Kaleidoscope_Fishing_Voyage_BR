@@ -5,7 +5,9 @@ Apart from the reeling minigame, Fishing Voyage shows no text on screen. This fa
   actionbar      setActionBar / setTitle / updateSubtitle in a script
   message        sendMessage in a script
   command        a title / titleraw / tellraw / say / msg / tell / w / me command (scripts, BP JSON, functions)
-  form           ActionFormData / ModalFormData / MessageFormData in a script
+  form           ModalFormData / MessageFormData in a script; an ActionFormData's title / body / button whose
+                 literal text is anything but symbols and glyphs, or a translated / rawtext message (1.6.0:
+                 a form of glyphs only is fine; a button's icon path, its second argument, is a picture)
   lore           setLore(...) whose literal text is anything but symbols (◆ ✿ ✦ ★, glyph characters,
                  spaces and § formatting codes), or a translated / rawtext line
   interact_text  an entity's interact button label
@@ -32,10 +34,8 @@ EXCEPTIONS = {
     ("scripts/fishing/rod.js", "actionbar"): (PERMANENT, "reeling minigame: the track, the fish and the progress bar"),
     ("scripts/fishing/minigame.js", "actionbar"): (PERMANENT, "reeling minigame (section 4.2)"),
     ("scripts/fishing/minigameSwitch.js", "message"): (PERMANENT, "reply to an operator's /scriptevent kaleidoscope_fishing:minigame"),
-    ("scripts/journal/settings.js", "form"): (PERMANENT, "journal settings page (minigame style, operator switch; 22.1 #8), if it moves to its own file"),
+    ("scripts/journal/settings.js", "form"): (PERMANENT, "journal settings page (minigame style, operator switches; 22.1 #8)"),
     ("entities/fishing_skiff.json", "interact_text"): (PERMANENT, "vanilla's own boat label (action.interact.ride.boat), as on every boat; without it touch screens may lose the board button"),
-    ("scripts/journal/journal.js", "form"): (TEMPORARY, "journal pages (step 6); the settings page keeps text: move it to journal/settings.js, then delete this line"),
-    ("scripts/journal/recipes.js", "form"): (TEMPORARY, "journal recipe pages (step 6)"),
     ("scripts/blocks/pond.js", "form"): (TEMPORARY, "fish pond list (step 8: hand net instead)"),
     ("scripts/tools/basket.js", "form"): (TEMPORARY, "fish creel list (step 7: glyph grid)"),
     ("scripts/tools/basket.js", "lore"): (TEMPORARY, "fish creel \"N / 64\" (step 7: five looks instead)"),
@@ -71,6 +71,29 @@ def call_args(text, start):
     return text[start:]
 
 
+def first_arg(args):
+    """The first argument of an argument list (up to the first top-level comma)."""
+    depth, q, i = 0, "", 0
+    while i < len(args):
+        c = args[i]
+        if q:
+            if c == "\\":
+                i += 2
+                continue
+            if c == q:
+                q = ""
+        elif c in "\"'`":
+            q = c
+        elif c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+        elif c == "," and depth == 0:
+            return args[:i]
+        i += 1
+    return args
+
+
 def literal_text(args):
     """The static text of every string / template literal in an argument list (template ${...} dropped)."""
     out = []
@@ -84,9 +107,13 @@ def literal_text(args):
 
 
 def not_symbols(s):
-    return re.sub(r"§.", "", s).strip(" ") and any(ch not in SYMBOLS for ch in re.sub(r"§.", "", s))
+    s = re.sub(r"§.", "", s)
+    s = re.sub(r"\\[nt]", " ", s)                   # escaped white space in a JS literal
+    return s.strip() and any(ch not in SYMBOLS and not ch.isspace() for ch in s)
 
 
+# a glyph taken by name (G["ui.gear"], glyph("moon.3"), itemGlyph("minecraft:egg")) is a picture, not text
+GLYPH_NAME = re.compile(r"""\bG\s*\[\s*(["'`])[^"'`]*\1\s*\]|\b\w*[gG]lyph\s*\(\s*(["'`])[^"'`]*\2""")
 COMMAND = re.compile(r"""^\s*/?(title|titleraw|tellraw|say|msg|tell|w|me)\s""")
 
 
@@ -96,8 +123,16 @@ def scan_script(rel, text):
         found.append(("actionbar", lines_of(text, m.start()), m.group(1)))
     for m in re.finditer(r"\bsendMessage\s*\(", text):
         found.append(("message", lines_of(text, m.start()), "sendMessage"))
-    for m in re.finditer(r"\b(ActionFormData|ModalFormData|MessageFormData)\b", text):
+    for m in re.finditer(r"\b(ModalFormData|MessageFormData)\b", text):
         found.append(("form", lines_of(text, m.start()), m.group(1)))
+    if re.search(r"\bActionFormData\b", text):     # 1.6.0: an action form may show glyphs (section 4.4)
+        for m in re.finditer(r"\.(title|body|button)\s*\(", text):
+            first = GLYPH_NAME.sub("", first_arg(call_args(text, m.end())))
+            bad = [s for s in literal_text(first) if not_symbols(s)]
+            if re.search(r"\b(translate|rawtext|text)\s*:", first):
+                bad.append("translate/rawtext")
+            if bad:
+                found.append(("form", lines_of(text, m.start()), f".{m.group(1)}: " + ", ".join(repr(b) for b in bad)[:60]))
     for m in re.finditer(r"\brunCommand(?:Async)?\s*\(", text):
         for s in literal_text(call_args(text, m.end())):
             if COMMAND.match(s):

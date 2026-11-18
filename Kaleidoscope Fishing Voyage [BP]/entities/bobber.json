@@ -15,6 +15,15 @@
           ],
           "default": 0,
           "client_sync": true
+        },
+        "kaleidoscope_fishing:motion": {
+          "type": "int",
+          "range": [
+            0,
+            5
+          ],
+          "default": 0,
+          "client_sync": true
         }
       }
     },

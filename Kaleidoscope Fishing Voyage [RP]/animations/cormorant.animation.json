@@ -6,7 +6,7 @@
       "bones": {
         "body": {
           "rotation": [
-            "query.property('kaleidoscope_fishing:diving') * 55 + math.sin(query.modified_distance_moved * 76) * 2 * query.modified_move_speed",
+            "math.sin(query.modified_distance_moved * 76) * 2 * query.modified_move_speed",
             0,
             "math.sin(query.modified_distance_moved * 38) * 8 * query.modified_move_speed"
           ],
@@ -32,7 +32,7 @@
         },
         "neck": {
           "rotation": [
-            "math.sin(query.life_time * 120) * 3 + query.property('kaleidoscope_fishing:diving') * 50 + math.sin(query.modified_distance_moved * 76) * 8 * query.modified_move_speed",
+            "math.sin(query.life_time * 120) * 3 + math.sin(query.modified_distance_moved * 76) * 8 * query.modified_move_speed",
             "math.sin(query.life_time * 17) * math.sin(query.life_time * 7) * 20 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground",
             "-math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed"
           ]
@@ -48,14 +48,14 @@
           "rotation": [
             0,
             0,
-            "query.property('kaleidoscope_fishing:diving') * -25 + math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed + math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
+            "math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed + math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
           ]
         },
         "wing_r": {
           "rotation": [
             0,
             0,
-            "query.property('kaleidoscope_fishing:diving') * 25 + math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed - math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
+            "math.sin(query.modified_distance_moved * 38) * 5 * query.modified_move_speed - math.max(0, math.sin(query.life_time * 13)) * math.sin(query.life_time * 400) * 6 * math.max(0, 1 - query.modified_move_speed * 3) * query.is_on_ground"
           ]
         }
       }
@@ -97,6 +97,111 @@
             0,
             "-(variable.kfv_wing * (70 + math.sin(query.life_time * 900) * 6) + 10 * variable.kfv_preen)"
           ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.cormorant.dive": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "rotation": [
+            "8 * variable.kfv_dw + 65 * variable.kfv_dl - 35 * variable.kfv_du",
+            0,
+            0
+          ],
+          "position": [
+            0,
+            "-1.2 * variable.kfv_dw",
+            0
+          ]
+        },
+        "neck": {
+          "rotation": [
+            "-28 * variable.kfv_dw + 22 * variable.kfv_dl",
+            0,
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "24 * variable.kfv_dw + 8 * variable.kfv_dl",
+            0,
+            0
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            "8 * variable.kfv_dl",
+            0,
+            "18 * variable.kfv_dw * (1 + math.sin(query.life_time * 1400) * 0.2) - 5 * variable.kfv_dl"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            "8 * variable.kfv_dl",
+            0,
+            "-(18 * variable.kfv_dw * (1 + math.sin(query.life_time * 1400) * 0.2) - 5 * variable.kfv_dl)"
+          ]
+        },
+        "leg_l": {
+          "rotation": [
+            "-18 * variable.kfv_dw + 55 * variable.kfv_dl + math.sin(query.life_time * 540) * 35 * variable.kfv_du",
+            0,
+            0
+          ]
+        },
+        "leg_r": {
+          "rotation": [
+            "-18 * variable.kfv_dw + 55 * variable.kfv_dl + math.sin(query.life_time * 540 + 180) * 35 * variable.kfv_du",
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.cormorant.catch": {
+      "loop": true,
+      "bones": {
+        "neck": {
+          "rotation": [
+            "-18 * query.property('kaleidoscope_fishing:carrying') - 40 * variable.kfv_sw - math.abs(math.sin((variable.kfv_crt - 1.1) * 450)) * 18 * variable.kfv_sw - 25 * variable.kfv_tryg",
+            0,
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "18 * query.property('kaleidoscope_fishing:carrying') - 25 * variable.kfv_sw - 15 * variable.kfv_tryg",
+            "math.sin(variable.kfv_crt * 1500) * 28 * variable.kfv_shake + math.sin(variable.kfv_crt * 1300) * 10 * variable.kfv_tryg",
+            "math.sin(variable.kfv_crt * 1500 + 90) * 8 * variable.kfv_shake"
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            0,
+            0,
+            "math.abs(math.sin(variable.kfv_crt * 1100)) * 14 * variable.kfv_shake"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            0,
+            "-math.abs(math.sin(variable.kfv_crt * 1100)) * 14 * variable.kfv_shake"
+          ]
+        },
+        "fish": {
+          "rotation": [
+            "math.sin(query.life_time * 700) * 12 * (1 - variable.kfv_gulp)",
+            "math.sin(query.life_time * 950) * 22 * (1 - variable.kfv_gulp) + 90 * math.clamp((variable.kfv_crt - 1.2) / 0.3, 0, 1) * query.property('kaleidoscope_fishing:carrying') * (1 - query.property('kaleidoscope_fishing:ringed'))",
+            0
+          ],
+          "position": [
+            0,
+            0,
+            "3.5 * variable.kfv_gulp"
+          ],
+          "scale": "1 - 0.9 * variable.kfv_gulp"
         }
       }
     }

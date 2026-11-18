@@ -67,6 +67,63 @@
         }
       }
     },
+    "animation.kaleidoscope_fishing.fish_merchant.gesture": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "rotation": [
+            "variable.kfv_lean",
+            0,
+            0
+          ],
+          "position": [
+            0,
+            "-12 * (1 - math.cos(variable.kfv_lean))",
+            "-12 * math.sin(variable.kfv_lean)"
+          ]
+        },
+        "head": {
+          "rotation": [
+            "15 * variable.kfv_bow - 14 * variable.kfv_call + math.sin(query.life_time * 500) * 3 * variable.kfv_call + 9 * variable.kfv_nod",
+            "math.sin(variable.kfv_gt * 900) * 22 * variable.kfv_no + math.sin((variable.kfv_it - 6) * 50) * 18 * variable.kfv_call",
+            0
+          ]
+        },
+        "arms": {
+          "rotation": [
+            "-22 * variable.kfv_call - 6 * variable.kfv_bow + 14 * variable.kfv_no",
+            0,
+            0
+          ],
+          "position": [
+            0,
+            "1.5 * variable.kfv_no",
+            0
+          ]
+        },
+        "pole": {
+          "rotation": [
+            0,
+            0,
+            "math.sin(query.life_time * 120) * 1.5 * variable.kfv_call"
+          ]
+        },
+        "basket_f": {
+          "rotation": [
+            "-variable.kfv_lean + math.sin(query.life_time * 55 + 20) * 3 + math.sin(variable.kfv_gt * 400) * 6 * variable.kfv_bow",
+            0,
+            "math.sin(query.life_time * 41) * 2"
+          ]
+        },
+        "basket_b": {
+          "rotation": [
+            "-variable.kfv_lean + math.sin(query.life_time * 55 + 80) * 3 + math.sin(variable.kfv_gt * 400) * 6 * variable.kfv_bow",
+            0,
+            "math.sin(query.life_time * 41 + 50) * 2"
+          ]
+        }
+      }
+    },
     "animation.kaleidoscope_fishing.fish_merchant.tags": {
       "loop": true,
       "bones": {
@@ -76,149 +133,6 @@
             0,
             "0.45 * (8 - query.property('kaleidoscope_fishing:order_n'))"
           ]
-        }
-      }
-    },
-    "animation.kaleidoscope_fishing.fish_merchant.nod": {
-      "animation_length": 1.0,
-      "bones": {
-        "head": {
-          "rotation": {
-            "0.0": [
-              0,
-              0,
-              0
-            ],
-            "0.2": [
-              16,
-              0,
-              0
-            ],
-            "0.4": [
-              0,
-              0,
-              0
-            ],
-            "0.6": [
-              16,
-              0,
-              0
-            ],
-            "0.8": [
-              0,
-              0,
-              0
-            ]
-          }
-        }
-      }
-    },
-    "animation.kaleidoscope_fishing.fish_merchant.refuse": {
-      "animation_length": 1.3,
-      "bones": {
-        "head": {
-          "rotation": {
-            "0.0": [
-              0,
-              0,
-              0
-            ],
-            "0.15": [
-              0,
-              -22,
-              0
-            ],
-            "0.35": [
-              0,
-              22,
-              0
-            ],
-            "0.55": [
-              0,
-              -22,
-              0
-            ],
-            "0.75": [
-              0,
-              22,
-              0
-            ],
-            "0.9": [
-              0,
-              0,
-              0
-            ]
-          }
-        },
-        "arms": {
-          "position": {
-            "0.0": [
-              0,
-              0,
-              0
-            ],
-            "0.3": [
-              0,
-              1.5,
-              0
-            ],
-            "1.0": [
-              0,
-              1.5,
-              0
-            ],
-            "1.3": [
-              0,
-              0,
-              0
-            ]
-          },
-          "rotation": {
-            "0.0": [
-              0,
-              0,
-              0
-            ],
-            "0.3": [
-              12,
-              0,
-              0
-            ],
-            "1.0": [
-              12,
-              0,
-              0
-            ],
-            "1.3": [
-              0,
-              0,
-              0
-            ]
-          }
-        },
-        "body": {
-          "rotation": {
-            "0.0": [
-              0,
-              0,
-              0
-            ],
-            "0.3": [
-              0,
-              0,
-              3
-            ],
-            "1.0": [
-              0,
-              0,
-              -3
-            ],
-            "1.3": [
-              0,
-              0,
-              0
-            ]
-          }
         }
       }
     }

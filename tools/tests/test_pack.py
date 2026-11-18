@@ -87,6 +87,18 @@ listed = [e if isinstance(e, str) else e.get('name') for c in cat['minecraft:cra
           for g in c.get('groups', []) for e in g.get('items', [])]
 dups = sorted({x for x in listed if listed.count(x) > 1})
 ok(not dups, f'creative catalog has no duplicates ({len(listed)} entries)' + ('' if not dups else ': ' + ', '.join(dups)))
+# an item's own menu group must be the catalog group it is listed in, or the game logs a warning per item
+group_of = {(e if isinstance(e, str) else e.get('name')): g['group_identifier']['name']
+            for c in cat['minecraft:crafting_items_catalog']['categories'] for g in c.get('groups', []) for e in g.get('items', [])}
+clash = []
+for p, j in jsons.items():
+    top = j.get('minecraft:item') or j.get('minecraft:block') if isinstance(j, dict) else None
+    if not top or not p.startswith(BP):
+        continue
+    ident = top.get('description', {}).get('identifier'); g = top.get('description', {}).get('menu_category', {}).get('group')
+    if g and ident in group_of and group_of[ident] != g:
+        clash.append(f'{ident.split(":")[1]} ({g.split(".")[-1]} / catalog {group_of[ident].split(".")[-1]})')
+ok(not clash, 'every item\'s menu group matches its catalog group' + ('' if not clash else ': ' + ', '.join(clash)))
 
 # blocks with a 2D inventory icon: an item of the same id places the block, which faces the player
 blocks = {j['minecraft:block']['description']['identifier']: j['minecraft:block']
@@ -112,6 +124,26 @@ for p, j in jsons.items():
 names = [os.path.basename(p) for p in jsons] + [f for _, _, fs in os.walk(os.path.join(BP, 'structures')) for f in fs]
 ok(not [f for f in names if 'platform' in f], 'the sea platform is gone (feature, rule, structure)')
 ok(sum('fishing_pier' in f for f in names) >= 3, 'the fishing pier feature, rule and structure are present')
+
+# client entities: a variable that pre_animation reads before setting it in the same frame (an accumulator such
+# as v.t = v.t + dt) must be given a value in scripts.initialize, or the game logs "unknown variable" every frame
+# and every animation that uses it stops (1.5.0 in-game check: the tank fish, heron and others)
+var_re = re.compile(r'v(?:ariable)?\.(\w+)')
+for p, j in jsons.items():
+    if not (p.startswith(os.path.join(RP, 'entity')) and 'minecraft:client_entity' in j):
+        continue
+    sc = j['minecraft:client_entity']['description'].get('scripts', {})
+    known = set(re.findall(r'v(?:ariable)?\.(\w+)\s*=', ' '.join(sc.get('initialize', []))))
+    early = set()
+    for stmt in [s.strip() for x in sc.get('pre_animation', []) for s in x.split(';') if s.strip()]:
+        m = re.match(r'v(?:ariable)?\.(\w+)\s*=(?!=)\s*(.*)', stmt, re.S)
+        if not m:
+            continue
+        rhs = re.sub(r'v(?:ariable)?\.\w+\s*\?\?', '', m.group(2))   # "v.x ?? 0" is safe while x is unset
+        early |= {r for r in var_re.findall(rhs) if r not in known}
+        known.add(m.group(1))
+    ok(not early, f"{j['minecraft:client_entity']['description']['identifier']}: no variable is read before it is set"
+       + ('' if not early else ' (' + ', '.join(sorted(early)) + ')'))
 
 # Cookery guidebook: every item a page shows has a name in each language. Cookery falls back to English and
 # then to the raw id, which is how untranslated English appeared in the Traditional Chinese book (1.4.0 playtest)

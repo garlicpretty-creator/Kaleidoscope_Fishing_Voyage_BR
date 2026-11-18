@@ -18,6 +18,7 @@ import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/se
 import { SAUCE_FISH } from "../data/generated.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
+import { ambient, burst, on } from "./stationFx.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 
@@ -49,6 +50,9 @@ const saveJar = (block, s) => writeData("sj", block.dimension, block, s && (s.le
   ? { left: s.left, salted: s.salted, kind: s.kind, stage: s.stage, ...(s.salt ? { salt: s.salt } : {}), ...(s.fish ? { fish: s.fish } : {}), ...(s.stage === 2 && s.t !== undefined ? { t: s.t } : {}) } : undefined);
 const snd = (block, id, pitch = 1, volume = 0.7) => { try { block.dimension.playSound(id, block.center(), { pitch, volume }); } catch {} };
 const creative = p => { try { return p.getGameMode() === GameMode.Creative; } catch { return false; } };
+// 1.5.0 (immersive pass, stationFx.js): the jar mouth is 15/16 up.
+const mouth = block => on(block, 0.5, 0.95, 0.5);
+const fx = (block, ...names) => burst(block.dimension, mouth(block), ...names);
 function takeOne(player, slot) {
   if (creative(player)) return;
   const it = slot.getItem(); if (!it) return;
@@ -110,14 +114,14 @@ const jar = {
     if (s.stage === 0) {
       if (held && SALT.has(held)) {
         if (s.salted) return refuseAt(player, "jar_salted", block);
-        takeOne(player, slot); set(block, { ...s, salted: 1, salt: held }); snd(block, "dig.sand", 1.3); return;
+        takeOne(player, slot); set(block, { ...s, salted: 1, salt: held }); snd(block, "dig.sand", 1.3); fx(block, "salt"); return;
       }
       if (!s.salted) return refuseAt(player, "jar_need_salt", block);
       if (!held) return refuseAt(player, "jar_need_fish", block);
       if (held === SHRIMP) return refuseAt(player, "jar_paste_fresh", block);
       const kind = SAUCE_FISH.includes(held) ? 1 : PASTE_SHRIMP.has(held) ? 2 : 0;
       if (!kind) return refuseAt(player, "jar_wrong_fish", block);
-      takeOne(player, slot); set(block, { ...s, kind, stage: 1, left: 1, salted: 1, fish: [held] }); snd(block, "random.splash", 1.4, 0.5); return;
+      takeOne(player, slot); set(block, { ...s, kind, stage: 1, left: 1, salted: 1, fish: [held] }); snd(block, "random.splash", 1.4, 0.5); fx(block, "drip"); return;
     }
     if (s.stage === 1 && returnOldShrimp(block, s)) return;      // 1.5.0: a half-filled jar of dried shrimp gives them back
     if (s.stage === 1) {                                          // filling: same kind only
@@ -126,8 +130,8 @@ const jar = {
       takeOne(player, slot);
       const left = s.left + 1;
       const fish = [...(s.fish ?? Array(s.left).fill(s.kind === 2 ? SHRIMP : SAUCE_FISH[0])), held];
-      if (left >= NEED) { set(block, { ...s, stage: 2, left: 0, fish, t: now() }); snd(block, "block.barrel.close", 1.0); }
-      else { set(block, { ...s, left, fish }); snd(block, "random.splash", 1.4, 0.5); }
+      if (left >= NEED) { set(block, { ...s, stage: 2, left: 0, fish, t: now() }); snd(block, "block.barrel.close", 1.0); fx(block, "vapour"); }
+      else { set(block, { ...s, left, fish }); snd(block, "random.splash", 1.4, 0.5); fx(block, "drip"); }
       return;
     }
     if (s.stage === 2) return refuseAt(player, "jar_fermenting", block);   // sealed: wait
@@ -138,6 +142,7 @@ const jar = {
     give(player, block, prod.item);
     const left = s.left - 1;
     snd(block, s.kind === 1 ? "bucket.fill_water" : "dig.gravel", 1.2, 0.6);
+    fx(block, s.kind === 1 ? "sauce" : "paste");                  // 1.5.0: the serving drips off the rim
     if (left <= 0) set(block, { kind: 0, stage: 0, left: 0, salted: 0 }); else set(block, { ...s, left });
   },
   onTick({ block }) {
@@ -146,16 +151,22 @@ const jar = {
     // v1.5.5: copy a 1.5.4 jar into its record; v1.6.3: and the kind and stage into an older record
     if ((s.left || s.salted || s.stage) && (!d || Number(d.stage ?? -1) !== s.stage || Number(d.kind ?? -1) !== s.kind)) saveJar(block, s);
     if (returnOldShrimp(block, s)) return;
+    if (s.stage === 3) { ambient(block, "jar", 90, mouth(block), () => { if (Math.random() < 0.4) fx(block, "vapour"); }); return; }   // open: its smell drifts up
     if (s.stage !== 2) return;
     if (s.t === undefined) { saveJar(block, { ...s, t: now() - FERMENT_TICKS / 2 }); return; }   // sealed before 1.6.4: half done
     if (fermentDone(s.t, now())) {
       set(block, { ...s, stage: 3, left: NEED, fish: undefined, salt: undefined, t: undefined });
       snd(block, "random.pop", 0.8, 0.5);
+      snd(block, "block.barrel.open", 1.3, 0.5);                  // 1.5.0: the lid pops and the smell puffs out
+      fx(block, "jar_pop", "ferment");
       return;
     }
-    // fermenting: a bubble now and then
-    try { spawnParticle(block.dimension, "minecraft:basic_bubble_particle", { x: block.x + 0.5, y: block.y + 0.95, z: block.z + 0.5 }); } catch {}
-    if (Math.random() < 0.2) snd(block, "bubble.pop", 0.8, 0.3);
+    // fermenting (1.5.0): slow bubbles at the lid and a faint breath of vapour, while someone is there to see it
+    ambient(block, "jar", 90, mouth(block), () => {
+      fx(block, "ferment");
+      if (Math.random() < 0.5) fx(block, "vapour");
+      if (Math.random() < 0.2) snd(block, "bubble.pop", 0.8, 0.3);
+    });
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (player && creative(player)) { writeData("sj", block.dimension, block, undefined); return; }

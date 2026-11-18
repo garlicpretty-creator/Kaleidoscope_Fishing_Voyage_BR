@@ -20,14 +20,14 @@
           "rotation": [
             0,
             "query.is_on_ground * math.sin(query.life_time * 37) * 2",
-            "math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6 + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
+            "math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) * (1 - 0.85 * variable.kfv_dash) - 6 + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
           ]
         },
         "wing_r": {
           "rotation": [
             0,
             "-query.is_on_ground * math.sin(query.life_time * 37) * 2",
-            "-(math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) - 6) + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
+            "-(math.sin(query.life_time * 700) * (12 + 22 * math.clamp(math.sin(query.life_time * 40) + 0.3, 0, 1)) * (1 - query.is_on_ground) * (1 - 0.85 * variable.kfv_dash) - 6) + query.is_on_ground * math.sin(query.modified_distance_moved * 30) * 4 * query.modified_move_speed"
           ]
         },
         "head": {
@@ -40,6 +40,98 @@
         "legs": {
           "rotation": [
             "(1 - query.is_on_ground) * 60 + math.sin(query.modified_distance_moved * 60) * 18 * query.modified_move_speed * query.is_on_ground",
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.seagull.swoop": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "rotation": [
+            "20 * query.property('kaleidoscope_fishing:swoop') * (1 - variable.kfv_flare) - 28 * variable.kfv_flare - 10 * variable.kfv_esc",
+            0,
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "-16 * variable.kfv_dash + 10 * variable.kfv_flare - 35 * variable.kfv_sq + math.sin(query.life_time * 2200) * 6 * variable.kfv_sq",
+            0,
+            0
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            0,
+            "35 * variable.kfv_dash - 20 * variable.kfv_flare",
+            "-8 * variable.kfv_dash + math.sin(query.life_time * 900) * 30 * variable.kfv_flare + math.sin(query.life_time * 1100) * 30 * variable.kfv_esc"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            "-35 * variable.kfv_dash + 20 * variable.kfv_flare",
+            "-(-8 * variable.kfv_dash + math.sin(query.life_time * 900) * 30 * variable.kfv_flare + math.sin(query.life_time * 1100) * 30 * variable.kfv_esc)"
+          ]
+        },
+        "legs": {
+          "rotation": [
+            "-70 * variable.kfv_flare",
+            0,
+            0
+          ]
+        },
+        "fish": {
+          "rotation": [
+            0,
+            "math.sin(query.life_time * 900) * 20 * query.property('kaleidoscope_fishing:carrying')",
+            "math.sin(query.life_time * 650) * 8 * query.property('kaleidoscope_fishing:carrying')"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.seagull.ground": {
+      "loop": true,
+      "bones": {
+        "body": {
+          "position": [
+            0,
+            "2.5 * variable.kfv_hop",
+            0
+          ],
+          "rotation": [
+            "-6 * variable.kfv_cry",
+            0,
+            0
+          ]
+        },
+        "head": {
+          "rotation": [
+            "-30 * variable.kfv_cry + math.sin(query.life_time * 2000) * 4 * variable.kfv_cry",
+            0,
+            "variable.kfv_side * 25 * variable.kfv_tilt"
+          ]
+        },
+        "wing_l": {
+          "rotation": [
+            0,
+            0,
+            "15 * variable.kfv_hop + 6 * variable.kfv_cry"
+          ]
+        },
+        "wing_r": {
+          "rotation": [
+            0,
+            0,
+            "-(15 * variable.kfv_hop + 6 * variable.kfv_cry)"
+          ]
+        },
+        "legs": {
+          "rotation": [
+            "-20 * variable.kfv_hop",
             0,
             0
           ]

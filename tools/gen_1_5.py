@@ -712,8 +712,8 @@ def tub_and_salt_pan():
         '放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。'),
         {stage: [0, 1, 2, 3]}, {'water': st(1), 'half': st(2), 'salt': st(3)},
         {'origin': [-8, 0, -8], 'size': [16, 3, 16]},
-        ('salt_pan', ['TTT', 'P P'], {'T': 'minecraft:terracotta', 'P': 'tag:minecraft:planks'}), 'wooden_tub')
-    c.guide_name('minecraft:terracotta', 'Terracotta', '陶瓦', '陶瓦')
+        ('salt_pan', ['TTT', 'P P'], {'T': 'minecraft:hardened_clay', 'P': 'tag:minecraft:planks'}), 'wooden_tub')
+    c.guide_name('minecraft:hardened_clay', 'Terracotta', '陶瓦', '陶瓦')
     c.guide_name('minecraft:oak_planks', 'Oak Planks', '橡木材', '橡木木板')
     c.guide_name('minecraft:iron_ingot', 'Iron Ingot', '鐵錠', '铁锭')
     # ---- purged clams, and what they are for

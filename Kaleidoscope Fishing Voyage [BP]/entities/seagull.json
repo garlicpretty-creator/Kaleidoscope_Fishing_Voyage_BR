@@ -11,6 +11,11 @@
           "type": "bool",
           "default": false,
           "client_sync": true
+        },
+        "kaleidoscope_fishing:swoop": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
         }
       }
     },

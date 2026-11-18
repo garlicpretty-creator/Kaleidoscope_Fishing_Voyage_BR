@@ -17,7 +17,7 @@ BP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [BP]')
 RP = os.path.join(ROOT, 'Kaleidoscope Fishing Voyage [RP]')
 NS = 'kaleidoscope_fishing'
 PACK_TAG = {'en_US': 'KC: Fishing Voyage', 'zh_TW': '森羅物語：漁歌', 'zh_CN': '森罗物语：渔歌'}
-PLACEABLE = {'en_US': 'Placeable Food', 'zh_TW': '可放置食物', 'zh_CN': '可放置食物'}
+PLACEABLE = {'en_US': 'Placeable Food', 'zh_TW': '可放置的食物', 'zh_CN': '可放置的食物'}
 LANGS = ('en_US', 'zh_TW', 'zh_CN')
 
 
@@ -67,7 +67,25 @@ def item(key, stack=16, group='tools', category='equipment', components=None):
         'components': comp}})
 
 
+# 1.6.0 (docs/PLAN_1.6.0.md 16.3): the picture-book journal shows no words, so the old journal, habitat and
+# ingredient keys are gone from the lang files. A generator of an older version (gen_1_5.py) that writes one again
+# is ignored. The journal keys still in use: the settings page (it keeps words, 4.2) and the creel's list (step 7).
+JOURNAL_KEPT = {'back', 'close', 'basket_title', 'basket_summary'}
+
+
+def dropped_key(key):
+    """A lang key 1.6.0 removed (and no generator may bring back)."""
+    if key.startswith(f'{NS}.habitat.') or key.startswith(f'{NS}.ing.'):
+        return True
+    if key.startswith(f'{NS}.journal.'):
+        k = key[len(NS) + 9:]
+        return not (k in JOURNAL_KEPT or k == 'settings' or k.startswith('settings_'))
+    return False
+
+
 def _set_lang(path, key, value):
+    if dropped_key(key):
+        return
     with open(path, encoding='utf-8') as f:
         lines = f.read().split('\n')
     line = f'{key}={value}'

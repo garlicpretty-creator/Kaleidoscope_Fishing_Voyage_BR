@@ -7,7 +7,7 @@ only what it owns, from the files already in the packs, and the output is determ
   merchant   the 1.5 fish join WANT_LIST and the carrying pole's texture set (want_a / want_b / order pick a
              texture by WANT_LIST position); a row of up to 8 wooden order tags under the order's fish (entity
              properties order_n / order_have, one bone per tag and side, shown by the render controller); the
-             nod and the head shake with a shrug (property gesture, played by an animation controller)
+             nod and the head shake (property gesture: main's immersive gesture animation, with a shrug added)
   rack       Salted Shrimp hang on the Drying Rack as a string of shrimp (kind 7) and dry into Dried Shell-on Shrimp
   prints     fish prints for the 8 fish of 1.5, and the fish on a print drawn at 4 sizes (block state shrink): the
              paper is plain (or sealed) and the fish is its own transparent "ink" picture on a quad in front of it,
@@ -73,11 +73,12 @@ def merchant():
     tex['tags'] = 'textures/entity/kfv_merchant_tags'
     d['textures'] = tex
     d['geometry']['tags'] = 'geometry.kaleidoscope_fishing.fish_merchant_tags'
+    for k in ('nod', 'refuse'):                    # an early 1.6.0 draft had its own; main's "gesture" does both
+        d['animations'].pop(k, None)
     d['animations'].update({'tags': 'animation.kaleidoscope_fishing.fish_merchant.tags',
-                            'nod': 'animation.kaleidoscope_fishing.fish_merchant.nod',
-                            'refuse': 'animation.kaleidoscope_fishing.fish_merchant.refuse',
-                            'gesture': 'controller.animation.kaleidoscope_fishing.fish_merchant.gesture'})
-    d['scripts']['animate'] = ['move', 'look_at_target', 'tags', 'gesture']
+                            'gesture': 'animation.kaleidoscope_fishing.fish_merchant.gesture'})
+    if 'tags' not in d['scripts']['animate']:
+        d['scripts']['animate'].append('tags')
     rcs = [r for r in d['render_controllers'] if not (isinstance(r, dict) and 'controller.render.kfv_merchant_tags' in r)]
     rcs.append({'controller.render.kfv_merchant_tags': f"{Q(S + 'order')} > 0 && {Q(S + 'order_n')} > 0"})
     d['render_controllers'] = rcs
@@ -131,29 +132,19 @@ def merchant():
     save_png(im, tp)
     texture_set(tp, like=os.path.join(RPT, 'entity', 'kfv_fish_merchant_mer.png'))
 
-    # animations: centre the row for n tags; the nod; the head shake with a shrug
+    # animations: centre the row for n tags. The nod and the head shake are main's immersive "gesture" animation
+    # (Molang variables kfv_bow / kfv_no from the gesture property); 1.6.0 adds the shrug to its arms.
     ap = os.path.join(c.RP, 'animations', 'fish_merchant.animation.json')
     an = c.read_json(ap)
     A = 'animation.kaleidoscope_fishing.fish_merchant.'
     an['animations'][A + 'tags'] = {'loop': True, 'bones': {'tags': {
         'position': [0, 0, f"0.45 * ({TAGS} - {Q(S + 'order_n')})"]}}}
-    an['animations'][A + 'nod'] = {'animation_length': 1.0, 'bones': {'head': {'rotation': {
-        '0.0': [0, 0, 0], '0.2': [16, 0, 0], '0.4': [0, 0, 0], '0.6': [16, 0, 0], '0.8': [0, 0, 0]}}}}
-    an['animations'][A + 'refuse'] = {'animation_length': 1.3, 'bones': {
-        'head': {'rotation': {'0.0': [0, 0, 0], '0.15': [0, -22, 0], '0.35': [0, 22, 0], '0.55': [0, -22, 0], '0.75': [0, 22, 0], '0.9': [0, 0, 0]}},
-        'arms': {'position': {'0.0': [0, 0, 0], '0.3': [0, 1.5, 0], '1.0': [0, 1.5, 0], '1.3': [0, 0, 0]},
-                 'rotation': {'0.0': [0, 0, 0], '0.3': [12, 0, 0], '1.0': [12, 0, 0], '1.3': [0, 0, 0]}},
-        'body': {'rotation': {'0.0': [0, 0, 0], '0.3': [0, 0, 3], '1.0': [0, 0, -3], '1.3': [0, 0, 0]}}}}
+    arms = an['animations'][A + 'gesture']['bones']['arms']
+    shrug = ' + 14 * variable.kfv_no'
+    if shrug not in arms['rotation'][0]:
+        arms['rotation'][0] += shrug
+    arms['position'] = [0, '1.5 * variable.kfv_no', 0]
     c.write_json(ap, an)
-    g = Q(GESTURE_P)
-    c.write_json(os.path.join(c.RP, 'animation_controllers', 'fish_merchant.animation_controllers.json'), {
-        'format_version': '1.10.0', 'animation_controllers': {'controller.animation.kaleidoscope_fishing.fish_merchant.gesture': {
-            'initial_state': 'default',
-            'states': {
-                'default': {'transitions': [{'nod': f'{g} == 1'}, {'refuse': f'{g} == 2'}]},
-                'nod': {'animations': ['nod'], 'transitions': [{'default': f'{g} != 1'}], 'blend_transition': 0.2},
-                'refuse': {'animations': ['refuse'], 'transitions': [{'default': f'{g} != 2'}], 'blend_transition': 0.2},
-            }}}})
 
 
 # ------------------------------------------------------------------------------------------------ drying rack
@@ -372,7 +363,7 @@ def placeholders():
     """The PLACEHOLDER art these parts draw (Pillow), still waiting for real art."""
     out = [('Kaleidoscope Fishing Voyage [RP]/textures/entity/kfv_merchant_tags.png', 'the order tags (blank / flipped) under the fish merchant\'s order fish'),
            ('Kaleidoscope Fishing Voyage [RP]/models/entity/fish_merchant_tags.geo.json', 'the order tags\' shapes'),
-           ('Kaleidoscope Fishing Voyage [RP]/animations/fish_merchant.animation.json', 'nod / refuse (head shake and shrug) / tags: keyframes by hand'),
+           ('Kaleidoscope Fishing Voyage [RP]/animations/fish_merchant.animation.json', 'tags: the row centred by hand; the shrug added to the gesture animation'),
            ('Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_drying_rack.png', 'drying rack: hanging shrimp colours (x 0..11, y 24..25)'),
            ('Kaleidoscope Fishing Voyage [RP]/models/blocks/drying_rack.geo.json', 'drying rack: drying_rack_7_* (a string of four shrimp per place)'),
            ('Kaleidoscope Fishing Voyage [RP]/textures/blocks/kfv_print_paper_seal.png', 'sealed print paper (cut from the old carp print: real art, kept)')]

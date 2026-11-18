@@ -12,6 +12,57 @@
       "geometry": {
         "default": "geometry.kaleidoscope_fishing.fishing_skiff"
       },
+      "animations": {
+        "motion": "animation.kaleidoscope_fishing.fishing_skiff.motion",
+        "trawl": "animation.kaleidoscope_fishing.fishing_skiff.trawl",
+        "wake": "animation.kaleidoscope_fishing.fishing_skiff.wake",
+        "spray": "animation.kaleidoscope_fishing.fishing_skiff.spray",
+        "net_fish": "animation.kaleidoscope_fishing.fishing_skiff.net_fish",
+        "wake_ctrl": "controller.animation.kaleidoscope_fishing.fishing_skiff.wake",
+        "spray_ctrl": "controller.animation.kaleidoscope_fishing.fishing_skiff.spray",
+        "net_fish_ctrl": "controller.animation.kaleidoscope_fishing.fishing_skiff.net_fish"
+      },
+      "particle_effects": {
+        "wake": "kaleidoscope_fishing:boat_wake",
+        "spray": "kaleidoscope_fishing:boat_spray",
+        "net_fish": "kaleidoscope_fishing:boat_net_fish"
+      },
+      "scripts": {
+        "initialize": [
+          "v.px = q.position(0); v.pz = q.position(2); v.yaw = q.body_y_rotation;",
+          "v.spd = 0; v.vf = 0; v.vfp = 0; v.acc = 0; v.turn = 0; v.wl = 0; v.wr = 0; v.phase = 0;",
+          "v.la = 0; v.lv = 0; v.go = 0; v.wet = 1; v.tow = 46;"
+        ],
+        "pre_animation": [
+          "v.dt = math.clamp(q.delta_time, 0, 0.1);",
+          "v.dx = q.position(0) - v.px; v.dz = q.position(2) - v.pz; v.px = q.position(0); v.pz = q.position(2);",
+          "v.inv = (v.dt > 0 && (v.dx * v.dx + v.dz * v.dz) < 4) ? 1 / v.dt : 0;",
+          "v.dyaw = q.body_y_rotation - v.yaw; v.dyaw = v.dyaw - 360 * math.round(v.dyaw / 360); v.yaw = q.body_y_rotation;",
+          "v.k = math.min(1, v.dt * 3);",
+          "v.vf = v.vf + (math.clamp(1 * (v.dx * math.cos(v.yaw) + v.dz * math.sin(v.yaw)) * v.inv, -12, 12) - v.vf) * v.k;",
+          "v.spd = v.spd + (math.min(math.sqrt(v.dx * v.dx + v.dz * v.dz) * v.inv, 12) - v.spd) * v.k;",
+          "v.acc = v.dt > 0 ? v.acc + ((v.vf - v.vfp) / v.dt - v.acc) * math.min(1, v.dt * 5) : v.acc; v.vfp = v.vf;",
+          "v.turn = v.turn + (math.clamp(v.dyaw * v.inv, -360, 360) - v.turn) * math.min(1, v.dt * 4);",
+          "v.go = math.clamp((v.spd - 0.4) / 2, 0, 1);",
+          "v.wet = (q.is_in_water || !q.is_on_ground) ? 1 : 0.3;",
+          "v.ride = q.has_rider ? 1 : 0;",
+          "v.wl = v.wl + (v.ride * math.clamp(v.go + math.max(0, v.turn) / 50, 0, 1) - v.wl) * v.k;",
+          "v.wr = v.wr + (v.ride * math.clamp(v.go + math.max(0, -v.turn) / 50, 0, 1) - v.wr) * v.k;",
+          "v.phase = math.mod(v.phase + 360 + v.dt * (v.vf < -0.3 ? -1 : 1) * (math.max(v.wl, v.wr) > 0.01 ? 160 + 30 * math.min(v.spd, 8) : 0), 360);",
+          "v.lv = v.lv + (40 * (math.clamp(v.acc, -3, 3) * 9 - v.la) - 3.2 * v.lv) * v.dt;",
+          "v.la = math.clamp(v.la + v.lv * v.dt, -28, 28);",
+          "v.tow = 46 - 20 * v.go + 1.5 * v.go * math.sin(q.life_time * 290);"
+        ],
+        "animate": [
+          "motion",
+          {
+            "trawl": "q.property('kaleidoscope_fishing:trawl') == 1"
+          },
+          "wake_ctrl",
+          "spray_ctrl",
+          "net_fish_ctrl"
+        ]
+      },
       "render_controllers": [
         "controller.render.kaleidoscope_fishing.fishing_skiff"
       ]
