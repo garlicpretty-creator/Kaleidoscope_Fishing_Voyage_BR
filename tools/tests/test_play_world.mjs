@@ -698,7 +698,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   const GLYPHY = s => typeof s === 'string' && [...s].every(ch => /\s/.test(ch) || '◆✿✦★'.includes(ch) || (ch.charCodeAt(0) >= 0xE000 && ch.charCodeAt(0) <= 0xF8FF));
   const glyphOnly = f => !!f && GLYPHY(f.title) && GLYPHY(f.body ?? '') && f.buttons.every(b => GLYPHY(b.t));
   const scrapForm = log.forms[f0];
-  ok(learned(P).size === 2 && inv('recipe_scrap') === 1 && log.forms.length === f0 + 1 && RECIPE_HINTS.some(r => scrapForm.body === recipeLine(r) && learned(P).has(r.id) && r.id !== r3.id),
+  ok(learned(P).size === 2 && inv('recipe_scrap') === 1 && log.forms.length === f0 + 1 && RECIPE_HINTS.some(r => scrapForm.body === BK.spaced(recipeLine(r)) && learned(P).has(r.id) && r.id !== r3.id),
     `journal: reading a recipe scrap teaches one more dish, uses the scrap and shows that recipe's line (${learned(P).size} known)`);
   ok(glyphOnly(scrapForm), 'journal: the recipe-scrap page is glyphs only');
 
@@ -726,7 +726,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   // recipes: index -> recipes -> a known recipe -> back -> back to the index -> close
   let fs = await openJournal([0, 3, 0, PG + 1]);
   ok(fs.length === 5 && fs.every(glyphOnly) && fs.every(f => f.title === ' '), `journal: index > recipes > ${short(r3.id)} > recipes > index, every page glyphs only with a blank title (${fs.length} pages)`);
-  ok(fs[2]?.body === recipeLine(r3) && fs[2].buttons.length === 1 && fs[2].buttons[0].t === BK.BACK, 'journal: a recipe page is its one line and the back arrow');
+  ok(fs[2]?.body === BK.spaced(recipeLine(r3)) && fs[2].buttons.length === 1 && fs[2].buttons[0].t === BK.BACK, 'journal: a recipe page is its one line and the back arrow');
   ok(fs[1]?.buttons?.length === PG + 2 && fs[1].buttons[PG].t === BK.NEXT && fs[1].buttons[PG + 1].t === BK.BACK
     && fs[1].buttons.slice(0, PG).every((b, i) => b.t === (learned(P).has(RECIPE_HINTS[i].id) ? GL.itemGlyph(RECIPE_HINTS[i].id) : GL.G['ui.recipe_scrap'])),
     `journal: the recipe list shows ${PG} dishes a page, known ones as their glyph and the rest as a recipe scrap, then → and back`);
@@ -743,7 +743,7 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
   // tide (no merchant about)
   fs = await openJournal([1, 0]);
   const WA = await importScript('fishing/water.js');
-  ok(fs.length === 3 && glyphOnly(fs[1]) && fs[1].body.startsWith(GL.G[`tide.${WA.tideState()}`])
+  ok(fs.length === 3 && glyphOnly(fs[1]) && fs[1].body.trimStart().startsWith(GL.G[`tide.${WA.tideState()}`])
     && fs[1].body.includes(GL.G[`moon.${WA.moonPhase()}`]) && !fs[1].body.includes(GL.G['ui.merchant']) && fs[1].buttons.length === 1,
     'journal: index > tide (tide and moon glyphs; no merchant about, no merchant glyph) > back to the index');
   // every water group, one species page each
@@ -756,20 +756,20 @@ const interactEntity = (m, item = P.held()) => fire('world.beforeEvents.playerIn
     fs = await openJournal([2 + gi, 0, 0, back]);
     const rec = list[0].id === first.id ? { n: 3, b: 42 } : undefined;
     const pic = sp => (sp.id === first.id ? GL.fishGlyph(sp.id) : GL.shadowGlyph(sp.id));
-    ok(fs.length === 5 && fs.every(glyphOnly) && fs[1].body.startsWith(JJ.groupGlyph(g)) && fs[1].buttons.slice(0, Math.min(PG, list.length)).every((b, i) => b.t === pic(list[i]))
-      && fs[2].body === JJ.speciesBody(list[0], rec) && fs[2].body.startsWith(pic(list[0])),
+    ok(fs.length === 5 && fs.every(glyphOnly) && fs[1].body.trimStart().startsWith(JJ.groupGlyph(g)) && fs[1].buttons.slice(0, Math.min(PG, list.length)).every((b, i) => b.t === pic(list[i]))
+      && fs[2].body === BK.spaced(JJ.speciesBody(list[0], rec)) && fs[2].body.trimStart().startsWith(pic(list[0])),
       `journal: index > ${g} (${list.length} species: fish or shadow) > ${short(list[0].id)} page > ${g} > index, glyphs only`);
   }
   // the sea has more than a page: the 21st fish is on page two, and its back arrow returns to page two
   {
     const gi = GROUPS.indexOf('sea'), list = JOURNAL_SPECIES.filter(sp => (sp.group ?? 'freshwater') === 'sea');
     fs = await openJournal([2 + gi, PG, 0, 0]);
-    ok(list.length > PG && fs.length === 5 && fs[2].buttons[0].t === GL.shadowGlyph(list[PG].id) && fs[3].body === JJ.speciesBody(list[PG], undefined) && fs[4].body === fs[2].body,
+    ok(list.length > PG && fs.length === 5 && fs[2].buttons[0].t === GL.shadowGlyph(list[PG].id) && fs[3].body === BK.spaced(JJ.speciesBody(list[PG], undefined)) && fs[4].body === fs[2].body,
       `journal: the sea's ${list.length} species take two pages; a fish on page two goes back to page two`);
   }
   fs = await openJournal([]);
-  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 3 && glyphOnly(fs[0]) && fs[0].body.split('\n').join('').length === JOURNAL_SPECIES.length
-    && fs[0].body.startsWith(GL.fishGlyph(first.id)) && fs[0].body.includes(GL.shadowGlyph(JOURNAL_SPECIES[1].id)),
+  ok(fs.length === 1 && fs[0].buttons.length === GROUPS.length + 3 && glyphOnly(fs[0]) && fs[0].body.replace(/\s/g, '').length === JOURNAL_SPECIES.length
+    && fs[0].body.trimStart().startsWith(GL.fishGlyph(first.id)) && fs[0].body.includes(GL.shadowGlyph(JOURNAL_SPECIES[1].id)),
     'journal: the index body is the 60-fish strip (caught: the fish, the rest: shadows); closing the form closes the journal');
 
   // the species row, read from the data (6.3) for every catch

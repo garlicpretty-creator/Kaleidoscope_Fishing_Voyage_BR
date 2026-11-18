@@ -49,11 +49,12 @@ export function groupGlyph(group) {
   const w = CATCH_BY_ID[speciesOf(group)[0]?.id]?.waters?.[0];
   return glyph(w ? `water.${w}` : "fish.unknown");
 }
-const STRIP_ROW = 10;
+const STRIP_ROW = 8;   // with the spaces, 9 fit the form; 8 leaves room for narrow screens
 /** A row of fish: caught ones as their picture, the rest as their shadow, STRIP_ROW to a line. */
 export function strip(list, rec) {
   let s = "";
-  list.forEach((sp, i) => { s += (i && i % STRIP_ROW === 0 ? "\n" : "") + (rec[sp.id] ? fishGlyph(sp.id) : shadowGlyph(sp.id)); });
+  // a space between fish: a glyph draws a little wider than it advances, so side by side they would overlap
+  list.forEach((sp, i) => { s += (i ? (i % STRIP_ROW === 0 ? "\n" : " ") : "") + (rec[sp.id] ? fishGlyph(sp.id) : shadowGlyph(sp.id)); });
   return s;
 }
 

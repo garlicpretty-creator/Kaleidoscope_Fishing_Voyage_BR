@@ -12,11 +12,19 @@ export const BACK = G["arrow.up"];
 export const PREV = G["arrow.left"];
 export const NEXT = G["arrow.right"];
 
+/**
+ * A glyph body laid out for the form: a glyph draws about 1.5 text lines tall, so each line of glyphs gets an empty
+ * line under it and the body starts with one (else the rows overlap and the first is cut by the panel's top edge).
+ */
+export function spaced(body) {
+  return body ? "\n" + body.split("\n").join("\n\n") : body;
+}
+
 export function pageSound(player) { try { player.playSound("item.book.page_turn", { volume: 0.8 }); } catch {} }
 
 /** A page with only a body and the back button. Resolves true for back, false when closed. */
 export async function showPlain(player, body) {
-  const res = await new ActionFormData().title(TITLE).body(body).button(BACK).show(player);
+  const res = await new ActionFormData().title(TITLE).body(spaced(body)).button(BACK).show(player);
   if (res.canceled || res.selection === undefined) return false;
   pageSound(player);
   return true;
@@ -30,7 +38,7 @@ export async function showPlain(player, body) {
 export async function showPaged(player, { body = "", items, page = 0, back = true }) {
   const pages = Math.max(1, Math.ceil(items.length / PAGE));
   page = Math.max(0, Math.min(pages - 1, Math.floor(Number(page) || 0)));
-  const form = new ActionFormData().title(TITLE).body(pages > 1 ? `${body}${body ? "\n\n" : ""}${dots(page + 1, pages)}` : body);
+  const form = new ActionFormData().title(TITLE).body(spaced(pages > 1 ? `${body}${body ? "\n" : ""}${dots(page + 1, pages)}` : body));
   const actions = [];
   items.slice(page * PAGE, (page + 1) * PAGE).forEach((it, i) => {
     form.button(it.text, it.icon);
