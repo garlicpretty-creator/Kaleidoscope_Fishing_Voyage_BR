@@ -17,7 +17,6 @@ import { LARGE, SMALL, applyClass, readSize } from "../fishing/size.js";
 import { readFishIndex, withFishIndex } from "./fishState.js";
 import { fishOut, keepKey, keepOf, stash, unstash } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
-import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
 import { burst, on, sound } from "./stationFx.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";

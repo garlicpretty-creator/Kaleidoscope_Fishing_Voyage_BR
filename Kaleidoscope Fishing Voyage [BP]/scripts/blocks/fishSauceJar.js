@@ -16,7 +16,6 @@
 // nor finished at once.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { SAUCE_FISH } from "../data/generated.js";
-import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
 import { ambient, burst, on } from "./stationFx.js";
 import { readData, writeData } from "./blockData.js";

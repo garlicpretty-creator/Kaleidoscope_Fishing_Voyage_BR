@@ -11,7 +11,6 @@ import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/se
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { refuseAt } from "../util/hint.js";
-import { spawnParticle } from "../util/particles.js";
 import { ambient, burst, on } from "./stationFx.js";
 import { CATCHES } from "../data/generated.js";
 import { fishGlyph } from "../data/glyphs.js";
