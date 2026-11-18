@@ -117,6 +117,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `order_filled` | `id`、`n` | 玩家交齊了漁販的訂單（`n` 條 `id`），剛拿到獎勵 |
 | `tide` | `state`：`high` 或 `low` | 潮汐轉換。世界事件，沒有 `p` |
 | `sky` | `kind`（`meteor` 或 `aurora`）、`phase`（黃昏 `start`、清晨 `end`）、`dim` | 天象開始與結束。世界事件，沒有 `p`；格式和 A Witch Way 的 `aww:evt` `sky` 相同，草本那類已經會聽 AWW 天象的包可以共用處理 |
+| `pond` | `kind`（`grow` 長大一級、`spawn` 產卵、`hatch` 魚卵在池裡孵化）、`id`、`cls`?（長大後或孵出的尺寸）、`dim`、`pos`（餵食台的 `[x,y,z]`） | 1.6.0。魚池的黎明結算（玩家不在附近時，下次載入補算時才送出）。世界事件，沒有 `p` |
 
 `caught` 的欄位：
 

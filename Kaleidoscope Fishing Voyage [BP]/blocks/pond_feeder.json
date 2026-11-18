@@ -6,7 +6,9 @@
       "states": {
         "kaleidoscope_fishing:feed": [
           0,
-          1
+          1,
+          2,
+          3
         ],
         "kaleidoscope_fishing:roe": [
           0,
@@ -29,7 +31,9 @@
       "minecraft:geometry": {
         "identifier": "geometry.kaleidoscope_fishing.pond_feeder",
         "bone_visibility": {
-          "feed": "q.block_state('kaleidoscope_fishing:feed') == 1",
+          "feed_low": "q.block_state('kaleidoscope_fishing:feed') == 1",
+          "feed": "q.block_state('kaleidoscope_fishing:feed') >= 2",
+          "feed_more": "q.block_state('kaleidoscope_fishing:feed') == 3",
           "roe": "q.block_state('kaleidoscope_fishing:roe') == 1"
         }
       },

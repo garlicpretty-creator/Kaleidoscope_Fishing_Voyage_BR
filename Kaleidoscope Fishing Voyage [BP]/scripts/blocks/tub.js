@@ -2,7 +2,8 @@
 //   purging clams   water + Salt makes brine; up to 8 Clams soak in it; after half a day an empty hand takes
 //                   out Purged Clams (the brine stays for the next batch)
 //   hatching roe    (with the fish pond) Fertilized Roe in plain water: fry after a day, and after two an empty
-//                   hand takes out 2 small farmed fish of its kind (blocks/pond.js)
+//                   hand takes out 2 small farmed fish of its kind (blocks/pond.js); 1.6.0: so does the Hand Net
+//                   (tools/handNet.js), at the cost of one use
 // A water bucket fills it, an empty bucket drains it. The state `fill` is what shows:
 //   0 empty  1 water  2 brine  3 clams soaking  4 clams purged  5 roe  6 fry
 // What it holds is kept in a block record ("tb": { n, t }), so a tub removed in any way gives its clams back.
@@ -13,6 +14,7 @@ import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
 import { CATCHES } from "../data/generated.js";
 import { fishGlyph } from "../data/glyphs.js";
+import { HAND_NET, wearNet } from "../tools/handNet.js";
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
 
 const NS = "kaleidoscope_fishing";
@@ -119,10 +121,12 @@ const tub = {
       save(block, { roe: id, t: now(), fill: 5 });
       setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); return;
     }
-    if (!held && (fill === 5 || fill === 6)) {
+    if ((!held || held === HAND_NET) && (fill === 5 || fill === 6)) {
       if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuseAt(player, "tub_hatching", block);
       give(player, fry(r.roe), block.center());
-      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); return;
+      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6);
+      if (held === HAND_NET) wearNet(player);
+      return;
     }
     if (!held && fill === 3) return refuseAt(player, "tub_soaking", block);
     refuseAt(player, "tub_what", block);

@@ -300,6 +300,9 @@ def draw(spec, name):
         ring = False
     elif shape.startswith("bowl_"):
         d_bowl(d, {"full": 2, "half": 1, "empty": 0}[shape[5:]])
+    elif shape.startswith("tier_"):                  # 1.6.0: how many of a fish the creel holds (1, 2 or 3 bars)
+        for i in range(int(shape[5:])):
+            d.rectangle((2 + i * 4, 12 - i * 3 - 3, 4 + i * 4, 13), fill=c)
     elif shape == "star":
         pts = [(7.5 + math.cos(-math.pi / 2 + i * math.pi / 5) * (6.5 if i % 2 == 0 else 2.8),
                 7.5 + math.sin(-math.pi / 2 + i * math.pi / 5) * (6.5 if i % 2 == 0 else 2.8)) for i in range(10)]
@@ -479,6 +482,8 @@ SYMBOLS = [
     ("ui.gear", "draw:gear"), ("ui.recipes", "draw:recipes"), ("ui.tide_clock", "textures/items/kfv_tide_clock"),
     ("ui.merchant", "draw:merchant"), ("ui.basket", "textures/items/kfv_fish_basket"),
     ("ui.recipe_scrap", "textures/items/kfv_recipe_scrap"), ("ui.journal", "textures/items/kfv_angler_journal"),
+    # 1.6.0 creel picker (plan section 8): how many of that fish, in place of the plan's three button backgrounds
+    ("tier.few", "draw:tier_1:a0c8e0"), ("tier.some", "draw:tier_2:f0c030"), ("tier.many", "draw:tier_3:f08030"),
 ]
 
 # RECIPE_HINTS "method" -> station glyph (the journal's recipe line starts with it)
@@ -516,6 +521,7 @@ def wanted():
     out += [("fish", c, src_of(c)) for c in catches]
     out += [("fish", f"shadow.{c}", "shadow:" + src_of(c)) for c in catches if not src_of(c).startswith("draw:")]
     out += [("fish", f"shadow.{c}", "draw:fish_unknown") for c in catches if src_of(c).startswith("draw:")]
+    out += [("fish", b["id"], src_of(b["id"])) for b in load("BASKET_ITEMS.json")]   # 1.6.0: all the creel holds
     out += [("symbols", f"water.{w}", "draw:" + s) for w, s in WATER_DRAW.items()]
     out += [("symbols", n, s) for n, s in SYMBOLS]
     tackle = list(load("PARTS.json")) + list(load("RODS.json"))

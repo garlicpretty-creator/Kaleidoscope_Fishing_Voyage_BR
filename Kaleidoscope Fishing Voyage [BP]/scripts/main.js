@@ -19,6 +19,7 @@ import "./blocks/feast.js";
 import "./blocks/shoreDrop.js";
 import "./tools/basket.js";
 import "./tools/knife.js";
+import "./tools/handNet.js";      // 1.6.0: the Hand Net (pond, tub, tank)
 import "./blocks/decor.js";
 import "./blocks/tanks.js";
 import "./journal/recipes.js";

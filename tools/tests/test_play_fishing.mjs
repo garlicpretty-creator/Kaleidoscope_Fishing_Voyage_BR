@@ -632,7 +632,8 @@ function fishForLegend(atFn, rodId, max = 800) {   // a frostlake char is ~1.5% 
   }
   const d = allDrops();
   ok(stored >= 1, `fish creel: a landed fish goes into the creel (${JSON.stringify(creel())})`);
-  ok(P.inv.getItem(5)?.getLore()?.[0]?.includes(`${stored} / 256`), `fish creel: the creel shows its count (${P.inv.getItem(5)?.getLore()})`);
+  ok(P.inv.getItem(5)?.typeId === NS + 'fish_basket_few' && !P.inv.getItem(5).getLore().length,
+    `fish creel: 1.6.0: no count in the lore; the creel looks "a little full" (${P.inv.getItem(5)?.typeId}, ${P.inv.getItem(5)?.getLore()})`);
   // open it and take the first entry out
   P.selectedSlotIndex = 5;
   const key = Object.keys(creel()).sort((a, b) => a.localeCompare(b))[0];
@@ -641,7 +642,9 @@ function fishForLegend(atFn, rodId, max = 800) {   // a frostlake char is ~1.5% 
   const n0 = log.forms.length;
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() });
   for (let i = 0; i < 4; i++) { await new Promise(r => setTimeout(r, 5)); flush(); }
-  ok(log.forms.length > n0 && log.forms[n0].buttons.length >= 2, `fish creel: using it opens its list (${log.forms[n0]?.buttons.length} buttons)`);
+  const glyphs = t => typeof t === 'string' && [...t.replace(/§./g, '')].every(c => ' ◆✦'.includes(c) || (c.charCodeAt(0) >= 0xE000 && c.charCodeAt(0) <= 0xF8FF));
+  ok(log.forms.length > n0 && log.forms[n0].buttons.length === Object.keys(creel()).length + 1 && log.forms[n0].buttons.every(b => glyphs(b.t)) && glyphs(log.forms[n0].title) && !log.forms[n0].body,
+    `fish creel: using it opens a grid of pictures only (${log.forms[n0]?.buttons.length} buttons: ${JSON.stringify(log.forms[n0]?.buttons.map(b => b.t))})`);
   const out = P.inv.slots.find((s, i) => s && i !== 5 && s.typeId === fid);
   ok(!!out && (!cls || out.getLore().some(l => (l.match(/◆/g) ?? []).length === Number(cls))), `fish creel: picking a fish puts it in the pockets with its size mark (${fid}, ${JSON.stringify(out?.getLore())})`);
   ok(!creel()[key], 'fish creel: it is taken out of the creel');

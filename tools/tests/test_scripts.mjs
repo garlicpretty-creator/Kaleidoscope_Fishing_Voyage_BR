@@ -661,5 +661,18 @@ ok(E.luckFactor(0) === 1 && Math.abs(E.luckFactor(3) - 1.45) < 1e-9 && Math.abs(
   }
 }
 
+// ---------- 19. 1.6.0: the pond list and the creel's words are gone (plan steps 7, 8) ----------
+{
+  const langs = ['en_US', 'zh_TW', 'zh_CN'].map(l => readFileSync(join(ROOT, 'Kaleidoscope Fishing Voyage [RP]', 'texts', `${l}.lang`), 'utf8'));
+  ok(langs.every(t => !/^kaleidoscope_fishing\.(pond\.|journal\.basket_)/m.test(t)) && langs.every(t => /^kaleidoscope_fishing\.name\.hand_net=/m.test(t)),
+    'lang: no pond.* or journal.basket_* keys left; the Hand Net has a name in each language');
+  const pond = readFileSync(join(BP, 'scripts', 'blocks', 'pond.js'), 'utf8'), basket = readFileSync(join(BP, 'scripts', 'tools', 'basket.js'), 'utf8');
+  ok(!/FormData|translate|showList/.test(pond) && !/translate|\/ \$\{CAPACITY\}/.test(basket), 'pond.js has no form; basket.js no translated text and no "N / 256"');
+  const PD = await imp('blocks/pond.js');
+  const feeder = JSON.parse(readFileSync(join(BP, 'blocks', 'pond_feeder.json'), 'utf8'))['minecraft:block'];
+  ok(JSON.stringify(feeder.description.states['kaleidoscope_fishing:feed']) === '[0,1,2,3]' && Object.keys(feeder.components['minecraft:geometry'].bone_visibility).join() === 'feed_low,feed,feed_more,roe'
+    && [0, 1, 31, 32, 55, 56, 64].map(PD.troughStage).join() === '0,1,1,2,2,3,3', 'pond: the trough has four looks (block state feed 0-3, bones feed_low / feed / feed_more)');
+}
+
 console.log(failed ? `\n${failed} script test(s) FAILED` : '\nall script tests passed');
 process.exit(failed ? 1 : 0);

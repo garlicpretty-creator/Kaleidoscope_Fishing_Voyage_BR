@@ -1222,6 +1222,26 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   biome = 'minecraft:plains';
 }
 
+// ---------------------------------------------------------------- 1.6.0: item durability, enchantments and names
+// (the creel's change of look carries them over; the Hand Net wears). From here on the shared mock's ItemStack has
+// minecraft:durability (items whose file has one) and minecraft:enchantable, and a copy keeps them and the name.
+{
+  const IS = S.ItemStack.prototype, base = IS.clone;
+  const comps = id => S.__itemDefs.get(id)?.components ?? {};
+  IS.clone = function () { const s = base.call(this); s.nameTag = this.nameTag; s._damage = this._damage; s._ench = this._ench ? new Map(this._ench) : undefined; return s; };
+  IS.getComponent = function (n) {
+    const self = this, dur = comps(this.typeId)['minecraft:durability'];
+    if (n === 'minecraft:durability' && dur) return { get damage() { return self._damage ?? 0; }, set damage(v) { self._damage = v; }, maxDurability: dur.max_durability };
+    if (n === 'minecraft:enchantable') {
+      self._ench ??= new Map();
+      return { getEnchantments: () => [...self._ench].map(([id, level]) => ({ type: { id }, level })),
+        getEnchantment: id => (self._ench.has(id) ? { type: { id }, level: self._ench.get(id) } : undefined),
+        addEnchantment: e => { self._ench.set(e.type?.id ?? e.type, e.level); } };
+    }
+    return undefined;
+  };
+}
+
 // ================================================================ 1.5.0: the fish pond and hatching in the tub
 {
   const PD = await importScript('blocks/pond.js');
@@ -1245,11 +1265,64 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(R().fish.length === 1, 'pond: a legend never goes in');
   clearInv(); put('carp', ['§7◆']); put('carp', ['§f◆◆']);
   holdStack(stack('fish_meal', 20)); use(fd);
-  ok(PD.meals(R()) === 64 && inv('fish_meal') === 4 && st(fd, 'feed') === 1, `pond: feed is stored up to 64 meals (${PD.meals(R())}), the rest stays in hand`);
+  ok(PD.meals(R()) === 64 && inv('fish_meal') === 4 && st(fd, 'feed') === 3, `pond: feed is stored up to 64 meals (${PD.meals(R())}), the rest stays in hand`);
   clearInv(); put('carp', ['§f◆◆']); put('carp', ['§f◆◆']);
   ok(R().fish.length === 4 && inv('carp') === 1, 'pond: a small pond holds 4 fish, the fifth is refused');
-  answers.length = 0; answers.push(3); clearInv(); use(fd); await settle();
-  ok(R().fish.length === 3 && inv('carp') === 1, 'pond: picking a fish from the list takes it back out');
+  // 1.6.0: the trough shows four looks; there is no list, the Hand Net takes the very fish it touches
+  ok([0, 1, 31, 32, 55, 56, 64].map(PD.troughStage).join() === '0,1,1,2,2,3,3' && st(fd, 'feed') === 3,
+    `pond: the trough has four looks (0 empty, 1-31 a little, 32-55 most, 56+ full); 64 meals look full (${st(fd, 'feed')})`);
+  const NET = await importScript('tools/handNet.js');
+  const BD = await importScript('blocks/blockData.js');
+  const entOf = slot => fishIn().find(e => e.getDynamicProperty('kfv:slot') === slot);
+  ok(fishIn().length === 4 && fishIn().every(e => e.events.includes(NS + 'pond_fish')), 'pond: every fish in the water gets its hitbox (event pond_fish) so the net can touch it');
+  const scaleOfCls = cls => fishIn().find(e => e.getDynamicProperty('kfv:cls') === cls)?.getProperty(NS + 'scale');
+  const spec = TANK_FISH.indexOf(NS + 'carp');
+  ok(PD.scaleOf(spec, 1) < PD.scaleOf(spec, 2) && PD.scaleOf(spec, 2) < PD.scaleOf(spec, 3) && scaleOfCls(1) === PD.scaleOf(spec, 1) && scaleOfCls(2) === PD.scaleOf(spec, 2)
+    && Math.abs(PD.scaleOf(spec, 1) / PD.scaleOf(spec, 3) - 0.6) < 0.05 && Math.abs(PD.scaleOf(spec, 2) / PD.scaleOf(spec, 3) - 0.8) < 0.05,
+    `pond: the fish are drawn by size, small 0.6 / medium 0.8 / large 1.0 (${[1, 2, 3].map(c => PD.scaleOf(spec, c))})`);
+  {
+        const r0 = R(); r0.fish[3].k = { name: 'Bubbles' }; BD.writeData('pd', D, fd, r0);
+  }
+  clearInv(); P.hold(NS + 'hand_net'); clock.abs++;
+  ok(NET.netFish(P, entOf(3)) && R().fish.length === 3 && inv('carp') === 1, 'pond: the Hand Net on a fish takes that fish out');
+  const netted = [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'carp');
+  ok(netted?.nameTag === 'Bubbles' && P.held()?.getComponent('minecraft:durability')?.damage === 1,
+    `pond: it is the very fish touched (its name came along), and the net wore by one (${netted?.nameTag}, ${P.held()?.getComponent('minecraft:durability')?.damage})`);
+  ok(fishIn().length === 3 && fishIn().map(e => e.getDynamicProperty('kfv:slot')).sort().join() === '0,1,2'
+    && fishIn().every(e => R().fish[e.getDynamicProperty('kfv:slot')].id === e.getDynamicProperty('kfv:id')), 'pond: the fish left keep their places in the roster');
+  // a fish that is no longer there: nothing happens, the net is not worn
+  const stale = entOf(2); stale.setDynamicProperty('kfv:cls', 3); clock.abs++;
+  ok(!NET.netFish(P, stale) && R().fish.length === 3 && inv('carp') === 1 && P.held()?.getComponent('minecraft:durability')?.damage === 1,
+    'pond: a net on a fish that is gone (the pond changed under it) takes nothing and costs nothing');
+  // aimed at the water: the fish nearest the crosshair
+  const mk = (x, y, z, tags = ['kfv_pond:0,0,0']) => ({ location: { x, y, z }, getTags: () => tags });
+  const q1 = mk(0.2, 0.5 - 0.55, 4), q2 = mk(1.2, -0.05, 4), q3 = mk(0, -0.05, -3), q4 = mk(0.1, -0.05, 2, ["kfv_tank:s:0,0,0"]);
+  ok(PD.aimedFish({ x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }, [q2, q3, q4, q1]) === q1 && PD.aimedFish({ x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }, [q3, q4]) === undefined,
+    'pond: aimed at the water, the net takes the pond fish nearest the line of sight (not one behind, not a tank fish)');
+  // an empty hand with no roe: a roll call, no feed eaten
+  {
+        const r0 = R(); r0.fish[0].h = 1; BD.writeData('pd', D, fd, r0);
+  }
+  const m0 = PD.meals(R());
+  const plan = PD.rollCall(D, fd, R());
+  const hungry = plan.find(p => p.entity.getDynamicProperty('kfv:slot') === 0), fed = plan.find(p => p.entity.getDynamicProperty('kfv:slot') === 1);
+  ok(plan.length === 3 && hungry?.steps < fed?.steps && hungry.steps * 5 <= 40 && fed.steps * 5 === 40, `pond: roll call: every fish swims over in 2 s, a hungry one fastest (${hungry?.steps} / ${fed?.steps} steps)`);
+  flush();
+  const dist = e => Math.hypot(e.location.x - (fd.x + 0.5), e.location.z - (fd.z + 0.5));
+  for (const e of fishIn()) e.teleport({ ...e.location, x: x + 0.5, z: 0.5 });
+  const far = fishIn().map(dist);
+  clearInv(); use(fd);
+  ok(fishIn().every((e, i) => dist(e) < far[i]) && PD.meals(R()) === m0 && R().fish.length === 3 && inv('fertilized_roe') === 0,
+    `pond: an empty hand with no roe calls the fish to the feeder; no feed is eaten (${fishIn().map(dist).map(v => v.toFixed(1))})`);
+  // hungry or fed: where it swims
+  const yOf = slot => entOf(slot)?.location.y;
+  {
+        const r0 = R(); r0.fish[1].h = 1; BD.writeData('pd', D, fd, r0);
+  }
+  const y1 = yOf(1); log.particles.length = 0;
+  withRandom(0.1, () => guard('tick feeder', () => c.onTick({ block: fd })));
+  ok(entOf(1)?.getDynamicProperty('kfv:h') === 1 && yOf(1) > y1 && PD.depthOf({ h: 1 }) < PD.depthOf({}) && log.particles.includes('minecraft:bubble_column_up_particle'),
+    `pond: a fish that gets hungry swims up near the surface and sends up bubbles (${y1?.toFixed(2)} -> ${yOf(1)?.toFixed(2)})`);
   // days go by
   const tickFd = () => guard('tick feeder', () => c.onTick({ block: fd }));
   const day = () => Math.floor(clock.abs / 24000);
@@ -1262,16 +1335,23 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(grown.length === 1 && grown[0].cls === 2 && !R().roe, `pond: after 3 fed days the small carp is medium, and farmed (${JSON.stringify(grown[0])})`);
   clock.abs += 24000; withRandom(0.1, tickFd);
   ok(R().roe?.id === NS + 'carp' && st(fd, 'roe') === 1, 'pond: two fed medium carp spawn roe (1 in 4), shown in the basket');
-  // the list: roe first, then the fish
-  clearInv(); const nf = log.forms.length; answers.length = 0; answers.push(0);
+  // 1.6.0: an empty hand takes the roe out (no list)
+  clearInv(); const nf = log.forms.length;
   use(fd); await settle();
-  const form = log.forms[nf];
-  ok(form?.buttons?.length === 5 && !R().roe && inv('fertilized_roe') === 1, `pond: the list has the roe and three fish; picking the roe takes it out (${form?.buttons?.length} buttons)`);
-  const roe = P.inv.find?.(s => s?.typeId === NS + 'fertilized_roe') ?? [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'fertilized_roe');
+  ok(log.forms.length === nf && !R().roe && st(fd, 'roe') === 0 && inv('fertilized_roe') === 1 && R().fish.length === 3, 'pond: an empty hand on the feeder takes the roe out; no form opens');
+  const roe = [...Array(36).keys()].map(i => P.inv.getItem(i)).find(s => s?.typeId === NS + 'fertilized_roe');
   ok(roe?.getDynamicProperty('kfv:roe') === NS + 'carp', 'pond: the Fertilized Roe remembers it is carp');
-  clearInv(); answers.length = 0; answers.push(1);
-  use(fd); await settle();
-  ok(R().fish.length === 2 && inv('carp') === 1, 'pond: and a fish after it');
+  clearInv(); use(fd);
+  ok(R().fish.length === 3 && inv('carp') === 0 && inv('fertilized_roe') === 0, 'pond: with the roe gone, an empty hand only calls the fish');
+  P.hold(NS + 'hand_net'); clock.abs++;
+  ok(NET.netFish(P, fishIn()[0]) && R().fish.length === 2 && inv('carp') === 1, 'pond: and the net takes a fish after it');
+  // what other packs hear: evt "pond" grow / spawn / hatch
+  const pondEvts = sent.filter(e => e.id === NS + 'evt').map(e => JSON.parse(e.msg)).filter(m => m.t === 'pond');
+  ok(pondEvts.some(m => m.kind === 'grow' && m.id === NS + 'carp' && m.cls === 2 && Array.isArray(m.pos)) && pondEvts.some(m => m.kind === 'spawn' && m.id === NS + 'carp') && pondEvts.every(m => m.p === undefined && m.v === 1),
+    `pond: evt "pond" tells other packs a fish grew and roe was spawned (${pondEvts.map(m => m.kind)})`);
+  const hr2 = { cap: 4, food: [], open: 0, roe: { id: NS + 'carp', day: 10 }, fish: [{ id: NS + 'carp', cls: 2, d: 0, g: 0 }] };
+  const hev = PD.dawn(hr2, 12);
+  ok(hev.some(x => x.kind === 'hatch' && x.id === NS + 'carp' && x.cls === 1) && hr2.fish.length === 2, `pond: dawn() reports a hatching (${JSON.stringify(hev)})`);
   // farmed stacks, and the merchant's price for them
   const farmedStack = PD.fishStack({ id: NS + 'carp', cls: 2, f: 1 });
   ok(SZ.isFarmed(farmedStack) && !SZ.isFarmed(stack('carp', 1, ['§f◆◆'])) && SZ.readSize(farmedStack).cls === 2, 'pond: a farmed fish is marked ✿ and keeps its size mark');
@@ -1318,6 +1398,108 @@ ok(!log.commands.some(c => /^\s*\/?(tellraw|say|tell|msg|title)\b/.test(c)), 'no
   ok(inv('carp') === 2 && SZ.isFarmed(fryS) && SZ.readSize(fryS).cls === 1 && st(tub, 'fill') === 1, 'tub: two days on, 2 small farmed carp, and the water stays');
   holdStack(PD.roeStack(NS + 'carp')); use(tub); clearInv(); drops(); breakBlock(tub);
   ok(drops().some(d => d.id === NS + 'fertilized_roe'), 'tub: a tub broken while hatching gives the roe back');
+}
+
+// ================================================================ 1.6.0: the Fish Creel's five looks and picture grid; the Hand Net on tubs and tanks
+{
+  const BK = await importScript('tools/basket.js');
+  const { G } = await importScript('data/glyphs.js');
+  const LOOK = ['fish_basket', 'fish_basket_few', 'fish_basket_half', 'fish_basket_most', 'fish_basket_full'].map(n => NS + n);
+  ok(JSON.stringify(BK.BASKET_IDS) === JSON.stringify(LOOK), 'creel: five looks, empty to full');
+  const at64 = [0, 1, 16, 17, 40, 41, 63, 64].map(n => BK.stageOf(n, 64)).join();
+  const at256 = [0, 1, 64, 65, 160, 161, 255, 256].map(n => BK.stageOf(n)).join();
+  ok(at64 === '0,1,1,2,2,3,3,4' && at256 === at64 && BK.CAPACITY === 256,
+    `creel: the looks change at 0 / 1 / 17 / 41 / 64 of 64 (the plan), the same fractions of the creel's 256 (${at64} | ${at256})`);
+  ok([1, 8, 9, 32, 33, 200].map(BK.tierOf).join() === '1,1,2,2,3,3', 'creel: how many of a kind: few 1-8, some 9-32, many 33+');
+  // a 1.5.0 creel from an old world: "N / 256" lore, plain id, 100 fish
+  const glyphOnly = t => typeof t === 'string' && [...t.replace(/§./g, '')].every(ch => ' ◆✦'.includes(ch) || (ch.charCodeAt(0) >= 0xE000 && ch.charCodeAt(0) <= 0xF8FF));
+  const old = new ItemStack(NS + 'fish_basket', 1);
+  const contents = { [NS + 'carp#2']: 40, [NS + 'mackerel#1']: 9, [NS + 'emperor_tuna#3']: 1, [NS + 'shrimp']: 50 };
+  old.setDynamicProperty(NS + 'creel', JSON.stringify(contents)); old.setLore(['§7100 / 256']); old.nameTag = 'Old Creel';
+  old.getComponent('minecraft:enchantable').addEnchantment({ type: { id: 'unbreaking' }, level: 2 });
+  clearInv(); P.selectedSlotIndex = 3; P.inv.setItem(3, old);
+  answers.length = 0; answers.push(0);                  // the first button: carp ◆◆ (sorted by key)
+  const n0 = log.forms.length;
+  let lookOnOpen;
+  const realShow = (await import('./sim/server-ui.mjs')).ActionFormData.prototype.show;
+  (await import('./sim/server-ui.mjs')).ActionFormData.prototype.show = function () { lookOnOpen ??= P.inv.getItem(3)?.typeId; return realShow.call(this); };
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); await settle();
+  (await import('./sim/server-ui.mjs')).ActionFormData.prototype.show = realShow;
+  const now = P.inv.getItem(3), form = log.forms[n0];
+  const cr = () => JSON.parse(P.inv.getItem(3)?.getDynamicProperty(NS + 'creel') ?? '{}');
+  ok(lookOnOpen === NS + 'fish_basket_half' && now?.typeId === NS + 'fish_basket_few' && !now.getLore().length && now.nameTag === 'Old Creel' && now.getComponent('minecraft:enchantable').getEnchantment('unbreaking')?.level === 2,
+    `creel: an old creel reads fine; opened, it takes the look of its 100 fish (half), then of the 60 left (a little); "N / 256" is gone, its name and enchantments stay (${lookOnOpen} -> ${now?.typeId})`);
+  ok(form && glyphOnly(form.title) && form.body === undefined && form.buttons.length === 4 && form.buttons.every(b => glyphOnly(b.t) && typeof b.icon === 'string'),
+    `creel: the grid has no title, body, names or numbers: one picture button per kind (${form?.buttons.length})`);
+  const btn = k => form.buttons[BK.kindsOf(contents).indexOf(k)]?.t ?? '';
+  ok(btn(NS + 'carp#2').startsWith(G['tier.many']) && btn(NS + 'carp#2').includes(G[NS + 'carp']) && btn(NS + 'carp#2').includes('◆◆')
+    && btn(NS + 'mackerel#1').startsWith(G['tier.some']) && btn(NS + 'shrimp').startsWith(G['tier.many']) && !btn(NS + 'shrimp').includes('◆')
+    && btn(NS + 'emperor_tuna#3').startsWith(G['tier.few']) && btn(NS + 'emperor_tuna#3').includes('✦'),
+    'creel: each button is the tier, the fish, its size mark and a legend\'s ✦');
+  ok(inv('carp') === 40 && !cr()[NS + 'carp#2'] && cr()[NS + 'shrimp'] === 50, `creel: tapping a picture takes that kind out (a stack) (${inv('carp')} carp)`);
+  // looks follow the count, and the content survives every change of look
+  const BIG = { [NS + 'shrimp']: 255 };
+  const big = new ItemStack(NS + 'fish_basket_most', 1); big.setDynamicProperty(NS + 'creel', JSON.stringify(BIG)); big.nameTag = 'Big';
+  clearInv(); P.inv.setItem(0, big);
+  ok(BK.tryStore(P, NS + 'carp', 1, 2) === 0 && P.inv.getItem(0)?.typeId === NS + 'fish_basket_full' && P.inv.getItem(0).nameTag === 'Big'
+    && JSON.stringify(JSON.parse(P.inv.getItem(0).getDynamicProperty(NS + 'creel'))) === JSON.stringify({ ...BIG, [NS + 'carp#2']: 1 }),
+    'creel: the 256th fish makes it full; contents and name come along');
+  ok(BK.tryStore(P, NS + 'carp', 1, 2) === 1, 'creel: a full creel takes no more');
+  const swapped = BK.asLook(P.inv.getItem(0), NS + 'fish_basket_few');
+  ok(swapped.typeId === NS + 'fish_basket_few' && swapped.getDynamicProperty(NS + 'creel') === P.inv.getItem(0).getDynamicProperty(NS + 'creel') && swapped.nameTag === 'Big',
+    'creel: asLook copies every dynamic property and the name to the new look');
+  // crouch + use: everything falls out at the feet
+  drops(); P.selectedSlotIndex = 0; P.isSneaking = true;
+  fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() }); flush();
+  P.isSneaking = false;
+  const out = drops();
+  const sum = id => out.filter(d => d.id === id).reduce((a, d) => a + d.amount, 0);
+  ok(sum(NS + 'shrimp') === 255 && sum(NS + 'carp') === 1 && out.every(d => d.amount <= 64) && P.inv.getItem(0)?.typeId === NS + 'fish_basket'
+    && Object.keys(JSON.parse(P.inv.getItem(0).getDynamicProperty(NS + 'creel'))).length === 0,
+    `creel: crouching, using it pours everything out at the feet; it is empty again (${out.length} stacks)`);
+  ok(BK.tryStore(P, NS + 'carp', 3, 1) === 0 && P.inv.getItem(0)?.typeId === NS + 'fish_basket_few', 'creel: the emptied creel takes fish again');
+  // the creative menu shows only the empty creel
+  const cat = JSON.parse(readFileSync(join(BP, 'item_catalog', 'crafting_item_catalog.json'), 'utf8'));
+  const listed = JSON.stringify(cat);
+  ok(listed.includes(`"${NS}fish_basket"`) && LOOK.slice(1).every(id => !listed.includes(`"${id}"`) && S.__itemDefs.get(id)?.description?.menu_category?.category === 'none'),
+    'creel: only the empty creel is in the creative menu');
+
+  // the Hand Net: a recipe, 64 uses; fry from a tub, a fish from a tank; it breaks on its last use
+  const NET = await importScript('tools/handNet.js');
+  const PD = await importScript('blocks/pond.js');
+  const rcp = JSON.parse(readFileSync(join(BP, 'recipes', 'crafting', 'hand_net.json'), 'utf8'))['minecraft:recipe_shaped'];
+  const cnt = ch => rcp.pattern.join('').split('').filter(x => x === ch).length;
+  ok(rcp.result.item === NS + 'hand_net' && Object.entries(rcp.key).every(([ch, v]) => ({ 'minecraft:stick': 2, 'minecraft:string': 3, [NS + 'fishing_net']: 1 })[v.item] === cnt(ch))
+    && S.__itemDefs.get(NS + 'hand_net')?.components?.['minecraft:durability']?.max_durability === 64, 'hand net: 2 sticks, 3 string and a Fishing Net; 64 uses');
+  const tub = D.place(NS + 'wooden_tub', { x: spot(), y: 64, z: 0 });
+  clearInv(); P.hold('minecraft:water_bucket', 1); use(tub);
+  holdStack(PD.roeStack(NS + 'carp')); use(tub);
+  P.hold(NS + 'hand_net'); use(tub);
+  ok(st(tub, 'fill') === 5 && inv('carp') === 0 && P.held()?.getComponent('minecraft:durability')?.damage === 0, 'hand net: a tub still hatching gives nothing, and the net is not worn');
+  clock.abs += 48001; use(tub);
+  ok(inv('carp') === 2 && st(tub, 'fill') === 1 && P.held()?.getComponent('minecraft:durability')?.damage === 1, 'hand net: on a tub of fry it takes out the 2 small fish (one use)');
+  const tk = D.place(NS + 'fish_tank', { x: spot(), y: 64, z: 0 });
+  clearInv(); holdStack(stack('carp', 1, ['§f◆◆'])); use(tk);
+  const worn = new ItemStack(NS + 'hand_net', 1); worn.getComponent('minecraft:durability').damage = 63;
+  holdStack(worn); log.sounds.length = 0; use(tk);
+  ok(inv('carp') === 1 && !P.held() && log.sounds.includes('random.break'), 'hand net: on a Fish Tank it takes the fish out; on its 64th use it breaks');
+  // salt: a white puff; a sea pond: now and then a white fleck on the water
+  const x = spot() + 100;
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) for (const y of [63, 64]) D.place('minecraft:water', { x: x + dx, y, z: dz });
+  const fd = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 });
+  const cmp = comps.get(NS + 'pond_feeder');
+  guard('place feeder', () => cmp.onPlace({ block: fd }));
+  log.particles.length = 0; clearInv(); holdStack(stack('sea_salt', 8)); use(fd);
+  ok(log.particles.includes('minecraft:white_smoke_particle'), 'pond: salt going in makes a white puff');
+  clearInv(); holdStack(stack('mackerel', 1, ['§f◆◆'])); use(fd);
+  log.particles.length = 0; withRandom(0.1, () => guard('tick feeder', () => cmp.onTick({ block: fd })));
+  ok(log.particles.includes('minecraft:snowflake_particle'), 'pond: a sea pond shows a white fleck on the water now and then');
+  // full: the fish bounces back with the "full" refusal
+  for (let i = 0; i < 4; i++) { clearInv(); holdStack(stack('mackerel', 1, ['§f◆◆'])); clock.abs += 20; use(fd); }
+  log.sounds.length = 0; log.particles.length = 0; clock.abs += 20;
+  clearInv(); holdStack(stack('mackerel', 1, ['§f◆◆'])); use(fd);
+  ok(inv('mackerel') === 1 && log.sounds.includes('random.splash') && log.particles.includes('minecraft:basic_crit_particle'), 'pond: a full pond turns the fish back ("full": a splash, bits bouncing off)');
+  breakBlock(fd); drops();
 }
 
 // ================================================================ 1.5.0: the Fishing Skiff

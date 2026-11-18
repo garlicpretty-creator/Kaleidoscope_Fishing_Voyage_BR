@@ -1,0 +1,18 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:fish_basket_few",
+      "menu_category": {
+        "category": "none"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "%kaleidoscope_fishing.display.item.fish_basket"
+      },
+      "minecraft:icon": "kfv_fish_basket_few",
+      "minecraft:max_stack_size": 1
+    }
+  }
+}

@@ -5,7 +5,10 @@
 //   a fish on the feeder      it goes in the pond (size marks, record and name are kept)
 //   feed on the feeder        stored as items, up to 64 meals (POND_FEEDS, and what other packs register)
 //   8 Salt on the feeder      it becomes a sea pond
-//   an empty hand             the list: take a fish (or the roe) back out
+//   an empty hand             1.6.0: takes the roe out; with no roe, a roll call: every fish swims to the feeder
+//                             for a moment (the hungry ones fastest), so they can be counted. No feed is used.
+//   the Hand Net on a fish    1.6.0 (tools/handNet.js): takes that very fish out (on the water: the fish nearest
+//                             the crosshair)
 // Each dawn (world days, caught up when the feeder was out of reach) every fish eats one meal. A fed day counts
 // towards growing: small to medium after 3, medium to large after 5 more. A hungry fish does not grow or breed and
 // never dies. Two fed fish of a kind that breeds, medium or larger, with room in the pond: 1 in 4 each dawn for a
@@ -15,14 +18,22 @@
 // only ever small, medium or large, never a length, so it never comes near a record (the plan's 85% cap).
 // The roster lives in the feeder's block record ("pd"), the only truth. The fish swimming in the pond are the
 // Fish Tank's display entities, put back from the roster when missing and moved about the water now and then.
+// 1.6.0 (docs/PLAN_1.6.0.md section 7, no text): there is no list any more; the pond shows its state.
+//   the trough        4 looks by meals stored (state feed: 0 empty, 1 a little, 2 most, 3 full; troughStage)
+//   the fish          sized by class (small 0.6, medium 0.8, large 1.0 of the species' pond size); a hungry fish
+//                     swims just under the surface and now and then sends up a column of bubbles, a fed one
+//                     swims lower; a fish that grows a class jumps with a splash
+//   a sea pond        a white fleck on the water now and then; salt going in makes a white puff
+//   events            evt "pond" with kind "grow", "spawn" (roe) or "hatch" (other packs give their own feedback)
+// Particles only while a player is within 16 blocks.
 // The water is counted when the feeder is set down, used, and each dawn; fish that no longer fit come out as items.
 // A feeder removed in any way (player, explosion, piston, command) gives back every fish, the feed and the roe.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
-import { ActionFormData } from "@minecraft/server-ui";
 import { CATCHES, FISH_ALIAS, POND, POND_FEEDS, TANK_FISH } from "../data/generated.js";
 import { fishGlyph } from "../data/glyphs.js";
 import { FIT, TANK_KIND } from "../data/tank.js";
 import { FARMED_MARK, LARGE, MEDIUM, SMALL, isFarmed, markOf, readSize } from "../fishing/size.js";
+import { emit } from "../api/host.js";
 import { fishOut, keepOf } from "./keep.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
@@ -44,7 +55,16 @@ export const BREED_CHANCE = 0.25;
 export const HATCH_DAYS = 2;
 const CATCH_UP = 30;                                  // days caught up at most in one go
 const RANGE = 8, DEEP = 6, MAX_WATER = 512;
-const TAG = "kfv_pond:";
+export const TAG = "kfv_pond:";
+export const FISH_ENTITY = FISH_ID;
+/** 1.6.0: a pond fish's size on screen by class (0 = a creature without sizes). */
+export const POND_SCALE = { 0: 0.8, [SMALL]: 0.6, [MEDIUM]: 0.8, [LARGE]: 1.0 };
+/** 1.6.0: the trough's look by meals stored: 0 empty, 1 from TROUGH[0], 2 from TROUGH[1], 3 from TROUGH[2]. */
+export const TROUGH = [1, 32, 56];
+export const troughStage = m => (m >= TROUGH[2] ? 3 : m >= TROUGH[1] ? 2 : m >= TROUGH[0] ? 1 : 0);
+const NEAR = 16;                                      // particles only for players this close
+const HIT_EVENT = `${NS}:pond_fish`;                  // gives a pond fish a hitbox (the Hand Net aims at it)
+const DRAWN_ABOVE = 0.55;                             // a pond fish is drawn about this far above its entity (its level)
 const canon = id => FISH_ALIAS[id] ?? id;
 const SEA_BIOME = /ocean|beach|shore/;
 const SIZED = new Set(CATCHES.filter(c => c.size).map(c => c.id));
@@ -139,9 +159,10 @@ export function whyNot(r, id) {
 }
 const adult = f => !sized(f.id) || f.cls >= MEDIUM;
 
-/** One dawn: every fish eats, fed ones grow, the roe hatches, a pair may spawn. Exported for tests. */
+/** One dawn: every fish eats, fed ones grow, the roe hatches, a pair may spawn. Returns what happened, for the
+ *  splashes and the evt broadcast: [{ kind: "grow" | "hatch" | "spawn", id, cls?, slot? }]. Exported for tests. */
 export function dawn(r, day, rand = Math.random) {
-  const fed = [];
+  const fed = [], ev = [];
   for (const f of r.fish) {
     f.d = (f.d ?? 0) + 1;
     f.h = eat(r) ? 0 : 1;
@@ -150,18 +171,23 @@ export function dawn(r, day, rand = Math.random) {
     if (!sized(f.id)) continue;
     f.g = (f.g ?? 0) + 1;
     const need = GROW[f.cls || MEDIUM];
-    if (need && f.g >= need && f.cls < LARGE) { f.cls = (f.cls || MEDIUM) + 1; f.g = 0; f.f = 1; delete f.k?.lore; }
+    if (need && f.g >= need && f.cls < LARGE) {
+      f.cls = (f.cls || MEDIUM) + 1; f.g = 0; f.f = 1; delete f.k?.lore;
+      ev.push({ kind: "grow", id: f.id, cls: f.cls, slot: r.fish.indexOf(f) });
+    }
   }
   if (r.roe && day - r.roe.day >= HATCH_DAYS && r.fish.length < r.cap) {
     r.fish.push({ id: r.roe.id, cls: sized(r.roe.id) ? SMALL : 0, d: 0, g: 0, f: 1 });
+    ev.push({ kind: "hatch", id: r.roe.id, cls: r.fish[r.fish.length - 1].cls, slot: r.fish.length - 1 });
     r.roe = undefined;
   }
   if (!r.roe && r.fish.length < r.cap) {
     const by = {};
     for (const f of fed) if (pondOf(f.id)?.[1] && adult(f)) by[f.id] = (by[f.id] ?? 0) + 1;
     const pairs = Object.keys(by).filter(id => by[id] >= 2);
-    if (pairs.length && rand() < BREED_CHANCE) r.roe = { id: pairs[Math.floor(rand() * pairs.length)], day };
+    if (pairs.length && rand() < BREED_CHANCE) { r.roe = { id: pairs[Math.floor(rand() * pairs.length)], day }; ev.push({ kind: "spawn", id: r.roe.id }); }
   }
+  return ev;
 }
 
 /** A fish leaving the pond as an item. */
@@ -194,6 +220,21 @@ export function contents(r) {
 function fishEntities(dim, pos) {
   try { return dim.getEntities({ type: FISH_ID, tags: [tagOf(pos)], location: centreOf(pos), maxDistance: 16 }); } catch { return []; }
 }
+const playersNear = (dim, pos) => { try { return dim.getPlayers({ location: centreOf(pos), maxDistance: NEAR }).length > 0; } catch { return false; } };
+const dynOf = (e, k) => { try { return e.getDynamicProperty(k); } catch { return undefined; } };
+/** 1.6.0: how deep a fish swims under the top water block: hungry just under the surface, fed lower. */
+export const depthOf = f => (f?.h ? 0.15 : 0.6);
+const spotAt = (s, f) => ({ x: s[0] + 0.5, y: s[1] + 0.55 - depthOf(f) - 0.45, z: s[2] + 0.5 });
+/** 1.6.0: the scale property of a pond fish: the species' size in the large tank, by its class. Exported for tests. */
+export function scaleOf(spec, cls) {
+  const fit = FIT[spec]?.[1]?.[LARGE] ?? FIT[spec]?.[1]?.[2];
+  if (!fit) return 0;
+  return Math.max(1, Math.min(100, Math.round(fit[0] * 1.3 * (POND_SCALE[cls] ?? POND_SCALE[0]))));
+}
+function giveHitbox(e) {
+  if (dynOf(e, "kfv:hit") === 1) return;
+  try { e.triggerEvent(HIT_EVENT); e.setDynamicProperty("kfv:hit", 1); } catch {}
+}
 function spawnOne(dim, pos, r, slot) {
   const f = r.fish[slot];
   const spec = TANK_FISH.indexOf(likeOf(f.id));
@@ -202,37 +243,122 @@ function spawnOne(dim, pos, r, slot) {
   const fit = FIT[spec]?.[1]?.[f.cls || MEDIUM] ?? FIT[spec]?.[1]?.[2];
   if (!fit) return;
   let e;
-  const at = { x: spot[0] + 0.5, y: spot[1] - 0.45, z: spot[2] + 0.5 };
-  try { e = dim.spawnEntity(FISH_ID, at); } catch { return; }
+  try { e = dim.spawnEntity(FISH_ID, spotAt(spot, f)); } catch { return; }
   const props = { species: spec, kind: TANK_KIND[spec] ?? 0, seed: Math.floor(Math.random() * 8), turn: Math.floor(Math.random() * 4), tank: 1,
-    scale: Math.min(100, Math.round(fit[0] * 1.3)), span: fit[1], level: Math.round((fit[2] + fit[3]) / 2), lane: 60 };
+    scale: scaleOf(spec, sized(f.id) ? f.cls || MEDIUM : 0), span: fit[1], level: Math.round((fit[2] + fit[3]) / 2), lane: 60 };
   for (const [k, v] of Object.entries(props)) { try { e.setProperty(`${NS}:${k}`, v); } catch {} }
-  try { e.addTag(tagOf(pos)); e.setDynamicProperty("kfv:slot", slot); e.setDynamicProperty("kfv:id", f.id); e.setDynamicProperty("kfv:cls", f.cls ?? 0); } catch {}
+  try { e.addTag(tagOf(pos)); e.setDynamicProperty("kfv:slot", slot); e.setDynamicProperty("kfv:id", f.id); e.setDynamicProperty("kfv:cls", f.cls ?? 0); e.setDynamicProperty("kfv:h", f.h ? 1 : 0); } catch {}
+  giveHitbox(e);
 }
 /** Make the swimming fish match the roster; move one of them to another part of the pond. */
 function syncFish(dim, pos, r, wander = true) {
   const have = fishEntities(dim, pos);
-  const kept = new Set();
+  const kept = new Set(), alive = [];
   for (const e of have) {
-    let slot, id, cls;
-    try { slot = e.getDynamicProperty("kfv:slot"); id = e.getDynamicProperty("kfv:id"); cls = e.getDynamicProperty("kfv:cls"); } catch {}
+    const slot = dynOf(e, "kfv:slot"), id = dynOf(e, "kfv:id"), cls = dynOf(e, "kfv:cls");
     const f = r?.fish?.[slot];
     if (!f || kept.has(slot) || f.id !== id || (f.cls ?? 0) !== cls) { try { e.remove(); } catch {} continue; }
-    kept.add(slot);
+    kept.add(slot); alive.push(e);
+    giveHitbox(e);
+    const h = f.h ? 1 : 0;
+    if (dynOf(e, "kfv:h") !== h) {                     // got hungry, or was fed: up to the surface, or down
+      try { e.setDynamicProperty("kfv:h", h); } catch {}
+      try { const l = e.location; e.teleport({ x: l.x, y: l.y + (h ? 0.45 : -0.45), z: l.z }); } catch {}
+    }
   }
   (r?.fish ?? []).forEach((f, slot) => { if (!kept.has(slot)) spawnOne(dim, pos, r, slot); });
-  if (wander && have.length && r?.spots?.length && Math.random() < 0.5) {
-    const e = have[Math.floor(Math.random() * have.length)];
+  if (wander && alive.length && r?.spots?.length && Math.random() < 0.5) {
+    const e = alive[Math.floor(Math.random() * alive.length)];
     const s = r.spots[Math.floor(Math.random() * r.spots.length)];
-    try { if (e.isValid) e.teleport({ x: s[0] + 0.5, y: s[1] - 0.45, z: s[2] + 0.5 }); } catch {}
+    try { if (e.isValid) e.teleport(spotAt(s, r.fish[dynOf(e, "kfv:slot")])); } catch {}
     try { e.setProperty(`${NS}:turn`, Math.floor(Math.random() * 4)); } catch {}
   }
 }
 function clearFish(dim, pos) { for (const e of fishEntities(dim, pos)) { try { e.remove(); } catch {} } }
 
+/** 1.6.0 roll call: every fish swims to the water by the feeder over 2 seconds, a hungry one in half the time.
+ *  Returns [{ entity, steps }] (5 ticks a step). Exported for tests. */
+export function rollCall(dim, pos, r) {
+  const spots = r?.spots ?? [];
+  if (!spots.length) return [];
+  const near = spots.reduce((a, s) => ((s[0] - pos.x) ** 2 + (s[2] - pos.z) ** 2 < (a[0] - pos.x) ** 2 + (a[2] - pos.z) ** 2 ? s : a));
+  const out = [];
+  for (const e of fishEntities(dim, pos)) {
+    const f = r.fish?.[dynOf(e, "kfv:slot")];
+    if (!f) continue;
+    const steps = f.h ? 4 : 8;
+    let from;
+    try { from = { ...e.location }; } catch { continue; }
+    const to = spotAt(near, f);
+    to.x += (Math.random() - 0.5) * 0.6; to.z += (Math.random() - 0.5) * 0.6;
+    for (let i = 1; i <= steps; i++) {
+      const k = i / steps;
+      system.runTimeout(() => {
+        try { if (e.isValid) e.teleport({ x: from.x + (to.x - from.x) * k, y: from.y + (to.y - from.y) * k, z: from.z + (to.z - from.z) * k }); } catch {}
+      }, i * 5);
+    }
+    out.push({ entity: e, steps });
+  }
+  if (out.length) snd(dim, centreOf(pos), "random.swim", 1.4, 0.4);
+  return out;
+}
+
+/** 1.6.0 Hand Net: the pond fish nearest the line of sight from `head` along `dir` (within 8 blocks ahead and 1.5
+ *  blocks off the line), among `entities`. Exported for tests. */
+export function aimedFish(head, dir, entities) {
+  let best, bestOff = 1.5;
+  for (const e of entities) {
+    let l;
+    try { if (!e.getTags().some(t => t.startsWith(TAG))) continue; l = e.location; } catch { continue; }
+    const v = { x: l.x - head.x, y: l.y + DRAWN_ABOVE - head.y, z: l.z - head.z };
+    const along = v.x * dir.x + v.y * dir.y + v.z * dir.z;
+    if (along < 0 || along > 8) continue;
+    const off = Math.hypot(v.x - dir.x * along, v.y - dir.y * along, v.z - dir.z * along);
+    if (off <= bestOff) { best = e; bestOff = off; }
+  }
+  return best;
+}
+/** The pond fish a player aims the net at, looking at the water. */
+export function aimedPondFish(player) {
+  try {
+    const head = player.getHeadLocation(), dir = player.getViewDirection();
+    return aimedFish(head, dir, player.dimension.getEntities({ type: FISH_ID, location: head, maxDistance: 9 }));
+  } catch { return undefined; }
+}
+/** 1.6.0 Hand Net: take the fish this display entity stands for out of its pond. False (nothing happens) when the
+ *  pond changed under it: the fish is gone, or the entity is stale. Exported for tests; tools/handNet.js calls it. */
+export function scoop(player, e) {
+  let tag, slot, id, cls, dim;
+  try { tag = e.getTags().find(t => t.startsWith(TAG)); slot = e.getDynamicProperty("kfv:slot"); id = e.getDynamicProperty("kfv:id"); cls = e.getDynamicProperty("kfv:cls"); dim = e.dimension; } catch { return false; }
+  if (!tag || typeof slot !== "number") return false;
+  const [x, y, z] = tag.slice(TAG.length).split(",").map(Number);
+  const pos = { x, y, z };
+  let b;
+  try { b = dim.getBlock(pos); } catch { return false; }
+  const r = read(dim, pos);
+  if (b?.typeId !== FEEDER || !r) { try { e.remove(); } catch {} return false; }
+  const f = r.fish?.[slot];
+  if (!f || f.id !== id || (f.cls ?? 0) !== cls) { syncFish(dim, pos, r, false); return false; }
+  const out = fishStack(f);
+  if (!out) { refuseAt(player, "tank_pack_gone", { dimension: dim, location: e.location }); return false; }
+  let at;
+  try { at = { ...e.location }; } catch { at = centreOf(pos); }
+  r.fish.splice(slot, 1);
+  try { e.remove(); } catch {}
+  for (const o of fishEntities(dim, pos)) {         // the fish after it move up one place in the roster
+    const s = dynOf(o, "kfv:slot");
+    if (typeof s === "number" && s > slot) { try { o.setDynamicProperty("kfv:slot", s - 1); } catch {} }
+  }
+  save(dim, pos, r); show(b, r); syncFish(dim, pos, r, false);
+  give(player, out, at);
+  snd(dim, at, "random.splash", 1.3, 0.5);
+  try { spawnParticle(dim, "minecraft:water_splash_particle", at); } catch {}
+  return true;
+}
+
 // ------------------------------------------------------------------------------------------------ the feeder
 function show(block, r) {
-  const want = { [FEED]: meals(r) > 0 ? 1 : 0, [ROE]: r?.roe ? 1 : 0 };
+  const want = { [FEED]: troughStage(meals(r)), [ROE]: r?.roe ? 1 : 0 };
   let p = block.permutation, changed = false;
   for (const [k, v] of Object.entries(want)) { try { if (p.getState(k) !== v) { p = p.withState(k, v); changed = true; } } catch {} }
   if (changed) { try { block.setPermutation(p); } catch {} }
@@ -245,15 +371,67 @@ function recount(block, r) {
   if (out.length) spawnAll(block.dimension, block, out.map(f => fishStack(f)).filter(Boolean));
   return r;
 }
+/** Days missed since the record was last seen. Returns what happened ([] when nothing did, undefined when no day passed). */
 function catchUp(block, r) {
   const d = today();
-  if (typeof r.day !== "number" || r.day > d) { r.day = d; return false; }
-  if (r.day === d) return false;
+  if (typeof r.day !== "number" || r.day > d) { r.day = d; return undefined; }
+  if (r.day === d) return undefined;
   recount(block, r);
+  const ev = [];
   let steps = 0;
-  while (r.day < d && steps < CATCH_UP) { r.day++; steps++; dawn(r, r.day); }
+  while (r.day < d && steps < CATCH_UP) { r.day++; steps++; ev.push(...dawn(r, r.day)); }
   r.day = d;
-  return true;
+  return ev;
+}
+/** After a dawn: a fish that grew jumps with a splash, the roe hatching splashes too; and other packs hear of it. */
+function announce(block, r, ev) {
+  if (!ev?.length) return;
+  const dim = block.dimension, pos = { x: block.x, y: block.y, z: block.z };
+  const near = playersNear(dim, pos);
+  const ents = near ? fishEntities(dim, pos) : [];
+  for (const x of ev) {
+    try { emit("pond", undefined, { kind: x.kind, id: x.id, ...(x.cls !== undefined ? { cls: x.cls } : {}), dim: dim.id, pos: [pos.x, pos.y, pos.z] }); } catch {}
+    if (!near || x.kind === "spawn") continue;
+    const e = ents.find(o => dynOf(o, "kfv:slot") === x.slot);
+    let at = centreOf(pos);
+    try { if (e) at = { ...e.location }; } catch {}
+    const top = { x: at.x, y: Math.floor(at.y) + 1, z: at.z };
+    for (let i = 0; i < 4; i++) {
+      try { spawnParticle(dim, "minecraft:water_splash_particle", { x: top.x + (Math.random() - 0.5) * 0.5, y: top.y, z: top.z + (Math.random() - 0.5) * 0.5 }); } catch {}
+    }
+    snd(dim, top, x.kind === "grow" ? "random.splash" : "bubble.pop", 1.1, 0.6);
+    if (e && x.kind === "grow") {                     // the jump (placeholder for a flip animation): up out of the water and back
+      try { e.teleport({ x: at.x, y: top.y + 0.3, z: at.z }); } catch {}
+      system.runTimeout(() => { try { if (e.isValid) e.teleport(at); } catch {} }, 6);
+    }
+  }
+}
+/** Now and then, for players nearby: bubbles over a hungry fish, a white fleck on a sea pond. */
+function ambience(block, r) {
+  const dim = block.dimension, pos = { x: block.x, y: block.y, z: block.z };
+  if (!r?.fish?.length && !isSea(r)) return;
+  if (!playersNear(dim, pos)) return;
+  for (const e of fishEntities(dim, pos)) {
+    const f = r.fish[dynOf(e, "kfv:slot")];
+    if (!f?.h || Math.random() >= 0.35) continue;
+    let l;
+    try { l = e.location; } catch { continue; }
+    for (let i = 0; i < 3; i++) { try { spawnParticle(dim, "minecraft:bubble_column_up_particle", { x: l.x, y: l.y + 0.2 + i * 0.25, z: l.z }); } catch {} }
+  }
+  if (isSea(r) && r.spots?.length && Math.random() < 0.4) {
+    const s = r.spots[Math.floor(Math.random() * r.spots.length)];
+    try { spawnParticle(dim, "minecraft:snowflake_particle", { x: s[0] + 0.2 + Math.random() * 0.6, y: s[1] + 0.95, z: s[2] + 0.2 + Math.random() * 0.6 }); } catch {}
+  }
+}
+function saltPuff(block, r) {
+  const dim = block.dimension;
+  const c = centreOf(block);
+  for (let i = 0; i < 6; i++) {
+    try { spawnParticle(dim, "minecraft:white_smoke_particle", { x: c.x + (Math.random() - 0.5) * 0.8, y: c.y + 0.3 + Math.random() * 0.4, z: c.z + (Math.random() - 0.5) * 0.8 }); } catch {}
+  }
+  for (const s of (r.spots ?? []).slice(0, 6)) {
+    try { spawnParticle(dim, "minecraft:white_smoke_particle", { x: s[0] + 0.5, y: s[1] + 1, z: s[2] + 0.5 }); } catch {}
+  }
 }
 function takeHeld(player, slot, n) {
   if (creative(player)) return;
@@ -263,46 +441,6 @@ function takeHeld(player, slot, n) {
 function give(player, stack, at) {
   try { const left = player.getComponent("minecraft:inventory")?.container?.addItem(stack); if (left) player.dimension.spawnItem(left, at); }
   catch { try { player.dimension.spawnItem(stack, at); } catch {} }
-}
-const t = key => ({ translate: `${NS}.pond.${key}` });
-const tw = (key, ...args) => ({ translate: `${NS}.pond.${key}`, with: { rawtext: args.map(a => (typeof a === "object" ? a : { text: String(a) })) } });
-const nameOf = id => ({ translate: `${NS}.name.${canon(id).split(":")[1]}` });
-
-async function showList(player, block) {
-  const pos = { x: block.x, y: block.y, z: block.z }, dim = block.dimension;
-  const r = read(dim, pos);
-  const form = new ActionFormData().title(t("title"));
-  if (!r?.cap) form.body(t("none"));
-  else form.body({ rawtext: [tw("summary", t(isSea(r) ? "sea" : "fresh"), r.n, r.fish.length, r.cap, meals(r)), { text: "\n" }, t("pick")] });
-  const rows = [];
-  if (r?.roe) { form.button(tw("roe", nameOf(r.roe.id))); rows.push({ roe: r.roe.id }); }
-  for (const [i, f] of (r?.fish ?? []).entries()) {
-    form.button({ rawtext: [tw("fish_line", nameOf(f.id), { text: `${f.cls ? markOf(f.cls) : ""}${f.f ? ` ${FARMED_MARK}` : ""}§r` }, f.d ?? 0), ...(f.h ? [t("hungry")] : [])] });
-    rows.push({ i, id: f.id });
-  }
-  form.button(t("close"));
-  let res;
-  try { res = await form.show(player); } catch { return; }
-  if (!res || res.canceled || res.selection === undefined || res.selection >= rows.length) return;
-  const pick = rows[res.selection];
-  const now = read(dim, pos);                      // the pond may have changed while the list was open
-  let b;
-  try { b = dim.getBlock(pos); } catch { return; }
-  if (!now || b?.typeId !== FEEDER) return;
-  if (pick.roe) {
-    if (now.roe?.id !== pick.roe) return;
-    now.roe = undefined;
-    give(player, roeStack(pick.roe), centreOf(pos));
-  } else {
-    const f = now.fish[pick.i];
-    if (!f || f.id !== pick.id) return;
-    const out = fishStack(f);
-    if (!out) return refuseAt(player, "tank_pack_gone", { dimension: dim, location: centreOf(pos) });
-    now.fish.splice(pick.i, 1);
-    give(player, out, centreOf(pos));
-  }
-  save(dim, pos, now); show(b, now); syncFish(dim, pos, now, false);
-  snd(dim, centreOf(pos), "random.splash", 1.3, 0.5);
 }
 
 export const pondFeeder = {
@@ -320,10 +458,24 @@ export const pondFeeder = {
     if (!player) return;
     const dim = block.dimension;
     let r = read(dim, block) ?? fresh(countPond(dim, block));
-    catchUp(block, r);
+    const ev = catchUp(block, r);
+    if (ev) { save(dim, block, r); show(block, r); syncFish(dim, block, r, false); announce(block, r, ev); }
     const slot = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
     const held = slot?.hasItem() ? slot.getItem() : undefined;
-    if (!held) { recount(block, r); save(dim, block, r); show(block, r); syncFish(dim, block, r, false); showList(player, block); return; }
+    if (!held) {                                      // 1.6.0: the roe, or else a roll call
+      recount(block, r);
+      if (r.roe) {
+        const id = r.roe.id;
+        r.roe = undefined;
+        save(dim, block, r); show(block, r); syncFish(dim, block, r, false);
+        give(player, roeStack(id), centreOf(block));
+        snd(dim, centreOf(block), "random.splash", 1.3, 0.5);
+        return;
+      }
+      save(dim, block, r); show(block, r); syncFish(dim, block, r, false);
+      rollCall(dim, block, r);
+      return;
+    }
     const id = held.typeId;
     const feed = mealsOf(id);
     if (feed > 0) {
@@ -344,6 +496,7 @@ export const pondFeeder = {
       r.salt = SALT_NEEDED;
       save(dim, block, r);
       snd(dim, centreOf(block), "dig.sand", 1.0, 0.6);
+      saltPuff(block, r);
       return;
     }
     if (pondOf(id) !== undefined || CATCH_IDS.has(canon(id))) {
@@ -364,9 +517,12 @@ export const pondFeeder = {
   onTick({ block }) {
     const r = read(block.dimension, block);
     if (!r) return;
-    if (catchUp(block, r)) save(block.dimension, block, r);
+    const ev = catchUp(block, r);
+    if (ev) save(block.dimension, block, r);
     show(block, r);
     syncFish(block.dimension, block, r);
+    announce(block, r, ev);
+    ambience(block, r);
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (player && creative(player)) { clearFish(block.dimension, block); save(block.dimension, block, undefined); return; }

@@ -5,7 +5,9 @@ Apart from the reeling minigame, Fishing Voyage shows no text on screen. This fa
   actionbar      setActionBar / setTitle / updateSubtitle in a script
   message        sendMessage in a script
   command        a title / titleraw / tellraw / say / msg / tell / w / me command (scripts, BP JSON, functions)
-  form           ActionFormData / ModalFormData / MessageFormData in a script
+  form           ActionFormData / ModalFormData / MessageFormData in a script, unless (1.6.0) every title / body /
+                 button / label / header text of the file's forms is symbols only (literal text as for lore, no
+                 translate / rawtext): a picture-only form (the creel's grid) is fine
   lore           setLore(...) whose literal text is anything but symbols (◆ ✿ ✦ ★, glyph characters,
                  spaces and § formatting codes), or a translated / rawtext line
   interact_text  an entity's interact button label
@@ -36,9 +38,6 @@ EXCEPTIONS = {
     ("entities/fishing_skiff.json", "interact_text"): (PERMANENT, "vanilla's own boat label (action.interact.ride.boat), as on every boat; without it touch screens may lose the board button"),
     ("scripts/journal/journal.js", "form"): (TEMPORARY, "journal pages (step 6); the settings page keeps text: move it to journal/settings.js, then delete this line"),
     ("scripts/journal/recipes.js", "form"): (TEMPORARY, "journal recipe pages (step 6)"),
-    ("scripts/blocks/pond.js", "form"): (TEMPORARY, "fish pond list (step 8: hand net instead)"),
-    ("scripts/tools/basket.js", "form"): (TEMPORARY, "fish creel list (step 7: glyph grid)"),
-    ("scripts/tools/basket.js", "lore"): (TEMPORARY, "fish creel \"N / 64\" (step 7: five looks instead)"),
 }
 
 SYMBOLS = set(" ◆✿✦★●○×✔✘") | {chr(c) for c in range(0xE000, 0xF900)}
@@ -83,6 +82,45 @@ def literal_text(args):
     return out
 
 
+def first_arg(args):
+    """The first top-level argument of an argument list."""
+    depth, q, i = 0, "", 0
+    while i < len(args):
+        c = args[i]
+        if q:
+            if c == "\\":
+                i += 2
+                continue
+            if c == q:
+                q = ""
+        elif c in "\"'`":
+            q = c
+        elif c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+        elif c == "," and depth == 0:
+            return args[:i]
+        i += 1
+    return args
+
+
+FORM_TEXT = re.compile(r"\.(title|body|button|button1|button2|label|header)\s*\(")
+
+
+def form_text(text):
+    """What in a file's form calls is not symbols: [(line, what)]."""
+    bad = []
+    for m in FORM_TEXT.finditer(text):
+        first = first_arg(call_args(text, m.end()))
+        b = [repr(s) for s in literal_text(first) if not_symbols(s)]
+        if re.search(r"\b(translate|rawtext|text)\s*:", first):
+            b.append("translate/rawtext")
+        if b:
+            bad.append((lines_of(text, m.start()), f".{m.group(1)}: " + ", ".join(b)[:50]))
+    return bad
+
+
 def not_symbols(s):
     return re.sub(r"§.", "", s).strip(" ") and any(ch not in SYMBOLS for ch in re.sub(r"§.", "", s))
 
@@ -96,8 +134,12 @@ def scan_script(rel, text):
         found.append(("actionbar", lines_of(text, m.start()), m.group(1)))
     for m in re.finditer(r"\bsendMessage\s*\(", text):
         found.append(("message", lines_of(text, m.start()), "sendMessage"))
-    for m in re.finditer(r"\b(ActionFormData|ModalFormData|MessageFormData)\b", text):
-        found.append(("form", lines_of(text, m.start()), m.group(1)))
+    forms = list(re.finditer(r"\b(ActionFormData|ModalFormData|MessageFormData)\b", text))
+    if forms:
+        bad = form_text(text)
+        if bad or any(m.group(1) != "ActionFormData" for m in forms):
+            for m in forms:
+                found.append(("form", lines_of(text, m.start()), m.group(1) + (f" ({bad[0][1]})" if bad else "")))
     for m in re.finditer(r"\brunCommand(?:Async)?\s*\(", text):
         for s in literal_text(call_args(text, m.end())):
             if COMMAND.match(s):

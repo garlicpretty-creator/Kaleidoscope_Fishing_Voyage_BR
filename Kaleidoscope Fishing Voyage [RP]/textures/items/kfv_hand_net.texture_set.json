@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_hand_net",
+    "metalness_emissive_roughness": "kfv_hand_net_mer",
+    "normal": "kfv_hand_net_normal"
+  }
+}
