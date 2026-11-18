@@ -42,6 +42,7 @@ function takeOne(item) {
 function startTheft(gull, item, now, rack) {
   schoolGullIds.delete(gull.id);                   // a school gull breaks off its circle
   try { gull.triggerEvent(`${NS}:carry`); } catch {}
+  try { gull.setProperty(`${NS}:swoop`, true); } catch {}   // 1.5.0: the resource pack sweeps its wings back for the dive
   const itemId = item ? item.id : `rack:${rack.x}:${rack.y}:${rack.z}`;
   targeted.add(itemId);
   busy.set(gull.id, { gull, item, rack, itemId, from: { ...gull.location }, t: 0, dur: 30, phase: "swoop" });
@@ -75,6 +76,7 @@ function fly() {
         if (f.rack) { try { got = stealFromRack(g.dimension.getBlock(f.rack)); } catch {} }
         else got = f.item?.isValid && takeOne(f.item);
         targeted.delete(f.itemId);
+        try { g.setProperty(`${NS}:swoop`, false); } catch {}   // pulls up: hard flaps away, a squawk (carrying or not)
         if (got) { try { g.setProperty(`${NS}:carrying`, true); } catch {} sound(g.dimension, g.location, 1.3); }
         const near = nearestPlayer(g.dimension, g.location);
         let dx = Math.random() - 0.5, dz = Math.random() - 0.5;
@@ -175,6 +177,7 @@ function onHurt(ev) {
   schoolGullIds.delete(g.id);
   const f = busy.get(g.id);
   if (f) { targeted.delete(f.itemId); busy.delete(g.id); }
+  try { g.setProperty(`${NS}:swoop`, false); } catch {}
   const from = ev.damageSource?.damagingEntity?.location;
   let dx = Math.random() - 0.5, dz = Math.random() - 0.5;
   if (from) { dx = g.location.x - from.x; dz = g.location.z - from.z; }

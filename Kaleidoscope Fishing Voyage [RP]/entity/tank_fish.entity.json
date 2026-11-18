@@ -74,10 +74,16 @@
       "animations": {
         "swim": "animation.kaleidoscope_fishing.tank_fish.swim",
         "drift": "animation.kaleidoscope_fishing.tank_fish.drift",
-        "walk": "animation.kaleidoscope_fishing.tank_fish.walk"
+        "walk": "animation.kaleidoscope_fishing.tank_fish.walk",
+        "bubbles": "animation.kaleidoscope_fishing.tank_fish.bubbles",
+        "bubbler": "controller.animation.kaleidoscope_fishing.tank_fish.bubbles"
       },
       "scripts": {
+        "initialize": [
+          "variable.g = 0;variable.gp = 0;variable.pc = 0;variable.tb = 0;variable.tsm = 0;variable.tt = 0;variable.wp = 0;variable.wpc = 0;"
+        ],
         "pre_animation": [
+          "variable.g = variable.g ?? 0;variable.gp = variable.gp ?? 0;variable.pc = variable.pc ?? 0;variable.tb = variable.tb ?? 0;variable.tsm = variable.tsm ?? 0;variable.tt = variable.tt ?? 0;variable.wp = variable.wp ?? 0;variable.wpc = variable.wpc ?? 0;",
           "v.kind = q.property('kaleidoscope_fishing:kind');",
           "v.seed = q.property('kaleidoscope_fishing:seed');",
           "v.sc = q.property('kaleidoscope_fishing:scale') / 100;",
@@ -86,8 +92,32 @@
           "v.lane = q.property('kaleidoscope_fishing:lane') / 10 - 6;",
           "v.ph = v.seed * 83 + q.property('kaleidoscope_fishing:species') * 37;",
           "v.speed = (v.kind == 3 ? 0.65 : (v.kind == 6 ? 0.75 : 1)) * (3.2 + v.seed * 0.25) * (q.property('kaleidoscope_fishing:tank') ? 1.3 : 1) * 57.3 / math.max(v.span, 1.2);",
-          "v.tt = q.life_time * v.speed + v.ph;",
-          "v.dir = math.clamp(math.cos(v.tt) * 3, -1, 1);"
+          "v.dt = math.clamp(q.delta_time, 0, 0.1);",
+          "v.fresh = q.life_time < 0.3;",
+          "v.g = v.fresh ? q.property('kaleidoscope_fishing:glide') : v.g + (q.property('kaleidoscope_fishing:glide') - v.g) * math.min(1, v.dt * 3);",
+          "v.nz = math.sin(q.life_time * 17 + v.ph) * 0.6 + math.sin(q.life_time * 41 + v.ph * 3) * 0.4;",
+          "v.pt = 0.1 + 0.8 * math.clamp((v.nz + 0.55) * 4, 0, 1) + 0.8 * math.clamp((v.nz - 0.5) * 4, 0, 1);",
+          "v.pt = v.pt + v.g * (1.4 - v.pt);",
+          "v.pc = v.fresh ? v.pt : v.pc + (v.pt - v.pc) * math.min(1, v.dt * 2.5);",
+          "v.tt = math.mod(v.tt + v.dt * v.speed * v.pc, 720);",
+          "v.tb = math.mod(v.tb + v.dt * (v.kind == 3 ? 300 : (v.kind == 1 ? 320 : 520)) * (0.4 + 0.6 * v.pc), 360);",
+          "v.amp = 0.35 + 0.55 * math.min(v.pc, 1.6);",
+          "v.dq = math.clamp(math.cos(v.tt + v.ph) * 2.5, -1, 1);",
+          "v.dir = v.dq * (1.5 - 0.5 * v.dq * v.dq);",
+          "v.flex = (1 - math.abs(v.dir)) * math.clamp(math.sin(v.tt + v.ph) * 3, -1, 1) * (1 - v.g);",
+          "v.hover = math.clamp(1 - v.pc * 2, 0, 1);",
+          "v.wn = math.sin(q.life_time * 13 + v.ph) * 0.6 + math.sin(q.life_time * 31 + v.ph * 2) * 0.4;",
+          "v.wt = math.max(math.clamp((v.wn + 0.15) * 4, 0, 1), v.g);",
+          "v.wpc = v.fresh ? v.wt : v.wpc + (v.wt - v.wpc) * math.min(1, v.dt * 4);",
+          "v.wp = math.mod(v.wp + v.dt * 14 * v.wpc, 360);",
+          "v.gp = math.mod(v.gp + v.dt * 720 * v.wpc, 360);",
+          "v.pick = math.clamp(1 - v.wpc * 3, 0, 1);",
+          "v.tg = q.property('kaleidoscope_fishing:turn') * 90;",
+          "v.tsm = v.fresh ? v.tg : math.mod(v.tsm + (math.mod(v.tg - v.tsm + 540, 360) - 180) * math.min(1, v.dt * 2) + 360, 360);",
+          "v.fy = (v.kind == 0 || v.kind == 1 || v.kind == 3 || v.kind == 6) ? -90 + 90 * v.dir : 0;",
+          "v.base = 180 + v.tsm - q.body_y_rotation;",
+          "v.spin = v.base + (math.mod(math.mod(90 - v.base - v.fy, 360) + 540, 360) - 180) * v.g;",
+          "v.bub = q.property('kaleidoscope_fishing:species') != 44 && (q.property('kaleidoscope_fishing:species') < 47 || q.property('kaleidoscope_fishing:species') > 50);"
         ],
         "animate": [
           {
@@ -98,8 +128,12 @@
           },
           {
             "walk": "v.kind == 5"
-          }
+          },
+          "bubbler"
         ]
+      },
+      "particle_effects": {
+        "bubble": "kaleidoscope_fishing:creature_bubble"
       },
       "render_controllers": [
         "controller.render.kaleidoscope_fishing.tank_fish"

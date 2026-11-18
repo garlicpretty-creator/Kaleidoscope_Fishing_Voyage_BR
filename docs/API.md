@@ -24,7 +24,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | 方向 | 事件 | 內容 |
 | --- | --- | --- |
 | → 漁歌 | `kaleidoscope_fishing:api_ping` | 任意字串（建議放你的 `source`） |
-| ← 漁歌 | `kaleidoscope_fishing:api_ready` | `{"api":1,"source":"kaleidoscope_fishing","version":"1.5.0","capabilities":[...]}` |
+| ← 漁歌 | `kaleidoscope_fishing:api_ready` | `{"api":1,"source":"kaleidoscope_fishing","version":"1.6.0","capabilities":[...]}` |
 
 漁歌在世界載入後 10 tick 會主動廣播一次 `api_ready`；比較晚載入的附加包自己送 `api_ping` 會得到同樣的回覆。
 
@@ -43,6 +43,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `tank` | 1.5.0 | 自己的生物可以進魚缸、熔岩魚缸、魚池：`register_tank` |
 | `pond_feed` | 1.5.0 | 可以把物品註冊成魚池飼料：`register_pond_feed` |
 | `sky` | 1.5.0 | 有天象（流星雨、極光之夜）：漁獲可以設 `sky`，`state` 回報今晚的天象，`evt` 廣播 `sky` |
+| `no_text` | 1.6.0 | 漁歌除了收線小遊戲，不在畫面上顯示任何文字（只用模型、粒子、聲音與圖示字元）。家族的包可以看這一項，決定自己要不要也照做；`register_catch` 收 `like`；`evt` 有 `order` |
 
 用之前先確認清單裡有；1.4.0 的漁歌只有 `bait`、`catch`。
 
@@ -88,10 +89,13 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `bait` | 特定餌的倍率 `{"<餌>":1.5}` | 0–3；餌必須是內建或已註冊的 |
 | `needBait` | 只有用這些餌才上鉤 | 同上 |
 | `sky` | 只在這種天象的夜晚上鉤（1.5.0，要有 `sky` capability） | `"meteor"`（流星雨）或 `"aurora"`（極光之夜；只在寒冷的地方算數） |
+| `like` | 手帳裡借用哪一種漁歌的魚的圖示字元（1.6.0，要有 `no_text` capability） | 漁歌的漁獲 ID（`catalog_request` 的 `catches` 裡沒有 `source` 的那些），例如外部的鱸魚寫 `"kaleidoscope_fishing:sea_bass"` |
 
 水域：`river`、`lake`、`swamp`、`mangrove`、`estuary`、`beach`、`ocean`、`warm_ocean`、`cold_ocean`、`deep_ocean`、`cave`、`ice`、`lava`、`end_pond`、`void`；1.5.0 加上 `mushroom`（蘑菇島）、`cherry`（櫻花樹林）、`deep_dark`（深暗之域，和洞穴一樣只出自己的漁獲）。
 
 不接受：`req`（傳說魚條件）。1.4.0 的漁歌收到 `sky` 會拒絕整筆漁獲，先確認 `capabilities` 有 `sky`。
+
+**手帳裡的外部漁獲（1.6.0）**：手帳只有圖示字元，而字元表是資源包裡的圖，執行中加不進去，所以外部註冊的魚沒有自己的字元。沒寫 `like` 的魚用一個通用的魚影字元；寫了 `like` 就借用那種魚的字元。魚種頁的水域、時段等圖示照你註冊的條件顯示。`like` 只影響圖示，不影響上鉤的條件。1.5.0 以前的漁歌不認得 `like`，會拒絕整筆漁獲：先確認 `capabilities` 有 `no_text`。
 
 ### 漁販收購價 — `register_price`（1.5.0）
 
@@ -115,6 +119,7 @@ Other add-ons talk to Fishing Voyage through script events in the `kaleidoscope_
 | `cleaned` | `id` | 魚案板上一條魚切完最後一刀 |
 | `sold` | `id`、`n`、`paid` | 把魚賣給漁販；`n` 是他收下的數量，`paid` 是這次拿到的綠寶石 |
 | `order_filled` | `id`、`n` | 玩家交齊了漁販的訂單（`n` 條 `id`），剛拿到獎勵 |
+| `order` | `kind`、`id`、`n` | 1.6.0。漁販訂單的回饋，和 `sky` 一樣用 `kind` 分：目前只有 `filled`（交齊，和 `order_filled` 同時送出，內容相同）。新的 `kind` 只會增加；不認得的 `kind` 請略過 |
 | `tide` | `state`：`high` 或 `low` | 潮汐轉換。世界事件，沒有 `p` |
 | `sky` | `kind`（`meteor` 或 `aurora`）、`phase`（黃昏 `start`、清晨 `end`）、`dim` | 天象開始與結束。世界事件，沒有 `p`；格式和 A Witch Way 的 `aww:evt` `sky` 相同，草本那類已經會聽 AWW 天象的包可以共用處理 |
 | `pond` | `kind`（`grow` 長大一級、`spawn` 產卵、`hatch` 魚卵在池裡孵化）、`id`、`cls`?（長大後或孵出的尺寸）、`dim`、`pos`（餵食台的 `[x,y,z]`） | 1.6.0。魚池的黎明結算（玩家不在附近時，下次載入補算時才送出）。世界事件，沒有 `p` |

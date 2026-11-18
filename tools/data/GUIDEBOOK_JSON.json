@@ -4470,17 +4470,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+     "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry.",
+     "Salted Shrimp hang as a string of shrimp and dry overnight into Dried Shell-on Shrimp."
     ],
     "zh_TW": [
-     "一架掛一種，最多 3 條：剖好的魚、剖好的鰹魚、剖好的飛魚（在魚案板剖腹後空手取回）、魷魚筒或鹽漬烏魚卵。魚和魷魚 2 天曬好，鰹魚和烏魚卵 3 天，飛魚一夜，看得到顏色慢慢變深。剛掛上的剖好的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。"
+     "一架掛一種，最多 3 條：剖好的魚、剖好的鰹魚、剖好的飛魚（在魚案板剖腹後空手取回）、魷魚筒或鹽漬烏魚卵。魚和魷魚 2 天曬好，鰹魚和烏魚卵 3 天，飛魚一夜，看得到顏色慢慢變深。剛掛上的剖好的魚拿鹽抹一下就會曬成鹹魚。下雨時沒遮蔽的曬架會停下來，沒人在旁邊時海鷗可能來叼走一條。空手使用可取回一條；曬好後一次全部收下。",
+     "鹽水蝦也能掛，掛成一串，曬一夜就是帶殼蝦乾。"
     ],
     "zh_CN": [
-     "一架挂一种，最多 3 条：剖好的鱼、剖好的鲣鱼、剖好的飞鱼（在鱼案板剖腹后空手取回）、鱿鱼筒或盐渍乌鱼卵。鱼和鱿鱼 2 天晒好，鲣鱼和乌鱼卵 3 天，飞鱼一夜，看得到颜色慢慢变深。刚挂上的剖好的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。"
+     "一架挂一种，最多 3 条：剖好的鱼、剖好的鲣鱼、剖好的飞鱼（在鱼案板剖腹后空手取回）、鱿鱼筒或盐渍乌鱼卵。鱼和鱿鱼 2 天晒好，鲣鱼和乌鱼卵 3 天，飞鱼一夜，看得到颜色慢慢变深。刚挂上的剖好的鱼拿盐抹一下就会晒成咸鱼。下雨时没遮蔽的晒架会停下来，没人在旁边时海鸥可能来叼走一条。空手使用可取回一条；晒好后一次全部收下。",
+     "盐水虾也能挂，挂成一串，晒一夜就是带壳虾干。"
     ]
    },
    "mechanics": [
-    "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry."
+    "Hang up to 3 of one kind: Gutted Fish, Gutted Skipjack, Gutted Flying Fish (gut a fish on the Fish Cleaning Board and take it back with an empty hand), Squid Tubes or Salted Mullet Roe. Fish and squid dry in 2 days, skipjack and roe in 3, flying fish overnight; you can see them darken. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying, and gulls may take a fish when nobody is near. Use it with an empty hand to take one back, or everything once dry.",
+    "Salted Shrimp hang as a string of shrimp and dry overnight into Dried Shell-on Shrimp."
    ]
   },
   {
@@ -8117,6 +8121,15 @@
      "count": 1,
      "time": 1200,
      "result": "kaleidoscope_fishing:dried_shell_shrimp"
+    },
+    {
+     "method": "Drying Rack",
+     "ingredients": [
+      "kaleidoscope_fishing:salted_shrimp"
+     ],
+     "count": 1,
+     "time": 24000,
+     "result": "kaleidoscope_fishing:dried_shell_shrimp"
     }
    ],
    "mechanicsByLocale": {
@@ -8596,9 +8609,9 @@
     {
      "method": "Crafting Table",
      "ingredients": [
-      "minecraft:terracotta",
-      "minecraft:terracotta",
-      "minecraft:terracotta",
+      "minecraft:hardened_clay",
+      "minecraft:hardened_clay",
+      "minecraft:hardened_clay",
       "minecraft:oak_planks",
       "minecraft:oak_planks"
      ],
@@ -9886,7 +9899,7 @@
    "kaleidoscope_fishing:salt_pan": "Salt Pan",
    "kaleidoscope_fishing:purged_clam": "Purged Clam",
    "kaleidoscope_fishing:clam_steamed_egg": "Steamed Egg with Clams",
-   "minecraft:terracotta": "Terracotta",
+   "minecraft:hardened_clay": "Terracotta",
    "minecraft:basalt": "Basalt",
    "minecraft:obsidian": "Obsidian",
    "minecraft:lava_bucket": "Lava Bucket",
@@ -10260,7 +10273,7 @@
    "kaleidoscope_fishing:salt_pan": "曬鹽盤",
    "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
    "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
-   "minecraft:terracotta": "陶瓦",
+   "minecraft:hardened_clay": "陶瓦",
    "minecraft:basalt": "玄武岩",
    "minecraft:obsidian": "黑曜石",
    "minecraft:lava_bucket": "岩漿桶",
@@ -10634,7 +10647,7 @@
    "kaleidoscope_fishing:salt_pan": "晒盐盘",
    "kaleidoscope_fishing:purged_clam": "吐沙蛤蜊",
    "kaleidoscope_fishing:clam_steamed_egg": "蛤蜊蒸蛋",
-   "minecraft:terracotta": "陶瓦",
+   "minecraft:hardened_clay": "陶瓦",
    "minecraft:basalt": "玄武岩",
    "minecraft:obsidian": "黑曜石",
    "minecraft:lava_bucket": "熔岩桶",

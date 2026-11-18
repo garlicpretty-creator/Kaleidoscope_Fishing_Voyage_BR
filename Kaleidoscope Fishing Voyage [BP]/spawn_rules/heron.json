@@ -14,14 +14,14 @@
           "adjust_for_weather": false
         },
         "minecraft:weight": {
-          "default": 14
+          "default": 4
         },
         "minecraft:herd": {
           "min_size": 1,
           "max_size": 2
         },
         "minecraft:density_limit": {
-          "surface": 4
+          "surface": 2
         },
         "minecraft:biome_filter": {
           "all_of": [
@@ -57,14 +57,14 @@
           "adjust_for_weather": false
         },
         "minecraft:weight": {
-          "default": 6
+          "default": 2
         },
         "minecraft:herd": {
           "min_size": 1,
           "max_size": 1
         },
         "minecraft:density_limit": {
-          "surface": 4
+          "surface": 1
         },
         "minecraft:biome_filter": {
           "all_of": [

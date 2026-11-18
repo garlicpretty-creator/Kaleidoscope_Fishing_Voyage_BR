@@ -11,7 +11,8 @@
           3,
           4,
           5,
-          6
+          6,
+          7
         ],
         "kaleidoscope_fishing:count": [
           0,
@@ -481,6 +482,60 @@
         "condition": "q.block_state('kaleidoscope_fishing:kind') == 6 && q.block_state('kaleidoscope_fishing:count') == 3 && q.block_state('kaleidoscope_fishing:stage') == 2",
         "components": {
           "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_6_3_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 1 && q.block_state('kaleidoscope_fishing:stage') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_1_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 1 && q.block_state('kaleidoscope_fishing:stage') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_1_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 1 && q.block_state('kaleidoscope_fishing:stage') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_1_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 2 && q.block_state('kaleidoscope_fishing:stage') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_2_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 2 && q.block_state('kaleidoscope_fishing:stage') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_2_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 2 && q.block_state('kaleidoscope_fishing:stage') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_2_2"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 3 && q.block_state('kaleidoscope_fishing:stage') == 0",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_3_0"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 3 && q.block_state('kaleidoscope_fishing:stage') == 1",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_3_1"
+        }
+      },
+      {
+        "condition": "q.block_state('kaleidoscope_fishing:kind') == 7 && q.block_state('kaleidoscope_fishing:count') == 3 && q.block_state('kaleidoscope_fishing:stage') == 2",
+        "components": {
+          "minecraft:geometry": "geometry.kaleidoscope_fishing.drying_rack_7_3_2"
         }
       }
     ]

@@ -1,0 +1,95 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.kaleidoscope_fishing.bobber.float": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            0,
+            "math.sin(q.anim_time * 160) * 0.45 + math.sin(q.anim_time * 67) * 0.2",
+            0
+          ],
+          "rotation": [
+            "math.sin(q.anim_time * 95) * 4",
+            0,
+            "math.cos(q.anim_time * 75) * 4"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bobber.nibble": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            0,
+            "-math.pow(math.max(0, math.sin(q.anim_time * 520)), 6) * 2.2 - math.pow(math.max(0, math.sin(q.anim_time * 230 + 40)), 8) * 1.4 + math.sin(q.anim_time * 160) * 0.3",
+            0
+          ],
+          "rotation": [
+            "math.sin(q.anim_time * 380) * 7",
+            0,
+            "math.sin(q.anim_time * 290 + 60) * 6"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bobber.bite": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            "math.sin(q.anim_time * 900) * 0.5",
+            "-1.5 + math.sin(q.anim_time * 700) * 0.8",
+            "math.cos(q.anim_time * 820) * 0.5"
+          ],
+          "rotation": [
+            "math.sin(q.anim_time * 760) * 16",
+            0,
+            "math.cos(q.anim_time * 640) * 14"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bobber.thrash": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            "math.sin(q.anim_time * 1150) * 0.9",
+            "math.sin(q.anim_time * 830) * 1.1",
+            "math.cos(q.anim_time * 970) * 0.9"
+          ],
+          "rotation": [
+            "math.sin(q.anim_time * 1040) * 24",
+            "math.sin(q.anim_time * 410) * 20",
+            "math.cos(q.anim_time * 880) * 22"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bobber.pop": {
+      "loop": false,
+      "animation_length": 0.6,
+      "bones": {
+        "root": {
+          "position": {
+            "0.0": [0, -2.5, 0],
+            "0.12": [0, 3.5, 0],
+            "0.28": [0, -1.0, 0],
+            "0.42": [0, 0.8, 0],
+            "0.6": [0, 0, 0]
+          },
+          "rotation": {
+            "0.0": [0, 0, 0],
+            "0.12": [18, 0, -14],
+            "0.28": [-10, 0, 8],
+            "0.42": [4, 0, -3],
+            "0.6": [0, 0, 0]
+          }
+        }
+      }
+    }
+  }
+}

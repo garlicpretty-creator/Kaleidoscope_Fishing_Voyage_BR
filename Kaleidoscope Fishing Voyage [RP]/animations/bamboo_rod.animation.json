@@ -24,6 +24,30 @@
           ]
         }
       }
+    },
+    "animation.kaleidoscope_fishing.bamboo_rod.reel_first_person": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "rotation": [
+            "math.sin(q.anim_time * 1300) * 1.2",
+            "math.cos(q.anim_time * 1100) * 1.0",
+            "math.sin(q.anim_time * 900 + 40) * 1.2"
+          ]
+        }
+      }
+    },
+    "animation.kaleidoscope_fishing.bamboo_rod.reel_third_person": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "rotation": [
+            "-math.min(q.anim_time * 60, 9) + math.sin(q.anim_time * 1300) * 1.6",
+            0,
+            "math.cos(q.anim_time * 1000) * 1.2"
+          ]
+        }
+      }
     }
   }
 }

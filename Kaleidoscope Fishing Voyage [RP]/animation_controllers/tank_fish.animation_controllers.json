@@ -1,0 +1,27 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.kaleidoscope_fishing.tank_fish.bubbles": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "transitions": [
+            {
+              "bubbling": "v.bub"
+            }
+          ]
+        },
+        "bubbling": {
+          "animations": [
+            "bubbles"
+          ],
+          "transitions": [
+            {
+              "default": "!v.bub"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

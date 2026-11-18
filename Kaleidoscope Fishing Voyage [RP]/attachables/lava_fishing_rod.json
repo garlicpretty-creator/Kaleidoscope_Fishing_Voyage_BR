@@ -16,7 +16,9 @@
       },
       "animations": {
         "hold_first_person": "animation.kaleidoscope_fishing.bamboo_rod.hold_first_person",
-        "hold_third_person": "animation.kaleidoscope_fishing.bamboo_rod.hold_third_person"
+        "hold_third_person": "animation.kaleidoscope_fishing.bamboo_rod.hold_third_person",
+        "reel_first_person": "animation.kaleidoscope_fishing.bamboo_rod.reel_first_person",
+        "reel_third_person": "animation.kaleidoscope_fishing.bamboo_rod.reel_third_person"
       },
       "scripts": {
         "animate": [
@@ -25,6 +27,12 @@
           },
           {
             "hold_third_person": "!c.is_first_person"
+          },
+          {
+            "reel_first_person": "c.is_first_person && q.main_hand_item_use_duration > 0.0"
+          },
+          {
+            "reel_third_person": "!c.is_first_person && q.main_hand_item_use_duration > 0.0"
           }
         ]
       },

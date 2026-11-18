@@ -41,6 +41,7 @@ import { externalFeed, externalTank } from "../fishing/registry.js";
 import { isWater } from "../fishing/water.js";
 import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
+import { ambient, burst, feedFx } from "./stationFx.js";
 
 const NS = "kaleidoscope_fishing";
 export const FEEDER = `${NS}:pond_feeder`;
@@ -267,12 +268,62 @@ function syncFish(dim, pos, r, wander = true) {
     }
   }
   (r?.fish ?? []).forEach((f, slot) => { if (!kept.has(slot)) spawnOne(dim, pos, r, slot); });
+  // a fish left mid-glide (the world closed, the glide's timer lost) stops gliding
+  for (const e of alive) { try { if (e.isValid && !gliding.has(e.id) && e.getProperty(`${NS}:glide`)) e.setProperty(`${NS}:glide`, false); } catch {} }
   if (wander && alive.length && r?.spots?.length && Math.random() < 0.5) {
     const e = alive[Math.floor(Math.random() * alive.length)];
     const s = r.spots[Math.floor(Math.random() * r.spots.length)];
-    try { if (e.isValid) e.teleport(spotAt(s, r.fish[dynOf(e, "kfv:slot")])); } catch {}
-    try { e.setProperty(`${NS}:turn`, Math.floor(Math.random() * 4)); } catch {}
+    if (e.isValid && !gliding.has(e.id)) swimTo(dim, e, spotAt(s, r.fish[dynOf(e, "kfv:slot")]));   // 1.6.0: at its depth (hungry high, fed low)
   }
+}
+// 1.5.0 (immersive motion): a pond fish moving to another spot swims there: carried in small steps along the water,
+// eased in and out, facing where it goes (the `glide` property turns the model to the heading; see the resource
+// pack's tank_fish animations), with a ripple where it sets off and where it stops. When the straight line crosses
+// anything but water (an L-shaped pond) it dives instead: a ripple here, a ripple there, no gliding through the bank.
+const gliding = new Set();
+const GLIDE_SPEED = 0.07;                              // blocks per tick, an easy cruise
+const ripple = (dim, at) => spawnParticle(dim, `${NS}:creature_ripple`, { x: at.x, y: Math.floor(at.y) + 1.9, z: at.z });
+function clearLine(dim, a, b) {
+  const n = Math.ceil(Math.hypot(b.x - a.x, b.z - a.z) * 2);
+  for (let i = 1; i < n; i++) {
+    const k = i / n;
+    let blk;
+    try { blk = dim.getBlock({ x: Math.floor(a.x + (b.x - a.x) * k), y: Math.floor(a.y + 0.5), z: Math.floor(a.z + (b.z - a.z) * k) }); } catch { return false; }
+    if (!isWater(blk)) return false;
+  }
+  return true;
+}
+/** Move one pond fish to `to` as a swim (exported for tests: returns the number of steps, 0 for a jump). */
+export function swimTo(dim, e, to) {
+  const from = { ...e.location };
+  const dist = Math.hypot(to.x - from.x, to.z - from.z);
+  const turn = Math.floor(Math.random() * 4);
+  if (dist < 0.3) return 0;
+  ripple(dim, from);
+  if (Math.abs(to.y - from.y) > 0.6 || !clearLine(dim, from, to)) {
+    try { e.teleport(to); } catch {}
+    try { e.setProperty(`${NS}:turn`, turn); } catch {}
+    ripple(dim, to);
+    return 0;
+  }
+  const steps = Math.max(4, Math.min(30, Math.round(dist / GLIDE_SPEED / 2)));   // a step every 2 ticks, 3 s at most
+  gliding.add(e.id);
+  try { e.setProperty(`${NS}:glide`, true); } catch {}
+  let i = 0;
+  const id = e.id;
+  const h = system.runInterval(() => {
+    i++;
+    if (!e.isValid) { system.clearRun(h); gliding.delete(id); return; }
+    const k = (1 - Math.cos(Math.PI * Math.min(1, i / steps))) / 2;
+    const at = { x: from.x + (to.x - from.x) * k, y: from.y + (to.y - from.y) * k, z: from.z + (to.z - from.z) * k };
+    try { e.teleport(at, { facingLocation: { x: to.x + (to.x - from.x), y: at.y, z: to.z + (to.z - from.z) } }); } catch {}
+    if (i < steps) return;
+    system.clearRun(h);
+    gliding.delete(id);
+    try { e.setProperty(`${NS}:glide`, false); e.setProperty(`${NS}:turn`, turn); } catch {}
+    ripple(dim, to);
+  }, 2);
+  return steps;
 }
 function clearFish(dim, pos) { for (const e of fishEntities(dim, pos)) { try { e.remove(); } catch {} } }
 
@@ -408,8 +459,11 @@ function announce(block, r, ev) {
 }
 /** Now and then, for players nearby: bubbles over a hungry fish, a white fleck on a sea pond. */
 function ambience(block, r) {
-  const dim = block.dimension, pos = { x: block.x, y: block.y, z: block.z };
   if (!r?.fish?.length && !isSea(r)) return;
+  ambient(block, "pond", 90, centreOf(block), () => ambienceNow(block, r));
+}
+function ambienceNow(block, r) {
+  const dim = block.dimension, pos = { x: block.x, y: block.y, z: block.z };
   if (!playersNear(dim, pos)) return;
   for (const e of fishEntities(dim, pos)) {
     const f = r.fish[dynOf(e, "kfv:slot")];
@@ -425,12 +479,8 @@ function ambience(block, r) {
 }
 function saltPuff(block, r) {
   const dim = block.dimension;
-  const c = centreOf(block);
-  for (let i = 0; i < 6; i++) {
-    try { spawnParticle(dim, "minecraft:white_smoke_particle", { x: c.x + (Math.random() - 0.5) * 0.8, y: c.y + 0.3 + Math.random() * 0.4, z: c.z + (Math.random() - 0.5) * 0.8 }); } catch {}
-  }
-  for (const s of (r.spots ?? []).slice(0, 6)) {
-    try { spawnParticle(dim, "minecraft:white_smoke_particle", { x: s[0] + 0.5, y: s[1] + 1, z: s[2] + 0.5 }); } catch {}
+  for (const sp of (r.spots ?? []).slice(0, 6)) {
+    try { spawnParticle(dim, "minecraft:white_smoke_particle", { x: sp[0] + 0.5, y: sp[1] + 1, z: sp[2] + 0.5 }); } catch {}
   }
 }
 function takeHeld(player, slot, n) {
@@ -487,6 +537,7 @@ export const pondFeeder = {
       takeHeld(player, slot, n);
       save(dim, block, r); show(block, r);
       snd(dim, centreOf(block), "dig.sand", 1.4, 0.5);
+      feedFx(dim, block, r.spots);                        // 1.5.0: pellets scatter onto the water (stationFx.js)
       return;
     }
     if (id === SALT) {
@@ -496,7 +547,8 @@ export const pondFeeder = {
       r.salt = SALT_NEEDED;
       save(dim, block, r);
       snd(dim, centreOf(block), "dig.sand", 1.0, 0.6);
-      saltPuff(block, r);
+      burst(dim, { x: block.x + 0.5, y: block.y + 0.8, z: block.z + 0.5 }, "salt", "salt");
+      saltPuff(block, r);                                 // 1.6.0: and a white puff over the water
       return;
     }
     if (pondOf(id) !== undefined || CATCH_IDS.has(canon(id))) {

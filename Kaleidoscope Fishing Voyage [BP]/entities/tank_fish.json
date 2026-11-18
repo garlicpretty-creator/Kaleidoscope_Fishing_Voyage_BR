@@ -87,6 +87,11 @@
           ],
           "default": 60,
           "client_sync": true
+        },
+        "kaleidoscope_fishing:glide": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
         }
       }
     },

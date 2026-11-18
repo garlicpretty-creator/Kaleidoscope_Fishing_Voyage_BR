@@ -11,7 +11,7 @@
           "type": "int",
           "range": [
             0,
-            36
+            44
           ],
           "default": 0,
           "client_sync": true
@@ -20,7 +20,7 @@
           "type": "int",
           "range": [
             0,
-            36
+            44
           ],
           "default": 0,
           "client_sync": true
@@ -29,7 +29,34 @@
           "type": "int",
           "range": [
             0,
-            36
+            44
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:order_n": {
+          "type": "int",
+          "range": [
+            0,
+            8
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:order_have": {
+          "type": "int",
+          "range": [
+            0,
+            8
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "kaleidoscope_fishing:gesture": {
+          "type": "int",
+          "range": [
+            0,
+            2
           ],
           "default": 0,
           "client_sync": true

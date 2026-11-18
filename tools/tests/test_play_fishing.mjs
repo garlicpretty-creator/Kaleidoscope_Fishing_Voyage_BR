@@ -130,6 +130,7 @@ const setBox = (dim, id, x0, x1, y0, y1, z0, z1) => { for (let x = x0; x <= x1; 
 const allDrops = () => [D, NETHER, END].flatMap(d => d.drops.splice(0));
 const dmg = () => P.held()?._damage ?? 0;
 const STYLE = NS + 'style';
+const MOTION = NS + 'motion';
 const rodItem = n => NS + n + '_fishing_rod';
 function minigame(on) { fire('system.afterEvents.scriptEventReceive', { id: NS + 'minigame', message: on ? 'on' : 'off', sourceEntity: P }); }
 function stand(dim, x, y, z) { P.dimension = dim; P.location = { x, y, z }; }
@@ -197,16 +198,21 @@ D.getWeather = () => 'Clear';
 {
   clearInv(); atPond(); minigame(true); allDrops();
   P.hold(rodItem('bamboo'));
-  const n = bobbers.length;
+  const n = bobbers.length, p0 = log.particles.length, e0 = [D, NETHER, END].map(d => d.entities.length);
   press(); release();
   const s = session();
   ok(bobbers.length === n + 1 && s?.phase === 'flying', `bamboo rod: casting spawns a bobber and starts a session (${s?.phase})`);
   ok(waitFor(() => s.phase === 'waiting', 200), `bamboo rod: the bobber lands on the pond and floats (phase ${s.phase}, at z ${bobbers.at(-1).location.z.toFixed(1)})`);
   ok(s.ctx?.waters?.has('river') && s.ctx.depth === 4, `bamboo rod: the water reads as river, depth 4 (${[...(s.ctx?.waters ?? [])]}, ${s.ctx?.depth})`);
   ok(bobbers.at(-1).events.includes(NS + 'float'), 'bamboo rod: the bobber switches to its floating group');
+  ok(bobbers.at(-1).getProperty(MOTION) === 1 && log.particles.slice(p0).includes(NS + 'fishing_ripple') && log.particles.slice(p0).includes(NS + 'fishing_trail'),
+    `1.5.0 feel: the cast leaves drops behind, lands with rings and the bobber bobs (motion ${bobbers.at(-1).getProperty(MOTION)})`);
   ok(s.biteAt - s.age >= 120 && s.biteAt - s.age <= 400, `bamboo rod: the bite is due within the rod's 120-400 ticks (${s.biteAt - s.age})`);
   const y0 = bobbers.at(-1).location.y;
   ok(waitFor(() => s.phase === 'bite', 600), `bamboo rod: a bite comes (age ${s.age})`);
+  ok(log.particles.slice(p0).includes(NS + 'fishing_bubbles'), '1.5.0 feel: before the bite a fish noses at the bobber (bubbles closing in)');
+  ok(bobbers.at(-1).getProperty(MOTION) === 3 && log.particles.slice(p0).includes(NS + 'fishing_splash_big'),
+    `1.5.0 feel: on the bite the bobber goes under with a big splash (motion ${bobbers.at(-1).getProperty(MOTION)})`);
   advance(2);
   ok(bobbers.at(-1).location.y < y0 - 0.2, `bamboo rod: on a bite the bobber is pulled under (${y0.toFixed(2)} -> ${bobbers.at(-1).location.y.toFixed(2)})`);
   const sent0 = sent.length;                 // a small fish lands on the strike itself, a big one after the fight
@@ -221,6 +227,8 @@ D.getWeather = () => 'Clear';
   ok(session() === undefined && d.some(x => x.id === id), `bamboo rod: the catch is landed (drops: ${d.map(x => x.id.split(':')[1]).join(', ')})`);
   ok(!bobbers.at(-1).isValid, 'bamboo rod: the bobber is removed after landing');
   ok(!loops.size, 'bamboo rod: the tick loop stops when no bobber is out');
+  const extra = [D, NETHER, END].flatMap((d, i) => d.entities.slice(e0[i])).filter(e => e.typeId !== 'minecraft:xp_orb');
+  ok(!extra.length, `1.5.0 feel: fishing spawns no entity but the bobber and xp (${extra.map(e => e.typeId)})`);
   ok(dmg() === 1, `bamboo rod: landing a catch wears the rod by 1 (${dmg()})`);
   const sized = CATCH_BY_ID[id]?.size;
   ok(!sized || d.find(x => x.id === id)?.lore?.some(l => /◆/.test(l)), `bamboo rod: a sized fish carries its size class (${JSON.stringify(d.find(x => x.id === id)?.lore)})`);
@@ -349,7 +357,12 @@ D.getWeather = () => 'Clear';
   let s, tries = 0;
   do { cool(); s = castAndHook(); if (s && session() === s && s.phase !== 'game') drop(s); } while (++tries < 30 && !(s && session() === s && s.phase === 'game'));
   const id = s.catchId, w0 = dmg();
+  advance(2);
+  ok(bobbers.at(-1).getProperty(MOTION) === 4, `1.5.0 feel: a hooked fish makes the bobber thrash (motion ${bobbers.at(-1).getProperty(MOTION)})`);
   fight('avoid', 2000);
+  ok(bobbers.at(-1).getProperty(MOTION) === 5, `1.5.0 feel: when the fish gets away the bobber pops up (motion ${bobbers.at(-1).getProperty(MOTION)})`);
+  advance(14);
+  ok([1, 2].includes(bobbers.at(-1).getProperty(MOTION)), `1.5.0 feel: after the pop it floats again (motion ${bobbers.at(-1).getProperty(MOTION)})`);
   ok(session() === s && s.phase === 'waiting' && !s.game, `minigame lost: the fish gets away, the bobber goes back to waiting (${s.phase})`);
   ok(!allDrops().some(x => x.id === id), 'minigame lost: nothing is landed');
   ok(dmg() - w0 === 1, `minigame lost: the rod wears by 1 (${w0} -> ${dmg()})`);
@@ -668,6 +681,41 @@ function fishForLegend(atFn, rodId, max = 800) {   // a frostlake char is ~1.5% 
   const inCreel = (after[NS + 'shrimp'] ?? 0) - (before[NS + 'shrimp'] ?? 0) + (after[NS + 'crab'] ?? 0) - (before[NS + 'crab'] ?? 0);
   ok(c > 0 && inCreel + inv('live_shrimp') === c, `fish creel: trap shrimp and crabs go into the creel (catch ${c}, crab ${k}, creel +${inCreel}, live ${inv('live_shrimp')})`);
   minigame(true);
+}
+
+// ---------------------------------------------------------------- 1.5.0: the fishing feel (fx.js)
+{
+  const F = await importScript('fishing/fx.js');
+  const props = {};
+  const fake = (o = {}) => ({ age: 0, bobber: { setProperty: (k, v) => { if (!PROPS[k]) throw new Error(k); props[k] = v; } }, player: P, ...o });
+  // a legend fighting near the surface: gold glints, golden leaps, and a splash where it falls back
+  const s = fake({ legend: true, cls: 3 }), p0 = log.particles.length;
+  for (; s.age < 400; s.age += 2) F.fighting(s, D, { x: 0.5, y: 63.5, z: 8.5 }, true);
+  const got = log.particles.slice(p0);
+  ok(s.leaps >= 3 && got.filter(x => x === NS + 'fishing_leap_gold').length === s.leaps && got.includes(NS + 'fishing_gold') && got.includes(NS + 'fishing_ripple_big'),
+    `fx: a legend leaps now and then in gold and splashes back (${s.leaps} leaps in 20 s)`);
+  ok(props[MOTION] === 4, 'fx: fighting sets the thrash animation');
+  // a fish kept deep never leaps
+  const d = fake({ cls: 1 }), p1 = log.particles.length;
+  for (; d.age < 400; d.age += 2) F.fighting(d, D, { x: 0.5, y: 63.5, z: 8.5 }, false);
+  ok(!d.leaps && !log.particles.slice(p1).some(x => /fishing_leap/.test(x)), 'fx: a fish held deep does not leap');
+  // lava and the void: no water effects at all
+  const l = fake({ cls: 3, inLava: true }), p2 = log.particles.length;
+  for (; l.age < 200; l.age += 2) { F.fighting(l, D, { x: 0, y: 60, z: 0 }, true); F.waiting(l, D, { x: 0, y: 60, z: 0 }, 60); }
+  F.landed(l, D, { x: 0, y: 60, z: 0 }); F.escaped(l, D, { x: 0, y: 60, z: 0 }); F.landedCatch(l, D, { x: 0, y: 60, z: 0 }, P); flush();
+  ok(log.particles.length === p2, `fx: nothing watery on lava (${log.particles.slice(p2)})`);
+  // the motion property stays inside the entity's range and is only sent when it changes
+  let sets = 0; const m = fake(); m.bobber.setProperty = (k, v) => { sets++; const r = PROPS[k].range; if (v < r[0] || v > r[1]) throw new Error('range'); };
+  for (let i = 0; i < 10; i++) F.setMotion(m, F.MOTION.float);
+  ok(sets === 1 && Object.values(F.MOTION).every(v => v >= PROPS[MOTION].range[0] && v <= PROPS[MOTION].range[1]), `fx: the bobber animation is synced once per change (${sets})`);
+}
+{
+  // every fishing particle the scripts spawned has its definition in the resource pack
+  const RPP = join(BP, '..', 'Kaleidoscope Fishing Voyage [RP]', 'particles');
+  const { readdirSync } = await import('node:fs');
+  const defined = new Set(readdirSync(RPP).filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(join(RPP, f), 'utf8')).particle_effect?.description?.identifier));
+  const used = [...new Set(log.particles.filter(x => x.startsWith(NS + 'fishing_')))];
+  ok(used.length >= 8 && used.every(x => defined.has(x)), `fx: every fishing particle spawned is defined in the RP (${used.map(x => x.split(':')[1]).join(', ')})`);
 }
 
 finish('play (fishing)');

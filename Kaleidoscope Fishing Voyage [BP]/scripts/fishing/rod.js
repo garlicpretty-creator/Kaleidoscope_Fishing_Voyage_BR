@@ -30,6 +30,8 @@ import { charsetFor, minigameOn } from "./minigameSwitch.js";
 import { MG } from "../data/minigame.js";
 import { CATCH_BY_ID } from "./loot.js";
 import { spawnParticle } from "../util/particles.js";
+// 1.5.0: the fishing feel (bobber animation, ripples, nibbles, leaping fish, the catch's arc)
+import * as F from "./fx.js";
 
 const NS = "kaleidoscope_fishing";
 const BOBBER = `${NS}:bobber`;
@@ -238,6 +240,8 @@ function hookFish(player, s) {
   if (LEGEND_SET.has(s.catchId)) { try { s.bobber.setProperty(`${NS}:style`, LEGEND_STYLE); } catch {} }
   s.size = LEGEND_SET.has(s.catchId) ? rollSize(s.catchId, s.rod.tier + s.fx.size)
     : luckSize(luck, () => rollSize(s.catchId, s.rod.tier + s.fx.size + (boat ? 1 : 0)));
+  s.legend = LEGEND_SET.has(s.catchId);
+  s.cls = s.size !== undefined ? classOf(s.catchId, s.size) : 0;
   // v1.5: a fish with a body length plays the minigame (junk, treasure, shrimp and crabs land at once)
   const entry = CATCH_BY_ID[s.catchId];
   if (minigameOn() && entry?.size && s.size !== undefined) {
@@ -261,6 +265,7 @@ function hookFish(player, s) {
 }
 
 function land(player, s) {
+  F.landedCatch(s, s.bobber.dimension, s.bobber.location, player);
   landCatch(player, s, s.bobber.location);
   damageRod(player, 1 + s.fx.wear);
   sound(player.dimension, "random.bow", player.location, 0.7, 0.35);
@@ -271,6 +276,7 @@ function snapLine(player, s) {
   const b = s.bobber;
   sound(b.dimension, "random.break", player.location, 1.4, 0.8);
   particle(b.dimension, SPLASH(s), b.location);
+  F.escaped(s, b.dimension, b.location);
   damageRod(player, 2);
   endSession(player.id);
 }
@@ -444,6 +450,7 @@ function tick() {
       const pl = p.location, bl = b.location;
       if (dist2(pl, bl) > MAX_DIST * MAX_DIST) { ["pull", "rest", "game"].includes(s.phase) ? snapLine(p, s) : endSession(pid); continue; }   // a hooked fish snaps the line
       s.age += TICK;
+      F.settle(s);
       if (s.age > MAX_AGE && !["pull", "rest", "game"].includes(s.phase)) { endSession(pid); continue; }
       const dim = b.dimension;
       let surface = s.inVoid ? (voidBelow(dim, bl.x, bl.y, bl.z) ? s.voidY : undefined) : surfaceAt(dim, bl.x, bl.y, bl.z, s.liquid);
@@ -465,7 +472,11 @@ function tick() {
           // v1.3: in an End pond a plain bobber takes the End look.
           if (endPond(s) && !s.fx.style) { try { b.setProperty(`${NS}:style`, ENDER_STYLE); } catch {} }
           sound(dim, s.inVoid ? "mob.endermen.portal" : "random.splash", bl, 1.4, 0.4);
-        } else if (s.age > 40) {
+          F.landed(s, dim, { x: bl.x, y: surface, z: bl.z });
+        } else {
+          F.flying(s, dim, bl);
+        }
+        if (surface === undefined && s.age > 40) {
           let v = { x: 0, y: 0, z: 0 };
           try { v = b.getVelocity(); } catch {}
           if (Math.abs(v.x) + Math.abs(v.y) + Math.abs(v.z) < 0.01) s.phase = "ground";
@@ -476,11 +487,12 @@ function tick() {
 
       // Floating phases: keep the bobber on the surface (gentle bob), dip it when pulled.
       if (surface === undefined) { if (s.phase === "waiting") { s.phase = "flying"; } continue; }
-      const bob = Math.sin(s.age * 0.15) * 0.03;
+      // 1.5.0: the gentle bob is the bobber's own client animation now (motion "float"), smooth at any frame rate
 
       if (s.phase === "waiting") {
-        try { b.teleport({ x: bl.x, y: surface + bob, z: bl.z }); } catch {}
+        try { b.teleport({ x: bl.x, y: surface, z: bl.z }); } catch {}
         if (s.age % 20 === 0 && baitGone(s)) startWaiting(s);
+        F.waiting(s, dim, bl, surface);
         if (s.biteAt - s.age < 40 && s.age % 6 === 0) {
           // A fish circles in: wake ripples closing on the bobber.
           const k = Math.max(0.3, (s.biteAt - s.age) / 20);
@@ -495,10 +507,12 @@ function tick() {
           particle(dim, SPLASH(s), bl);
           particle(dim, SPLASH(s), { x: bl.x + 0.2, y: bl.y, z: bl.z - 0.2 });
           if (s.inLava) sound(dim, "liquid.lavapop", bl, 1.0, 0.9);
+          F.bite(s, dim, bl);
         }
       } else if (s.phase === "bite") {
         try { b.teleport({ x: bl.x, y: surface - 0.35, z: bl.z }); } catch {}
-        if (s.age > s.biteEnd) { if (endPond(s)) hopBobber(s); s.phase = "waiting"; startWaiting(s); }
+        F.biting(s, dim, bl);
+        if (s.age > s.biteEnd) { if (endPond(s)) hopBobber(s); s.phase = "waiting"; startWaiting(s); F.escaped(s, dim, b.location); }
       } else if (s.phase === "game") {
         // v1.5 minigame: the fish runs along the track while the player holds / releases the use key
         if (!minigameOn()) { s.game = undefined; clearHud(p); land(p, s); continue; }    // switched off mid-fight: it lands
@@ -511,6 +525,7 @@ function tick() {
         const ns = s.inVoid ? (voidBelow(dim, nx, bl.y, nz) ? s.voidY : undefined) : surfaceAt(dim, nx, bl.y, nz, s.liquid);
         try { b.teleport({ x: ns !== undefined ? nx : bl.x, y: (ns ?? surface) - 0.4, z: ns !== undefined ? nz : bl.z }); } catch {}
         if (s.age % 6 === 0) particle(dim, SPLASH(s), b.location);
+        F.fighting(s, dim, b.location, g.fish > MG.TRACK * 0.55);   // up near the surface the fish may leap
         if (g.inside && s.age % 6 === 0) sound(dim, "kaleidoscope_fishing.reel", p.location, 0.9 + g.progress * 0.4, 0.5);
         if (!g.inside && s.age % 10 === 0) sound(dim, "kaleidoscope_fishing.strain", p.location, 0.9, 0.4);
         if (state === "won") { s.game = undefined; clearHud(p); land(p, s); continue; }
@@ -519,6 +534,7 @@ function tick() {
           s.game = undefined; clearHud(p);
           sound(dim, "random.splash", bl, 1.3, 0.7);
           particle(dim, SPLASH(s), bl);
+          F.escaped(s, dim, bl);
           damageRod(p, 1);
           s.phase = "waiting";
           startWaiting(s);
@@ -544,20 +560,23 @@ function tick() {
         try { b.teleport({ x: ns !== undefined ? nx : bl.x, y: (ns ?? surface) - 0.45, z: ns !== undefined ? nz : bl.z }); } catch {}
         if (s.age % 4 === 0) particle(dim, SPLASH(s), bl);
         if (s.age % 8 === 0) sound(dim, "random.splash", bl, 0.9 + Math.random() * 0.3, 0.7);
+        F.fighting(s, dim, b.location);
         if (s.age >= s.phaseEnd) {
           s.phase = "rest";
           s.reeledThisRest = false;
           s.phaseEnd = s.age + randInt(24, 44);
         }
       } else if (s.phase === "rest") {
-        try { b.teleport({ x: bl.x, y: surface + bob, z: bl.z }); } catch {}
+        try { b.teleport({ x: bl.x, y: surface, z: bl.z }); } catch {}
         if (s.age % 10 === 0) particle(dim, WAKE(s), bl);
+        F.resting(s, dim, bl);
         if (s.age >= s.phaseEnd) {
           s.strain = Math.max(0, s.strain - 1);
           s.idleCycles = s.reeledThisRest ? 0 : s.idleCycles + 1;
           if (s.idleCycles >= 4) {
             // Left alone too long: the fish shakes the hook and the bobber pops up.
             sound(dim, "random.splash", bl, 1.3, 0.6);
+            F.escaped(s, dim, bl);
             s.phase = "waiting";
             startWaiting(s);
             continue;

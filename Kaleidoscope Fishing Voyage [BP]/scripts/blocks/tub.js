@@ -12,6 +12,7 @@ import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
 import { refuseAt } from "../util/hint.js";
 import { spawnParticle } from "../util/particles.js";
+import { ambient, burst, on } from "./stationFx.js";
 import { CATCHES } from "../data/generated.js";
 import { fishGlyph } from "../data/glyphs.js";
 import { HAND_NET, wearNet } from "../tools/handNet.js";
@@ -31,6 +32,9 @@ const fillOf = block => Number(block.permutation.getState(FILL) ?? 0);
 const setFill = (block, f) => { try { block.setPermutation(block.permutation.withState(FILL, f)); } catch {} };
 const rec = block => readData("tb", block.dimension, block) ?? {};
 const save = (block, v) => writeData("tb", block.dimension, block, v);
+// 1.5.0 (immersive pass): what the tub is doing shows on its water (stationFx.js). The surface sits ~5/16 up.
+const surface = block => on(block, 0.5, 0.32, 0.5);
+const fx = (block, ...names) => burst(block.dimension, surface(block), ...names);
 
 function slotOf(player) {
   try { return player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand); } catch { return undefined; }
@@ -89,15 +93,15 @@ const tub = {
     const r = rec(block);
     if (held === "minecraft:water_bucket") {
       if (fill !== 0) return refuseAt(player, "tub_full", block);
-      swapHeld(player, slot, "minecraft:bucket"); setFill(block, 1); snd(block, "bucket.empty_water"); return;
+      swapHeld(player, slot, "minecraft:bucket"); setFill(block, 1); snd(block, "bucket.empty_water"); snd(block, "random.splash", 1.6, 0.25); fx(block, "spray", "bubbles"); return;
     }
     if (held === "minecraft:bucket") {
       if (fill !== 1 && fill !== 2) return refuseAt(player, "tub_busy", block);
-      swapHeld(player, slot, "minecraft:water_bucket"); setFill(block, 0); save(block, undefined); snd(block, "bucket.fill_water"); return;
+      swapHeld(player, slot, "minecraft:water_bucket"); setFill(block, 0); save(block, undefined); snd(block, "bucket.fill_water"); fx(block, "drip"); return;
     }
     if (held === SALT) {
       if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_salted", block);
-      takeOne(player, slot); setFill(block, 2); snd(block, "dig.sand", 1.3); return;
+      takeOne(player, slot); setFill(block, 2); snd(block, "dig.sand", 1.3); snd(block, "random.swim", 1.6, 0.25); fx(block, "salt", "stir"); return;
     }
     if (held === CLAM) {
       if (fill !== 2 && fill !== 3) return refuseAt(player, fill === 1 ? "tub_need_salt" : "tub_need_water", block);
@@ -105,12 +109,12 @@ const tub = {
       if (n > TUB_CLAMS) return refuseAt(player, "tub_clams_full", block, TUB_CLAMS);
       takeOne(player, slot);
       save(block, { n, t: now(), fill: 3 });                // the half day runs from the last clam in
-      setFill(block, 3); snd(block, "random.splash", 1.5, 0.4); return;
+      setFill(block, 3); snd(block, "random.splash", 1.5, 0.4); fx(block, "bubbles"); return;
     }
     if (!held && fill === 4) {
       const n = Number(r.n) || 0;
       for (let i = 0; i < n; i++) give(player, new ItemStack(PURGED, 1), block.center());
-      save(block, undefined); setFill(block, 2); snd(block, "random.splash", 1.2, 0.5); return;
+      save(block, undefined); setFill(block, 2); snd(block, "random.splash", 1.2, 0.5); fx(block, "drip", "spray"); return;
     }
     if (held === ROE_ITEM) {                              // 1.5.0: fertilized roe hatches in plain water
       if (fill !== 1) return refuseAt(player, fill === 0 ? "tub_need_water" : "tub_busy", block);
@@ -119,12 +123,12 @@ const tub = {
       if (typeof id !== "string") return refuseAt(player, "tub_what", block);
       takeOne(player, slot);
       save(block, { roe: id, t: now(), fill: 5 });
-      setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); return;
+      setFill(block, 5); snd(block, "random.splash", 1.6, 0.4); fx(block, "fry"); return;
     }
     if ((!held || held === HAND_NET) && (fill === 5 || fill === 6)) {
       if (now() - (Number(r.t) || now()) < HATCH_TICKS || typeof r.roe !== "string") return refuseAt(player, "tub_hatching", block);
       give(player, fry(r.roe), block.center());
-      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6);
+      save(block, undefined); setFill(block, 1); snd(block, "random.splash", 1.2, 0.6); fx(block, "spray", "drip");
       if (held === HAND_NET) wearNet(player);
       return;
     }
@@ -135,13 +139,21 @@ const tub = {
     if (fillOf(block) === 5) {                            // the roe turns to fry halfway
       const r = rec(block);
       if (typeof r.t === "number" && now() - r.t >= HATCH_TICKS / 2) { save(block, { ...r, fill: 6 }); setFill(block, 6); }
+      ambient(block, "tub", 90, surface(block), () => fx(block, "fry"));   // tiny bubbles off the roe
+      return;
+    }
+    if (fillOf(block) === 6) {                            // fry darting: bubbles and now and then a flick at the top
+      ambient(block, "tub", 90, surface(block), () => { fx(block, "fry"); if (Math.random() < 0.35) { fx(block, "drip"); snd(block, "random.swim", 1.9, 0.15); } });
       return;
     }
     if (fillOf(block) !== 3) return;
     const r = rec(block);
     if (typeof r.t !== "number") { save(block, { ...r, t: now(), fill: 3 }); return; }
-    if (now() - r.t >= PURGE_TICKS) { save(block, { ...r, fill: 4 }); setFill(block, 4); snd(block, "bubble.pop", 1.2, 0.4); }
-    else if (Math.random() < 0.3) { try { spawnParticle(block.dimension, "minecraft:basic_bubble_particle", { x: block.x + 0.3 + Math.random() * 0.4, y: block.y + 0.35, z: block.z + 0.3 + Math.random() * 0.4 }); } catch {} }
+    if (now() - r.t >= PURGE_TICKS) { save(block, { ...r, fill: 4 }); setFill(block, 4); snd(block, "bubble.pop", 1.2, 0.4); fx(block, "bubbles"); }
+    else ambient(block, "tub", 90, surface(block), () => {   // the clams breathing: bubbles, and puffs of sand spat out
+      fx(block, "purge", "sand");
+      if (Math.random() < 0.25) snd(block, "bubble.pop", 1.5, 0.2);
+    });
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (player && creative(player)) { save(block, undefined); return; }

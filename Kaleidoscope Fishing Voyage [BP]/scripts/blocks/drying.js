@@ -17,6 +17,7 @@ import { applyClass, upgradeLore } from "../fishing/size.js";
 import { isRaining } from "../fishing/water.js";
 import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
+import { ambient, burst, on } from "./stationFx.js";
 import { parsePos, registerRecords, registerStation, spawnAll } from "./contents.js";
 
 const NS = "kaleidoscope_fishing";
@@ -55,6 +56,18 @@ const fx = (block, id, n = 4) => {
     try { spawnParticle(block.dimension, id, { x: block.x + 0.2 + Math.random() * 0.6, y: block.y + 0.3 + Math.random() * 0.5, z: block.z + 0.5 }); } catch {}
   }
 };
+
+// 1.5.0 (immersive pass, stationFx.js): the fish hang across the pole at about half height.
+const hang = block => on(block, 0.5, 0.45, 0.5);
+const sfx = (block, ...names) => burst(block.dimension, hang(block), ...names);
+/** Idle: fresh fish drip, the breeze blows bits past; a dry batch glints now and then. Only with someone near. */
+function idle(block, stage) {
+  ambient(block, "rack", 190, hang(block), () => {
+    if (stage >= 2) { if (Math.random() < 0.35) sfx(block, "sparkle"); return; }
+    if (stage === 0 || Math.random() < 0.3) sfx(block, "drip_slow");
+    if (Math.random() < 0.45) burst(block.dimension, on(block, 0.0, 0.55, 0.5), "breeze");
+  });
+}
 
 function setState(block, kind, count, stage) {
   const d = load(block);                                // v1.6.3: the record knows what it is, for a rack that is gone
@@ -105,6 +118,7 @@ const dryingRack = {
         takeOne(player, slot);
         setState(block, want, count + 1, 0);
         snd(block, "dig.cloth", 1.2);
+        sfx(block, "drip");
       }
       return;
     }
@@ -114,7 +128,7 @@ const dryingRack = {
         takeOne(player, slot);
         setState(block, 2, count, 0);
         snd(block, "dig.sand", 1.3);
-        fx(block, "minecraft:basic_crit_particle", 6);
+        sfx(block, "salt", "salt");
         return;
       }
       return refuseAt(player, !count ? "rack_salt_empty" : kind === 2 ? "rack_salted" : kind !== 1 ? "rack_salt_fish_only" : "rack_drying", block);
@@ -126,6 +140,7 @@ const dryingRack = {
       save(block, { items: [] });
       setState(block, 0, 0, 0);
       snd(block, "random.pop", 0.9);
+      snd(block, "dig.cloth", 1.5, 0.4);
       return;
     }
     const it = d.items.pop();                             // not dry yet: take one back
@@ -146,7 +161,7 @@ const dryingRack = {
     if (!count) return;
     const d = load(block);
     if (d.items.length && (d.kind !== kind || d.stage !== stage)) { d.kind = kind; d.stage = stage; save(block, d); }   // pre-1.6.3 record
-    if (stage >= 2) return;
+    if (stage >= 2) { idle(block, stage); return; }
     if (!d.items.length) { setState(block, 0, 0, 0); return; }
     const t = now();
     const delta = Math.max(0, t - (d.t ?? t));
@@ -163,8 +178,8 @@ const dryingRack = {
     save(block, d);
     if (next !== stage) {
       setState(block, kind, count, next);
-      if (next === 2) { snd(block, "random.pop", 1.3, 0.4); fx(block, "minecraft:villager_happy", 3); }
-    }
+      if (next === 2) { snd(block, "random.pop", 1.3, 0.4); fx(block, "minecraft:villager_happy", 3); sfx(block, "sparkle_burst"); }
+    } else idle(block, stage);
   },
 };
 

@@ -57,6 +57,19 @@ setComps(await boot());
   ok(d.filter(x => x.id === NS + 'gutted_fish').length === 2, `drying rack: breaking it drops the fish on it (${d.map(x => x.id.split(':')[1]).join(', ') || 'nothing'})`);
 }
 
+{
+  // 1.6.0 (plan 14.2): Salted Shrimp hang as a string of shrimp and dry overnight, as on the bamboo tray
+  clearInv(); const r = place(NS + 'drying_rack');
+  P.hold(NS + 'salted_shrimp', 3); use(r); use(r);
+  ok(st(r, 'kind') === 7 && st(r, 'count') === 2 && inv('salted_shrimp') === 1, `drying rack: salted shrimp hang (kind ${st(r, 'kind')}, count ${st(r, 'count')})`);
+  P.hold(NS + 'gutted_fish', 1); use(r);
+  ok(st(r, 'count') === 2 && inv('gutted_fish') === 1, 'drying rack: no fish on a string of shrimp');
+  wait(r, 12100);
+  ok(st(r, 'stage') === 1, `drying rack: the shrimp are half dry by evening (stage ${st(r, 'stage')})`);
+  wait(r, 12100); P.hold(undefined); use(r);
+  ok(inv('dried_shell_shrimp') === 2 && st(r, 'count') === 0, `drying rack: two Dried Shell-on Shrimp after a day (${inv('dried_shell_shrimp')})`);
+}
+
 // ---------- fish sauce jar ----------
 {
   clearInv(); const j = place(NS + 'fish_sauce_jar');
@@ -198,13 +211,19 @@ setComps(await boot());
   ok(inv('spore_seahorse') === 1 && st(c, 'cut') === 0, 'cleaning board: the spore seahorse is refused');
   // 1.5.0: the whole squid, and tuna by part
   let inks = 0;
+  // 1.6.0: a fixed random sequence (an LCG): with Math.random the 60 % ink sac came out 18+ in 20 about once in
+  // 300 runs and failed the bound below
+  const realRandom = Math.random;
+  let seed = 12345;
+  Math.random = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
   for (let i = 0; i < 20; i++) {
     r = cutUp('whole_squid');
     if (i === 0) ok(r.stages.join() === '1,2,3,0' && r.all.fish_offal === 1 && r.all.squid_tube === 1 && r.all.squid_tentacles === 1 && JSON.stringify(r.steps[1]) === '[]',
       `cleaning board: a whole squid is gutted, its cartilage drawn (nothing comes of it), then cut into tube and tentacles (${JSON.stringify(r.steps)})`);
     if (r.all.ink_sac) inks++;
   }
-  ok(inks > 2 && inks < 18, `cleaning board: about one squid in two gives an ink sac (${inks} in 20)`);
+  Math.random = realRandom;
+  ok(inks > 2 && inks < 18, `cleaning board: about three squid in five give an ink sac (${inks} in 20)`);
   r = cutUp('tuna');
   ok(r.all.tuna_sashimi === 4 && r.all.chutoro === 1 && r.all.otoro === 1, `cleaning board: a tuna gives 4 akami, 1 chutoro, 1 otoro (${JSON.stringify(r.all)})`);
   r = cutUp('tuna', ['§6◆◆◆']);
@@ -317,6 +336,17 @@ setComps(await boot());
   P.hold(NS + 'carp', 1); use(f);
   ok(st(f, 'tier') > 0, `fish print: printing a carp sets a frame (tier ${st(f, 'tier')})`);
   ok(st(f, 'tier') !== 4, 'fish print: an unmarked fish does not get the record frame');
+  ok(st(f, 'shrink') === 1, `fish print: an unmarked fish (counts as medium) is drawn a size down (1.6.0; shrink ${st(f, 'shrink')})`);
+  // 1.6.0 (plan 14.1): a record is drawn by its length in the species' range
+  const { recordLine } = await importScript('fishing/size.js');
+  const sized = cm => { const s = new ItemStack(NS + 'carp', 1); s.setLore(['§6◆◆◆', recordLine(cm)]); return s; };
+  const [lo, hi] = (await importScript('data/generated.js')).CATCHES.find(c => c.id === NS + 'carp').size;
+  clearInv(); const big = place(NS + 'fish_print'); P.inv.setItem(P.selectedSlotIndex, sized(hi)); use(big);
+  clearInv(); const small = place(NS + 'fish_print'); P.inv.setItem(P.selectedSlotIndex, sized(lo)); use(small);
+  ok(st(big, 'tier') === 4 && st(big, 'shrink') === 0 && st(small, 'tier') === 4 && st(small, 'shrink') === 3,
+    `fish print: the longest record fills the paper, the shortest is drawn smallest (shrink ${st(big, 'shrink')} / ${st(small, 'shrink')})`);
+  clearInv(); const nf = place(NS + 'fish_print'); P.hold(NS + 'echo_ray', 1); use(nf);
+  ok(st(nf, 'tier') > 0 && st(nf, 'fish') + 16 * st(nf, 'fish_bank') > 54, 'fish print: a fish of 1.5 (echo ray) makes a print');
 }
 
 // ---------- journal ----------
@@ -326,16 +356,84 @@ setComps(await boot());
   fire('world.afterEvents.itemUse', { source: P, itemStack: P.held() });
   await new Promise(r => setTimeout(r, 20)); flush();
   const form = log.forms[n];
-  const keys = (form?.buttons ?? []).map(b => b.t?.translate ?? String(b.t));
+  const { G } = await importScript('data/glyphs.js');
+  const { GROUPS, groupGlyph } = await importScript('journal/journal.js');
+  const keys = (form?.buttons ?? []).map(b => String(b.t));
   ok(!!form, `journal: using it opens the index (${keys.length} buttons)`);
-  const want = ['recipes', 'tide', 'group_freshwater', 'group_wetland', 'group_sea', 'group_ice', 'group_lava', 'group_end', 'group_cave', 'group_secret', 'group_sky', 'group_legend'];
-  ok(want.every(k => keys.includes('kaleidoscope_fishing.journal.' + k)) && keys.indexOf('kaleidoscope_fishing.journal.group_legend') > keys.indexOf('kaleidoscope_fishing.journal.group_sky'),
-    'journal: recipes, tides and the ten groups are there (1.5.0: Hidden Waters and Sky, legends last)');
-  ok(!keys.some(k => /title_|contest|longline|hints|cleaning/.test(k)), `journal: no titles, contest, longline, hint or cleaning pages (${keys.map(k => k.split('.').pop()).join(', ')})`);
+  const want = ['freshwater', 'wetland', 'sea', 'ice', 'lava', 'end', 'cave', 'secret', 'sky', 'legend'];
+  // 1.6.0: glyph buttons only: the pot, the tide clock, one water per group (legends ✦, last), the gear
+  ok(GROUPS.join() === want.join() && keys.join('|') === [G['ui.recipes'], G['ui.tide_clock'], ...want.map(groupGlyph), G['ui.gear']].join('|') && groupGlyph('legend') === '✦'
+    && new Set(want.map(groupGlyph)).size === want.length,
+    'journal: recipes, tides and the ten groups are there as glyphs, each group its own (1.5.0: Hidden Waters and Sky, legends last)');
+  ok(form?.title === ' ' && !(form?.buttons ?? []).some(b => typeof b.t !== 'string'), 'journal: the index has a blank title and no translated text');
   const icons = (form?.buttons ?? []).map(b => b.icon).filter(Boolean);
   const RP = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]');
   const missing = icons.filter(i => !existsSync(join(RP, i + '.png')));
   ok(!missing.length, `journal: every index icon exists (${missing.join(', ') || icons.length + ' icons'})`);
+}
+
+// ---------- 1.5.0: workstation effects (immersive pass: particles and sounds, blocks/stationFx.js) ----------
+{
+  const SF = 'station_';
+  const since = n => log.particles.slice(n).filter(p => p.startsWith(NS + SF)).map(p => p.slice(NS.length + SF.length));
+  // cleaning board: each cut has its own bits flying
+  clearInv(); drops(); const c = place(NS + 'fish_cleaning_board');
+  P.hold(NS + 'grey_mullet', 1); use(c); P.hold(NS + 'fishing_knife', 1);
+  const cuts = [];
+  for (let g = 0; st(c, 'cut') > 0 && g < 5; g++) { const n = log.particles.length; use(c); cuts.push(since(n)); }
+  ok(cuts[0]?.includes('scales') && cuts[1]?.includes('gut') && cuts.at(-1)?.includes('chips'),
+    `effects: the board's scaling cut flicks scales, gutting splats, filleting throws chips (${cuts.map(x => x.join('+')).join(' / ')})`);
+  // wooden tub: salt stirs the brine; clams breathe bubbles and spit sand while purging, throttled per block
+  clearInv(); const t = place(NS + 'wooden_tub');
+  P.hold('minecraft:water_bucket', 1); use(t);
+  let n = log.particles.length; P.hold(NS + 'sea_salt', 1); use(t);
+  ok(since(n).includes('stir') && since(n).includes('salt'), `effects: salt stirs into the tub's water (${since(n)})`);
+  P.hold(NS + 'clam', 2); use(t); use(t);
+  clock.abs += 200; n = log.particles.length; tick(t); tick(t);
+  const purge = since(n);
+  ok(purge.filter(x => x === 'purge').length === 1 && purge.includes('sand'), `effects: purging clams bubble and spit sand, once per block tick at most (${purge})`);
+  const gp = D.getPlayers; D.getPlayers = () => [];
+  clock.abs += 200; n = log.particles.length; tick(t);
+  ok(!since(n).length, 'effects: with no player near, an idle tub spawns nothing');
+  D.getPlayers = gp;
+  // salt pan: heat in the sun, a glint when it turns to salt, flakes when it is scraped up
+  const getBiome0 = D.getBiome; D.getBiome = () => ({ id: 'minecraft:beach' });
+  clearInv(); const s = place(NS + 'salt_pan');
+  P.hold('minecraft:water_bucket', 1); use(s);
+  n = log.particles.length; wait(s, 13000, 60);
+  ok(since(n).includes('heat') && since(n).includes('sparkle_burst') && st(s, 'stage') === 3, `effects: the salt pan shimmers while drying and glints when done (${[...new Set(since(n))]})`);
+  n = log.particles.length; P.hold(undefined); use(s);
+  ok(since(n).includes('salt') && inv('sea_salt') === 4, 'effects: scraping the salt up throws white flakes');
+  D.getBiome = getBiome0;
+  // fish sauce jar: bubbles and vapour while sealed, a puff when it opens, drips when a serving is drawn
+  const { SAUCE_FISH } = await importScript('data/generated.js');
+  clearInv(); const j = place(NS + 'fish_sauce_jar');
+  P.selectedSlotIndex = 1; P.hold(NS + 'sea_salt', 1); use(j); P.selectedSlotIndex = 0; P.hold(SAUCE_FISH[0], 4); for (let i = 0; i < 4; i++) use(j);
+  clock.abs += 200; n = log.particles.length; tick(j);
+  ok(st(j, 'stage') === 2 && since(n).includes('ferment'), `effects: a sealed jar bubbles at the lid (${since(n)})`);
+  n = log.particles.length; wait(j, 3700);
+  ok(st(j, 'stage') === 3 && since(n).includes('jar_pop') && log.sounds.includes('block.barrel.open'), 'effects: the lid pops off with a puff when the sauce is ready');
+  n = log.particles.length; P.hold('minecraft:glass_bottle', 1); use(j);
+  ok(since(n).includes('sauce') && inv('fish_sauce') === 1, 'effects: drawing a bottle drips sauce off the rim');
+  // drying rack: fresh fish drip; a dry batch glints
+  clearInv(); const r = place(NS + 'drying_rack');
+  P.hold(NS + 'gutted_fish', 1); use(r);
+  clock.abs += 300; n = log.particles.length; tick(r);
+  ok(since(n).includes('drip_slow'), `effects: fresh fish on the rack drip (${since(n)})`);
+  n = log.particles.length; wait(r, 48200);
+  ok(st(r, 'stage') === 2 && since(n).includes('sparkle_burst'), 'effects: a batch that turns dry glints');
+  // pond feeder: feed thrown in scatters pellets onto the water
+  const x = 400;
+  for (let dx = 0; dx < 3; dx++) for (let dz = 0; dz < 3; dz++) for (const y of [63, 64]) D.place('minecraft:water', { x: x + dx, y, z: dz });
+  const fd = D.place(NS + 'pond_feeder', { x: x + 3, y: 64, z: 1 });
+  for (const [comp] of compsOf(fd)) comp.onPlace?.({ block: fd });
+  clearInv(); n = log.particles.length; P.hold(NS + 'fish_meal', 2); use(fd);
+  ok(since(n).includes('pellets') && since(n).includes('pellet_drop'), `effects: feeding the pond scatters pellets onto the water (${since(n)})`);
+  // every station effect the scripts sent has its particle file
+  const RPp = join(ROOT, 'Kaleidoscope Fishing Voyage [RP]', 'particles');
+  const used = [...new Set(log.particles.filter(p => p.startsWith(NS + SF)).map(p => p.slice(NS.length)))];
+  const lost = used.filter(id => !existsSync(join(RPp, `kfv_${id}.json`)));
+  ok(used.length >= 15 && !lost.length, `effects: every station particle used has its file (${used.length} used${lost.length ? '; missing ' + lost.join(', ') : ''})`);
 }
 
 // ---------- sweep: every scripted block against a handful of held items ----------
