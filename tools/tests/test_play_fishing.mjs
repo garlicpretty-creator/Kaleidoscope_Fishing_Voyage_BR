@@ -630,6 +630,44 @@ function fishForLegend(atFn, rodId, max = 800) {   // a frostlake char is ~1.5% 
   ok(D.drops.splice(0).some(x => x.id === 'kaleidoscope_cookery:caterpillar'), 'shrimp trap: breaking a baited trap gives the bait back');
 }
 
+// ---------------------------------------------------------------- 1.7.0 (phase 1): a trap beside a chest empties itself
+{
+  clearInv(); stand(D, 0.5, 65, 0.5);
+  const trap = D.place(NS + 'shrimp_trap', { x: -2, y: 61, z: 16 });
+  const chest = D.place('minecraft:chest', { x: -3, y: 61, z: 16 });
+  const box = chest.getComponent('minecraft:inventory').container;
+  const inBox = () => ['shrimp', 'live_shrimp', 'crab'].reduce((a, k) => a + box.count(NS + k), 0);
+  let caught = 0;
+  P.hold('kaleidoscope_cookery:caterpillar', 1); use(trap);
+  tick(trap);
+  for (let i = 0; i < 6; i++) {
+    if (st(trap, 'bait') !== 1) { P.hold('kaleidoscope_cookery:caterpillar', 1); use(trap); }
+    const before = inBox();
+    clock.abs += 2400 * 3 + 10; tick(trap);
+    caught += inBox() - before;
+  }
+  ok(caught > 3 && st(trap, 'catch') === 0 && st(trap, 'crab') === 0,
+    `shrimp trap: beside a chest its catch goes in on its own ticks, past the cage's 3 (${caught} in the chest: ${['shrimp', 'live_shrimp', 'crab'].map(k => box.count(NS + k)).join('/')})`);
+  // a full chest: the catch waits in the cage, and goes in once there is room
+  for (let i = 0; i < box.size; i++) box.setItem(i, new S.ItemStack('minecraft:cobblestone', 64));
+  if (st(trap, 'bait') !== 1) { P.hold('kaleidoscope_cookery:caterpillar', 1); use(trap); }
+  for (let i = 0; i < 4 && st(trap, 'catch') === 0; i++) { clock.abs += 2400 * 3 + 10; tick(trap); if (st(trap, 'bait') !== 1) { P.hold('kaleidoscope_cookery:caterpillar', 1); use(trap); } }
+  const held = st(trap, 'catch');
+  ok(held > 0, `shrimp trap: next to a full chest the catch stays in the cage (${held})`);
+  for (let i = 0; i < 3; i++) box.setItem(i, undefined);   // room for shrimp, live shrimp and a crab
+  tick(trap);
+  ok(st(trap, 'catch') === 0 && inBox() === held, `shrimp trap: with room again the next tick puts it in (${inBox()} of ${held})`);
+  // a chest above it does not count (only beside or below)
+  const t2 = D.place(NS + 'shrimp_trap', { x: 2, y: 60, z: 16 });
+  D.place('minecraft:chest', { x: 2, y: 61, z: 16 });
+  t2.isWaterlogged = true;
+  const above = D.getBlock({ x: 2, y: 61, z: 16 }).getComponent('minecraft:inventory').container;
+  P.hold('kaleidoscope_cookery:caterpillar', 1); use(t2); tick(t2);
+  for (let i = 0; i < 4 && st(t2, 'catch') === 0; i++) { clock.abs += 2400 * 3 + 10; tick(t2); if (st(t2, 'bait') !== 1) { P.hold('kaleidoscope_cookery:caterpillar', 1); use(t2); } }
+  ok(st(t2, 'catch') > 0 && !above.slots.some(Boolean), `shrimp trap: a chest on top of it gets nothing (catch ${st(t2, 'catch')})`);
+  ok(!log.messages.some(m => /shrimp|trap/i.test(m)), 'shrimp trap: no text');
+}
+
 // ---------------------------------------------------------------- 5c. fish creel (basket)
 {
   clearInv(); atPond(); minigame(false); allDrops();

@@ -283,6 +283,109 @@ setComps(await boot());
   D.getBiome = getBiome0;
 }
 
+// ---------- 1.7.0 (phase 1): sneak-use on the board, racks and pans that look after themselves ----------
+{
+  const board = await importScript('blocks/cleaning.js');
+  const { S } = await import('./sim/play.mjs');
+  const m0 = log.messages.length;
+  const CUT_SOUNDS = ['mob.sheep.shear', 'mob.slime.small', 'dig.wood'];
+  const sneakUse = b => { P.isSneaking = true; use(b); P.isSneaking = false; flush(200); };
+  // one fish: every cut left, in order, each with its own sound
+  clearInv(); drops(); let c = place(NS + 'fish_cleaning_board');
+  P.hold(NS + 'grey_mullet', 1); use(c); P.hold(NS + 'fishing_knife', 1);
+  let s0 = log.sounds.length, e0 = sent.length;
+  sneakUse(c);
+  const heardCuts = log.sounds.slice(s0).filter(x => CUT_SOUNDS.includes(x));
+  ok(st(c, 'cut') === 0 && inv('fish_scales') > 0 && inv('fish_offal') > 0 && inv('fish_bones') > 0 && heardCuts.join() === CUT_SOUNDS.join(),
+    `sneak board: one sneak-use with a knife scales, guts and fillets the fish, one sound per cut (${heardCuts})`);
+  ok(evts(e0).filter(e => e.t === 'cleaned').length === 1, 'sneak board: other packs hear "cleaned" once for one fish');
+  ok(log.messages.length === m0, 'sneak board: no text');
+  // part-way: only the cuts that are left
+  clearInv(); P.hold(NS + 'grey_mullet', 1); use(c); P.hold(NS + 'fishing_knife', 1); use(c);
+  const scales1 = inv('fish_scales'); s0 = log.sounds.length;
+  sneakUse(c);
+  ok(st(c, 'cut') === 0 && inv('fish_scales') === scales1 && log.sounds.slice(s0).filter(x => CUT_SOUNDS.includes(x)).length === 2,
+    'sneak board: a fish already scaled gets only its gut and fillet cuts');
+  // more of the same catch in the pockets and the off-hand: up to 8 fish per use; other catches and record fish stay
+  clearInv(); P.hold(NS + 'carp', 1); use(c);
+  P.hold(NS + 'fishing_knife', 1);
+  P.inv.setItem(3, new ItemStack(NS + 'carp', 10));
+  P.inv.setItem(4, new ItemStack(NS + 'grey_mullet', 5));
+  const rec = new ItemStack(NS + 'carp', 1); rec.setLore(['§6◆◆◆', '§e★']); P.inv.setItem(1, rec);
+  P.equip.Offhand = new ItemStack(NS + 'carp', 2);
+  e0 = sent.length;
+  sneakUse(c);
+  const cleaned = evts(e0).filter(e => e.t === 'cleaned');
+  ok(cleaned.length === board.SNEAK_MAX && cleaned.every(e => e.id === NS + 'carp') && st(c, 'cut') === 0,
+    `sneak board: carp after carp is laid and cut up, ${board.SNEAK_MAX} in one use (${cleaned.length})`);
+  ok(!P.equip.Offhand && P.inv.getItem(3)?.amount === 5 && inv('grey_mullet') === 5 && P.inv.getItem(1)?.getLore().includes('§e★'),
+    `sneak board: the off-hand goes first, then the pockets; other fish and a record carp are left alone (pockets ${P.inv.getItem(3)?.amount}, mullet ${inv('grey_mullet')})`);
+  // sneaking with something else than a knife: the usual refusal, nothing is cut
+  clearInv(); P.hold(NS + 'grey_mullet', 1); use(c); const at0 = st(c, 'cut'); P.hold('minecraft:stick', 1);
+  sneakUse(c);
+  ok(st(c, 'cut') === at0, 'sneak board: sneaking with a stick cuts nothing');
+  P.hold(NS + 'fishing_knife', 1); sneakUse(c);
+  // empty board, sneaking with a knife: the usual refusal sound, nothing else
+  clock.abs += 20; clearInv(); P.hold(NS + 'fishing_knife', 1); s0 = log.sounds.length;   // past the last refusal's gap
+  sneakUse(c);
+  ok(log.sounds.slice(s0).includes('note.bass') && st(c, 'cut') === 0, 'sneak board: an empty board refuses with the "missing" sound');
+  // sneaking with a fish (no knife) still just lays it down
+  clearInv(); P.hold(NS + 'carp', 3); P.isSneaking = true; use(c); P.isSneaking = false; flush(200);
+  ok(st(c, 'cut') > 0 && inv('carp') === 2, 'sneak board: a sneaking player without a knife lays one fish as before');
+  P.hold(NS + 'fishing_knife', 1); sneakUse(c);
+  // a plain use is still one cut
+  clearInv(); P.hold(NS + 'carp', 1); use(c); const laid = st(c, 'cut'); P.hold(NS + 'fishing_knife', 1); use(c);
+  ok(st(c, 'cut') === laid + 1, 'sneak board: without sneaking a knife makes one cut, as before');
+  P.hold(NS + 'fishing_knife', 1); sneakUse(c);
+
+  // drying rack over a chest: a dry batch drops in by itself
+  clearInv(); const r = place(NS + 'drying_rack');
+  const chest = D.place('minecraft:chest', { x: r.x, y: r.y - 1, z: r.z });
+  P.hold(NS + 'gutted_fish', 3); use(r); use(r); use(r);
+  wait(r, 24100); wait(r, 24100);
+  const box = chest.getComponent('minecraft:inventory').container;
+  ok(box.count(NS + 'air_dried_fish') === 3 && st(r, 'count') === 0, `rack over a chest: the dried fish drop into it (${box.count(NS + 'air_dried_fish')}, rack ${st(r, 'count')})`);
+  ok(!S.world.getDynamicPropertyIds().some(k => k.includes(`:dry:minecraft:overworld:${r.x}:${r.y}:${r.z}`)), 'rack over a chest: its record is let go once empty');
+  // a full chest: the batch keeps hanging until there is room
+  clearInv(); const r2 = place(NS + 'drying_rack');
+  const chest2 = D.place('minecraft:barrel', { x: r2.x, y: r2.y - 1, z: r2.z });
+  const box2 = chest2.getComponent('minecraft:inventory').container;
+  for (let i = 0; i < box2.size; i++) box2.setItem(i, new ItemStack('minecraft:cobblestone', 64));
+  P.hold(NS + 'gutted_fish', 2); use(r2); use(r2);
+  wait(r2, 24100); wait(r2, 24100);
+  ok(st(r2, 'count') === 2 && st(r2, 'stage') === 2, 'rack over a full barrel: the dry batch stays on the rack');
+  box2.setItem(0, undefined); tick(r2);
+  ok(box2.count(NS + 'air_dried_fish') === 2 && st(r2, 'count') === 0, 'rack over a barrel: once there is room the next tick drops them in');
+  // a chest beside the rack (not below) is left alone
+  clearInv(); const r3 = place(NS + 'drying_rack');
+  D.place('minecraft:chest', { x: r3.x + 1, y: r3.y, z: r3.z });
+  P.hold(NS + 'gutted_fish', 1); use(r3); wait(r3, 24100); wait(r3, 24100);
+  ok(st(r3, 'count') === 1 && st(r3, 'stage') === 2, 'rack: a chest beside it (not below) gets nothing');
+
+  // salt pan beside a water source fills itself
+  const getBiome0 = D.getBiome;
+  D.getBiome = () => ({ id: 'minecraft:beach' });
+  clearInv(); const s1 = place(NS + 'salt_pan');
+  tick(s1);
+  ok(st(s1, 'stage') === 0, 'salt pan: with no water beside it, it stays empty');
+  const w = D.place('minecraft:water', { x: s1.x + 1, y: s1.y, z: s1.z });
+  w.permutation._s.liquid_depth = 3;                 // flowing water does not count
+  tick(s1);
+  ok(st(s1, 'stage') === 0, 'salt pan: flowing water beside it does not fill it');
+  w.permutation._s.liquid_depth = 0;
+  tick(s1);
+  ok(st(s1, 'stage') === 1, 'salt pan: a water source beside it fills it with no bucket');
+  wait(s1, 12800, 80);
+  P.hold(undefined); use(s1);
+  ok(inv('sea_salt') === 4 && st(s1, 'stage') === 0, 'salt pan: once the salt is gathered...');
+  tick(s1);
+  ok(st(s1, 'stage') === 1, '...the water runs in again on the next tick');
+  D.getBiome = () => ({ id: 'minecraft:plains' });
+  const s2 = place(NS + 'salt_pan'); D.place('minecraft:water', { x: s2.x, y: s2.y, z: s2.z + 1 }); tick(s2);
+  ok(st(s2, 'stage') === 0, 'salt pan: away from the sea water beside it does not fill it');
+  D.getBiome = getBiome0;
+}
+
 // ---------- fish tank ----------
 {
   clearInv(); const t = place(NS + 'fish_tank');

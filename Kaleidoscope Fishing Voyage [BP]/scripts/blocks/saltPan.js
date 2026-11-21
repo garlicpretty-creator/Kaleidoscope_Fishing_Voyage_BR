@@ -3,6 +3,8 @@
 // ticks) in all, and rain pauses it without undoing it. Half way a white rim shows; then the pan is all salt and
 // an empty hand gathers 4 Salt. The state `stage` is 0 empty, 1 water, 2 half dry, 3 salt; the daylight counted
 // so far is kept in a block record ("sp": { p, t }), and a pan that was unloaded counts only the daylight it saw.
+// 1.7.0 (phase 1): an empty pan with a still water source beside it (or below it) lets the water in by itself on
+// its next block tick, where a bucket would work (by the sea, open sky); no bucket needed.
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
@@ -35,6 +37,24 @@ export function openSky(block) {
 const daylight = () => { const t = world.getTimeOfDay?.() ?? 6000; return t < 12000; };
 const stageFor = p => (p >= DRY_TICKS ? 3 : p >= DRY_TICKS / 2 ? 2 : 1);
 
+const SIDES = [b => b.north(), b => b.south(), b => b.east(), b => b.west(), b => b.below()];
+/** A still water source touching the pan (not flowing water, not a waterlogged block). Exported for tests. */
+export function waterNext(block) {
+  for (const side of SIDES) {
+    try {
+      const b = side(block);
+      if (b?.typeId !== "minecraft:water") continue;
+      if (Number(b.permutation?.getState?.("liquid_depth") ?? 0) === 0) return true;
+    } catch {}
+  }
+  return false;
+}
+/** Let the water in: the pan starts drying from now. */
+function fill(block) {
+  writeData("sp", block.dimension, block, { p: 0, t: now(), stage: 1 });
+  setStage(block, 1);
+}
+
 function dropPan(dim, pos, perm) {
   const stage = perm ? Number(perm.getState(STAGE) ?? 0) : Number(readData("sp", dim, pos)?.stage) || 0;
   writeData("sp", dim, pos, undefined);
@@ -51,8 +71,7 @@ const pan = {
     if (held === "minecraft:water_bucket" && stage === 0) {
       if (!bySea(block) || !openSky(block)) return refuseAt(player, "salt_pan_place", block);
       if (!creative(player)) slot.setItem(new ItemStack("minecraft:bucket", 1));
-      writeData("sp", block.dimension, block, { p: 0, t: now(), stage: 1 });
-      setStage(block, 1); snd(block, "bucket.empty_water"); fx(block, "spray"); return;
+      fill(block); snd(block, "bucket.empty_water"); fx(block, "spray"); return;
     }
     if (!held && stage === 3) {
       const stack = new ItemStack(SALT, SALT_YIELD);
@@ -66,6 +85,10 @@ const pan = {
   onTick({ block }) {
     const stage = stageOf(block);
     if (stage === 3) { ambient(block, "pan", 90, face(block), () => { if (Math.random() < 0.5) fx(block, "sparkle"); }); return; }
+    if (stage === 0) {                                  // 1.7.0: water beside it runs in on its own
+      if (waterNext(block) && bySea(block) && openSky(block)) { fill(block); snd(block, "bucket.fill_water", 1.3, 0.4); fx(block, "spray"); }
+      return;
+    }
     if (stage !== 1 && stage !== 2) return;
     const r = readData("sp", block.dimension, block) ?? { p: 0, t: now() };
     const n = now(), dt = Math.max(0, Math.min(200, n - (Number(r.t) || n)));   // a pan out of reach counts nothing

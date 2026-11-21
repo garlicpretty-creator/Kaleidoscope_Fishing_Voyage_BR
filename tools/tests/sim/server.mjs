@@ -108,7 +108,7 @@ class Block {
   center() { return { x: this.x + 0.5, y: this.y + 0.5, z: this.z + 0.5 }; }
   bottomCenter() { return { x: this.x + 0.5, y: this.y, z: this.z + 0.5 }; }
   setPermutation(p) { this.permutation = p; }
-  setType(id) { this.permutation = id === 'minecraft:air' ? new Permutation(id, {}) : defaultPerm(id); }
+  setType(id) { this._box = undefined; this.permutation = id === 'minecraft:air' ? new Permutation(id, {}) : defaultPerm(id); }
   above(n = 1) { return this.dimension.getBlock({ x: this.x, y: this.y + n, z: this.z }); }
   below(n = 1) { return this.dimension.getBlock({ x: this.x, y: this.y - n, z: this.z }); }
   north(n = 1) { return this.dimension.getBlock({ x: this.x, y: this.y, z: this.z - n }); }
@@ -118,8 +118,13 @@ class Block {
   offset(o) { return this.dimension.getBlock({ x: this.x + o.x, y: this.y + o.y, z: this.z + o.z }); }
   hasTag() { return false; }
   getTags() { return []; }
-  getComponent() { return undefined; }
+  // 1.7.0: a chest or barrel has an inventory (the shrimp trap and the drying rack put things in one)
+  getComponent(n) {
+    if ((n === 'minecraft:inventory' || n === 'inventory') && CONTAINER_BLOCKS.has(this.typeId)) return { container: (this._box ??= new Container(27)) };
+    return undefined;
+  }
 }
+const CONTAINER_BLOCKS = new Set(['minecraft:chest', 'minecraft:barrel', 'minecraft:trapped_chest']);
 class Dimension {
   constructor(id) { this.id = id; this.blocks = new Map(); this.drops = []; this.entities = []; }
   key(l) { return `${Math.floor(l.x)},${Math.floor(l.y)},${Math.floor(l.z)}`; }

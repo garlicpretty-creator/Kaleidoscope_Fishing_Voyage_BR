@@ -8,6 +8,8 @@
 // trap removed in any way (player, explosion, piston, command: contents.js) gives back its shrimp, crab and
 // unused bait. A trap baited before 1.6.3 does not know its bait; it gives back the catch only.
 // v1.6.3 (F2): refused uses say why (util/hint.js).
+// 1.7.0 (phase 1): with a chest, barrel or any container right beside it or below it, the trap pushes its catch in
+// on its own block ticks (after the world-time catch-up), so it never sits full. What does not fit stays in the cage.
 import { EquipmentSlot, GameMode, ItemStack, system } from "@minecraft/server";
 import { TRAP_BAITS } from "../data/generated.js";
 import { analyzeWater, isWater } from "../fishing/water.js";
@@ -18,6 +20,7 @@ import { burst, on } from "./stationFx.js";
 import { now, steps } from "../util/clock.js";
 import { readData, writeData } from "./blockData.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
+import { containerNext, putWhole } from "./nextContainer.js";
 
 const NS = "kaleidoscope_fishing";
 const CATCH = `${NS}:catch`, BAIT = `${NS}:bait`, CRAB = `${NS}:crab`;
@@ -128,11 +131,36 @@ function fill(block) {
   try { block.dimension.playSound("kaleidoscope_fishing.trap_catch", block.center(), { pitch: 0.9 + Math.random() * 0.3, volume: 0.9 }); } catch {}
 }
 
+// What comes out of the cage: a shrimp is still alive now and then (the same for a hand and for a chest).
+const outOf = id => (id === `${NS}:shrimp` && Math.random() < LIVE_CHANCE ? `${NS}:live_shrimp` : id);
+export const TRAP_SIDES = ["below", "north", "south", "east", "west"];
+/** 1.7.0: hand the catch to a container beside or below the trap. How many went in. Exported for tests. */
+export function pushCatch(block) {
+  const p = block.permutation;
+  const c = Number(p.getState(CATCH) ?? 0);
+  if (c <= 0) return 0;
+  const box = containerNext(block, TRAP_SIDES);
+  if (!box) return 0;
+  let k = Math.min(Number(p.getState(CRAB) ?? 0), c), left = c, n = 0;
+  for (const id of contents(p)) {                      // crabs first, then shrimp: the states shrink in that order
+    if (!putWhole(box, new ItemStack(outOf(id), 1))) break;
+    left--; n++;
+    if (id === `${NS}:crab`) k--;
+  }
+  if (!n) return 0;
+  setTrap(block, p.withState(CATCH, left).withState(CRAB, Math.max(0, Math.min(k, left))));
+  // the catch slides over: a drip of water and a soft slap, no more
+  try { block.dimension.playSound("random.splash", block.center(), { pitch: 1.7, volume: 0.25 }); } catch {}
+  puff(block, 2 + n, 0.3);
+  return n;
+}
+
 const fishTrap = {
   // Engine-driven per-block tick (50-110 game ticks); only does anything underwater.
   onTick({ block }) {
     mirror(block, block.permutation);  // pre-1.6.3 traps: their catch gets a record
     fill(block);
+    pushCatch(block);
     const p = block.permutation;
     if (!underwater(block)) return;
     const c = Number(p.getState(CATCH) ?? 0);
@@ -165,7 +193,7 @@ const fishTrap = {
     }
     if (held) return refuseAt(player, c > 0 ? "trap_empty_hand" : "trap_not_bait", block);
     if (c <= 0) return refuseAt(player, p.getState(BAIT) !== 1 ? "trap_need_bait" : underwater(block) ? "trap_waiting" : "trap_underwater", block);
-    for (const id of contents(p)) give(player, block, id === `${NS}:shrimp` && Math.random() < LIVE_CHANCE ? `${NS}:live_shrimp` : id);
+    for (const id of contents(p)) give(player, block, outOf(id));
     setTrap(block, p.withState(CATCH, 0).withState(CRAB, 0));
     try {
       block.dimension.playSound("random.splash", block.center(), { pitch: 1.4, volume: 0.6 });

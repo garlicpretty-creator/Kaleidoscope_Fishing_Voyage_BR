@@ -11,6 +11,8 @@
 // v1.6.3 (F1): the record also keeps the kind and stage, so a rack removed in any way (player, explosion,
 // piston, command: contents.js) gives back its fish, or its dried goods once dry. Older records learn the
 // kind and stage on the rack's next block tick.
+// 1.7.0 (phase 1): with a container right below the rack, a dry batch drops into it on the rack's own tick
+// (whatever does not fit keeps hanging, to be taken by hand or on a later tick).
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { DRYING, FISH_ALIAS } from "../data/generated.js";
 import { applyClass, upgradeLore } from "../fishing/size.js";
@@ -19,6 +21,7 @@ import { spawnParticle } from "../util/particles.js";
 import { refuseAt } from "../util/hint.js";
 import { ambient, burst, on } from "./stationFx.js";
 import { registerRecords, registerStation, spawnAll } from "./contents.js";
+import { containerNext, putWhole } from "./nextContainer.js";
 
 const NS = "kaleidoscope_fishing";
 const KIND = `${NS}:kind`, COUNT = `${NS}:count`, STAGE = `${NS}:stage`;
@@ -94,6 +97,23 @@ function contents(kind, stage, d) {
 }
 const saltOf = d => (typeof d.salt === "string" && SALT.has(d.salt) ? d.salt : DRYING.salt[0]);
 
+/** 1.7.0: a dry batch drops into the container below the rack. How many went in. */
+function dropBelow(block, kind, d) {
+  const product = productOf(kind);
+  if (!product || !d.items.length) return 0;
+  const box = containerNext(block, ["below"]);
+  if (!box) return 0;
+  let n = 0;
+  while (d.items.length && putWhole(box, new ItemStack(product, 1))) { d.items.pop(); n++; }
+  if (!n) return 0;
+  d.kind = kind; d.stage = 2;
+  save(block, d);
+  setState(block, kind, d.items.length, 2);
+  snd(block, "dig.cloth", 1.5, 0.4);
+  snd(block, "random.pop", 0.8, 0.3);
+  return n;
+}
+
 const dryingRack = {
   onPlayerInteract({ block, player }) {
     if (!player) return;
@@ -161,7 +181,7 @@ const dryingRack = {
     if (!count) return;
     const d = load(block);
     if (d.items.length && (d.kind !== kind || d.stage !== stage)) { d.kind = kind; d.stage = stage; save(block, d); }   // pre-1.6.3 record
-    if (stage >= 2) { idle(block, stage); return; }
+    if (stage >= 2) { if (!dropBelow(block, kind, d)) idle(block, stage); return; }
     if (!d.items.length) { setState(block, 0, 0, 0); return; }
     const t = now();
     const delta = Math.max(0, t - (d.t ?? t));
@@ -178,7 +198,7 @@ const dryingRack = {
     save(block, d);
     if (next !== stage) {
       setState(block, kind, count, next);
-      if (next === 2) { snd(block, "random.pop", 1.3, 0.4); fx(block, "minecraft:villager_happy", 3); sfx(block, "sparkle_burst"); }
+      if (next === 2) { snd(block, "random.pop", 1.3, 0.4); fx(block, "minecraft:villager_happy", 3); sfx(block, "sparkle_burst"); dropBelow(block, kind, d); }
     } else idle(block, stage);
   },
 };

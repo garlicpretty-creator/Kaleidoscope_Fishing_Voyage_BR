@@ -11,7 +11,8 @@
 // A board laid before 1.6.3 learns its fish on its next use; until then only the player-break and explosion
 // paths (which still see the block) can give it back.
 // v1.6.3 (F2): every refused use says why (util/hint.js).
-import { EquipmentSlot, GameMode, ItemStack, system } from "@minecraft/server";
+// 1.7.0 (phase 1): sneak-use with a knife runs every cut left, and more of the same catch after it (cleanAll).
+import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { CLEANING, FISH_ALIAS } from "../data/generated.js";
 import { LARGE, SMALL, applyClass, readSize } from "../fishing/size.js";
 import { readFishIndex, withFishIndex } from "./fishState.js";
@@ -44,6 +45,7 @@ const ACT_FX = {
   rub: ["dig.sand", 1.4, ["shell", "salt"]],
 };
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
+const isKnife = it => { try { return !!it?.hasTag(KNIFE_TAG); } catch { return false; } };
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
 // 1.5.0 (register_board): another pack's fish is drawn as its `like` (the board index), cut with its own outputs.
 // The board record keeps its item id ("ext"); while that pack has not registered it (yet), its cuts are unknown.
@@ -99,67 +101,144 @@ function fx(block, snd, pitch, effects, layer) {
   for (const e of effects ?? []) burst(block.dimension, { x: at.x + (Math.random() - 0.5) * 0.3, y: at.y, z: at.z + (Math.random() - 0.5) * 0.2 }, e);
 }
 
+/** Lay `held` (taken from where `put` writes back) on an empty board. False if it is not a catch the board takes. */
+function layFish(block, player, held, put) {
+  const c = entryFor(held.typeId);
+  if (!c) return false;
+  const p = block.permutation;
+  const size = readSize(held).cls;
+  stash(keepKey("cb", block.dimension, block), keepOf(held));
+  if (!creative(player)) { if (held.amount <= 1) put(undefined); else { held.amount -= 1; put(held); } }
+  saveBoard(block, size, c.index, c.first, c.ext);
+  block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.first).withState(SIZE, size));
+  fx(block, "mob.fish.flop", 1.0, ["drip"]);
+  return true;
+}
+
+/** One use of the board. Returns "laid", "cut" (a cut, more to come), "done" (the last cut) or undefined. */
+function useBoard(block, player) {
+  const slot = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
+  const held = slot?.hasItem() ? slot.getItem() : undefined;
+  const p = block.permutation;
+  const idx = readFishIndex(p), cut = Number(p.getState(CUT) ?? 0), cls = sizeOf(block, p);
+  const key = keepKey("cb", block.dimension, block);
+  const rec = readData("cb", block.dimension, block);
+  const fish = fishOn(idx, rec);
+  if (fish && (!rec || rec.idx !== idx || rec.cut !== cut)) saveBoard(block, cls, idx, cut, rec?.ext);   // 1.5.4 / pre-1.6.3 boards: fill the record
+
+  if (!fish) {                                         // empty board: lay a fish down
+    if (!held) return refuseAt(player, "board_need_fish", block);
+    if (layFish(block, player, held, s => slot.setItem(s))) return "laid";
+    return refuseAt(player, isKnife(held) ? "board_need_fish" : "board_cannot_clean", block);
+  }
+  const first = fish.first;
+  if (!held) {                                         // changed your mind before the first cut
+    if (cut === first) {
+      try { new ItemStack(fish.id, 1); } catch { return refuseAt(player, "board_pack_gone", block); }   // another pack's fish, its pack gone
+      give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+    }
+    else if (fish.gutted && cut === guttedStage(fish)) {   // 1.5.0: gutted and not yet filleted, it goes to the drying rack
+      give(player, block, fish.gutted);
+      saveSize(block, undefined);
+      block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+      fx(block, "mob.fish.flop", 1.2);
+    }
+    else refuseAt(player, "board_finish_knife", block);
+    return;
+  }
+  if (!isKnife(held)) return refuseAt(player, "board_need_knife", block);
+  if (!fish.cuts) return refuseAt(player, "board_pack_gone", block);   // another pack's fish whose pack has not registered it
+  wearKnife(player, slot);
+  if (cut === first) stash(key, undefined);            // once the knife is in, the fish is food: its record is let go
+  const step = Math.max(0, Math.min(fish.cuts.length - 1, cut - first));   // a board from before 1.5.0 carries on where it was
+  const this_ = fish.cuts[step];
+  for (const [id, n] of cutYield(this_, cls)) give(player, block, id, n);
+  fx(block, ...(ACT_FX[this_.act] ?? ACT_FX.fillet));
+  if (step < fish.cuts.length - 1) {
+    saveBoard(block, cls, idx, first + step + 1, fish.ext);
+    block.setPermutation(p.withState(CUT, first + step + 1));
+    return "cut";
+  }
+  saveSize(block, undefined);
+  block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
+  emit("cleaned", player, { id: fish.id });
+  return "done";
+}
+
+// 1.7.0 (phase 1): sneak-use with a knife does it all. Every cut left on the fish on the board follows, one every
+// SNEAK_GAP ticks, each with its own sound and bits; then, while the player carries more of the same catch (off-hand
+// first, then the pockets), the next one is laid down and cut up too, up to SNEAK_MAX fish per use. A fish that
+// carries more than its size mark (a record "★", a name) is never picked up this way: it stays in the pockets.
+// The engine does not run a block's own interaction for a sneaking player with an item in hand, so the
+// before-event takes it (and cancels it, so a plain use cannot also happen on the same click).
+export const SNEAK_GAP = 5, SNEAK_MAX = 8;
+const busy = new Set();
+/** Same catch as the board's: our id (or an old alias of it), or another pack's registered item. */
+const sameCatch = (fish, id) => (fish.ext ? id === fish.ext : (FISH_ALIAS[id] ?? id) === fish.id);
+/** The next stack of the same catch the player carries: [stack, put] (off-hand, then pockets), or undefined. */
+function nextOfSame(player, fish) {
+  const ok = it => it && sameCatch(fish, it.typeId) && !keepOf(it);
+  try {
+    const off = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Offhand);
+    const it = off?.hasItem() ? off.getItem() : undefined;
+    if (ok(it)) return [it, s => off.setItem(s)];
+  } catch {}
+  try {
+    const inv = player.getComponent("minecraft:inventory")?.container;
+    for (let i = 0; i < (inv?.size ?? 0); i++) {
+      if (i === player.selectedSlotIndex) continue;
+      const it = inv.getItem(i);
+      if (ok(it)) return [it, s => inv.setItem(i, s)];
+    }
+  } catch {}
+  return undefined;
+}
+const heldKnife = player => {
+  try { const s = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand); return isKnife(s?.hasItem() ? s.getItem() : undefined); }
+  catch { return false; }
+};
+/** Run the whole board for a sneaking player with a knife (steps SNEAK_GAP ticks apart). Exported for tests. */
+export function cleanAll(block, player) {
+  const dim = block.dimension, at = { x: block.x, y: block.y, z: block.z };
+  const key = `${dim.id}:${at.x},${at.y},${at.z}`;
+  if (busy.has(key)) return;                           // already running: the button held down does not start another
+  busy.add(key);
+  let done = 0, fish;
+  const stop = () => { busy.delete(key); };
+  const step = () => {
+    try {
+      const b = dim.getBlock(at);
+      if (!player?.isValid || b?.typeId !== `${NS}:fish_cleaning_board` || !heldKnife(player)) return stop();   // gone, or the knife broke / was put away
+      if (!readFishIndex(b.permutation)) {               // board empty
+        if (!fish) { useBoard(b, player); return stop(); }   // nothing was on it: the usual refusal
+        const next = done < SNEAK_MAX ? nextOfSame(player, fish) : undefined;
+        if (!next || !layFish(b, player, next[0], next[1])) return stop();
+        system.runTimeout(step, SNEAK_GAP);
+        return;
+      }
+      fish ??= fishOn(readFishIndex(b.permutation), readData("cb", dim, b));
+      const r = useBoard(b, player);
+      if (r === "done") done++;
+      if (r !== "cut" && r !== "done") return stop();
+      system.runTimeout(step, SNEAK_GAP);
+    } catch { stop(); }
+  };
+  step();
+}
+
+world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
+  if (ev.block?.typeId !== `${NS}:fish_cleaning_board` || !ev.player?.isSneaking || !isKnife(ev.itemStack)) return;
+  ev.cancel = true;
+  if (!ev.isFirstEvent) return;
+  const { block, player } = ev;
+  system.run(() => { try { cleanAll(block, player); } catch {} });
+});
+
 const cleaningBoard = {
   onPlayerInteract({ block, player }) {
     if (!player) return;
-    const slot = player.getComponent("minecraft:equippable")?.getEquipmentSlot(EquipmentSlot.Mainhand);
-    const held = slot?.hasItem() ? slot.getItem() : undefined;
-    const p = block.permutation;
-    const idx = readFishIndex(p), cut = Number(p.getState(CUT) ?? 0), cls = sizeOf(block, p);
-    const key = keepKey("cb", block.dimension, block);
-    const rec = readData("cb", block.dimension, block);
-    const fish = fishOn(idx, rec);
-    if (fish && (!rec || rec.idx !== idx || rec.cut !== cut)) saveBoard(block, cls, idx, cut, rec?.ext);   // 1.5.4 / pre-1.6.3 boards: fill the record
-
-    if (!fish) {                                         // empty board: lay a fish down
-      if (!held) return refuseAt(player, "board_need_fish", block);
-      const c = entryFor(held.typeId);
-      if (!c) {
-        let knifeHeld = false;
-        try { knifeHeld = held.hasTag(KNIFE_TAG); } catch {}
-        return refuseAt(player, knifeHeld ? "board_need_fish" : "board_cannot_clean", block);
-      }
-      const size = readSize(held).cls;
-      stash(key, keepOf(held));
-      if (!creative(player)) { if (held.amount <= 1) slot.setItem(undefined); else { held.amount -= 1; slot.setItem(held); } }
-      saveBoard(block, size, c.index, c.first, c.ext);
-      block.setPermutation(withFishIndex(p, c.index).withState(CUT, c.first).withState(SIZE, size));
-      fx(block, "mob.fish.flop", 1.0, ["drip"]);
-      return;
-    }
-    const first = fish.first;
-    if (!held) {                                         // changed your mind before the first cut
-      if (cut === first) {
-        try { new ItemStack(fish.id, 1); } catch { return refuseAt(player, "board_pack_gone", block); }   // another pack's fish, its pack gone
-        give(player, block, fish.id, 1, cls, unstash(key)); saveSize(block, undefined); block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
-      }
-      else if (fish.gutted && cut === guttedStage(fish)) {   // 1.5.0: gutted and not yet filleted, it goes to the drying rack
-        give(player, block, fish.gutted);
-        saveSize(block, undefined);
-        block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
-        fx(block, "mob.fish.flop", 1.2);
-      }
-      else refuseAt(player, "board_finish_knife", block);
-      return;
-    }
-    let knife = false;
-    try { knife = held.hasTag(KNIFE_TAG); } catch {}
-    if (!knife) return refuseAt(player, "board_need_knife", block);
-    if (!fish.cuts) return refuseAt(player, "board_pack_gone", block);   // another pack's fish whose pack has not registered it
-    wearKnife(player, slot);
-    if (cut === first) stash(key, undefined);            // once the knife is in, the fish is food: its record is let go
-    const step = Math.max(0, Math.min(fish.cuts.length - 1, cut - first));   // a board from before 1.5.0 carries on where it was
-    const this_ = fish.cuts[step];
-    for (const [id, n] of cutYield(this_, cls)) give(player, block, id, n);
-    fx(block, ...(ACT_FX[this_.act] ?? ACT_FX.fillet));
-    if (step < fish.cuts.length - 1) {
-      saveBoard(block, cls, idx, first + step + 1, fish.ext);
-      block.setPermutation(p.withState(CUT, first + step + 1));
-    } else {
-      saveSize(block, undefined);
-      block.setPermutation(withFishIndex(p, 0).withState(CUT, 0).withState(SIZE, 0));
-      emit("cleaned", player, { id: fish.id });
-    }
+    if (player.isSneaking && heldKnife(player)) return;    // the before-event has it
+    useBoard(block, player);
   },
   onPlayerBreak({ block, brokenBlockPermutation, player }) {
     if (creative(player)) { unstash(keepKey("cb", block.dimension, block)); saveSize(block, undefined); return; }
