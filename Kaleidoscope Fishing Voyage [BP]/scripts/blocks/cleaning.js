@@ -12,6 +12,7 @@
 // paths (which still see the block) can give it back.
 // v1.6.3 (F2): every refused use says why (util/hint.js).
 // 1.7.0 (phase 1): sneak-use with a knife runs every cut left, and more of the same catch after it (cleanAll).
+// Phase 3: the Gutting Table (guttingTable.js) cuts with the same table (entryFor, cutYield, ACT_FX, isKnife).
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { CLEANING, FISH_ALIAS } from "../data/generated.js";
 import { LARGE, SMALL, applyClass, readSize } from "../fishing/size.js";
@@ -37,7 +38,7 @@ export function cutYield(cut, cls, rand = Math.random) {
 }
 // The sound and particles of each kind of cut: [sound, pitch, [station effects], [second sound, pitch, volume]?].
 // 1.5.0 (immersive pass): scales flick off silver, gutting splats red, a fillet thunks into the board with wood chips.
-const ACT_FX = {
+export const ACT_FX = {
   scale: ["mob.sheep.shear", 1.4, ["scales"], ["dig.sand", 2.0, 0.25]], gut: ["mob.slime.small", 1.2, ["gut"], ["random.splash", 1.9, 0.12]],
   fillet: ["dig.wood", 1.3, ["chips"], ["hit.wood", 1.6, 0.4]], head: ["mob.turtle.baby.step", 1.1, ["chips", "gut"], ["hit.wood", 1.2, 0.45]],
   shell: ["random.break", 1.6, ["shell"]], devein: ["mob.slime.small", 1.5, ["gut"]], open: ["random.break", 1.2, ["shell", "drip"]],
@@ -45,7 +46,7 @@ const ACT_FX = {
   rub: ["dig.sand", 1.4, ["shell", "salt"]],
 };
 const KNIFE_TAG = "kaleidoscope_cookery:kitchen_knife";
-const isKnife = it => { try { return !!it?.hasTag(KNIFE_TAG); } catch { return false; } };
+export const isKnife = it => { try { return !!it?.hasTag(KNIFE_TAG); } catch { return false; } };
 const BY_INDEX = Object.fromEntries(Object.entries(CLEANING).map(([id, c]) => [c.index, { id, ...c }]));
 // 1.5.0 (register_board): another pack's fish is drawn as its `like` (the board index), cut with its own outputs.
 // The board record keeps its item id ("ext"); while that pack has not registered it (yet), its cuts are unknown.
@@ -56,8 +57,8 @@ function fishOn(idx, rec) {
   const e = externalBoard(rec.ext);
   return { ...base, id: rec.ext, ext: rec.ext, cuts: e?.cuts, gutted: undefined };
 }
-/** The board entry for a held item: ours, or a registered one. */
-function entryFor(id) {
+/** The board entry for a held item: ours, or a registered one. Phase 3: the Gutting Table uses it too. */
+export function entryFor(id) {
   const ours = CLEANING[FISH_ALIAS[id] ?? id];
   if (ours) return ours;
   const e = externalBoard(id);

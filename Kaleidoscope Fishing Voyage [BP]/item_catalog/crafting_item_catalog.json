@@ -273,9 +273,11 @@
             "items": [
               "kaleidoscope_fishing:shrimp_trap",
               "kaleidoscope_fishing:fish_cleaning_board",
+              "kaleidoscope_fishing:gutting_table",
               "kaleidoscope_fishing:fish_scale",
               "kaleidoscope_fishing:tackle_rack",
               "kaleidoscope_fishing:drying_rack",
+              "kaleidoscope_fishing:long_drying_rack",
               "kaleidoscope_fishing:fish_sauce_jar",
               "kaleidoscope_fishing:wooden_tub",
               "kaleidoscope_fishing:salt_pan",

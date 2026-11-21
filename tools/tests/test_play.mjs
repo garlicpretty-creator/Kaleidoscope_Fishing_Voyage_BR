@@ -7,7 +7,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { boot, setComps, ok, finish, use, tick, wait, breakBlock, place, inv, st, clearInv, drops, P, NS, D, log, flush,
-  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts, ItemStack, clock } from './sim/play.mjs';
+  fire, blockDefs, compsOf, importScript, GameMode, ROOT, thrown, sent, evts, ItemStack, clock, ids } from './sim/play.mjs';
 setComps(await boot());
 
 // ---------- drying rack ----------
@@ -384,6 +384,109 @@ setComps(await boot());
   const s2 = place(NS + 'salt_pan'); D.place('minecraft:water', { x: s2.x, y: s2.y, z: s2.z + 1 }); tick(s2);
   ok(st(s2, 'stage') === 0, 'salt pan: away from the sea water beside it does not fill it');
   D.getBiome = getBiome0;
+}
+
+// ---------- phase 3: the Long Drying Rack and the Gutting Table ----------
+{
+  const { LONG_MAX } = await importScript('blocks/drying.js');
+  const m0 = log.messages.length;
+  // nine on three poles, a tenth refused; same timing as the small rack; an empty hand takes the dry batch
+  clearInv(); const r = place(NS + 'long_drying_rack');
+  P.hold(NS + 'gutted_fish', 10);
+  for (let i = 0; i < 10; i++) use(r);
+  ok(LONG_MAX === 9 && st(r, 'count') === 9 && inv('gutted_fish') === 1, `long rack: nine gutted fish hang, the tenth is refused (count ${st(r, 'count')})`);
+  P.hold(undefined); use(r);
+  ok(st(r, 'count') === 8 && inv('gutted_fish') === 1, 'long rack: an empty hand takes one back before it dries');
+  P.selectedSlotIndex = 0; P.hold(NS + 'gutted_fish', 1); use(r);
+  wait(r, 24100);
+  ok(st(r, 'stage') === 1, `long rack: half dry after a day, as the small rack (stage ${st(r, 'stage')})`);
+  wait(r, 24100);
+  ok(st(r, 'stage') === 2 && st(r, 'count') === 9, 'long rack: dry after two days');
+  clearInv(); P.hold(undefined); use(r);
+  ok(inv('air_dried_fish') === 9 && st(r, 'count') === 0, `long rack: collecting gives 9 air-dried fish (${inv('air_dried_fish')})`);
+  // salt turns a fresh batch salted; squid and fish do not mix
+  clearInv(); const r2 = place(NS + 'long_drying_rack');
+  P.hold(NS + 'gutted_fish', 6); for (let i = 0; i < 6; i++) use(r2);
+  P.hold(NS + 'squid_tube', 1); use(r2);
+  ok(st(r2, 'kind') === 1 && st(r2, 'count') === 6 && inv('squid_tube') === 1, 'long rack: a squid tube is refused on a rack of fish');
+  P.hold(NS + 'sea_salt', 1); use(r2);
+  ok(st(r2, 'kind') === 2, `long rack: sea salt salts the whole batch (kind ${st(r2, 'kind')})`);
+  drops(); breakBlock(r2);
+  const d2 = drops();
+  ok(d2.filter(x => x.id === NS + 'gutted_fish').length === 6 && d2.some(x => x.id === NS + 'sea_salt'),
+    `long rack: breaking it gives back the six fish and the salt (${ids(d2)})`);
+  // over a chest the dry batch drops in by itself
+  clearInv(); const r3 = place(NS + 'long_drying_rack');
+  const chest = D.place('minecraft:chest', { x: r3.x, y: r3.y - 1, z: r3.z });
+  P.hold(NS + 'salted_shrimp', 9); for (let i = 0; i < 9; i++) use(r3);
+  wait(r3, 12100); wait(r3, 12100);
+  const box = chest.getComponent('minecraft:inventory').container;
+  ok(box.count(NS + 'dried_shell_shrimp') === 9 && st(r3, 'count') === 0, `long rack over a chest: nine dried shrimp drop in (${box.count(NS + 'dried_shell_shrimp')})`);
+  ok(log.messages.length === m0, 'long rack: no text');
+}
+{
+  const table = await importScript('blocks/guttingTable.js');
+  const m0 = log.messages.length;
+  const CUT_SOUNDS = ['mob.sheep.shear', 'mob.slime.small', 'dig.wood'];
+  // a stack goes on whole; another catch, a record fish and a non-catch are refused
+  clearInv(); const t = place(NS + 'gutting_table');
+  P.hold(NS + 'carp', 10); use(t);
+  ok(inv('carp') === 0 && st(t, 'load') === 2, `gutting table: a stack of 10 carp goes on whole (load ${st(t, 'load')})`);
+  clock.abs += 20; P.hold(NS + 'grey_mullet', 3); let s0 = log.sounds.length; use(t);
+  ok(inv('grey_mullet') === 3 && log.sounds.slice(s0).includes('note.bass'), 'gutting table: another catch is refused with the "missing" sound');
+  const rec = new ItemStack(NS + 'carp', 1); rec.setLore(['§6◆◆◆', '§e★']); P.inv.setItem(0, rec);
+  clock.abs += 20; use(t);
+  ok(P.inv.getItem(0)?.getLore().includes('§e★'), 'gutting table: a record carp is refused (it stays in the hand)');
+  P.hold('minecraft:stick', 1); use(t);
+  ok(inv('minecraft:stick') === 1, 'gutting table: a stick is refused');
+  P.hold(NS + 'carp', 3); use(t);
+  ok(inv('carp') === 0 && st(t, 'load') === 2, 'gutting table: more of the same catch joins the pile');
+  // nothing happens without a knife
+  tick(t); tick(t);
+  ok(st(t, 'done') === 0 && st(t, 'load') === 2, 'gutting table: without a knife the fish wait');
+  // the knife goes on, then one fish a tick: scale, gut, fillet, in that order
+  P.hold(NS + 'fishing_knife', 1); use(t);
+  ok(inv('fishing_knife') === 0 && st(t, 'knife') === 1, 'gutting table: the knife is laid on the table');
+  P.hold(NS + 'fishing_knife', 1); clock.abs += 20; use(t);
+  ok(inv('fishing_knife') === 1, 'gutting table: a second knife is refused');
+  clearInv();
+  s0 = log.sounds.length; const e0 = sent.length;
+  tick(t); flush(50);
+  const heard = log.sounds.slice(s0).filter(x => CUT_SOUNDS.includes(x));
+  ok(heard.join() === CUT_SOUNDS.join() && st(t, 'done') === 1, `gutting table: one tick cuts one fish, the board's three cut sounds in order (${heard})`);
+  ok(evts(e0).filter(e => e.t === 'cleaned' && e.id === NS + 'carp').length === 1, 'gutting table: other packs hear "cleaned" for the fish');
+  for (let i = 0; i < 20; i++) { tick(t); flush(50); }
+  ok(st(t, 'load') === 0 && st(t, 'knife') === 1 && st(t, 'done') === 1, 'gutting table: all 13 carp are cut, the knife stays');
+  P.hold(undefined); use(t);
+  ok(inv('white_fish_fillet') === 39 && inv('fish_scales') === 13 && inv('fish_offal') === 13 && inv('fish_bones') === 13 && st(t, 'done') === 0,
+    `gutting table: an empty hand takes the cut goods (fillets ${inv('white_fish_fillet')}, scales ${inv('fish_scales')}, bones ${inv('fish_bones')})`);
+  clearInv(); P.hold(undefined); use(t);
+  ok(inv('fishing_knife') === 1 && st(t, 'knife') === 0, 'gutting table: then the knife');
+  // fish taken back whole before the knife comes
+  clearInv(); P.hold(NS + 'carp', 5); use(t); P.hold(undefined); use(t);
+  ok(inv('carp') === 5 && st(t, 'load') === 0, 'gutting table: with no knife an empty hand takes the fish back');
+  // over a barrel the cut goods go in; breaking it gives the rest back
+  clearInv(); const t2 = place(NS + 'gutting_table');
+  const barrel = D.place('minecraft:barrel', { x: t2.x, y: t2.y - 1, z: t2.z });
+  P.hold(NS + 'carp', 5); use(t2); P.hold(NS + 'fishing_knife', 1); use(t2);
+  tick(t2); tick(t2); flush(50);
+  const box = barrel.getComponent('minecraft:inventory').container;
+  ok(box.count(NS + 'white_fish_fillet') === 6 && box.count(NS + 'fish_bones') === 2 && st(t2, 'done') === 0,
+    `gutting table over a barrel: the cut goods drop in (fillets ${box.count(NS + 'white_fish_fillet')})`);
+  drops(); breakBlock(t2);
+  const d = drops();
+  ok(d.filter(x => x.id === NS + 'carp').reduce((a, x) => a + (x.amount ?? 1), 0) === 3 && d.some(x => x.id === NS + 'fishing_knife'),
+    `gutting table: breaking it gives back the fish left and the knife (${ids(d)})`);
+  // knife wear: a point per cut, Unbreaking spares some, a creative player's knife never wears
+  const k = { id: NS + 'fishing_knife', dmg: 0, max: 5 };
+  ok(!table.wearTableKnife(k, 3) && k.dmg === 3 && table.wearTableKnife(k, 3), 'gutting table: the knife wears a point a cut and breaks at its durability');
+  const k2 = { id: NS + 'fishing_knife', dmg: 0, max: 50, ench: [['unbreaking', 3]] };
+  table.wearTableKnife(k2, 3, () => 0.9);
+  ok(k2.dmg === 0, 'gutting table: Unbreaking can spare the knife, as on the board');
+  const k3 = { id: NS + 'fishing_knife', dmg: 4, max: 5, cr: true };
+  ok(!table.wearTableKnife(k3, 3) && k3.dmg === 4, "gutting table: a creative player's knife does not wear");
+  ok([0, 1, 4, 5, 16, 17, 64].map(table.loadOf).join() === '0,1,1,2,2,3,3', 'gutting table: the pile shows small, middle and large');
+  ok(log.messages.length === m0, 'gutting table: no text');
 }
 
 // ---------- fish tank ----------

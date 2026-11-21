@@ -294,6 +294,18 @@
     },
     "kfv_print_ink_aurora_icefish": {
       "textures": "textures/blocks/kfv_print_ink_aurora_icefish"
+    },
+    "kfv_long_drying_rack_0": {
+      "textures": "textures/blocks/kfv_long_drying_rack_0"
+    },
+    "kfv_long_drying_rack_1": {
+      "textures": "textures/blocks/kfv_long_drying_rack_1"
+    },
+    "kfv_long_drying_rack_2": {
+      "textures": "textures/blocks/kfv_long_drying_rack_2"
+    },
+    "kfv_gutting_table": {
+      "textures": "textures/blocks/kfv_gutting_table"
     }
   }
 }

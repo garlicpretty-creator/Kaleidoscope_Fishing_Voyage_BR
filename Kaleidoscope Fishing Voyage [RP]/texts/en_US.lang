@@ -797,3 +797,7 @@ kaleidoscope_fishing.ing.kaleidoscope_harvest.daikon=Daikon
 kaleidoscope_fishing.ing.kaleidoscope_harvest.daikon_slices=Daikon Chunks
 kaleidoscope_fishing.ing.kaleidoscope_harvest.soy_sauce=Soy Sauce
 kaleidoscope_fishing.ing.kaleidoscope_harvest.sesame_oil=Sesame Oil
+kaleidoscope_fishing.display.item.long_drying_rack=Long Drying Rack\n§9§oKC: Fishing Voyage§r
+kaleidoscope_fishing.name.long_drying_rack=Long Drying Rack
+kaleidoscope_fishing.display.item.gutting_table=Gutting Table\n§9§oKC: Fishing Voyage§r
+kaleidoscope_fishing.name.gutting_table=Gutting Table

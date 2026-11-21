@@ -41,6 +41,7 @@ const BY_CATEGORY = {
     "board_cannot_clean", "jar_more_fish", "jar_more_shrimp", "jar_need_bottle", "jar_need_bowl", "rack_cannot_dry",
     "rack_empty", "rack_salt_empty", "rack_salt_fish_only", "trap_empty_hand", "trap_not_bait", "trap_need_bait",
     "tipup_empty_hand", "tub_need_water", "tub_need_salt", "salt_pan_need_water", "pond_cannot", "pond_salt",
+    "table_trophy", "table_other_catch",   // phase 3: the gutting table (a record or named fish; not the catch on it)
   ],
   notyet: [
     "jar_fermenting", "jar_salted", "rack_drying", "tub_busy", "tub_soaking", "tub_hatching", "trap_baited", "pond_salted",
@@ -50,6 +51,7 @@ const BY_CATEGORY = {
     "rack_full", "tank_full", "tub_full", "tub_clams_full", "pond_feed_full", "tipup_limit",
     "tank_occupied", "tipup_set", "pond_full",
     "merchant_purse",                    // 1.6.0: the fish merchant's purse is empty (he shakes his head)
+    "table_full", "table_has_knife",     // phase 3: the gutting table
   ],
   place: [
     "salt_pan_place", "pond_has_feeder", "board_pack_gone", "tank_pack_gone",

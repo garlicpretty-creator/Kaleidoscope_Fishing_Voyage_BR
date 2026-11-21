@@ -13,6 +13,8 @@
 // kind and stage on the rack's next block tick.
 // 1.7.0 (phase 1): with a container right below the rack, a dry batch drops into it on the rack's own tick
 // (whatever does not fit keeps hanging, to be taken by hand or on a later tick).
+// Phase 3: the Long Drying Rack (長曬架) is the same rack with three poles: the same component, kinds, timing and
+// records, only up to LONG_MAX hanging (its count state goes to 9).
 import { EquipmentSlot, GameMode, ItemStack, system, world } from "@minecraft/server";
 import { DRYING, FISH_ALIAS } from "../data/generated.js";
 import { applyClass, upgradeLore } from "../fishing/size.js";
@@ -25,7 +27,10 @@ import { containerNext, putWhole } from "./nextContainer.js";
 
 const NS = "kaleidoscope_fishing";
 const KIND = `${NS}:kind`, COUNT = `${NS}:count`, STAGE = `${NS}:stage`;
-const RACK = `${NS}:drying_rack`;
+const RACK = `${NS}:drying_rack`, LONG = `${NS}:long_drying_rack`;
+const RACKS = [RACK, LONG];
+export const LONG_MAX = 9;
+const maxOf = block => (block?.typeId === LONG ? LONG_MAX : DRYING.max);
 const PREFIX = `${NS}:dry:`;
 const SALT = new Set(DRYING.salt);
 const canon = id => FISH_ALIAS[id] ?? id;
@@ -127,7 +132,7 @@ const dryingRack = {
     if (want) {                                           // hang one more
       if (count !== 0 && kind !== want) return refuseAt(player, "rack_other_kind", block);
       if (count !== 0 && stage !== 0) return refuseAt(player, "rack_drying", block);
-      if (count >= DRYING.max) return refuseAt(player, "rack_full", block, DRYING.max);
+      if (count >= maxOf(block)) return refuseAt(player, "rack_full", block, maxOf(block));
       {
         let lore = [];
         try { lore = upgradeLore(held.getLore() ?? []); } catch {}
@@ -227,7 +232,7 @@ export function knownRacks() {
 /** A gull takes one item off the rack (any kind except the hard skipjack loins). True if it did. */
 export function stealFromRack(block) {
   try {
-    if (block?.typeId !== RACK) return false;
+    if (!RACKS.includes(block?.typeId)) return false;
     const { kind, count, stage } = stateOf(block.permutation);
     if (!count || kind === 4) return false;
     const d = load(block);
@@ -250,8 +255,8 @@ function dropRack(dim, pos, perm) {
   // a record from before 1.6.3 that never saw a tick: no kind known, so the fish come back raw
   spawnAll(dim, pos, contents(s.kind, productOf(s.kind) ? s.stage : 0, d));
 }
-registerStation(RACK, dropRack);
-registerRecords(PREFIX, RACK, (dim, pos) => dropRack(dim, pos, undefined));
+for (const id of RACKS) registerStation(id, dropRack);
+registerRecords(PREFIX, RACKS, (dim, pos) => dropRack(dim, pos, undefined));
 
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
   blockComponentRegistry.registerCustomComponent(RACK, dryingRack);

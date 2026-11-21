@@ -25,6 +25,7 @@ import "./blocks/tanks.js";
 import "./journal/recipes.js";
 import "./blocks/cleaning.js";
 import "./blocks/drying.js";
+import "./blocks/guttingTable.js";  // phase 3: the Gutting Table
 import "./blocks/iceHole.js";
 import "./blocks/fishSauceJar.js";
 import "./blocks/villageDecor.js";

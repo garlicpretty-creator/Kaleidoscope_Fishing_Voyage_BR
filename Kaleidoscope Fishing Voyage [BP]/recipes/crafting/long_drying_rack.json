@@ -1,0 +1,35 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "kaleidoscope_fishing:long_drying_rack"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "BBB",
+      "RRR"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bamboo"
+      },
+      "R": {
+        "item": "kaleidoscope_fishing:drying_rack"
+      }
+    },
+    "result": {
+      "item": "kaleidoscope_fishing:long_drying_rack",
+      "count": 1
+    },
+    "unlock": [
+      {
+        "item": "minecraft:bamboo"
+      },
+      {
+        "item": "kaleidoscope_fishing:drying_rack"
+      }
+    ]
+  }
+}

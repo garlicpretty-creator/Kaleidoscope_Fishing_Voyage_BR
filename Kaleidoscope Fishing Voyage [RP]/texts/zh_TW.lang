@@ -797,3 +797,7 @@ kaleidoscope_fishing.ing.kaleidoscope_harvest.daikon=白蘿蔔
 kaleidoscope_fishing.ing.kaleidoscope_harvest.daikon_slices=蘿蔔塊
 kaleidoscope_fishing.ing.kaleidoscope_harvest.soy_sauce=醬油
 kaleidoscope_fishing.ing.kaleidoscope_harvest.sesame_oil=芝麻油
+kaleidoscope_fishing.display.item.long_drying_rack=長曬架\n§9§o森羅物語：漁歌§r
+kaleidoscope_fishing.name.long_drying_rack=長曬架
+kaleidoscope_fishing.display.item.gutting_table=殺魚台\n§9§o森羅物語：漁歌§r
+kaleidoscope_fishing.name.gutting_table=殺魚台

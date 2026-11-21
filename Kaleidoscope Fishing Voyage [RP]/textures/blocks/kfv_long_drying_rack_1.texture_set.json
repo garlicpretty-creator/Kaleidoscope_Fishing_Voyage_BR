@@ -1,0 +1,8 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "kfv_long_drying_rack_1",
+    "metalness_emissive_roughness": "kfv_long_drying_rack_1_mer",
+    "heightmap": "kfv_long_drying_rack_1_height"
+  }
+}

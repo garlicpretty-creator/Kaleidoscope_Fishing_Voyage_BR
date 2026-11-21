@@ -9568,6 +9568,85 @@
    "mechanics": [
     "Fish balls and daikon in a light broth with scallion. Needs 森羅物語：豐收 (Kaleidoscope Harvest) for its ingredients; without it the dish cannot be cooked."
    ]
+  },
+  {
+   "id": "kaleidoscope_fishing:long_drying_rack",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_long_drying_rack",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:bamboo",
+      "minecraft:bamboo",
+      "minecraft:bamboo",
+      "kaleidoscope_fishing:drying_rack",
+      "kaleidoscope_fishing:drying_rack",
+      "kaleidoscope_fishing:drying_rack"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:long_drying_rack"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "A Drying Rack with three poles: it takes up to 9 of one kind (Gutted Fish, Gutted Skipjack, Gutted Flying Fish, Squid Tubes, Salted Mullet Roe or Salted Shrimp) and dries them in the same time as the small rack. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying. With a chest or barrel right below it, a dry batch drops into it by itself; otherwise an empty hand takes it all."
+    ],
+    "zh_TW": [
+     "三層竹竿的曬魚架：一次最多掛 9 個同一種（剖好的魚、剖好的鰹魚、剖好的飛魚、魷魚筒、鹽漬烏魚卵或鹽水蝦），曬好的時間和小曬魚架一樣。剛掛上的剖好的魚抹鹽就曬成鹹魚。下雨時沒遮蔽會停下來。正下方放箱子或木桶，曬好會自己掉進去；不然空手一次全部收下。"
+    ],
+    "zh_CN": [
+     "三层竹竿的晒鱼架：一次最多挂 9 个同一种（剖好的鱼、剖好的鲣鱼、剖好的飞鱼、鱿鱼筒、盐渍乌鱼卵或盐水虾），晒好的时间和小晒鱼架一样。刚挂上的剖好的鱼抹盐就晒成咸鱼。下雨时没遮蔽会停下来。正下方放箱子或木桶，晒好会自己掉进去；不然空手一次全部收下。"
+    ]
+   },
+   "mechanics": [
+    "A Drying Rack with three poles: it takes up to 9 of one kind (Gutted Fish, Gutted Skipjack, Gutted Flying Fish, Squid Tubes, Salted Mullet Roe or Salted Shrimp) and dries them in the same time as the small rack. Rub Salt on fresh Gutted Fish for Salted Fish. Rain on an open rack stops the drying. With a chest or barrel right below it, a dry batch drops into it by itself; otherwise an empty hand takes it all."
+   ]
+  },
+  {
+   "id": "kaleidoscope_fishing:gutting_table",
+   "category": "tools",
+   "kinds": [
+    "item",
+    "block"
+   ],
+   "stack": 64,
+   "icon": "textures/ui/kfv_book/kfv_gutting_table",
+   "recipes": [
+    {
+     "method": "Crafting Table",
+     "ingredients": [
+      "minecraft:iron_ingot",
+      "kaleidoscope_fishing:fish_cleaning_board",
+      "minecraft:iron_ingot",
+      "minecraft:oak_planks",
+      "minecraft:oak_planks"
+     ],
+     "count": 1,
+     "time": 0,
+     "result": "kaleidoscope_fishing:gutting_table"
+    }
+   ],
+   "mechanicsByLocale": {
+    "en_US": [
+     "Use a stack of one kind of catch on it to lay the whole stack down (up to 64; more of the same can follow). Then lay a knife on it (Fishing Knife or any Cookery kitchen knife): it works through the fish on its own, one a second, scaling, gutting and filleting each as the Fish Cleaning Board does, and wears the knife the same. What it cuts drops into a chest or barrel right below it, or waits on the table. An empty hand takes the cut goods, then the knife, then the fish left. Record fish and named fish are not laid here: clean those on the board."
+    ],
+    "zh_TW": [
+     "拿一整組同一種漁獲對它使用，整組放上去（最多 64 個，同一種可以再加）。再把刀放上去（漁刀或森羅任何菜刀）：它會自己一條一條處理，每秒一條，和魚案板一樣去鱗、剖腹、切片，刀也一樣會磨損。切好的東西會掉進正下方的箱子或木桶，沒有就留在台上。空手依序取回切好的東西、刀、剩下的魚。紀錄魚和取了名字的魚不能放這裡，請用魚案板。"
+    ],
+    "zh_CN": [
+     "拿一整组同一种渔获对它使用，整组放上去（最多 64 个，同一种可以再加）。再把刀放上去（渔刀或森罗任何菜刀）：它会自己一条一条处理，每秒一条，和鱼案板一样去鳞、剖腹、切片，刀也一样会磨损。切好的东西会掉进正下方的箱子或木桶，没有就留在台上。空手依序取回切好的东西、刀、剩下的鱼。纪录鱼和取了名字的鱼不能放这里，请用鱼案板。"
+    ]
+   },
+   "mechanics": [
+    "Use a stack of one kind of catch on it to lay the whole stack down (up to 64; more of the same can follow). Then lay a knife on it (Fishing Knife or any Cookery kitchen knife): it works through the fish on its own, one a second, scaling, gutting and filleting each as the Fish Cleaning Board does, and wears the knife the same. What it cuts drops into a chest or barrel right below it, or waits on the table. An empty hand takes the cut goods, then the knife, then the fish left. Record fish and named fish are not laid here: clean those on the board."
+   ]
   }
  ],
  "names": {
@@ -9943,7 +10022,9 @@
    "kaleidoscope_fishing:lemon_fish": "Lemon Fish",
    "kaleidoscope_fishing:cucumber_jellyfish": "Cucumber and Jellyfish Salad",
    "kaleidoscope_fishing:peanut_dried_fish": "Peanuts and Small Dried Fish",
-   "kaleidoscope_fishing:daikon_fishball_soup": "Daikon and Fish Ball Soup"
+   "kaleidoscope_fishing:daikon_fishball_soup": "Daikon and Fish Ball Soup",
+   "kaleidoscope_fishing:long_drying_rack": "Long Drying Rack",
+   "kaleidoscope_fishing:gutting_table": "Gutting Table"
   },
   "zh_TW": {
    "kaleidoscope_fishing:carp": "鯉魚",
@@ -10317,7 +10398,9 @@
    "kaleidoscope_fishing:lemon_fish": "檸檬魚",
    "kaleidoscope_fishing:cucumber_jellyfish": "黃瓜拌海蜇",
    "kaleidoscope_fishing:peanut_dried_fish": "花生小魚乾",
-   "kaleidoscope_fishing:daikon_fishball_soup": "白蘿蔔魚丸湯"
+   "kaleidoscope_fishing:daikon_fishball_soup": "白蘿蔔魚丸湯",
+   "kaleidoscope_fishing:long_drying_rack": "長曬架",
+   "kaleidoscope_fishing:gutting_table": "殺魚台"
   },
   "zh_CN": {
    "kaleidoscope_fishing:carp": "鲤鱼",
@@ -10691,7 +10774,9 @@
    "kaleidoscope_fishing:lemon_fish": "柠檬鱼",
    "kaleidoscope_fishing:cucumber_jellyfish": "黄瓜拌海蜇",
    "kaleidoscope_fishing:peanut_dried_fish": "花生小鱼干",
-   "kaleidoscope_fishing:daikon_fishball_soup": "白萝卜鱼丸汤"
+   "kaleidoscope_fishing:daikon_fishball_soup": "白萝卜鱼丸汤",
+   "kaleidoscope_fishing:long_drying_rack": "长晒架",
+   "kaleidoscope_fishing:gutting_table": "杀鱼台"
   }
  },
  "text": {
