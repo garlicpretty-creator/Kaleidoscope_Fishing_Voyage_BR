@@ -1,7 +1,7 @@
 {
  "api": 1,
  "id": "kaleidoscope_fishing:guidebook",
- "version": "1.5.0",
+ "version": "1.8.1",
  "order": 200,
  "icon": "textures/ui/kfv_book/kfv_book",
  "titleKey": "title",
@@ -8622,17 +8622,21 @@
    ],
    "mechanicsByLocale": {
     "en_US": [
-     "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+     "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt.",
+     "With a still water source touching its sides or bottom, an empty pan fills itself (still by the sea, under open sky), so no bucket is needed."
     ],
     "zh_TW": [
-     "放在海邊（海洋或海灘）頭上沒有遮蔽的地方，倒入一桶水。只有白天、沒下雨時會曬，累計一整天的日照；下雨會暫停但不會歸零。整盤變白後空手收成鹽 ×4。"
+     "放在海邊（海洋或海灘）頭上沒有遮蔽的地方，倒入一桶水。只有白天、沒下雨時會曬，累計一整天的日照；下雨會暫停但不會歸零。整盤變白後空手收成鹽 ×4。",
+     "旁邊或下方有靜止的水源時，空的鹽盤會自己補水（一樣要在海邊、頭上沒有遮蔽），不用再提水桶。"
     ],
     "zh_CN": [
-     "放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。"
+     "放在海边（海洋或海滩）头上没有遮蔽的地方，倒入一桶水。只有白天、没下雨时会晒，累计一整天的日照；下雨会暂停但不会归零。整盘变白后空手收成盐 ×4。",
+     "旁边或下方有静止的水源时，空的盐盘会自己补水（一样要在海边、头上没有遮蔽），不用再提水桶。"
     ]
    },
    "mechanics": [
-    "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt."
+    "Set it by the sea (an ocean or beach) under open sky and pour in a water bucket. It dries only in daylight and without rain, a whole day of daylight in all; rain pauses it without undoing it. When the pan is white, an empty hand gathers 4 Salt.",
+    "With a still water source touching its sides or bottom, an empty pan fills itself (still by the sea, under open sky), so no bucket is needed."
    ]
   },
   {
